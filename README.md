@@ -18,8 +18,10 @@ config.json        # Claude Code 기본 설정
 - `implement-init.md` — IMPLEMENT.md 작성
 - `plan-init.md` — PLAN.md 작성
 
-### skills/
-스킬 정의 (analyze, implement, review).
+### skills/~ 스킬 정의 
+- `analyze`
+- `implement`
+- `review`
 
 ## 관리 방침
 
