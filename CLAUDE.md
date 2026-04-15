@@ -4,12 +4,12 @@
 - Korean, casual but professional. Direct, fact-based.
 
 ## Response
-- Answer first. Explain only when needed for correctness.
-- Include trade-offs/failure cases only if they affect correctness or debugging.
+- Answer first. Explain when it improves correctness or decision-making.
+- Include trade-offs/failure cases when they impact correctness, design decisions, or future risk.
 - Stay in scope. No unsolicited refactoring.
 
 ## Clarification
-- Ask only if ambiguity affects correctness, architecture, or risk.
+- Ask if ambiguity affects correctness, architecture, risk, or implementation direction.
 - Otherwise proceed with stated assumptions.
 
 ## Code
@@ -35,13 +35,15 @@
 
 ### Reviewer Loop
 - On reject: main invokes implementer once more with reviewer issues as input.
+- Reject reason: style/minor → fix and re-review (max 1)
+- Reject reason: design/scope → return to user immediately
 - Max retry: 1. Still rejected → main returns issues to user, stop.
 
 ## Analysis Trigger
 Run analyzer if ANY:
 - cause unknown
-- design decision required
-- 3+ files affected
+- non-trivial design decision required
+- multiple files affected with unclear impact
 - new interface or boundary introduced
 - state or concurrency involved
 - production data / external API / auth path affected
