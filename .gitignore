@@ -1,0 +1,11 @@
+/*
+
+# 추적할 것만 명시적 허용
+!CLAUDE.md
+!config.json
+!.gitignore
+!.gitattributes
+!agents/
+!skills/
+!commands/
+!README.md
