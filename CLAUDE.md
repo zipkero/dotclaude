@@ -40,6 +40,7 @@
 - For independent features: /feature-init → /implement (with SPEC path) → verify
 
 ### Per-Request Orchestration (automatic)
+- Applies when the change is non-trivial (see Trivial Change).
 - Flow: [analyzer if triggered] → implementer → verifier
 - Only main agent invokes subagents. Subagents never call subagents.
 - If analyzer reports Blocker: stop, present to user. Do not proceed.

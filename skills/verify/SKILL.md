@@ -41,6 +41,7 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 - PLAN.md mode: on approved, if all Exit Criteria are met, check the Task's checkbox in PLAN.md (`[ ]` -> `[x]`).
 
 ## Guidelines
-- Require evidence: diff, test result, or explicit change description. Logic-only reasoning is insufficient.
+- Minimum evidence: code diff. Preferred evidence: code diff + test result. If tests exist for the changed scope but were not run, note as limitation.
+- For pure logic changes where the diff clearly shows correctness, diff-based reasoning is acceptable evidence.
 - Reject when correctness cannot be established from available evidence.
 - If evidence is missing, state the limitation explicitly.

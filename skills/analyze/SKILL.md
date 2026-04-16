@@ -10,7 +10,8 @@ description: "Run when cause is unknown, design decision is needed, multiple fil
    - Read PLAN.md if it exists. Identify current Phase/Task progress.
    - Read IMPLEMENT.md if it exists. Identify next unit and its design.
    - If neither exists, analyze based on conversation context.
-     If scope is unclear, return Blocker with "scope undefined" to main agent.
+     If conversation context provides sufficient information (error message, file path, or symptom), proceed with stated assumptions.
+     Return Blocker with "scope undefined" only when the target system/area cannot be determined.
 
 ## Output Structure
 Required:
