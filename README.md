@@ -14,7 +14,8 @@ config.json        # Claude Code 기본 설정
 - `implementer.md` — 구현 에이전트
 - `reviewer.md` — 리뷰 에이전트
 
-### commands/~ 슬래시 커맨드 정의.
+### commands/~ 슬래시 커맨드 정의
+- `feature-init.md` — FEATURE.md 작성
 - `implement-init.md` — IMPLEMENT.md 작성
 - `plan-init.md` — PLAN.md 작성
 
