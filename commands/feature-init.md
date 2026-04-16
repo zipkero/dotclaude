@@ -46,6 +46,9 @@ Feature name: $ARGUMENTS
 - Implementation done → check implementation item. Verification done → check Exit Criteria.
 - These are separate events.
 
+## Verification Baseline
+- When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline for the verifier.
+
 ## Prohibited
 - Mechanical Tasks (file creation / function addition only)
 - Exit Criteria without implementation items

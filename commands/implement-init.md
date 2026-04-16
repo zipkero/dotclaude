@@ -37,10 +37,12 @@ Scope: $ARGUMENTS
 
 Required per unit:
 - Purpose: which Exit Criteria + PLAN inline reference (`→ PLAN: Phase X > Task Y`)
-- Responsibility: input / output / boundary
-- Design: structure (modules/interfaces/data flow), execution flow with branches, state changes (if any)
-- Rationale: why this approach + trade-offs
-- Failure/Exception: possible failures and handling
+- Design: structure (modules/interfaces/data flow), execution flow with branches
+
+Optional (include when non-trivial):
+- Responsibility: input / output / boundary (when boundaries are shared or ambiguous)
+- Rationale: why this approach + trade-offs (when alternatives exist)
+- Failure/Exception: possible failures and handling (when failure modes are non-obvious)
 
 ## Document Structure (top section)
 - Architecture (required): components, boundaries, high-level flow

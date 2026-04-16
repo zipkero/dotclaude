@@ -5,6 +5,7 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 
 ## Context Loading
 1. If `$ARGUMENTS` points to a SPEC.md, use its §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference.
+   When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline.
 2. Otherwise:
    a. Read PLAN.md if it exists. Use the relevant Task's Exit Criteria as the validation baseline.
    b. Read IMPLEMENT.md if it exists. Use design intent (structure, flow, rationale) as supplementary validation reference.
@@ -27,14 +28,13 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 - Behavioral correctness
 - Evidence (diff, test result, or explicit limitation)
 
-3. Issues (if rejected)
-- Category: `style/minor` | `design/scope`
+3. If rejected — Issues
+- Category: `style/minor` | `correctness` | `design/scope`
 - List specific issues with evidence
 
-4. Explanation (if approved)
-- What changed and why
-- Before vs After behavior
-- Remaining limitation or risk (only if relevant)
+4. If approved — Explanation
+- What changed and why (2-3 sentences)
+- Remaining risk (only if non-trivial)
 
 ## Completion
 - SPEC.md mode: on approved, check the Exit Criteria checkbox in SPEC.md §5 Progress Tracking.

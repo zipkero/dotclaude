@@ -47,12 +47,24 @@ Required per Task:
 - Implementation order listing, chronological decomposition
 - Task count inflation, inter-Task references
 
-## Task Example
+## Task Examples
+
+Single Exit Criteria:
 - [ ] CLI accepts JSON input and outputs a status line without corruption
   - Purpose: verify input parser and output formatter boundaries independently
   - Input: minimal valid JSON string
   - Deliverable: stdout output string, parser/formatter interfaces
   - Exit Criteria: `echo '{...}' | ./app` runs without error and produces output
+
+Multiple Exit Criteria:
+- [ ] User authentication works end-to-end with session persistence
+  - Purpose: verify auth boundary from login through session recovery
+  - Input: valid credentials, expired session token
+  - Deliverable: auth endpoints, session store interface
+  - Exit Criteria:
+    - POST /login with valid credentials returns 200 and a session token
+    - Subsequent requests with that token access protected resources
+    - Expired token returns 401 and does not leak user data
 
 ## Output
 - Project root `PLAN.md`. If file exists, confirm before overwriting.

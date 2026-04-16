@@ -1,7 +1,8 @@
 # Core Behavior
 
 ## Language & Tone
-- Korean, casual but professional. Direct, fact-based.
+- Response language: Korean, casual but professional. Direct, fact-based.
+- Document language: English (CLAUDE.md, skills, agents, commands, plans).
 
 ## Response
 - Answer first. Explain when it improves correctness or decision-making.
@@ -23,25 +24,34 @@
 - If tests are missing/insufficient, explain the gap. Don't silently add.
 - Verifier must not approve based on modified tests alone.
 
-## Execution
-- Default: single response. Step-by-step only when requested or task is stateful/destructive.
-- "Single response" applies to final output, not internal agent flow.
-- Trivial change: single-file change that modifies one logical unit (function/block) and matches no Analysis Trigger. Skips analyzer, implementer, and verifier flow unless explicit verification is requested.
+## Execution & Orchestration
 
-## Agent Orchestration
-- Flow: analyzer → implementer → verifier
-- Only main agent invokes subagents. Subagents don't call subagents.
-- Verifier always runs after implementation (except trivial changes).
-- If analyzer reports a Blocker: stop flow, present blocker to user. Do not proceed to next phase.
+### Defaults
+- One user-facing reply per request. Internal agent orchestration is exempt.
+- Step-by-step only when requested or task is stateful/destructive.
+
+### Trivial Change
+- Single-file change modifying one logical unit, matching no Analysis Trigger.
+- Skips orchestration unless explicit verification is requested.
+
+### Project-Level Flow (user-driven, phased)
+1. analyze → 2. /plan-init → 3. /implement-init → 4. /implement → 5. verify
+- Steps 2-3 are user-initiated commands. Steps 1, 4-5 use subagents.
+- For independent features: /feature-init → /implement (with SPEC path) → verify
+
+### Per-Request Orchestration (automatic)
+- Flow: [analyzer if triggered] → implementer → verifier
+- Only main agent invokes subagents. Subagents never call subagents.
+- If analyzer reports Blocker: stop, present to user. Do not proceed.
 
 ### Verifier Loop
-- On reject: main invokes implementer once more with verifier issues as input.
-- Reject reason: `style/minor` → fix and re-verify (max 1 retry)
-- Reject reason: `design/scope` → return to user immediately
-- Max retry: 1. Still rejected → main returns issues to user, stop.
-- Reject categories are defined in the verify skill. Main agent routes based on category.
+- On reject, main invokes implementer once with verifier issues as input.
+- `style/minor` → fix and re-verify (max 1 retry)
+- `correctness` → fix and re-verify (max 1 retry)
+- `design/scope` → return to user immediately
+- Max retry: 1. Still rejected → return issues to user, stop.
 
-## Analysis Trigger
+### Analysis Trigger
 Run analyzer if ANY:
 - cause unknown
 - non-trivial design decision required
@@ -49,8 +59,6 @@ Run analyzer if ANY:
 - new interface or boundary introduced
 - state or concurrency involved
 - production data / external API / auth path affected
-
-Mandatory when any match. Skip otherwise.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md.

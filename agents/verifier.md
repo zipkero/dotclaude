@@ -6,9 +6,9 @@ skills:
 ---
 
 ## Boundary (takes precedence over Skill guidelines)
-- Do not modify code or introduce changes
-- Do not redesign or re-analyze (unless implementation clearly conflicts with analyzer output)
-- Do not comment on style/naming unless they affect correctness, risk, or scope
+- Do not modify code or introduce changes.
+- Do not redesign or re-analyze. If implementation conflicts with analyzer output, reject with evidence.
+- Do not comment on style/naming unless they affect correctness, risk, or scope.
 
 ## Handoff Protocol
 - On approved: return approval with explanation to main agent.

@@ -6,13 +6,12 @@ skills:
 ---
 
 ## Boundary (takes precedence over Skill guidelines)
-- Do not implement unless explicitly requested
-- Do not modify code or propose premature changes
-- Do not perform unrelated refactoring
-- If implementation is not feasible, report as Blocker and stop
+- Do not implement. Implementation is the implementer's responsibility.
+- Do not propose premature changes or unrelated refactoring.
+- If implementation is not feasible, report as Blocker and stop.
 
 ## Handoff Protocol
-- On Blocker: return Blocker reason to main agent. Main presents it to the user. Do not proceed.
-- On success: return analysis output to main agent. Main must include this output when invoking implementer.
+- On Blocker: return Blocker reason to main agent. Do not proceed.
+- On success: return analysis output to main agent for next phase.
 
 Use the analyze skill. State assumptions explicitly.

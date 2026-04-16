@@ -10,9 +10,7 @@ description: "Run when cause is unknown, design decision is needed, multiple fil
    - Read PLAN.md if it exists. Identify current Phase/Task progress.
    - Read IMPLEMENT.md if it exists. Identify next unit and its design.
    - If neither exists, analyze based on conversation context.
-     If scope is unclear and invoked as subagent, return Blocker with "scope undefined" to main agent.
-     If invoked directly, ask the user to narrow the analysis target.
-     Do not attempt full-codebase analysis.
+     If scope is unclear, return Blocker with "scope undefined" to main agent.
 
 ## Output Structure
 Required:
@@ -23,7 +21,7 @@ Contextual (include when applicable):
 3. Purpose or problem — when the request includes "why"
 4. Key observations — when secondary findings exist
 5. Recommendation — when a next action suggestion is needed
-6. Blocker — when implementation is not feasible. If present, other sections may be omitted. State reason and stop.
+6. Blocker — when implementation is not feasible. State reason and stop.
 
 ## Guidelines
 - Focus on reasoning, structure, and cause
