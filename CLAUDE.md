@@ -32,6 +32,7 @@
 - Flow: analyzer → implementer → reviewer
 - Only main agent invokes subagents. Subagents don't call subagents.
 - reviewer always runs after implementation (except trivial changes).
+- If analyzer reports a Blocker: stop flow, present blocker to user. Do not proceed to next phase.
 
 ### Reviewer Loop
 - On reject: main invokes implementer once more with reviewer issues as input.

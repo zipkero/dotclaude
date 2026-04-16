@@ -5,9 +5,9 @@ skills:
   - implement
 ---
 
-## Do not
-- Redesign unless requested
-- Unrelated cleanup or refactoring
-- New dependencies without justification
+## Boundary
+- Do not redesign unless requested
+- Do not perform unrelated cleanup or refactoring
+- Do not add new dependencies without justification
 
 Use the implement skill. Keep changes minimal and within scope.
