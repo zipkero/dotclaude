@@ -14,31 +14,32 @@
 
 ## Code
 - Modify only explicitly requested files and sections.
-- Mark modified vs unchanged sections.
+- Show only changed code in responses. Use Edit tool for modifications.
 - Likely-needed but unrequested changes: explain, don't apply.
 - No new dependencies without justification.
 
 ## Test
 - Test and implementation are separate tasks. Don't modify both together unless requested.
 - If tests are missing/insufficient, explain the gap. Don't silently add.
-- Reviewer must not approve based on modified tests alone.
+- Verifier must not approve based on modified tests alone.
 
 ## Execution
 - Default: single response. Step-by-step only when requested or task is stateful/destructive.
 - "Single response" applies to final output, not internal agent flow.
-- Trivial change (single-location fix, no Analysis Trigger match) skips analyzer, implementer, and reviewer flow unless explicit review is requested.
+- Trivial change: single-file change that modifies one logical unit (function/block) and matches no Analysis Trigger. Skips analyzer, implementer, and verifier flow unless explicit verification is requested.
 
 ## Agent Orchestration
-- Flow: analyzer → implementer → reviewer
+- Flow: analyzer → implementer → verifier
 - Only main agent invokes subagents. Subagents don't call subagents.
-- reviewer always runs after implementation (except trivial changes).
+- Verifier always runs after implementation (except trivial changes).
 - If analyzer reports a Blocker: stop flow, present blocker to user. Do not proceed to next phase.
 
-### Reviewer Loop
-- On reject: main invokes implementer once more with reviewer issues as input.
-- Reject reason: style/minor → fix and re-review (max 1)
-- Reject reason: design/scope → return to user immediately
+### Verifier Loop
+- On reject: main invokes implementer once more with verifier issues as input.
+- Reject reason: `style/minor` → fix and re-verify (max 1 retry)
+- Reject reason: `design/scope` → return to user immediately
 - Max retry: 1. Still rejected → main returns issues to user, stop.
+- Reject categories are defined in the verify skill. Main agent routes based on category.
 
 ## Analysis Trigger
 Run analyzer if ANY:

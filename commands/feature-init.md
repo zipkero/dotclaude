@@ -1,74 +1,56 @@
 ---
-description: 피처 단위 SPEC 문서를 작성한다 (Exit Criteria + 구현 전략 통합)
+description: Create a feature-level SPEC document (Exit Criteria + implementation strategy combined)
 ---
 
-피처 SPEC 문서를 만들어줘. 피처 단위의 완료 판정 + 구현 전략을 하나의 문서로 관리한다.
+> When to use: When adding an independent feature during a project. Can be used independently of PLAN.md.
 
-피처명: $ARGUMENTS
+Create a feature SPEC document. Combines completion criteria and implementation strategy in a single document per feature.
 
-## 역할
-- 프로젝트 중간에 추가되는 피처의 "무엇이 동작하면 완료인가" + "어떻게 구현할 것인가"를 정의한다.
-- 프로젝트 레벨 PLAN.md/IMPLEMENT.md와는 독립적으로 운영된다.
+Feature name: $ARGUMENTS
 
-## 전제
-- 피처명이 비어 있으면 작성 중단, 피처명을 먼저 요청.
-- 피처명만 있고 대화 컨텍스트에 무엇을 만들어야 하는지 충분한 정보가 없으면, SPEC 작성 전에 먼저 질문한다.
-- 프로젝트 루트에 PLAN.md가 있으면 읽고, 관련 Phase/Task가 있으면 매핑 참조를 남긴다. 없으면 독립 피처로 진행.
+## Role
+- Define "what must work" + "how to implement" for features added mid-project.
+- Operates independently from project-level PLAN.md/IMPLEMENT.md.
 
-## 출력 경로
+## Prerequisites
+- If feature name is empty, stop.
+  - Reason: the name determines the output path (`features/<name>/SPEC.md`) and document identifier.
+  - Guide: "Pass the feature name as argument. Example: `/feature-init payment-integration`"
+- If only a name is given without sufficient context about what to build, ask before writing.
+- If PLAN.md exists at project root, read it. Map to relevant Phase/Task if applicable. Otherwise proceed as independent feature.
+
+## Output Path
 - `features/<feature-name>/SPEC.md`
-- 디렉토리 없으면 생성. 기존 파일 있으면 확인 후 덮어쓰기.
+- Create directory if missing. Confirm before overwriting existing file.
 
-## 문서 구조
+## Document Structure
 
-### 1. 개요
-- 피처 목적 1~2문장.
-- 프로젝트 PLAN 매핑 (있으면): `→ PLAN: Phase X > Task Y`
+### 1. Overview
+- Feature purpose in 1-2 sentences.
+- PLAN mapping (if applicable): `→ PLAN: Phase X > Task Y`
 
 ### 2. Exit Criteria
-- PLAN.md의 Task 작성 규칙을 따른다.
-- "무엇이 동작하는 상태인가"로 기술. "~하면 ~가 관찰된다" 형태.
-- 구현 스텝 금지.
-
-각 항목 필수:
-- 목적: 왜 별도 경계로 존재하는가
-- 입력: 검증 가능한 선행 상태
-- 산출물: 파일/타입/인터페이스 또는 외부 관찰 가능 동작
-- Exit Criteria: 끝났는지 어떻게 아는가
-
-분해 기준: 같은 Exit Criteria → 합침. 다르면 분리.
+- Follow the same rules as PLAN.md Task writing (see /plan-init).
+- Describe as "what state is working." No implementation steps.
 
 ### 3. Decision Points
-- 설계 선택지 + trade-off 기술.
-- 미결 Decision Point가 있으면 해당 구현 항목은 착수하지 않는다.
+- Design choices + trade-offs.
+- Unresolved Decision Points block their corresponding implementation items.
 
 ### 4. Architecture / Implementation
-- IMPLEMENT.md의 구현 단위 규칙을 따른다.
-- 모든 구현 항목은 Exit Criteria에 매핑된다 (`→ EC: #N`).
-
-필수 항목:
-- 구조: 아키텍처, 실행 흐름 (입력→출력, 주요 분기)
-- 상태 모델 (상태 있을 때만)
-
-구현 단위 필수:
-- 목적: 어떤 Exit Criteria 대응
-- 책임: 입력 / 출력 / 경계
-- 설계: 구조, 실행 흐름, 상태 변화(있으면)
-- 선택 이유: 접근 선택 이유 + trade-off
-- 실패/예외: 가능한 실패와 처리 방식
-
-순서: 의존성 기준. 각 순서에 선행 조건 1줄.
+- Follow the same rules as IMPLEMENT.md units (see /implement-init).
+- Every item maps to an Exit Criteria (`→ EC: #N`).
 
 ### 5. Progress Tracking
-- `- [ ]` 체크박스로 추적.
-- 구현 완료 → Implementation 체크. 검증 완료 → Exit Criteria 체크.
-- 둘은 다른 사건.
+- `- [ ]` checkboxes.
+- Implementation done → check implementation item. Verification done → check Exit Criteria.
+- These are separate events.
 
-## 금지
-- 메커니컬 Task (파일 생성/함수 추가만의 항목)
-- Exit Criteria 없는 구현 항목
-- 구현 항목 없는 Exit Criteria (누락으로 표시)
-- 저수준 코딩 디테일 나열
+## Prohibited
+- Mechanical Tasks (file creation / function addition only)
+- Exit Criteria without implementation items
+- Implementation items without Exit Criteria (mark as gap)
+- Low-level coding detail listings
 
-## 핵심 질문
-> 이 피처가 동작한다는 것을 어떻게 확인하며, 그 상태를 어떤 구조와 순서로 만드는가?
+## Core Question
+> How do we confirm this feature works, and what structure and order produces that state?

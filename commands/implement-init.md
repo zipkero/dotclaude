@@ -1,74 +1,76 @@
 ---
-description: IMPLEMENT.md를 규칙에 따라 작성/재작성한다
+description: Create or rewrite IMPLEMENT.md according to rules
 ---
 
-IMPLEMENT.md를 만들어줘. 구현 순서표이자 실행 전략 문서이며, 구현 중 유일한 진행 추적 문서다.
+> When to use: When PLAN.md exists and implementation strategy/order needs to be defined.
+> Prerequisite: /plan-init
 
-대상 범위: $ARGUMENTS
+Create IMPLEMENT.md. This is an execution strategy document and the sole progress tracker during implementation.
 
-## 역할
-- "어떻게 구현할 것인가"를 정의한다.
-- PLAN.md의 Exit Criteria를 만족시키기 위한 실행 전략.
-- 완료 판정은 PLAN.md 기준. 이 문서는 수단.
-- 구현 중 현재 상태와 다음 작업은 이 문서만 보고 파악 가능해야 한다.
+Scope: $ARGUMENTS
 
-## 범위 처리
-- 비어 있으면 PLAN 전체. 주어지면 해당 범위 PLAN 항목만. 모호하면 가장 좁게 해석.
+## Role
+- Define "how to implement."
+- Execution strategy to satisfy PLAN.md Exit Criteria.
+- Completion judgment uses PLAN.md. This document is the means.
+- Current state and next task must be determinable from this document alone.
 
-## 전제
-- PLAN.md 먼저 읽고 기준으로 삼는다.
-- PLAN.md의 Exit Criteria를 수정/약화/추가하지 않는다.
-- PLAN.md 없으면 작성 중단, PLAN.md 먼저 요청.
+## Scope Handling
+- Empty: full PLAN. Provided: matching PLAN items only. Ambiguous: interpret as narrowly as possible.
 
-## 전역 규칙
-- 모든 구현 항목은 PLAN.md의 특정 Exit Criteria에 매핑된다.
-- 각 구현 단위는 "왜 이 방식인가"를 포함한다.
-- 저수준 코딩 디테일 배제. 설계 선택지는 Decision Point로 분리.
+## Prerequisites
+- Read PLAN.md first; use as baseline.
+- Do not modify, weaken, or add to PLAN.md Exit Criteria.
+- If PLAN.md does not exist, stop and request it first.
 
-## 구현 단위 크기
-- 하나의 검증 가능한 동작 경계 또는 PR 단위.
-- 내부에 서로 다른 Exit Criteria 대응이 섞이면 분리. 단순 파일/함수 나열이면 합침.
+## Global Rules
+- Every implementation unit maps to a specific PLAN.md Exit Criteria.
+- Each unit includes "why this approach."
+- No low-level coding details. Design choices go to Decision Points.
 
-## 구현 단위 형식
-- `- [ ]`로 시작. 동작 구조 단위로 작성.
+## Unit Size
+- One verifiable behavioral boundary or PR-sized unit.
+- Mixed Exit Criteria mappings → split. Pure file/function listing → merge.
 
-필수 항목:
-- 목적: 어떤 Exit Criteria 대응 + PLAN 인라인 참조 (`→ PLAN: Phase X > Task Y`)
-- 책임: 입력 / 출력 / 경계
-- 설계: 구조(모듈/인터페이스/데이터 흐름), 분기 포함 실행 흐름, 상태 변화(있으면)
-- 선택 이유: 접근 선택 이유 + trade-off
-- 실패/예외: 가능한 실패와 처리 방식
+## Unit Format
+- Start with `- [ ]`. Write as behavioral structure units.
 
-## 구조 (문서 상단)
-- 아키텍처 (필수): 구성 요소, 경계, high-level 흐름
-- 실행 흐름 (필수): 입력→출력, 주요 분기
-- 상태 모델 (상태 있을 때만): 종류, 저장 위치, 변화 규칙
+Required per unit:
+- Purpose: which Exit Criteria + PLAN inline reference (`→ PLAN: Phase X > Task Y`)
+- Responsibility: input / output / boundary
+- Design: structure (modules/interfaces/data flow), execution flow with branches, state changes (if any)
+- Rationale: why this approach + trade-offs
+- Failure/Exception: possible failures and handling
 
-## 순서
-- 의존성 기준. "무엇이 먼저 있어야 다음이 가능한가". 각 순서에 선행 조건 1줄.
-- 단순 시간순 금지.
+## Document Structure (top section)
+- Architecture (required): components, boundaries, high-level flow
+- Execution flow (required): input → output, major branches
+- State model (only when stateful): types, storage, transition rules
 
-## PLAN 매핑
-- 모든 구현 단위 → Exit Criteria 연결. 매핑 없는 항목 제거.
-- PLAN 항목 중 매핑 없는 것은 누락으로 표시.
+## Ordering
+- By dependency: "what must exist before the next is possible." One-line prerequisite per step.
+- No chronological ordering.
 
-## 진행 추적
-- 구현 완료 → IMPLEMENT 체크.
-- 검증 완료 → PLAN 체크.
-- 둘은 다른 사건. 혼동하지 않는다.
-- 진행 상태는 IMPLEMENT 기준. PLAN은 완료 기준/검증용.
+## PLAN Mapping
+- Every unit → Exit Criteria link. Remove unmapped units.
+- PLAN items without mapping are marked as gaps.
+
+## Progress Tracking
+- Implementation done → check IMPLEMENT.md.
+- Verification done → check PLAN.md.
+- These are separate events. Do not conflate.
 
 ## Decision Point
-- 선택지 + trade-off. 기본 제안 가능하지만 확정 금지. 구현 단위 본문에 섞지 않음.
+- Options + trade-offs. Default suggestion allowed but no final decision. Keep separate from unit body.
 
-## 금지
-- PLAN Exit Criteria 수정/재정의
-- 개념 설명만, 근거 없는 구조 선택, "일단 구현 후 수정"
-- Task 수준 분해, 파일/함수/클래스 나열만의 구현 단위
+## Prohibited
+- Modifying/redefining PLAN Exit Criteria
+- Concept-only explanations, unjustified structure choices, "implement first, fix later"
+- Task-level decomposition, units that only list files/functions/classes
 
-## 출력
-- 프로젝트 루트 `IMPLEMENT.md`. 기존 파일 있으면 확인 후 덮어쓰기.
+## Output
+- Project root `IMPLEMENT.md`. If file exists, confirm before overwriting.
 
-## 핵심 질문
-> PLAN의 완료 상태를 만들기 위해, 무엇을 어떤 구조와 순서로 구현해야 하는가?
-> 지금 어디까지 구현됐고, 다음에 무엇을 해야 하는가?
+## Core Question
+> What must be implemented, in what structure and order, to reach PLAN's done state?
+> Where are we now, and what comes next?

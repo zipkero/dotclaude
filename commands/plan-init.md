@@ -1,56 +1,58 @@
 ---
-description: PLAN.md를 규칙에 따라 작성/재작성한다
+description: Create or rewrite PLAN.md according to rules
 ---
 
-PLAN.md를 만들어줘. 구현 순서표가 아니라, 완료 판정과 검증을 위한 체크포인트 문서다.
+> When to use: When completion criteria for a project/feature are not yet defined. Run before IMPLEMENT.md.
 
-대상 범위: $ARGUMENTS
+Create PLAN.md. This is a checkpoint document for completion judgment and verification, not an implementation roadmap.
 
-## 역할
-- "무엇이 동작하면 완료인가"를 정의한다.
-- 구현 방법/순서를 나열하지 않는다.
+Scope: $ARGUMENTS
 
-## 전역 규칙
-- Decision Point가 남은 Phase는 사용자 승인 없이 구현 Task로 넘어가지 않는다.
+## Role
+- Define "what must work for this to be done."
+- Do not list implementation methods or order.
 
-## 범위 처리
-- 비어 있으면 전체 PLAN 작성. 주어지면 해당 범위만. 모호하면 가장 좁게 해석.
+## Global Rules
+- A Phase with unresolved Decision Points must not proceed to implementation Tasks without user approval.
 
-## Task 작성
-- "무엇이 동작하는 상태인가"로 기술. "~하면 ~가 관찰된다" 형태.
-- 구현 스텝(파일 생성, 함수 추가 등) 금지.
-- 2~4문장 맥락 포함.
+## Scope Handling
+- Empty: write full PLAN. Provided: cover that scope only. Ambiguous: interpret as narrowly as possible.
 
-각 Task 필수 항목:
-- 목적: 왜 별도 경계로 존재하는가
-- 입력: 검증 가능한 선행 상태만 (상위 레벨 참조 금지)
-- 산출물: 파일/타입/인터페이스 또는 외부 관찰 가능 동작
-- Exit Criteria: "끝났는지 어떻게 아는가" (기본 1줄, 관찰 지점 여러 개면 나열 허용)
+## Task Writing
+- Describe as "what state is working." Use the form "when X, Y is observed."
+- No implementation steps (file creation, function addition, etc.).
+- Include 2-4 sentences of context.
 
-## 분해 기준
-- 같은 Exit Criteria → 합침. 다르면 분리. 같은 개념 영역이면 묶음 표시.
+Required per Task:
+- Purpose: why this exists as a separate boundary
+- Input: only verifiable preconditions (no upper-level references)
+- Deliverable: file/type/interface or externally observable behavior
+- Exit Criteria: "how do we know it's done" (1 line default; multiple observation points allowed)
 
-## 묶음
-- 인접 Task가 같은 개념 영역이면 "한 호흡 묶음"으로 시각적 표시. Task 자체는 합치지 않음.
+## Decomposition
+- Same Exit Criteria → merge. Different → separate. Same conceptual area → group visually.
+
+## Grouping
+- Adjacent Tasks in the same conceptual area get a "single-breath group" visual marker. Tasks themselves remain separate.
 
 ## Decision Point
-- 설계 선택지는 "Decision Point"로 분리. 선택지 + trade-off 기술. 구현 Task와 섞지 않음.
+- Design choices go into "Decision Point" sections. List options + trade-offs. Do not mix with implementation Tasks.
 
 ## Phase
-- "이 시점에 사용자가 무엇을 할 수 있는가" 기준. 이전 Phase 없이 무의미한 단위만.
-- Phase 시작 시: 이전 Phase Exit Criteria 회귀 체크 포함.
+- Defined by "what can the user do at this point." Only units meaningless without the prior Phase.
+- Phase start: include regression check of previous Phase Exit Criteria.
 
-## 금지
-- 메커니컬 Task (파일 생성/함수 추가/리팩토링)
-- 구현 순서 나열, 시간순 분해
-- Task 수 부풀리기, Task 간 참조
+## Prohibited
+- Mechanical Tasks (file creation / function addition / refactoring)
+- Implementation order listing, chronological decomposition
+- Task count inflation, inter-Task references
 
-## Task 예시
-- [ ] CLI에 JSON 입력을 넣으면 status line이 깨지지 않고 출력된다
-  - 목적: 입력 파서와 출력 포맷터의 경계를 독립적으로 검증
-  - 입력: 유효한 최소 JSON 문자열
-  - 산출물: stdout 출력 문자열, 파서/포맷터 인터페이스
-  - Exit Criteria: `echo '{...}' | ./app` 실행 시 에러 없이 출력
+## Task Example
+- [ ] CLI accepts JSON input and outputs a status line without corruption
+  - Purpose: verify input parser and output formatter boundaries independently
+  - Input: minimal valid JSON string
+  - Deliverable: stdout output string, parser/formatter interfaces
+  - Exit Criteria: `echo '{...}' | ./app` runs without error and produces output
 
-## 출력
-- 프로젝트 루트 `PLAN.md`. 기존 파일 있으면 확인 후 덮어쓰기.
+## Output
+- Project root `PLAN.md`. If file exists, confirm before overwriting.
