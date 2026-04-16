@@ -1,74 +1,74 @@
 # .claude
 
-Claude Code 개인 설정 저장소.
+Personal configuration repository for Claude Code.
 
-## 워크플로우
+## Workflow
 
-### 프로젝트 레벨 (대규모 작업 / 초기 설계)
-
-```
-analyze → plan-init(PLAN.md) → implement-init(IMPLEMENT.md) → implement → review
-```
-
-- **analyze**: 코드베이스/문제 분석. Blocker 발견 시 흐름 중단, 사용자와 상의.
-- **plan-init**: 분석 결과를 기반으로 PLAN.md(완료 판정 체크포인트) 작성.
-- **implement-init**: PLAN.md를 기반으로 IMPLEMENT.md(실행 전략) 작성.
-- **implement**: IMPLEMENT.md의 다음 Unit을 구현.
-- **review**: 독립 컨텍스트에서 PLAN.md Exit Criteria + IMPLEMENT.md 설계 의도 대비 검증.
-
-### 피처 레벨 (소규모 작업)
+### Project Level (large tasks / initial design)
 
 ```
-feature-init(SPEC.md) → analyze → implement → review
+analyze → plan-init(PLAN.md) → implement-init(IMPLEMENT.md) → implement → verify
 ```
 
-- **feature-init**: Exit Criteria + 구현 전략을 하나의 SPEC.md로 통합 작성.
-- 이후 skill들은 `$ARGUMENTS`에 SPEC.md 경로를 받아 피처 모드로 동작.
+- **analyze**: Analyze codebase/problem. Stops flow on Blocker, escalates to user.
+- **plan-init**: Create PLAN.md (completion checkpoint) based on analysis.
+- **implement-init**: Create IMPLEMENT.md (execution strategy) based on PLAN.md.
+- **implement**: Execute the next Unit from IMPLEMENT.md.
+- **verify**: Independent verification against PLAN.md Exit Criteria + IMPLEMENT.md design intent.
 
-> **미결**: feature-init과 기존 skill 플로우의 통합 방식은 검토 중. 아래 "열린 고민" 참조.
-
-## 구조
+### Feature Level (small tasks)
 
 ```
-CLAUDE.md          # 프로젝트/글로벌 공통 규칙 (Korean, agent orchestration 등)
-config.json        # Claude Code 기본 설정
+feature-init(SPEC.md) → analyze → implement → verify
 ```
 
-### agents/ — 커스텀 서브에이전트 정의
+- **feature-init**: Create a single SPEC.md combining Exit Criteria + implementation strategy.
+- Subsequent skills receive the SPEC.md path via `$ARGUMENTS` and operate in feature mode.
 
-별도 컨텍스트에서 실행되며, skill을 바인딩하여 사용.
+> **Open**: Integration between feature-init and existing skill flow is under review. See "Open Questions" below.
 
-- `analyzer.md` — 분석 에이전트 (analyze skill)
-- `implementer.md` — 구현 에이전트 (implement skill)
-- `reviewer.md` — 리뷰 에이전트 (review skill)
+## Structure
 
-**역할 분리**: Agent는 경계 규칙(Boundary — 뭘 하면 안 되는가), Skill은 실행 규칙(Guidelines — 어떻게 해야 하는가).
+```
+CLAUDE.md          # Global rules (Korean response, agent orchestration, etc.)
+config.json        # Claude Code base settings
+```
 
-### commands/ — 슬래시 커맨드 정의
+### agents/ — Custom subagent definitions
 
-- `plan-init.md` — PLAN.md 작성 (`/plan-init`)
-- `implement-init.md` — IMPLEMENT.md 작성 (`/implement-init`)
-- `feature-init.md` — 피처 SPEC.md 작성 (`/feature-init <feature-name>`)
+Run in separate contexts, bound to skills.
 
-### skills/ — 스킬 정의
+- `analyzer.md` — Analysis agent (analyze skill)
+- `implementer.md` — Implementation agent (implement skill)
+- `verifier.md` — Verification agent (verify skill)
 
-- `analyze` — 분석, 디버깅, 설계 판단. Analysis Trigger 조건에 의해 자동 발동.
-- `implement` — IMPLEMENT.md 또는 SPEC.md 기반 구현 실행.
-- `review` — Exit Criteria + 설계 의도 대비 독립 검증. 비-trivial 구현 후 항상 실행.
+**Separation of concerns**: Agent defines boundary rules (what NOT to do), Skill defines execution rules (HOW to do it).
 
-## 열린 고민
+### commands/ — Slash command definitions
 
-### feature-init 통합 방식
+- `plan-init.md` — Create PLAN.md (`/plan-init`)
+- `implement-init.md` — Create IMPLEMENT.md (`/implement-init`)
+- `feature-init.md` — Create feature SPEC.md (`/feature-init <feature-name>`)
 
-프로젝트 레벨은 PLAN.md/IMPLEMENT.md 2파일 체계, 피처 레벨은 SPEC.md 1파일 체계.
-현재 skill들의 Context Loading에 SPEC.md 분기를 추가해뒀지만, 아직 확정되지 않은 부분:
+### skills/ — Skill definitions
 
-- **진입점 판별**: `$ARGUMENTS`에 SPEC.md 경로를 명시적으로 넘겨야 하는가, 아니면 자동 감지할 수 있는가?
-- **analyze 위치**: 프로젝트 레벨은 analyze가 최초(plan-init 전)인데, 피처 레벨은 feature-init 후에 analyze가 오는 게 자연스러운가? 아니면 feature-init 전에 analyze를 먼저 돌려야 하는가?
-- **진행 추적**: SPEC.md 내 §5 Progress Tracking이 IMPLEMENT.md + PLAN.md의 이원 추적을 하나로 합치는데, 구현 완료/검증 완료 구분이 충분히 명확한가?
-- **규모 경계**: "소규모"의 기준이 뭔가? 어느 시점에서 feature-init 대신 프로젝트 레벨 플로우를 써야 하는가?
+- `analyze` — Analysis, debugging, design decisions. Auto-triggered by Analysis Trigger conditions.
+- `implement` — Execute implementation based on IMPLEMENT.md or SPEC.md.
+- `verify` — Independent verification against Exit Criteria + design intent. Runs after every non-trivial implementation.
 
-## 관리 방침
+## Open Questions
 
-- `.gitignore`에서 화이트리스트 방식으로 추적 대상 관리
-- 세션 데이터, 캐시, credentials 등은 추적 제외
+### feature-init integration
+
+Project level uses a 2-file system (PLAN.md / IMPLEMENT.md), feature level uses a 1-file system (SPEC.md).
+Skills have SPEC.md branches in their Context Loading, but the following remain unresolved:
+
+- **Entry point detection**: Must the SPEC.md path be explicitly passed via `$ARGUMENTS`, or can it be auto-detected?
+- **analyze placement**: At project level, analyze runs first (before plan-init). At feature level, is it more natural for analyze to run after feature-init? Or should analyze come before feature-init?
+- **Progress tracking**: SPEC.md §5 Progress Tracking merges the dual tracking of IMPLEMENT.md + PLAN.md into one. Is the implementation-done / verification-done distinction clear enough?
+- **Scale boundary**: What defines "small"? At what point should the project-level flow be used instead of feature-init?
+
+## Management
+
+- `.gitignore` uses a whitelist approach for tracked files
+- Session data, cache, credentials are excluded from tracking
