@@ -4,18 +4,12 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 ---
 
 ## Context Loading
-1. If `$ARGUMENTS` points to a SPEC.md, use its §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference.
-   When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline.
-2. Otherwise:
-   a. Read PLAN.md if it exists. Use the relevant Task's Exit Criteria as the validation baseline.
-   b. Read IMPLEMENT.md if it exists. Use design intent (structure, flow, rationale) as supplementary validation reference.
-   c. If neither exists, verify based on the request scope and code diff only.
-3. If `$ARGUMENTS` is provided (non-SPEC), target that specific Task/Unit. Otherwise, target the most recently implemented change.
-
-## Responsibilities
-- Verify match against: user request, design intent (IMPLEMENT.md or SPEC.md §4), actual changed code
-- Detect incorrect logic, missing edge cases, risky assumptions
-- Check scope violations (unrelated files, over-modification)
+1. If `$ARGUMENTS` points to a SPEC.md (or a path under `features/*/`): SPEC mode. Use SPEC.md §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference. Do not cross-update IMPLEMENT.md.
+2. If `$ARGUMENTS` is provided (non-SPEC): target that specific Task/Unit.
+3. If `$ARGUMENTS` is empty:
+   - Read PLAN.md if it exists. Use the relevant Task's Exit Criteria as the validation baseline.
+   - Read IMPLEMENT.md if it exists. Use design intent (structure, flow, rationale) as supplementary validation reference.
+   - If neither exists, verify based on the request scope and code diff only. Target the most recently implemented change.
 
 ## Output Structure
 1. Status: `approved` | `rejected`
@@ -37,11 +31,12 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 - Remaining risk (only if non-trivial)
 
 ## Completion
-- SPEC.md mode: on approved, check the Exit Criteria checkbox in SPEC.md §5 Progress Tracking.
-- PLAN.md mode: on approved, if all Exit Criteria are met, check the Task's checkbox in PLAN.md (`[ ]` -> `[x]`).
+- Verifier does not modify files. On approved, return a check-ready signal to main agent indicating which Task/Unit was approved; main agent updates PLAN.md or SPEC.md §5 progress tracking at the Task/Unit level.
+- Partial verification (some Exit Criteria met within a Task, others pending) is recorded in this output only, not in document checkboxes.
 
 ## Guidelines
 - Minimum evidence: code diff. Preferred evidence: code diff + test result. If tests exist for the changed scope but were not run, note as limitation.
 - For pure logic changes where the diff clearly shows correctness, diff-based reasoning is acceptable evidence.
+- If tests were modified as part of this change, do not rely on those tests alone as evidence (see CLAUDE.md Test).
 - Reject when correctness cannot be established from available evidence.
 - If evidence is missing, state the limitation explicitly.

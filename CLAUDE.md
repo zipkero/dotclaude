@@ -30,27 +30,18 @@
 - One user-facing reply per request. Internal agent orchestration is exempt.
 - Step-by-step only when requested or task is stateful/destructive.
 
-### Trivial Change
-- Single-file change modifying one logical unit, matching no Analysis Trigger.
-- Skips orchestration unless explicit verification is requested.
-
 ### Project-Level Flow (user-driven, phased)
 1. analyze → 2. /plan-init → 3. /implement-init → 4. /implement → 5. verify
 - Steps 2-3 are user-initiated commands. Steps 1, 4-5 use subagents.
 - For independent features: /feature-init → /implement (with SPEC path) → verify
+  - Entered only by explicit `/feature-init` invocation. Ad-hoc requests use Per-Request Orchestration.
 
 ### Per-Request Orchestration (automatic)
-- Applies when the change is non-trivial (see Trivial Change).
 - Flow: [analyzer if triggered] → implementer → verifier
 - Only main agent invokes subagents. Subagents never call subagents.
 - If analyzer reports Blocker: stop, present to user. Do not proceed.
-
-### Verifier Loop
-- On reject, main invokes implementer once with verifier issues as input.
-- `style/minor` → fix and re-verify (max 1 retry)
-- `correctness` → fix and re-verify (max 1 retry)
-- `design/scope` → return to user immediately
-- Max retry: 1. Still rejected → return issues to user, stop.
+- On verifier reject: return issues to user. No auto-retry.
+- On verifier approval: main agent updates PLAN.md / SPEC.md progress tracking per the verify skill.
 
 ### Analysis Trigger
 Run analyzer if ANY:

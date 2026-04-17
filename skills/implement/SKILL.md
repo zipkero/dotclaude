@@ -4,16 +4,12 @@ description: "Execute the next implementation unit from IMPLEMENT.md or SPEC.md.
 ---
 
 ## Context Loading
-
-### SPEC.md Path
-1. If `$ARGUMENTS` points to a SPEC.md, use its §4 Architecture/Implementation as the implementation baseline.
-2. SPEC is an independent unit — do not cross-update IMPLEMENT.md checkboxes.
-
-### IMPLEMENT.md Path
-1. Read IMPLEMENT.md. If it does not exist, stop and guide the user to run `/implement-init` first.
-2. Check the "next task" section or find the first incomplete Unit whose prerequisites are met.
-3. If `$ARGUMENTS` is provided (non-SPEC), target that specific Unit. Otherwise, target the next eligible Unit.
-4. Use the target Unit's design (structure, flow, rationale, failure/exception handling) as the implementation baseline.
+1. If `$ARGUMENTS` points to a SPEC.md (or a path under `features/*/`): SPEC mode. Use SPEC.md §4 Architecture/Implementation as the implementation baseline. Do not cross-update IMPLEMENT.md.
+2. If `$ARGUMENTS` is provided (non-SPEC): target that specific Unit. Use the Unit's design (structure, flow, rationale, failure/exception handling) as the implementation baseline.
+3. If `$ARGUMENTS` is empty:
+   - Read IMPLEMENT.md. If it does not exist, stop and guide the user to run `/implement-init` first.
+   - Find the first incomplete Unit whose prerequisites are met (or the Unit marked as "next task").
+   - Use the target Unit's design as the implementation baseline.
 
 ## Output Structure
 1. Approach

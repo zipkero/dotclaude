@@ -16,7 +16,7 @@ Scope: $ARGUMENTS
 - Current state and next task must be determinable from this document alone.
 
 ## Scope Handling
-- Empty: full PLAN. Provided: matching PLAN items only. Ambiguous: interpret as narrowly as possible.
+- Empty: cover the entire PLAN.md. Provided: matching PLAN items only. Ambiguous: interpret as narrowly as possible.
 
 ## Prerequisites
 - Read PLAN.md first; use as baseline.
@@ -55,7 +55,7 @@ Optional (include when non-trivial):
 
 ## PLAN Mapping
 - Every unit → Exit Criteria link. Remove unmapped units.
-- PLAN items without mapping are marked as gaps.
+- PLAN items without mapping are marked as gaps using `<!-- gap: <reason> -->` inline comments.
 
 ## Progress Tracking
 - Implementation done → check IMPLEMENT.md.

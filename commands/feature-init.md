@@ -16,8 +16,8 @@ Feature name: $ARGUMENTS
 - If feature name is empty, stop.
   - Reason: the name determines the output path (`features/<name>/SPEC.md`) and document identifier.
   - Guide: "Pass the feature name as argument. Example: `/feature-init payment-integration`"
-- If only a name is given without sufficient context about what to build, ask before writing.
-- If PLAN.md exists at project root, read it. Map to relevant Phase/Task if applicable. Otherwise proceed as independent feature.
+- If intent is unclear, ask before writing.
+- If PLAN.md exists at project root, read it. When the feature maps to a Phase/Task, include the mapping in §1 Overview as `→ PLAN: Phase X > Task Y` (required). Otherwise proceed as independent feature.
 
 ## Output Path
 - `features/<feature-name>/SPEC.md`
@@ -52,7 +52,7 @@ Feature name: $ARGUMENTS
 ## Prohibited
 - Mechanical Tasks (file creation / function addition only)
 - Exit Criteria without implementation items
-- Implementation items without Exit Criteria (mark as gap)
+- Implementation items without Exit Criteria (mark as gap using `<!-- gap: <reason> -->`, see /implement-init)
 - Low-level coding detail listings
 
 ## Core Question

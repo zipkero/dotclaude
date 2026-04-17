@@ -2,6 +2,8 @@
 
 Personal configuration repository for Claude Code.
 
+> Summary of rules lives in CLAUDE.md (authoritative source). This README describes structure and design intent.
+
 ## Design Intent
 
 ### Why this structure exists
@@ -11,7 +13,7 @@ Personal configuration repository for Claude Code.
 
 ### Key design decisions
 - **Agent = boundary, Skill = execution**: Agents define what NOT to do (prevent role leakage). Skills define HOW to do it (execution steps). This separation means agents stay stable while skills evolve.
-- **Two reject categories that retry (`style/minor`, `correctness`) vs one that escalates (`design/scope`)**: Minor issues and logic bugs are worth one auto-fix attempt. Design/scope problems need human judgment.
+- **Verifier reject escalates to user, no auto-retry**: Prompt-only orchestration cannot enforce retry counts deterministically, so rejects are surfaced to the user for judgment. The verify skill still classifies rejects (`style/minor`, `correctness`, `design/scope`) to help the user decide.
 - **PLAN defines "done", IMPLEMENT defines "how"**: Completion is judged against PLAN.md Exit Criteria, not implementation progress. This prevents "all tasks checked but feature doesn't work" situations.
 - **SPEC.md for features**: Combines PLAN + IMPLEMENT into one file for smaller scope. Avoids 2-file overhead when a single document is sufficient.
 
@@ -42,6 +44,7 @@ analyze → /plan-init → /implement-init → /implement → verify
 /feature-init → /implement (SPEC path) → verify
 ```
 
+- Entered only by explicit `/feature-init` invocation. Ad-hoc requests without `/feature-init` fall through to Per-Request Orchestration.
 - **/feature-init**: Create SPEC.md combining Exit Criteria + implementation strategy.
 - **/implement**: Receives SPEC.md path via `$ARGUMENTS`, operates in feature mode.
 - **verify**: Uses SPEC.md §2 Exit Criteria as sole verification baseline (no PLAN.md needed).
@@ -52,8 +55,8 @@ analyze → /plan-init → /implement-init → /implement → verify
 [analyzer if triggered] → implementer → verifier
 ```
 
-- Triggered by Analysis Trigger conditions in CLAUDE.md.
-- Trivial changes (single-file, one logical unit, no trigger match) skip orchestration entirely.
+- Triggered by Analysis Trigger conditions defined in CLAUDE.md (single source).
+- On verifier reject: issues return to the user. No auto-retry.
 
 ## Structure
 
@@ -78,14 +81,9 @@ Run in separate contexts, bound to skills.
 
 ### skills/ — Skill definitions
 
-- `analyze` — Analysis, debugging, design decisions. Auto-triggered by Analysis Trigger conditions.
+- `analyze` — Analysis, debugging, design decisions. Invocation conditions live in CLAUDE.md Analysis Trigger.
 - `implement` — Execute implementation based on IMPLEMENT.md or SPEC.md.
 - `verify` — Independent verification against Exit Criteria + design intent.
-
-## Open Questions
-
-- **Entry point detection**: Must the SPEC.md path be explicitly passed via `$ARGUMENTS`, or can it be auto-detected?
-- **Scale boundary**: What defines "small"? At what point should the project-level flow be used instead of feature-init?
 
 ## Management
 
