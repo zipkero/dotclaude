@@ -33,15 +33,15 @@
 ### Flows
 
 **User-driven — Project (Phased)**
-`/analyze → /plan-init → /implement-init → /implement → /verify`
+`analyze → /plan-init → /implement-init → implement → verify`
 
 **User-driven — Feature (Phased)**
-`prompt → /feature-init → /implement <SPEC path> → /verify`
+`prompt → /feature-init → implement <SPEC path> → verify`
 - Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
-- Analyzer is invoked only when the user explicitly calls `/analyze`.
+- Analyzer is invoked only when the user explicitly requests `analyze`.
 
 **Automatic — Per-Request**
-`prompt → [/analyze if triggered] → approach-summary → /implement → /verify`
+`prompt → [analyze if triggered] → approach-summary → implement → verify`
 - `approach-summary` = brief approach note from main agent before implementation. Not PLAN.md creation.
 - Entered when the user sends a natural prompt with no slash command.
 
@@ -53,7 +53,7 @@
 - On verifier approval: main agent updates PLAN.md / SPEC.md progress tracking (see verify skill).
 
 ### Analysis Trigger (automatic flow only)
-In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly invokes `/analyze`.
+In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly invokes `analyze`.
 - cause unknown
 - non-trivial design decision required
 - multiple files affected with unclear impact
