@@ -43,7 +43,7 @@
 **Automatic — Per-Request**
 `prompt → [/analyze if triggered] → approach-summary → /implement → /verify`
 - `approach-summary` = brief approach note from main agent before implementation. Not PLAN.md creation.
-- Entered when the user sends a natural prompt without invoking `/feature-init` or any phased command.
+- Entered when the user sends a natural prompt with no slash command.
 
 ### Orchestration Rules
 - User invokes each slash command explicitly. Main agent never auto-chains commands.

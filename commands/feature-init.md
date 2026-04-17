@@ -48,7 +48,7 @@ Feature name: $ARGUMENTS
 
 ## Verification Baseline
 - When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline for the verifier.
-- When PLAN mapping exists, checking a SPEC §5 Exit Criteria also updates the mapped PLAN Task checkbox. Without mapping, only SPEC is updated.
+- When PLAN mapping exists, the main agent also updates the mapped PLAN Task checkbox upon checking a SPEC §5 Exit Criteria. Without mapping, only SPEC is updated.
 
 ## Prohibited
 - Mechanical Tasks (file creation / function addition only)
