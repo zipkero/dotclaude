@@ -13,10 +13,11 @@ Scope: $ARGUMENTS
 - Define "how to implement."
 - Execution strategy to satisfy PLAN.md Exit Criteria.
 - Completion judgment uses PLAN.md. This document is the means.
-- Current state and next task must be determinable from this document alone.
+- Current state and next task must be determinable from this document alone. Judgment is based on Unit checkbox state; no separate progress log.
 
 ## Scope Handling
-- Empty: cover the entire PLAN.md. Provided: matching PLAN items only. Ambiguous: interpret as narrowly as possible.
+- Empty: cover the entire PLAN.md.
+- Provided: matching PLAN items only. If the provided scope is unclear, interpret as narrowly as possible — do not expand beyond the literal target.
 
 ## Prerequisites
 - Read PLAN.md first; use as baseline.

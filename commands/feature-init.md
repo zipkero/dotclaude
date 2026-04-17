@@ -17,7 +17,7 @@ Feature name: $ARGUMENTS
   - Reason: the name determines the output path (`features/<name>/SPEC.md`) and document identifier.
   - Guide: "Pass the feature name as argument. Example: `/feature-init payment-integration`"
 - If intent is unclear, ask before writing.
-- If PLAN.md exists at project root, read it. When the feature maps to a Phase/Task, include the mapping in §1 Overview as `→ PLAN: Phase X > Task Y` (required). Otherwise proceed as independent feature.
+- If PLAN.md exists at project root, read it. If this feature's purpose and deliverable are equivalent to a PLAN.md Task's purpose and deliverable, include the mapping in §1 Overview as `→ PLAN: Phase X > Task Y` (required). Otherwise proceed as an independent feature.
 
 ## Output Path
 - `features/<feature-name>/SPEC.md`
@@ -48,11 +48,12 @@ Feature name: $ARGUMENTS
 
 ## Verification Baseline
 - When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline for the verifier.
+- When PLAN mapping exists, checking a SPEC §5 Exit Criteria also updates the mapped PLAN Task checkbox. Without mapping, only SPEC is updated.
 
 ## Prohibited
 - Mechanical Tasks (file creation / function addition only)
-- Exit Criteria without implementation items
-- Implementation items without Exit Criteria (mark as gap using `<!-- gap: <reason> -->`, see /implement-init)
+- Exit Criteria without implementation items — if unavoidable, mark the EC with `<!-- gap: <reason> -->` (see /implement-init)
+- Implementation items without Exit Criteria
 - Low-level coding detail listings
 
 ## Core Question

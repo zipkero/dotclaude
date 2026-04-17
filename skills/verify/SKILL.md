@@ -4,12 +4,12 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 ---
 
 ## Context Loading
-1. If `$ARGUMENTS` points to a SPEC.md (or a path under `features/*/`): SPEC mode. Use SPEC.md §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference. Do not cross-update IMPLEMENT.md.
-2. If `$ARGUMENTS` is provided (non-SPEC): target that specific Task/Unit.
-3. If `$ARGUMENTS` is empty:
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Use SPEC.md §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference. Do not cross-update IMPLEMENT.md.
+2. `$ARGUMENTS` non-empty and not SPEC → target that specific Task/Unit.
+3. `$ARGUMENTS` empty:
    - Read PLAN.md if it exists. Use the relevant Task's Exit Criteria as the validation baseline.
-   - Read IMPLEMENT.md if it exists. Use design intent (structure, flow, rationale) as supplementary validation reference.
-   - If neither exists, verify based on the request scope and code diff only. Target the most recently implemented change.
+   - Read IMPLEMENT.md if it exists. Use design intent (structure, flow, rationale) as supplementary reference.
+   - If neither exists, verify from request scope + code diff only. Target the most recently implemented change — working tree diff if uncommitted changes exist, otherwise `HEAD~1..HEAD`.
 
 ## Output Structure
 1. Status: `approved` | `rejected`
@@ -31,12 +31,13 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 - Remaining risk (only if non-trivial)
 
 ## Completion
-- Verifier does not modify files. On approved, return a check-ready signal to main agent indicating which Task/Unit was approved; main agent updates PLAN.md or SPEC.md §5 progress tracking at the Task/Unit level.
+- Verifier does not modify files. On approval, return a check-ready signal to main agent indicating which Task/Unit was approved; main agent updates PLAN.md or SPEC.md §5 at that level.
 - Partial verification (some Exit Criteria met within a Task, others pending) is recorded in this output only, not in document checkboxes.
+- When neither PLAN.md nor SPEC.md exists, skip checkbox updates. Return the `approved` result only.
 
 ## Guidelines
 - Minimum evidence: code diff. Preferred evidence: code diff + test result. If tests exist for the changed scope but were not run, note as limitation.
-- For pure logic changes where the diff clearly shows correctness, diff-based reasoning is acceptable evidence.
+- When the change modifies only internal computation, conditions, or transformations (no external state, I/O, or dependency changes), diff-based reasoning is acceptable evidence if correctness is visible in the diff.
 - If tests were modified as part of this change, do not rely on those tests alone as evidence (see CLAUDE.md Test).
 - Reject when correctness cannot be established from available evidence.
 - If evidence is missing, state the limitation explicitly.

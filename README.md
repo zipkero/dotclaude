@@ -2,7 +2,7 @@
 
 Personal configuration repository for Claude Code.
 
-> Summary of rules lives in CLAUDE.md (authoritative source). This README describes structure and design intent.
+> Authoritative rules live in CLAUDE.md. This README describes structure and design intent.
 
 ## Design Intent
 
@@ -25,38 +25,15 @@ Personal configuration repository for Claude Code.
 
 ## Workflow
 
-### Project Level (large tasks / initial design)
+Three flows, authoritative in CLAUDE.md:
 
-```
-analyze → /plan-init → /implement-init → /implement → verify
-```
+- **User-driven — Project**: `/analyze → /plan-init → /implement-init → /implement → /verify`
+- **User-driven — Feature**: `prompt → /feature-init → /implement <SPEC path> → /verify`
+- **Automatic — Per-Request**: `prompt → [analyzer if triggered] → plan → implementer → verifier`
 
-- Steps 1, 4-5 use subagents. Steps 2-3 are user-initiated commands.
-- **analyze**: Analyze codebase/problem. Stops flow on Blocker, escalates to user.
-- **/plan-init**: Create PLAN.md — defines "what must work" (Exit Criteria).
-- **/implement-init**: Create IMPLEMENT.md — defines "how to implement" based on PLAN.md.
-- **/implement**: Execute the next Unit from IMPLEMENT.md.
-- **verify**: Independent verification against PLAN.md Exit Criteria + IMPLEMENT.md design intent.
+`/analyze`, `/implement`, `/verify` are auto-exposed from skills in `skills/`; they are not defined as command files in `commands/`.
 
-### Feature Level (small, independent features)
-
-```
-/feature-init → /implement (SPEC path) → verify
-```
-
-- Entered only by explicit `/feature-init` invocation. Ad-hoc requests without `/feature-init` fall through to Per-Request Orchestration.
-- **/feature-init**: Create SPEC.md combining Exit Criteria + implementation strategy.
-- **/implement**: Receives SPEC.md path via `$ARGUMENTS`, operates in feature mode.
-- **verify**: Uses SPEC.md §2 Exit Criteria as sole verification baseline (no PLAN.md needed).
-
-### Per-Request (automatic, within a single request)
-
-```
-[analyzer if triggered] → implementer → verifier
-```
-
-- Triggered by Analysis Trigger conditions defined in CLAUDE.md (single source).
-- On verifier reject: issues return to the user. No auto-retry.
+See CLAUDE.md → Execution & Orchestration and Context Resolution for trigger conditions, handoff, and reject handling.
 
 ## Structure
 

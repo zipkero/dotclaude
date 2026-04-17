@@ -27,24 +27,33 @@
 ## Execution & Orchestration
 
 ### Defaults
-- One user-facing reply per request. Internal agent orchestration is exempt.
-- Step-by-step only when requested or task is stateful/destructive.
+- One user-facing reply per user turn (a single prompt or slash command). Internal agent orchestration is exempt.
+- Step-by-step only when the user explicitly requests it, or when the task is stateful/destructive.
 
-### Project-Level Flow (user-driven, phased)
-1. analyze → 2. /plan-init → 3. /implement-init → 4. /implement → 5. verify
-- Steps 2-3 are user-initiated commands. Steps 1, 4-5 use subagents.
-- For independent features: /feature-init → /implement (with SPEC path) → verify
-  - Entered only by explicit `/feature-init` invocation. Ad-hoc requests use Per-Request Orchestration.
+### Flows
 
-### Per-Request Orchestration (automatic)
-- Flow: [analyzer if triggered] → implementer → verifier
-- Only main agent invokes subagents. Subagents never call subagents.
-- If analyzer reports Blocker: stop, present to user. Do not proceed.
-- On verifier reject: return issues to user. No auto-retry.
-- On verifier approval: main agent updates PLAN.md / SPEC.md progress tracking per the verify skill.
+**User-driven — Project (Phased)**
+`/analyze → /plan-init → /implement-init → /implement → /verify`
 
-### Analysis Trigger
-Run analyzer if ANY:
+**User-driven — Feature (Phased)**
+`prompt → /feature-init → /implement <SPEC path> → /verify`
+- Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
+- Analyzer is invoked only when the user explicitly calls `/analyze`.
+
+**Automatic — Per-Request**
+`prompt → [/analyze if triggered] → approach-summary → /implement → /verify`
+- `approach-summary` = brief approach note from main agent before implementation. Not PLAN.md creation.
+- Entered when the user sends a natural prompt without invoking `/feature-init` or any phased command.
+
+### Orchestration Rules
+- User invokes each slash command explicitly. Main agent never auto-chains commands.
+- Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
+- If analyzer reports Blocker: stop and report the Blocker reason to the user. Do not proceed.
+- On verifier reject: return issues to the user. No auto-retry.
+- On verifier approval: main agent updates PLAN.md / SPEC.md progress tracking (see verify skill).
+
+### Analysis Trigger (automatic flow only)
+In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly invokes `/analyze`.
 - cause unknown
 - non-trivial design decision required
 - multiple files affected with unclear impact

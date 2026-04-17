@@ -4,12 +4,12 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 ---
 
 ## Context Loading
-1. If `$ARGUMENTS` points to a SPEC.md (or a path under `features/*/`): SPEC mode. Analyze within that feature's scope using SPEC.md §4 as design reference. Do not cross-update IMPLEMENT.md.
-2. If `$ARGUMENTS` is provided (non-SPEC): analyze that target.
-3. If `$ARGUMENTS` is empty:
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §4 as design reference. Do not cross-update IMPLEMENT.md.
+2. `$ARGUMENTS` non-empty and not SPEC → analyze that target.
+3. `$ARGUMENTS` empty:
    - Read PLAN.md if it exists. Identify current Phase/Task progress.
    - Read IMPLEMENT.md if it exists. Identify next unit and its design.
-   - If neither exists, analyze based on conversation context. Proceed with stated assumptions when the context provides sufficient information (error message, file path, or symptom).
+   - If neither exists, analyze from conversation context. Proceed with stated assumptions when context provides sufficient signal (error message, file path, or symptom).
 
 ## Output Structure
 Required:

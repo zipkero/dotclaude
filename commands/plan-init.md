@@ -16,7 +16,8 @@ Scope: $ARGUMENTS
 - A Phase with unresolved Decision Points must not proceed to implementation Tasks without user approval.
 
 ## Scope Handling
-- Empty: write full PLAN. Provided: cover that scope only. Ambiguous: interpret as narrowly as possible.
+- Empty: write full PLAN.
+- Provided: cover that scope only. If the provided scope is unclear, interpret as narrowly as possible — do not expand beyond the literal target.
 
 ## Task Writing
 - Describe as "what state is working." Use the form "when X, Y is observed."
@@ -40,7 +41,7 @@ Required per Task:
 
 ## Phase
 - Defined by "what can the user do at this point." Only units meaningless without the prior Phase.
-- Phase start: include regression check of previous Phase Exit Criteria.
+- Phase start: include regression check of previous Phase Exit Criteria as the first Task of this Phase (not a note).
 
 ## Prohibited
 - Mechanical Tasks (file creation / function addition / refactoring)
