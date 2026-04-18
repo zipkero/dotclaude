@@ -33,12 +33,12 @@
 ### Flows
 
 **User-driven — Project (Phased)**
-`analyze → /plan-init → /implement-init → implement → verify`
+`[analyze] → /plan-init → /implement-init → implement → verify`
 
 **User-driven — Feature (Phased)**
-`prompt → /feature-init → implement <SPEC path> → verify`
+`[analyze] → /feature-init → implement <SPEC path> → verify`
 - Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
-- Analyzer is invoked only when the user explicitly requests `analyze`.
+- `[analyze]` is the default entry for both flows. Skip only when the change is trivial (no design decision, no unclear impact).
 
 **Automatic — Per-Request**
 `prompt → [analyze if triggered] → approach-summary → implement → verify`
@@ -50,7 +50,7 @@
 - Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
 - If analyzer reports Blocker: stop and report the Blocker reason to the user. Do not proceed.
 - On verifier reject: return issues to the user. No auto-retry.
-- On verifier approval: main agent updates PLAN.md / SPEC.md progress tracking (see verify skill).
+- On verifier approval: main agent applies the verify skill's Completion step to PLAN.md / SPEC.md (verification markers; see verify skill).
 
 ### Analysis Trigger (automatic flow only)
 In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly invokes `analyze`.
