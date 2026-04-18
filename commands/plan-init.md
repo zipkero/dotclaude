@@ -9,7 +9,8 @@ Create PLAN.md. This is a checkpoint document for completion judgment and verifi
 Scope: $ARGUMENTS
 
 ## Role
-- Define "what must work for this to be done."
+- Define "what items must work for completion, and how we verify each."
+- Capture requirements analysis at the item level — what boundaries exist, what each boundary must achieve.
 - Do not list implementation methods or order.
 
 ## Global Rules
@@ -38,6 +39,7 @@ Required per Task:
 
 ## Decision Point
 - Design choices go into "Decision Point" sections. List options + trade-offs. Do not mix with implementation Tasks.
+- Scope: decisions that affect the completion boundary, target behavior, or acceptance envelope. Implementation-strategy decisions belong in IMPLEMENT.md.
 
 ## Verification Marking
 - Tasks start with no marker.

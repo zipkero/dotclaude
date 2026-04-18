@@ -1,15 +1,14 @@
 ---
 name: implement
-description: "Execute the next implementation unit from IMPLEMENT.md or SPEC.md. Requires IMPLEMENT.md or a SPEC.md path as argument. For project-level work, run /implement-init first if IMPLEMENT.md doesn't exist."
+description: "Execute the next implementation unit from IMPLEMENT.md or SPEC.md. For project-level work, run /implement-init first if IMPLEMENT.md doesn't exist."
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Use SPEC.md §4 Architecture/Implementation as the implementation baseline. Do not cross-update IMPLEMENT.md.
-2. `$ARGUMENTS` non-empty and not SPEC → target that specific Unit. Use the Unit's design (structure, flow, rationale, failure/exception handling) as the implementation baseline.
-3. `$ARGUMENTS` empty:
-   - Read IMPLEMENT.md. If it does not exist, stop and guide the user to run `/implement-init` first.
-   - Find the first incomplete Unit whose prerequisites are met.
-   - Use the target Unit's design as the implementation baseline.
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Read SPEC.md. Find the first incomplete item in §4 Architecture/Implementation whose prerequisites are met. Use §4 as the implementation baseline.
+2. `$ARGUMENTS` empty or otherwise → IMPLEMENT mode. Read IMPLEMENT.md; if absent, stop and guide the user to run `/implement-init`. Find the first incomplete Unit whose prerequisites are met. Use the Unit's design as the implementation baseline.
+
+## Per-Request flow
+When invoked via natural prompt (not through Phased commands or SPEC path), state a brief approach note in 1-3 sentences before execution — scope, risky points. This is not PLAN.md creation.
 
 ## Output Structure
 1. Approach

@@ -27,11 +27,11 @@ Personal configuration repository for Claude Code.
 
 Three flows, authoritative in CLAUDE.md:
 
-- **User-driven — Project**: `analyze → /plan-init → /implement-init → implement → verify`
-- **User-driven — Feature**: `prompt → /feature-init → implement <SPEC path> → verify`
-- **Automatic — Per-Request**: `prompt → [analyzer if triggered] → plan → implementer → verifier`
+- **User-driven — Project**: `[analyze] → /plan-init → /implement-init → implement → verify`
+- **User-driven — Feature**: `[analyze] → /feature-init → implement <SPEC path> → verify`
+- **Automatic — Per-Request**: `prompt → [analyze if triggered] → implement → verify`
 
-`analyze`, `implement`, `verify` are skills in `skills/`, invoked through the corresponding subagents in `agents/`. They are not slash commands — the main agent routes the user's request to the subagent, which runs the skill.
+`analyze`, `implement`, `verify` are skills in `skills/`, invoked through the corresponding subagents in `agents/`. They are not slash commands — the main agent routes the user's request to the subagent, which runs the skill. Direct skill invocation is not part of the standard flow.
 
 See CLAUDE.md → Execution & Orchestration and Context Resolution for trigger conditions, handoff, and reject handling.
 

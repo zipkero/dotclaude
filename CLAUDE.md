@@ -41,19 +41,20 @@
 - `[analyze]` is the default entry for both flows. Skip only when the change is trivial (no design decision, no unclear impact).
 
 **Automatic — Per-Request**
-`prompt → [analyze if triggered] → approach-summary → implement → verify`
-- `approach-summary` = brief approach note from main agent before implementation. Not PLAN.md creation.
+`prompt → [analyze if triggered] → implement → verify`
 - Entered when the user sends a natural prompt with no slash command.
+- Implementer states a brief approach note before execution (see implement skill).
 
 ### Orchestration Rules
 - User invokes each slash command explicitly. Main agent never auto-chains commands.
 - Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
+- Skills (`analyze` / `implement` / `verify`) are invoked through their corresponding subagent. Direct skill invocation is not part of the standard flow.
 - If analyzer reports Blocker: stop and report the Blocker reason to the user. Do not proceed.
-- On verifier reject: return issues to the user. No auto-retry.
-- On verifier approval: main agent applies the verify skill's Completion step to PLAN.md / SPEC.md (verification markers; see verify skill).
+- On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or SPEC.md §4 item, then returns issues to the user. No auto-retry.
+- On verifier approval: main agent applies verification markers to PLAN.md / SPEC.md per verifier agent spec.
 
 ### Analysis Trigger (automatic flow only)
-In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly invokes `analyze`.
+In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly requests analysis (analyze skill invocation or equivalent natural request such as "분석해줘").
 - cause unknown
 - non-trivial design decision required
 - multiple files affected with unclear impact

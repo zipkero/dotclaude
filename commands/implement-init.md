@@ -38,17 +38,20 @@ Scope: $ARGUMENTS
 
 Required per unit:
 - Purpose: which Exit Criteria + PLAN inline reference (`→ PLAN: Phase X > Task Y`)
-- Design: structure (modules/interfaces/data flow), execution flow with branches
+- Approach: 1-2 line summary of how this unit is implemented.
 
 Optional (include when non-trivial):
+- Design: structure (modules/interfaces/data flow), execution flow with branches (only when structural decisions exist)
 - Responsibility: input / output / boundary (when boundaries are shared or ambiguous)
 - Rationale: why this approach + trade-offs (when alternatives exist)
 - Failure/Exception: possible failures and handling (when failure modes are non-obvious)
 
-## Document Structure (top section)
-- Architecture (required): components, boundaries, high-level flow
-- Execution flow (required): input → output, major branches
-- State model (only when stateful): types, storage, transition rules
+## Document Structure (top section, optional)
+- Include only when structural decisions are non-trivial:
+  - Architecture: components, boundaries, high-level flow
+  - Execution flow: input → output, major branches
+  - State model (only when stateful): types, storage, transition rules
+- For straightforward implementations, skip this section and rely on the Unit list only.
 
 ## Ordering
 - By dependency: "what must exist before the next is possible." One-line prerequisite per step.
@@ -61,10 +64,13 @@ Optional (include when non-trivial):
 ## Progress Tracking
 - Implementation done → check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`). IMPLEMENT is the sole progress tracker.
 - Verification done → main agent prepends `✓ ` to the matching PLAN.md Task (see verify skill). PLAN.md does not use checkboxes.
+- When a PLAN Task has multiple IMPLEMENT Units mapped to it, `✓` is applied only after all mapped Units are both implemented (`[x]`) AND verified. Partial verification stays in verify output only.
+- On verify reject, main agent reverts the Unit's checkbox `[x]` → `[ ]`. The same Unit becomes the next incomplete target on re-implementation.
 - These are separate events on separate documents. Do not conflate.
 
 ## Decision Point
 - Options + trade-offs. Default suggestion allowed but no final decision. Keep separate from unit body.
+- Scope: decisions that affect execution order, structure, or module selection. Completion-criteria decisions belong in PLAN.md.
 
 ## Prohibited
 - Modifying/redefining PLAN Exit Criteria

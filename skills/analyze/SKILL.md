@@ -4,7 +4,7 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §4 as design reference. Do not cross-update IMPLEMENT.md.
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §4 as design reference.
 2. `$ARGUMENTS` non-empty and not SPEC → analyze that target.
 3. `$ARGUMENTS` empty:
    - Read PLAN.md if it exists. Identify current Phase/Task progress.
