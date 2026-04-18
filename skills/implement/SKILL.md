@@ -18,9 +18,9 @@ description: "Execute the next implementation unit from IMPLEMENT.md or SPEC.md.
 4. Notes or limitations (if any)
 
 ## Completion
-- SPEC mode: check the Unit's checkbox in SPEC.md §5 Progress Tracking.
+- SPEC mode: check the implementation item's checkbox in SPEC.md §4 Architecture/Implementation (`[ ]` → `[x]`). Do not touch §2 Exit Criteria — verification is a separate event.
 - IMPLEMENT mode: check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`).
-- Do NOT modify PLAN.md (verification is a separate event).
+- Do NOT modify PLAN.md. PLAN uses `✓` markers added by the verifier flow, not checkboxes.
 
 ## Guidelines
 - Keep implementation minimal and within scope

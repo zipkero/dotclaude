@@ -59,9 +59,9 @@ Optional (include when non-trivial):
 - PLAN items without mapping are marked as gaps using `<!-- gap: <reason> -->` inline comments.
 
 ## Progress Tracking
-- Implementation done → check IMPLEMENT.md.
-- Verification done → check PLAN.md.
-- These are separate events. Do not conflate.
+- Implementation done → check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`). IMPLEMENT is the sole progress tracker.
+- Verification done → main agent prepends `✓ ` to the matching PLAN.md Task (see verify skill). PLAN.md does not use checkboxes.
+- These are separate events on separate documents. Do not conflate.
 
 ## Decision Point
 - Options + trade-offs. Default suggestion allowed but no final decision. Keep separate from unit body.

@@ -31,9 +31,13 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 - Remaining risk (only if non-trivial)
 
 ## Completion
-- Verifier does not modify files. On approval, return a check-ready signal to main agent indicating which Task/Unit was approved; main agent updates PLAN.md or SPEC.md §5 at that level.
-- Partial verification (some Exit Criteria met within a Task, others pending) is recorded in this output only, not in document checkboxes.
-- When neither PLAN.md nor SPEC.md exists, skip checkbox updates. Return the `approved` result only.
+- Verifier does not modify files. On approval, return a verified signal to main agent identifying the Task (PLAN.md) or Exit Criteria (SPEC.md §2).
+- Main agent applies the marker:
+  - PLAN.md Task: prepend `✓ ` to the Task line (no checkbox — PLAN uses markers, not checkboxes).
+  - SPEC.md §2 Exit Criteria: prepend `✓ ` to the EC line.
+  - Implementation checkboxes (IMPLEMENT.md Units, SPEC.md §4 items) are not touched by verification — those are updated by the implementer on implementation completion.
+- Partial verification (some Exit Criteria met within a Task, others pending) is recorded in this output only, not in document markers.
+- When neither PLAN.md nor SPEC.md exists, skip document updates. Return the `approved` result only.
 
 ## Guidelines
 - Minimum evidence: code diff. Preferred evidence: code diff + test result. If tests exist for the changed scope but were not run, note as limitation.
