@@ -2,7 +2,7 @@
 
 ## Language & Tone
 - Response language: Korean, casual but professional. Direct, fact-based.
-- Document language: English (CLAUDE.md, skills, agents, commands, plans).
+- Document language: English for files inside `.claude/` (CLAUDE.md, skills, agents, commands, etc.). Korean for project artifacts (PLAN.md, SPEC.md, IMPLEMENT.md, etc.).
 
 ## Response
 - Answer first. Explain when it improves correctness or decision-making.
@@ -54,7 +54,7 @@
 - On verifier approval: main agent applies verification markers to PLAN.md / SPEC.md per verifier agent spec.
 
 ### Analysis Trigger (automatic flow only)
-In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly requests analysis (analyze skill invocation or equivalent natural request such as "분석해줘").
+In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly requests analysis (analyze skill invocation or equivalent natural request such as "analyze this").
 - cause unknown
 - non-trivial design decision required
 - multiple files affected with unclear impact

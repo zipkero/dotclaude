@@ -4,11 +4,11 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §4 as design reference.
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §2 Exit Criteria and §3 Decision Points as references.
 2. `$ARGUMENTS` non-empty and not SPEC → analyze that target.
 3. `$ARGUMENTS` empty:
-   - Read PLAN.md if it exists. Identify current Phase/Task progress.
-   - Read IMPLEMENT.md if it exists. Identify next unit and its design.
+   - Read PLAN.md if it exists. Identify current Phase/Task progress and relevant Decision Points.
+   - Read IMPLEMENT.md if it exists. Identify next Unit and its mapped PLAN Task (IMPLEMENT carries no design content — consult PLAN for design).
    - If neither exists, analyze from conversation context. Proceed with stated assumptions when context provides sufficient signal (error message, file path, or symptom).
 
 ## Output Structure

@@ -2,18 +2,19 @@
 description: Create or rewrite IMPLEMENT.md according to rules
 ---
 
-> When to use: When PLAN.md exists and implementation strategy/order needs to be defined.
+> When to use: When PLAN.md exists and execution order / progress tracking is needed.
 > Prerequisite: /plan-init
 
-Create IMPLEMENT.md. This is an execution strategy document and the sole progress tracker during implementation.
+Create IMPLEMENT.md. This is a progress checklist for executing PLAN.md, not a design or strategy document.
 
 Scope: $ARGUMENTS
 
 ## Role
-- Define "how to implement."
-- Execution strategy to satisfy PLAN.md Exit Criteria.
-- Completion judgment uses PLAN.md. This document is the means.
-- Current state and next task must be determinable from this document alone. Judgment is based on Unit checkbox state; no separate progress log.
+- Track "in what order Units run, and which are done / remaining."
+- Sole progress tracker during implementation.
+- Always operates alongside PLAN.md. Not a self-contained document — every Unit references PLAN for verification criteria and design rationale.
+- Current state and next task must be determinable from this document alone by checkbox state; no separate progress log.
+- Design / structure / strategy / ordering decisions live in PLAN.md Decision Points. IMPLEMENT.md never holds decisions.
 
 ## Scope Handling
 - Empty: cover the entire PLAN.md.
@@ -23,11 +24,12 @@ Scope: $ARGUMENTS
 - Read PLAN.md first; use as baseline.
 - Do not modify, weaken, or add to PLAN.md Exit Criteria.
 - If PLAN.md does not exist, stop and request it first.
+- If PLAN.md has unresolved Decision Points that block the target scope, stop and request resolution first.
 
 ## Global Rules
-- Every implementation unit maps to a specific PLAN.md Exit Criteria.
-- Each unit includes "why this approach."
-- No low-level coding details. Design choices go to Decision Points.
+- Every Unit maps to a specific PLAN.md Exit Criteria.
+- Unit body is minimal: Purpose + Approach only.
+- No low-level coding details.
 
 ## Unit Size
 - One verifiable behavioral boundary or PR-sized unit.
@@ -36,29 +38,19 @@ Scope: $ARGUMENTS
 ## Unit Format
 - Start with `- [ ]`. Write as behavioral structure units.
 
-Required per unit:
+Required per Unit (nothing else):
 - Purpose: which Exit Criteria + PLAN inline reference (`→ PLAN: Phase X > Task Y`)
-- Approach: 1-2 line summary of how this unit is implemented.
+- Approach: 1-2 line summary of how this Unit is implemented.
 
-Optional (include when non-trivial):
-- Design: structure (modules/interfaces/data flow), execution flow with branches (only when structural decisions exist)
-- Responsibility: input / output / boundary (when boundaries are shared or ambiguous)
-- Rationale: why this approach + trade-offs (when alternatives exist)
-- Failure/Exception: possible failures and handling (when failure modes are non-obvious)
-
-## Document Structure (top section, optional)
-- Include only when structural decisions are non-trivial:
-  - Architecture: components, boundaries, high-level flow
-  - Execution flow: input → output, major branches
-  - State model (only when stateful): types, storage, transition rules
-- For straightforward implementations, skip this section and rely on the Unit list only.
+If a Unit seems to need more (design options, trade-offs, failure modes, architecture notes), that content belongs in PLAN.md Decision Point. Add or refine the DP in PLAN first, then return here. Do not inline design content in the Unit body.
 
 ## Ordering
-- By dependency: "what must exist before the next is possible." One-line prerequisite per step.
+- By dependency: "what must exist before the next is possible." One-line prerequisite per step when non-obvious.
 - No chronological ordering.
+- If multiple orderings are viable and the choice requires judgment, that is a PLAN Decision Point, not an IMPLEMENT note.
 
 ## PLAN Mapping
-- Every unit → Exit Criteria link. Remove unmapped units.
+- Every Unit → Exit Criteria link. Remove unmapped Units.
 - PLAN items without mapping are marked as gaps using `<!-- gap: <reason> -->` inline comments.
 
 ## Progress Tracking
@@ -68,18 +60,16 @@ Optional (include when non-trivial):
 - On verify reject, main agent reverts the Unit's checkbox `[x]` → `[ ]`. The same Unit becomes the next incomplete target on re-implementation.
 - These are separate events on separate documents. Do not conflate.
 
-## Decision Point
-- Options + trade-offs. Default suggestion allowed but no final decision. Keep separate from unit body.
-- Scope: decisions that affect execution order, structure, or module selection. Completion-criteria decisions belong in PLAN.md.
-
 ## Prohibited
-- Modifying/redefining PLAN Exit Criteria
-- Concept-only explanations, unjustified structure choices, "implement first, fix later"
-- Task-level decomposition, units that only list files/functions/classes
+- Document Structure section at the top (Architecture / Execution flow / State model) — these belong in PLAN Decision Point
+- Decision Point sections inside IMPLEMENT.md — all decisions live in PLAN
+- Unit sub-fields other than Purpose and Approach (Design, Responsibility, Rationale, Failure/Exception) — such content belongs in PLAN DP
+- Modifying / weakening / extending PLAN Exit Criteria
+- Concept-only explanations, unjustified structure choices
+- Task-level decomposition, units that only list files / functions / classes
 
 ## Output
 - Project root `IMPLEMENT.md`. If file exists, confirm before overwriting.
 
 ## Core Question
-> What must be implemented, in what structure and order, to reach PLAN's done state?
-> Where are we now, and what comes next?
+> In what order do we execute PLAN's Tasks, where are we now, and what comes next?

@@ -1,11 +1,11 @@
 ---
 name: verify
-description: "Validate completed implementation against PLAN.md Exit Criteria and IMPLEMENT.md design intent, or against SPEC.md for feature-level work. Runs in independent context. Outputs approved/rejected with evidence. Triggers after every non-trivial implementation."
+description: "Validate completed implementation against PLAN.md Exit Criteria + Decision Points, or against SPEC.md for feature-level work. Runs in independent context. Outputs approved/rejected with evidence. Triggers after every non-trivial implementation."
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Use SPEC.md §2 Exit Criteria as validation baseline and §4 Architecture/Implementation as design intent reference. Target items recently marked `[x]` in §4 and verify their corresponding §2 Exit Criteria.
-2. `$ARGUMENTS` empty or otherwise → PLAN mode. Read PLAN.md if it exists (use the relevant Task's Exit Criteria as validation baseline) and IMPLEMENT.md if it exists (use design intent as supplementary reference). Target the Unit(s) just implemented. If neither PLAN.md nor IMPLEMENT.md exists, verify from request scope + code diff only — working tree diff if uncommitted changes exist, otherwise `HEAD~1..HEAD`.
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Use SPEC.md §2 Exit Criteria as validation baseline and §3 Decision Points as design-intent reference. §4 Implementation provides the execution scope (which items were just worked on). Target items recently marked `[x]` in §4 and verify their corresponding §2 Exit Criteria.
+2. `$ARGUMENTS` empty or otherwise → PLAN mode. Read PLAN.md if it exists (use the relevant Task's Exit Criteria as validation baseline and Decision Points as design-intent reference) and IMPLEMENT.md if it exists (use Unit Approach to locate execution scope — IMPLEMENT carries no design content). Target the Unit(s) just implemented. If neither PLAN.md nor IMPLEMENT.md exists, verify from request scope + code diff only — working tree diff if uncommitted changes exist, otherwise `HEAD~1..HEAD`.
 
 ## Output Structure
 1. Status: `approved` | `rejected`
@@ -13,7 +13,7 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 2. Validation
 - Request match
 - Exit Criteria match (when PLAN.md or SPEC.md is available)
-- Design intent match (when IMPLEMENT.md or SPEC.md §4 is available)
+- Design intent match (when PLAN.md Decision Points or SPEC.md §3 is available)
 - Scope correctness
 - Behavioral correctness
 - Evidence (diff, test result, or explicit limitation)
@@ -29,7 +29,7 @@ description: "Validate completed implementation against PLAN.md Exit Criteria an
 ## Reject Categories
 - `style/minor`: naming, comments, formatting, or other non-behavioral issues. Does not block correctness. Fix is optional from verifier's standpoint.
 - `correctness`: behavior does not satisfy Exit Criteria, contains a bug, breaks an invariant, or produces wrong output. Must fix before approval.
-- `design/scope`: implementation departs from IMPLEMENT.md / SPEC.md §4 design, exceeds or falls short of requested scope, or violates agreed boundary. Requires decision — fix implementation or revise plan.
+- `design/scope`: implementation departs from PLAN.md Decision Points / SPEC.md §3 design intent, exceeds or falls short of requested scope, or violates agreed boundary. Requires decision — fix implementation or revise plan.
 
 ## Completion
 - Verifier does not modify files. On approval, return a verified signal to main agent identifying the Task (PLAN.md) or Exit Criteria (SPEC.md §2). On rejection, return category and issues.

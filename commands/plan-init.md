@@ -11,7 +11,8 @@ Scope: $ARGUMENTS
 ## Role
 - Define "what items must work for completion, and how we verify each."
 - Capture requirements analysis at the item level — what boundaries exist, what each boundary must achieve.
-- Do not list implementation methods or order.
+- Hold all design / structure / order decisions in Decision Point sections. IMPLEMENT.md is a pure checklist and does not carry decisions.
+- Do not list implementation methods as Tasks. Task = verifiable boundary, not mechanical step.
 
 ## Global Rules
 - A Phase with unresolved Decision Points must not proceed to implementation Tasks without user approval.
@@ -38,8 +39,12 @@ Required per Task:
 - Adjacent Tasks in the same conceptual area get a "single-breath group" visual marker. Tasks themselves remain separate.
 
 ## Decision Point
-- Design choices go into "Decision Point" sections. List options + trade-offs. Do not mix with implementation Tasks.
-- Scope: decisions that affect the completion boundary, target behavior, or acceptance envelope. Implementation-strategy decisions belong in IMPLEMENT.md.
+- Design and strategy choices go into "Decision Point" sections. List options + trade-offs. Do not mix with Tasks.
+- Scope covered here (all decisions live in PLAN, not IMPLEMENT):
+  - Completion boundary, target behavior, acceptance envelope
+  - Implementation structure: module / interface / data flow / state model
+  - Execution order when multiple orderings are viable
+- Unresolved Decision Points that block the target scope must be resolved before `/implement-init` proceeds.
 
 ## Verification Marking
 - Tasks start with no marker.
@@ -51,11 +56,11 @@ Required per Task:
 - Phase start: include regression check of previous Phase Exit Criteria as the first Task of this Phase (not a note).
 
 ## Prohibited
-- Checkboxes (`- [ ]` / `- [x]`) — PLAN uses `✓` prefix marker only (see Verification Marking)
-- Deliverable fields listing files / types / interfaces — solution boundary belongs in IMPLEMENT.md
+- Checkboxes (`- [ ]` / `- [x]`) in Task list — PLAN uses `✓` prefix marker only (see Verification Marking)
+- Deliverable fields listing files / types / interfaces — file-level detail is not a verification boundary
 - Mechanical Tasks (file creation / function addition / refactoring)
-- Implementation order listing, chronological decomposition
-- Task count inflation, inter-Task references
+- Ordering statements inside Tasks — ordering decisions belong in Decision Point when they require judgment, else in IMPLEMENT.md by dependency
+- Chronological decomposition, Task count inflation, inter-Task references
 
 ## Task Examples
 

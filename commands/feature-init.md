@@ -17,7 +17,12 @@ Feature name: $ARGUMENTS
   - Reason: the name determines the output path (`features/<name>/SPEC.md`) and document identifier.
   - Guide: "Pass the feature name as argument. Example: `/feature-init payment-integration`"
 - If intent is unclear, ask before writing.
-- If PLAN.md exists at project root, read it. If this feature's purpose and deliverable are equivalent to a PLAN.md Task's purpose and deliverable, include the mapping in §1 Overview as `→ PLAN: Phase X > Task Y` (required). Otherwise proceed as an independent feature.
+- If PLAN.md exists at project root, read it first and apply the Phase-misuse guard below.
+
+## Phase-Misuse Guard
+- SPEC.md is for **independent features that PLAN.md does not cover**. It is NOT a tool for subdividing PLAN Phases.
+- If the requested scope falls inside an existing PLAN Phase/Task boundary, stop. Use `/implement-init` to expand that Phase in IMPLEMENT.md, not SPEC.md.
+- An optional mapping `→ PLAN: Phase X > Task Y` is allowed in §1 Overview only when the feature complements an existing Task from outside its boundary (e.g., PLAN Task defines a target state, SPEC adds an adjacent capability the Task depends on but does not itself cover). If the feature simply *is* the Task, it belongs in IMPLEMENT.md.
 
 ## Output Path
 - `features/<feature-name>/SPEC.md`
@@ -35,13 +40,15 @@ Feature name: $ARGUMENTS
 - No checkboxes. Verification marker is `✓` prefix (added by main agent on verify approval). See §5.
 
 ### 3. Decision Points
-- Design choices + trade-offs.
+- All design / structure / order / strategy choices live here. Same scope as PLAN.md Decision Point.
+- List options + trade-offs.
 - Unresolved Decision Points block their corresponding implementation items.
 
-### 4. Architecture / Implementation
-- Follow the same rules as IMPLEMENT.md units (see /implement-init).
-- Every item maps to an Exit Criteria (`→ EC: #N`).
-- Use `- [ ]` checkboxes for implementation items. This is the sole progress tracker.
+### 4. Implementation
+- Pure checklist. Follow the same rules as IMPLEMENT.md Units (see /implement-init).
+- Per item: `- [ ]` + Purpose (`→ EC: #N`) + 1-2 line Approach. Nothing else.
+- Design / architecture / trade-off content must live in §3 Decision Points, not §4.
+- §4 is the sole progress tracker for this SPEC.
 
 ### 5. Progress Tracking
 - Two separate tracks, two separate markers:
@@ -54,6 +61,9 @@ Feature name: $ARGUMENTS
 - When PLAN mapping exists, the main agent adds `✓` to the mapped PLAN Task only after all SPEC §2 Exit Criteria under that mapping are verified. Partial verification stays in SPEC only. Without mapping, only SPEC is updated.
 
 ## Prohibited
+- Using SPEC.md to subdivide a PLAN.md Phase — if the scope is inside an existing PLAN boundary, use IMPLEMENT.md instead (see Phase-Misuse Guard)
+- Architecture / Execution flow / State model sections in §4 — those decisions live in §3 Decision Points
+- §4 items with sub-fields other than Purpose and Approach (Design, Responsibility, Rationale, Failure/Exception) — such content belongs in §3
 - Mechanical Tasks (file creation / function addition only)
 - Exit Criteria without implementation items — if unavoidable, mark the EC with `<!-- gap: <reason> -->` (see /implement-init)
 - Implementation items without Exit Criteria

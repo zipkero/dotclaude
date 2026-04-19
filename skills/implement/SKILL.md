@@ -4,8 +4,8 @@ description: "Execute the next implementation unit from IMPLEMENT.md or SPEC.md.
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Read SPEC.md. Find the first incomplete item in §4 Architecture/Implementation whose prerequisites are met. Use §4 as the implementation baseline.
-2. `$ARGUMENTS` empty or otherwise → IMPLEMENT mode. Read IMPLEMENT.md; if absent, stop and guide the user to run `/implement-init`. Find the first incomplete Unit whose prerequisites are met. Use the Unit's design as the implementation baseline.
+1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Read SPEC.md. Find the first incomplete item in §4 Implementation whose prerequisites are met. Use §4 Approach + §3 Decision Points as the implementation baseline.
+2. `$ARGUMENTS` empty or otherwise → IMPLEMENT mode. Read IMPLEMENT.md; if absent, stop and guide the user to run `/implement-init`. Also read PLAN.md — IMPLEMENT.md is a checklist and never standalone. Find the first incomplete Unit whose prerequisites are met. Use the Unit's Approach + the mapped PLAN Task + relevant PLAN Decision Points as the implementation baseline.
 
 ## Per-Request flow
 When invoked via natural prompt (not through Phased commands or SPEC path), state a brief approach note in 1-3 sentences before execution — scope, risky points. This is not PLAN.md creation.
@@ -17,7 +17,7 @@ When invoked via natural prompt (not through Phased commands or SPEC path), stat
 4. Notes or limitations (if any)
 
 ## Completion
-- SPEC mode: check the implementation item's checkbox in SPEC.md §4 Architecture/Implementation (`[ ]` → `[x]`). Do not touch §2 Exit Criteria — verification is a separate event.
+- SPEC mode: check the implementation item's checkbox in SPEC.md §4 Implementation (`[ ]` → `[x]`). Do not touch §2 Exit Criteria — verification is a separate event.
 - IMPLEMENT mode: check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`).
 - Do NOT modify PLAN.md. PLAN uses `✓` markers added by the verifier flow, not checkboxes.
 
