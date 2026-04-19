@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Validate completed implementation against PLAN.md Exit Criteria + Decision Points, or against SPEC.md for feature-level work. Runs in independent context. Outputs approved/rejected with evidence. Triggers after every non-trivial implementation."
+description: "Validate completed implementation against PLAN.md Exit Criteria + Decision Points, or against SPEC.md for feature-level work. Runs in independent context. Outputs approved/rejected with evidence. Triggers after each implementation in the standard flow."
 ---
 
 ## Context Loading
@@ -24,7 +24,7 @@ description: "Validate completed implementation against PLAN.md Exit Criteria + 
 
 4. If approved — Explanation
 - What changed and why (2-3 sentences)
-- Remaining risk (only if non-trivial)
+- Remaining risk (include only if notable)
 
 ## Reject Categories
 - `style/minor`: naming, comments, formatting, or other non-behavioral issues. Does not block correctness. Fix is optional from verifier's standpoint.
@@ -32,13 +32,11 @@ description: "Validate completed implementation against PLAN.md Exit Criteria + 
 - `design/scope`: implementation departs from PLAN.md Decision Points / SPEC.md §3 design intent, exceeds or falls short of requested scope, or violates agreed boundary. Requires decision — fix implementation or revise plan.
 
 ## Completion
-- Verifier does not modify files. On approval, return a verified signal to main agent identifying the Task (PLAN.md) or Exit Criteria (SPEC.md §2). On rejection, return category and issues.
-- Main agent applies document updates:
-  - On approval: prepend `✓ ` to PLAN.md Task line or SPEC.md §2 Exit Criteria line (no checkbox — PLAN/SPEC §2 use markers, not checkboxes). When a PLAN Task has multiple IMPLEMENT Units mapped to it, `✓` is applied only after all mapped Units are both implemented (`[x]`) AND verified. Same rule for SPEC.md §2 ↔ §4 within one SPEC, and for PLAN Task ↔ mapped SPEC.
-  - On rejection: revert the IMPLEMENT.md Unit or SPEC.md §4 item checkbox (`[x]` → `[ ]`).
+- Verifier does not modify files. Return `approved` or `rejected` result with category and evidence. Document updates are the main agent's responsibility.
+- On `approved`: no document change. Main agent notifies the user. Verification state is not persisted in PLAN.md / IMPLEMENT.md / SPEC.md.
+- On `rejected`: main agent reverts the IMPLEMENT.md Unit or SPEC.md §4 item checkbox (`[x]` → `[ ]`).
 - Implementation checkboxes are not touched by verification approval — those are updated by the implementer on completion and by main agent on verify reject.
-- Partial verification (some Exit Criteria met within a Task, others pending) is recorded in verify output only, not in document markers.
-- When neither PLAN.md nor SPEC.md exists, skip document updates. Return the `approved` result only.
+- When neither PLAN.md nor SPEC.md exists, verify from request scope + code diff only.
 
 ## Guidelines
 - Minimum evidence: code diff. Preferred evidence: code diff + test result. If tests exist for the changed scope but were not run, note as limitation.

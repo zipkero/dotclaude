@@ -38,7 +38,7 @@
 **User-driven — Feature (Phased)**
 `[analyze] → /feature-init → implement <SPEC path> → verify`
 - Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
-- `[analyze]` is the default entry for both flows. Skip only when the change is trivial (no design decision, no unclear impact).
+- `[analyze]` is the default entry for both flows. Skip only when no design decision is required and impact is clear.
 
 **Automatic — Per-Request**
 `prompt → [analyze if triggered] → implement → verify`
@@ -49,14 +49,15 @@
 - User invokes each slash command explicitly. Main agent never auto-chains commands.
 - Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
 - Skills (`analyze` / `implement` / `verify`) are invoked through their corresponding subagent. Direct skill invocation is not part of the standard flow.
+  - Exception: main agent may implement directly when all of these hold — no design decision required, ≤ a few lines in one file, no new interface, no test changes. Main agent is then responsible for updating the IMPLEMENT.md Unit or SPEC.md §4 checkbox.
 - If analyzer reports Blocker: stop and report the Blocker reason to the user. Do not proceed.
 - On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or SPEC.md §4 item, then returns issues to the user. No auto-retry.
-- On verifier approval: main agent applies verification markers to PLAN.md / SPEC.md per verifier agent spec.
+- On verifier approval: main agent notifies the user. Verification state is not persisted in PLAN.md / IMPLEMENT.md / SPEC.md — approval exists only in conversation output.
 
-### Analysis Trigger (automatic flow only)
-In Per-Request Orchestration, run analyzer if ANY condition holds. In Phased flows, analyzer runs only when the user explicitly requests analysis (analyze skill invocation or equivalent natural request such as "analyze this").
+### Analysis Trigger (Per-Request only)
+Main agent auto-invokes analyzer if ANY condition below holds. In Phased flows, analyzer invocation is user-controlled — see Flows.
 - cause unknown
-- non-trivial design decision required
+- non-obvious design decision required
 - multiple files affected with unclear impact
 - new interface or boundary introduced
 - state or concurrency involved

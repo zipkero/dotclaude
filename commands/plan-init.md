@@ -24,7 +24,7 @@ Scope: $ARGUMENTS
 ## Task Writing
 - Describe as "what state is working." Use the form "when X, Y is observed."
 - No implementation steps (file creation, function addition, etc.).
-- No checkboxes. PLAN is a verification document, not a progress tracker. See Verification Marking.
+- No checkboxes. PLAN is a static specification document, not a progress tracker.
 - Include 2-4 sentences of context.
 
 Required per Task:
@@ -46,17 +46,12 @@ Required per Task:
   - Execution order when multiple orderings are viable
 - Unresolved Decision Points that block the target scope must be resolved before `/implement-init` proceeds.
 
-## Verification Marking
-- Tasks start with no marker.
-- On verifier approval, the main agent prepends `✓ ` to the Task line (see verify skill).
-- `✓` indicates "this Acceptance Item has been verified." It is not a progress checkbox and is not toggled by implementation events.
-
 ## Phase
 - Defined by "what can the user do at this point." Only units meaningless without the prior Phase.
 - Phase start: include regression check of previous Phase Exit Criteria as the first Task of this Phase (not a note).
 
 ## Prohibited
-- Checkboxes (`- [ ]` / `- [x]`) in Task list — PLAN uses `✓` prefix marker only (see Verification Marking)
+- Checkboxes (`- [ ]` / `- [x]`) in Task list — PLAN is a static specification, not a progress tracker
 - Deliverable fields listing files / types / interfaces — file-level detail is not a verification boundary
 - Mechanical Tasks (file creation / function addition / refactoring)
 - Ordering statements inside Tasks — ordering decisions belong in Decision Point when they require judgment, else in IMPLEMENT.md by dependency
@@ -64,17 +59,13 @@ Required per Task:
 
 ## Task Examples
 
-Single Exit Criteria (unverified):
+Single Exit Criteria:
 - CLI accepts JSON input and outputs a status line without corruption
   - Purpose: verify input parser and output formatter boundaries independently
   - Input: minimal valid JSON string
   - Exit Criteria: `echo '{...}' | ./app` runs without error and produces output
 
-Same Task after verification (marker added by main agent on verify approval):
-- ✓ CLI accepts JSON input and outputs a status line without corruption
-  - ... (body unchanged)
-
-Multiple Exit Criteria (unverified):
+Multiple Exit Criteria:
 - User authentication works end-to-end with session persistence
   - Purpose: verify auth boundary from login through session recovery
   - Input: valid credentials, expired session token

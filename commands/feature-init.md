@@ -37,7 +37,7 @@ Feature name: $ARGUMENTS
 ### 2. Exit Criteria
 - Follow the same rules as PLAN.md Task writing (see /plan-init).
 - Describe as "what state is working." No implementation steps.
-- No checkboxes. Verification marker is `✓` prefix (added by main agent on verify approval). See §5.
+- No checkboxes. §2 is a static specification; progress is tracked in §4 only.
 
 ### 3. Decision Points
 - All design / structure / order / strategy choices live here. Same scope as PLAN.md Decision Point.
@@ -51,14 +51,13 @@ Feature name: $ARGUMENTS
 - §4 is the sole progress tracker for this SPEC.
 
 ### 5. Progress Tracking
-- Two separate tracks, two separate markers:
-  - Implementation (§4): `- [ ]` → `- [x]` on implementation done.
-  - Verification (§2): plain bullet → `- ✓ <EC>` on verify approval.
-- These are separate events tracked in different sections. Do not conflate.
+- §4 is the sole progress tracker: `- [ ]` → `- [x]` on implementation done.
+- On verify reject, main agent reverts the §4 item checkbox `[x]` → `[ ]`.
+- §2 Exit Criteria carries no state markers. Verification approval is communicated to the user via conversation output only.
 
 ## Verification Baseline
 - When no PLAN.md exists, SPEC.md §2 Exit Criteria serves as the sole verification baseline for the verifier.
-- When PLAN mapping exists, the main agent adds `✓` to the mapped PLAN Task only after all SPEC §2 Exit Criteria under that mapping are verified. Partial verification stays in SPEC only. Without mapping, only SPEC is updated.
+- When PLAN mapping exists, verifier uses SPEC §2 and the mapped PLAN Task as combined baseline. No marker is applied to either document — verification state is not persisted.
 
 ## Prohibited
 - Using SPEC.md to subdivide a PLAN.md Phase — if the scope is inside an existing PLAN boundary, use IMPLEMENT.md instead (see Phase-Misuse Guard)

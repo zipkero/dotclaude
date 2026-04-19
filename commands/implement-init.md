@@ -55,10 +55,8 @@ If a Unit seems to need more (design options, trade-offs, failure modes, archite
 
 ## Progress Tracking
 - Implementation done → check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`). IMPLEMENT is the sole progress tracker.
-- Verification done → main agent prepends `✓ ` to the matching PLAN.md Task (see verify skill). PLAN.md does not use checkboxes.
-- When a PLAN Task has multiple IMPLEMENT Units mapped to it, `✓` is applied only after all mapped Units are both implemented (`[x]`) AND verified. Partial verification stays in verify output only.
 - On verify reject, main agent reverts the Unit's checkbox `[x]` → `[ ]`. The same Unit becomes the next incomplete target on re-implementation.
-- These are separate events on separate documents. Do not conflate.
+- Verify approval is not recorded in PLAN.md or IMPLEMENT.md. Approval is communicated via conversation output only.
 
 ## Prohibited
 - Document Structure section at the top (Architecture / Execution flow / State model) — these belong in PLAN Decision Point

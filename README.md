@@ -14,7 +14,7 @@ Personal configuration repository for Claude Code.
 ### Key design decisions
 - **Agent = boundary, Skill = execution**: Agents define what NOT to do (prevent role leakage). Skills define HOW to do it (execution steps). This separation means agents stay stable while skills evolve.
 - **Verifier reject escalates to user, no auto-retry**: Prompt-only orchestration cannot enforce retry counts deterministically, so rejects are surfaced to the user for judgment. The verify skill still classifies rejects (`style/minor`, `correctness`, `design/scope`) to help the user decide.
-- **PLAN holds "done" + design decisions; IMPLEMENT is a pure checklist**: Completion is judged against PLAN.md Exit Criteria. All design/structure/order decisions live in PLAN Decision Points. IMPLEMENT.md tracks execution order and progress only — it never stands alone, always read with PLAN. This prevents "all tasks checked but feature doesn't work" situations.
+- **PLAN holds completion criteria + design decisions; IMPLEMENT is a pure checklist**: Completion is judged against PLAN.md Exit Criteria. All design/structure/order decisions live in PLAN Decision Points. IMPLEMENT.md tracks execution order and progress only — it never stands alone, always read with PLAN. Verification state is not persisted in either document; verify approval exists only in conversation output, and on reject the IMPLEMENT checkbox reverts to unchecked.
 - **SPEC.md for independent features only**: Combines Exit Criteria + Decision Points + checklist into one file for features outside PLAN's scope. Not a tool for subdividing PLAN Phases — if the scope is covered by a PLAN Phase/Task, use IMPLEMENT.md instead.
 
 ### What to preserve when modifying
@@ -31,9 +31,9 @@ Three flows, authoritative in CLAUDE.md:
 - **User-driven — Feature**: `[analyze] → /feature-init → implement <SPEC path> → verify`
 - **Automatic — Per-Request**: `prompt → [analyze if triggered] → implement → verify`
 
-`analyze`, `implement`, `verify` are skills in `skills/`, invoked through the corresponding subagents in `agents/`. They are not slash commands — the main agent routes the user's request to the subagent, which runs the skill. Direct skill invocation is not part of the standard flow.
+`analyze`, `implement`, `verify` are skills in `skills/`, invoked through the corresponding subagents in `agents/`. They are not slash commands — the main agent routes the user's request to the subagent, which runs the skill. Direct skill invocation is not part of the standard flow. Narrow exception: main agent may implement directly when no design decision is required, the change is ≤ a few lines in one file, there is no new interface, and no test changes.
 
-See CLAUDE.md → Execution & Orchestration and Context Resolution for trigger conditions, handoff, and reject handling.
+See CLAUDE.md → Execution & Orchestration for trigger conditions, handoff, and reject handling.
 
 ## Structure
 

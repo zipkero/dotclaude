@@ -19,7 +19,7 @@ When invoked via natural prompt (not through Phased commands or SPEC path), stat
 ## Completion
 - SPEC mode: check the implementation item's checkbox in SPEC.md §4 Implementation (`[ ]` → `[x]`). Do not touch §2 Exit Criteria — verification is a separate event.
 - IMPLEMENT mode: check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`).
-- Do NOT modify PLAN.md. PLAN uses `✓` markers added by the verifier flow, not checkboxes.
+- Do NOT modify PLAN.md. PLAN is a static specification; progress lives in IMPLEMENT.md only.
 
 ## Guidelines
 - Keep implementation minimal and within scope
