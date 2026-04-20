@@ -1,62 +1,81 @@
 # Core Behavior
 
 ## Language & Tone
-- Response language: Korean, casual but professional. Direct, fact-based.
-- Document language: English for files inside `.claude/` (CLAUDE.md, skills, agents, commands, etc.). Korean for project artifacts (PLAN.md, SPEC.md, IMPLEMENT.md, etc.).
+- Response: Korean, casual but professional. Direct, fact-based.
+- Files in `.claude/`: rule and explanation text is English. Korean appears only inside template blocks that are copied verbatim into artifacts.
+- Project artifacts under `docs/<feature-name>/` are Korean.
 
 ## Response
 - Answer first. Explain when it improves correctness or decision-making.
-- Include trade-offs/failure cases when they impact correctness, design decisions, or future risk.
+- Include trade-offs/failure cases when they impact correctness, design, or future risk.
 - Stay in scope. No unsolicited refactoring.
 - When the user's direction appears suboptimal based on evidence, state the disagreement and reasoning before proceeding. Do not silently comply with suspect direction.
 
 ## Clarification
-- Ask if ambiguity affects correctness, architecture, risk, or implementation direction.
-- Otherwise proceed with stated assumptions.
+- Ask if ambiguity affects correctness, architecture, risk, or implementation direction. Otherwise proceed with stated assumptions.
 
 ## Code
 - Modify only explicitly requested files and sections, unless required for the requested change to remain correct (e.g., call sites of a changed signature).
-- Show only changed code in responses. Use Edit tool for modifications.
-- Likely-needed but unrequested changes: explain, don't apply.
-- No new dependencies without justification.
+- Show only changed code in responses. Use Edit for modifications.
+- Likely-needed but unrequested changes: explain, don't apply. No new dependencies without justification.
 
-## Test
-- Test and implementation are separate tasks. Don't modify both together unless requested. Exception: a bug fix may include a regression test that reproduces the fixed bug. Feature additions still keep implementation and tests separate.
-- If tests are missing/insufficient, explain the gap. Don't silently add.
-- Verifier must not approve based on modified tests alone.
+## Document Layout
+Per-feature artifacts at `docs/<feature-name>/`:
+- `spec.md` — requirements
+- `plan.md` — design
+- `implement.md` — checklist + per-item verification criteria
+- `verify.md` — append-only verification log
+- `README.md` — summary, status, history
+
+`<feature-name>` is set at `/spec-init` and reused downstream.
 
 ## Execution & Orchestration
 
 ### Defaults
-- One user-facing reply per user turn (a single prompt or slash command). Internal agent orchestration is exempt.
+- One user-facing reply per user turn. Internal agent orchestration is exempt.
 - Step-by-step only when the user explicitly requests it, or when the task is stateful/destructive.
 
 ### Flows
-
-**User-driven — Project (Phased)**
-`[analyze] → /plan-init → /implement-init → implement → verify`
-
-**User-driven — Feature (Phased)**
-`[analyze] → /feature-init → implement <SPEC path> → verify`
-- Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
-- `[analyze]` is the default entry for both flows. Skip only when no design decision is required and impact is clear.
-
-**Automatic — Per-Request**
-`prompt → [analyze if triggered] → implement → verify`
-- Entered when the user sends a natural prompt with no slash command.
-- Implementer states a brief approach note before execution (see implement skill).
+- **Phased** (user-driven): `prompt → [analyze if triggered] → /spec-init → /plan-init → /implement-init → implement → verify`. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
+- **Per-Request** (automatic): `prompt → [analyze if triggered] → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope. No documents generated; scope self-check lives in the implement skill.
 
 ### Orchestration Rules
-- User invokes each slash command explicitly. Main agent never auto-chains commands.
-- Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
-- Skills (`analyze` / `implement` / `verify`) are invoked through their corresponding subagent. Direct skill invocation is not part of the standard flow.
-  - Exception: main may implement directly for trivial single-file edits with no design decision, new interface, or test changes. Main updates the IMPLEMENT.md Unit or SPEC.md §4 checkbox itself.
-- On analyzer Blocker (types defined in `analyze` skill): stop and report for `infeasible` / `scope undefined`; relay the question to the user and resume for `needs input`. Never fabricate a workaround.
-- On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or SPEC.md §4 item, then returns issues to the user. No auto-retry.
-- On verifier approval: main agent notifies the user.
+- Main agent is the sole invoker of subagents (analyzer / implementer / verifier). Subagents never call subagents. Skills are invoked through their corresponding subagent.
+  - Exception: main may invoke the implement skill directly (bypassing implementer agent) for trivial single-file edits with no design decision, no new interface, no test changes. Skill behavior (including implement.md checkbox update) still applies.
+- Test ownership lives in the implement and verify skills; CLAUDE.md delegates.
+- On analyzer Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
 
-### Analysis Trigger (Per-Request only)
-Main agent auto-invokes analyzer if ANY condition below holds. In Phased flows, analyzer invocation is user-controlled — see Flows.
+### Verify Handoff
+Phased mode only. In Per-Request mode no documents exist — verifier returns judgment as conversation output and nothing else is written.
+
+Verifier returns judgment only. Main agent performs all document updates. Section format (fields, headings) is defined in the verify skill; this section governs orchestration only.
+
+On `rejected`:
+1. Revert the affected implement.md checkbox (`[x]` → `[ ]`).
+2. Append a failure section to verify.md (format per verify skill).
+3. Unflip any stale `[x] IMPLEMENT` / `[x] VERIFY`.
+4. Return issues to user. No auto-retry.
+
+On `approved`:
+1. Append a pass section to verify.md (format per verify skill). Prior failure sections preserved.
+2. When approval covers remaining scope AND every implement.md item is `[x]`, flip `[x] VERIFY` and append `- <yyyy-MM-dd>: VERIFY 완료`.
+3. Notify user.
+
+### README.md Status Ownership
+- `/spec-init`: create README.md, set `[x] SPEC`, append `- <yyyy-MM-dd>: SPEC 작성`.
+- `/plan-init`: set `[x] PLAN`, append `- <yyyy-MM-dd>: PLAN 작성`.
+- `/implement-init`: populate checklist only (do NOT touch `[ ] IMPLEMENT`), append `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
+- Main agent flips `[x] IMPLEMENT` when the last implement.md item is checked, appending `- <yyyy-MM-dd>: IMPLEMENT 완료`. VERIFY: see Verify Handoff.
+- Reconciliation: after any checkbox revert, main agent unflips `[x] IMPLEMENT` / `[x] VERIFY` if no longer valid. Status must reflect current state.
+
+### Revision & Rollback
+- Overwrite rule: slash commands overwrite by default. If any downstream document exists, warn and wait for explicit confirmation.
+- Requirements change → update spec.md, propagate only to affected sections of plan.md → implement.md → verify.md. Untouched sections stay as-is.
+- Design change during implement → revise plan.md first, then update affected implement.md items.
+- Verify reject → fix implement.md items and re-run implement/verify. All verify.md attempt history is preserved.
+
+### Analysis Trigger
+Main agent auto-invokes analyzer when any of the following holds:
 - cause unknown
 - non-obvious design decision required
 - multiple files affected with unclear impact
@@ -64,9 +83,10 @@ Main agent auto-invokes analyzer if ANY condition below holds. In Phased flows, 
 - state or concurrency involved
 - production data / external API / auth path affected
 
+In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. This trigger decides whether main invokes analyzer. A separate decision — whether to suggest `/spec-init` before executing a Per-Request change — lives in the implement skill's scope self-check. The two may fire on overlapping signals but answer different questions; neither subsumes the other.
+
 ## Policy Priority
-- Project CLAUDE.md > global CLAUDE.md.
-- Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.
+- Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.
 
 ## Extension
 - If `EXTENSION.md` exists next to this file, read and follow it as additional instructions.

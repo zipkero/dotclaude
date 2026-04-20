@@ -13,5 +13,6 @@ skills:
 ## Handoff Protocol
 - On Blocker: return { type, evidence, unblock_requires } to main agent. Do not proceed.
 - On success: return analysis output to main agent for next phase.
+- Do not modify any file under `docs/<feature-name>/`. Document updates are main agent / command territory.
 
 Use the analyze skill. State assumptions explicitly.

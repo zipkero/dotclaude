@@ -1,78 +1,88 @@
 ---
-description: Create or rewrite PLAN.md according to rules
+description: Create plan.md (design document) under docs/<feature-name>/ from spec.md
 ---
 
-> When to use: When completion criteria for a project/feature are not yet defined. Run before IMPLEMENT.md.
+> When to use: After `/spec-init`, before `/implement-init`. Produces the design baseline that `/implement-init` consumes.
+> Prerequisite: `/spec-init`
 
-Create PLAN.md. This is a checkpoint document for completion judgment and verification, not an implementation roadmap.
+Create `docs/<feature-name>/plan.md`. PLAN captures **how** the feature will be structured — structure, data flow, interfaces, impact, risks, and design decisions. PLAN does **not** repeat SPEC's completion criteria and does **not** define execution order or checklists.
 
-Scope: $ARGUMENTS
+Feature name: $ARGUMENTS
 
 ## Role
-- Define "what items must work for completion, and how we verify each."
-- Capture requirements analysis at the item level — what boundaries exist, what each boundary must achieve.
-- Hold all design / structure / order decisions in Decision Point sections. IMPLEMENT.md is a pure checklist and does not carry decisions.
-- Do not list implementation methods as Tasks. Task = verifiable boundary, not mechanical step.
+- Design blueprint derived from spec.md.
+- Hold all structural and design decisions. implement.md is a pure checklist and does not carry decisions.
+- Static document. Not a progress tracker.
+- PLAN does not duplicate SPEC. Completion criteria live in spec.md §5; plan.md references them by number (`→ SPEC §5.N`) only when a design choice directly satisfies one.
+
+## Prerequisites
+- If feature name is empty, stop.
+  - Guide: "Pass the feature name as argument. Example: `/plan-init payment-integration`"
+- If `docs/<feature-name>/spec.md` does not exist, stop and request `/spec-init` first.
+- Read spec.md in full before writing. PLAN scope is bounded by spec.md §1 Scope and may not add requirements.
+
+## Overwrite Rule
+- If `plan.md` already exists, confirm before overwriting.
+- If `implement.md` or `verify.md` exists, warn that overwriting PLAN may invalidate downstream content. Proceed only on explicit confirmation. Remind the user to refresh affected sections of implement.md / verify.md afterward.
+
+## plan.md Structure
+
+### 1. 구조 (Structure)
+- Module / component / layer layout. How the feature decomposes.
+- Focus on boundaries, not files. Name types/interfaces only when the boundary is non-obvious.
+
+### 2. 데이터 흐름 (Data Flow)
+- Request → processing → response path. State transitions. External integration points.
+- Diagrams in prose or Mermaid when flow is non-linear.
+
+### 3. 인터페이스 (Interfaces)
+- Public boundaries: API signatures, event shapes, contracts with adjacent modules.
+- Include only interfaces that cross a boundary. Internal helper signatures are out of scope.
+
+### 4. 영향 범위 (Impact)
+- Existing modules/files/DB tables affected.
+- Backward-compatibility concerns. Migration considerations.
+
+### 5. 리스크 (Risks)
+- Known failure modes, uncertain assumptions, open questions that do not block design but require attention during implement.
+- If a risk blocks design itself, escalate as a Decision Point (below) and wait for resolution.
+
+### 6. Decision Points
+- All design choices that required judgment. Each entry: options considered, trade-offs, selected option, rationale.
+- Scope covered here (so implement.md never inherits decisions):
+  - Structural choice (module shape, layering, split/merge)
+  - Data model / state model choice
+  - Interface shape when multiple are viable
+  - Execution order when the order is non-obvious and affects correctness
+- Unresolved Decision Points block `/implement-init`.
 
 ## Global Rules
-- A Phase with unresolved Decision Points must not proceed to implementation Tasks without user approval.
+- Do not invent requirements beyond spec.md. New requirements require updating spec.md first.
+- Do not write checkboxes, TODO lists, or per-item ordering. Those belong in implement.md.
+- Do not redefine SPEC completion criteria. Reference them by `→ SPEC §5.N` when a design element directly supports one.
 
-## Scope Handling
-- Empty: write full PLAN.
-- Provided: cover that scope only. If the provided scope is unclear, interpret as narrowly as possible — do not expand beyond the literal target.
+## Post-Write Check
+After writing plan.md, inspect §6 Decision Points. If any entry is unresolved (options listed without a selected option, or rationale missing):
+- Explicitly warn the user: `§6 Decision Points 미해결 항목이 있다. 해결 전까지 /implement-init 실행 금지.`
+- List the unresolved entries by title so the user can act on them.
+- Do NOT suggest `/implement-init` as the next step. The next natural suggestion is resolving the Decision Points (user updates plan.md, or re-runs `/plan-init`).
 
-## Task Writing
-- Describe as "what state is working." Use the form "when X, Y is observed."
-- No implementation steps (file creation, function addition, etc.).
-- No checkboxes. PLAN is a static specification document, not a progress tracker.
-- Include 2-4 sentences of context.
+README Status flip (`[x] PLAN`) still applies — it marks document creation, not design readiness. The `/implement-init` gate enforces readiness separately.
 
-Required per Task:
-- Purpose: why this boundary exists from a verification standpoint. Do not describe implementation structure.
-- Input: only verifiable preconditions (no upper-level references)
-- Exit Criteria: "how do we know it's done" (1 line default; multiple observation points allowed)
-
-## Decomposition
-- Same Exit Criteria → merge. Different → separate. Same conceptual area → group visually.
-
-## Grouping
-- Adjacent Tasks in the same conceptual area get a "single-breath group" visual marker. Tasks themselves remain separate.
-
-## Decision Point
-- Design and strategy choices go into "Decision Point" sections. List options + trade-offs. Do not mix with Tasks.
-- Scope covered here (all decisions live in PLAN, not IMPLEMENT):
-  - Completion boundary, target behavior, acceptance envelope
-  - Implementation structure: module / interface / data flow / state model
-  - Execution order when multiple orderings are viable
-- Unresolved Decision Points that block the target scope must be resolved before `/implement-init` proceeds.
-
-## Phase
-- Defined by "what can the user do at this point." Only units meaningless without the prior Phase.
-- Phase start: include regression check of previous Phase Exit Criteria as the first Task of this Phase (not a note).
+## README Update
+On completion:
+- Flip README.md Status `[ ] PLAN` → `[x] PLAN`.
+- Append history line: `- <yyyy-MM-dd>: PLAN 작성`.
 
 ## Prohibited
-- Checkboxes (`- [ ]` / `- [x]`) in Task list — PLAN is a static specification, not a progress tracker
-- Deliverable fields listing files / types / interfaces — file-level detail is not a verification boundary
-- Mechanical Tasks (file creation / function addition / refactoring)
-- Ordering statements inside Tasks — ordering decisions belong in Decision Point when they require judgment, else in IMPLEMENT.md by dependency
-- Chronological decomposition, Task count inflation, inter-Task references
+- Checkboxes (`- [ ]` / `- [x]`) — PLAN is static
+- Implementation checklists, per-file TODOs, task ordering — belong in implement.md
+- Duplication of spec.md §5 completion criteria — reference, don't copy
+- Low-level coding details (variable names, loop bodies, private helpers)
+- Scope expansion beyond spec.md
 
-## Task Examples
+## Downstream Contract
+- `/implement-init <feature-name>` reads plan.md (structure + decisions) and spec.md §5 (completion-criteria mapping) to produce implement.md.
 
-Single Exit Criteria:
-- CLI accepts JSON input and outputs a status line without corruption
-  - Purpose: verify input parser and output formatter boundaries independently
-  - Input: minimal valid JSON string
-  - Exit Criteria: `echo '{...}' | ./app` runs without error and produces output
-
-Multiple Exit Criteria:
-- User authentication works end-to-end with session persistence
-  - Purpose: verify auth boundary from login through session recovery
-  - Input: valid credentials, expired session token
-  - Exit Criteria:
-    - POST /login with valid credentials returns 200 and a session token
-    - Subsequent requests with that token access protected resources
-    - Expired token returns 401 and does not leak user data
-
-## Output
-- Project root `PLAN.md`. If file exists, confirm before overwriting.
+## Core Question
+> How does this feature decompose, where does data flow, and which design choices did we commit to?
