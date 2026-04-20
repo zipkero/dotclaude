@@ -2,7 +2,7 @@
 
 ## Language & Tone
 - Response language: Korean, casual but professional. Direct, fact-based.
-- Document language: English for files inside `.claude/` (CLAUDE.md, skills, agents, commands, etc.). Korean for project artifacts (PLAN.md, SPEC.md, IMPLEMENT.md, etc.).
+- Document language: English for files inside `.claude/` (CLAUDE.md, skills, agents, commands, etc.). Korean for project artifacts (SPEC, PLAN.md, IMPLEMENT.md, feature doc, etc.).
 
 ## Response
 - Answer first. Explain when it improves correctness or decision-making.
@@ -34,25 +34,27 @@
 ### Flows
 
 **User-driven — Project (Phased)**
-`[analyze] → /plan-init → /implement-init → implement → verify`
+`[analyze] → /spec-init → /plan-init → /implement-init → implement → verify`
 
 **User-driven — Feature (Phased)**
-`[analyze] → /feature-init → implement <SPEC path> → verify`
-- Feature-level typically begins with a natural prompt; the user then runs `/feature-init` to enter this flow.
+`[analyze] → /spec-init → /feature-init → implement <feature-doc path> → verify`
+- Feature-level typically begins with a natural prompt; the user then runs `/spec-init` followed by `/feature-init` to enter this flow.
 - `[analyze]` is the default entry for both flows. Skip only when no design decision is required and impact is clear.
+- `/plan-init` and `/feature-init` both consume the SPEC produced by `/spec-init` as their upstream reference.
 
 **Automatic — Per-Request**
 `prompt → [analyze if triggered] → implement → verify`
 - Entered when the user sends a natural prompt with no slash command.
+- No SPEC / PLAN / IMPLEMENT / feature doc is generated for this path.
 - Implementer states a brief approach note before execution (see implement skill).
 
 ### Orchestration Rules
 - User invokes each slash command explicitly. Main agent never auto-chains commands.
 - Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
 - Skills (`analyze` / `implement` / `verify`) are invoked through their corresponding subagent. Direct skill invocation is not part of the standard flow.
-  - Exception: main may implement directly for trivial single-file edits with no design decision, new interface, or test changes. Main updates the IMPLEMENT.md Unit or SPEC.md §4 checkbox itself.
+  - Exception: main may implement directly for trivial single-file edits with no design decision, new interface, or test changes. Main updates the IMPLEMENT.md Unit or feature doc §4 checkbox itself.
 - On analyzer Blocker (types defined in `analyze` skill): stop and report for `infeasible` / `scope undefined`; relay the question to the user and resume for `needs input`. Never fabricate a workaround.
-- On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or SPEC.md §4 item, then returns issues to the user. No auto-retry.
+- On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or feature doc §4 item, then returns issues to the user. No auto-retry.
 - On verifier approval: main agent notifies the user.
 
 ### Analysis Trigger (Per-Request only)

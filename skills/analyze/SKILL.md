@@ -4,9 +4,10 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` ends with `SPEC.md` → SPEC mode. Analyze within that feature's scope using SPEC.md §2 Exit Criteria and §3 Decision Points as references.
-2. `$ARGUMENTS` non-empty and not SPEC → analyze that target.
-3. `$ARGUMENTS` empty:
+1. `$ARGUMENTS` matches a feature doc path (`features/<yyyyMMdd>_<title>.md`) → feature-doc mode. Analyze within that feature's scope using the feature doc §2 Exit Criteria and §3 Decision Points as references. Also read the upstream SPEC referenced in §1 when behavioral intent needs clarification.
+2. `$ARGUMENTS` matches a SPEC path (`spec/<yyyyMMdd>_<title>.md`) → SPEC mode. Analyze within the scope of SPEC §2 Feature Definition. This mode is for pre-PLAN / pre-feature-doc analysis; no Exit Criteria or Decision Points exist yet.
+3. `$ARGUMENTS` non-empty and not a SPEC or feature doc → analyze that target.
+4. `$ARGUMENTS` empty:
    - Read PLAN.md if it exists. Identify current Phase/Task progress and relevant Decision Points.
    - Read IMPLEMENT.md if it exists. Identify next Unit and its mapped PLAN Task (IMPLEMENT carries no design content — consult PLAN for design).
    - If neither exists, analyze from conversation context. Proceed with stated assumptions when context provides sufficient signal (error message, file path, or symptom).

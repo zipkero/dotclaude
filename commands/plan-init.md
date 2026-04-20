@@ -1,25 +1,32 @@
 ---
-description: Create or rewrite PLAN.md according to rules
+description: Create or rewrite PLAN.md according to rules, based on a SPEC document
 ---
 
-> When to use: When completion criteria for a project/feature are not yet defined. Run before IMPLEMENT.md.
+> When to use: When SPEC exists and completion criteria need to be derived. Run after `/spec-init`, before `/implement-init`.
+> Prerequisite: `/spec-init`
 
 Create PLAN.md. This is a checkpoint document for completion judgment and verification, not an implementation roadmap.
 
-Scope: $ARGUMENTS
+SPEC path: $ARGUMENTS
 
 ## Role
 - Define "what items must work for completion, and how we verify each."
-- Capture requirements analysis at the item level — what boundaries exist, what each boundary must achieve.
+- Translate SPEC §2 Feature Definition into verifiable Tasks with Exit Criteria.
 - Hold all design / structure / order decisions in Decision Point sections. IMPLEMENT.md is a pure checklist and does not carry decisions.
 - Do not list implementation methods as Tasks. Task = verifiable boundary, not mechanical step.
 
 ## Global Rules
 - A Phase with unresolved Decision Points must not proceed to implementation Tasks without user approval.
 
+## Prerequisites
+- If SPEC path is empty, stop.
+  - Guide: "Pass the SPEC path as argument. Example: `/plan-init spec/20260420_payment-integration.md`"
+- If the SPEC file does not exist, stop and request `/spec-init` first.
+- Read SPEC in full before writing. PLAN scope is bounded by SPEC §2 Feature Definition.
+
 ## Scope Handling
-- Empty: write full PLAN.
-- Provided: cover that scope only. If the provided scope is unclear, interpret as narrowly as possible — do not expand beyond the literal target.
+- SPEC defines the boundary. Cover SPEC §2 Feature Definition exhaustively — every listed feature maps to at least one Task.
+- Do not expand beyond SPEC. New requirements require updating SPEC first, not inflating PLAN.
 
 ## Task Writing
 - Describe as "what state is working." Use the form "when X, Y is observed."
