@@ -41,21 +41,23 @@ Per-feature artifacts at `docs/<feature-name>/`:
 
 ### Orchestration Rules
 - Main agent is the sole invoker of subagents (analyzer / implementer / verifier). Subagents never call subagents. Skills are invoked through their corresponding subagent.
-  - Exception: main may implement directly for trivial single-file edits with no design decision, no new interface, no test changes. Main updates implement.md itself in that case.
+  - Exception: main may invoke the implement skill directly (bypassing implementer agent) for trivial single-file edits with no design decision, no new interface, no test changes. Skill behavior (including implement.md checkbox update) still applies.
 - Test ownership lives in the implement and verify skills; CLAUDE.md delegates.
 - On analyzer Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
 
 ### Verify Handoff
-Verifier returns judgment only. Main agent performs all document updates.
+Phased mode only. In Per-Request mode no documents exist — verifier returns judgment as conversation output and nothing else is written.
+
+Verifier returns judgment only. Main agent performs all document updates. Section format (fields, headings) is defined in the verify skill; this section governs orchestration only.
 
 On `rejected`:
 1. Revert the affected implement.md checkbox (`[x]` → `[ ]`).
-2. Append `## 시도 N — 실패` section to verify.md (category, issues, evidence).
+2. Append a failure section to verify.md (format per verify skill).
 3. Unflip any stale `[x] IMPLEMENT` / `[x] VERIFY`.
 4. Return issues to user. No auto-retry.
 
 On `approved`:
-1. Append `## 시도 N — 통과` section to verify.md (scope, evidence). Prior failure sections preserved.
+1. Append a pass section to verify.md (format per verify skill). Prior failure sections preserved.
 2. When approval covers remaining scope AND every implement.md item is `[x]`, flip `[x] VERIFY` and append `- <yyyy-MM-dd>: VERIFY 완료`.
 3. Notify user.
 
@@ -81,7 +83,7 @@ Main agent auto-invokes analyzer when any of the following holds:
 - state or concurrency involved
 - production data / external API / auth path affected
 
-In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. The implement skill's Per-Request scope self-check is a separate gate focused on whether the change warrants structured documents (`/spec-init`) — it is not a duplicate of this trigger list.
+In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. This trigger decides whether main invokes analyzer. A separate decision — whether to suggest `/spec-init` before executing a Per-Request change — lives in the implement skill's scope self-check. The two may fire on overlapping signals but answer different questions; neither subsumes the other.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.

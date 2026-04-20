@@ -22,6 +22,8 @@ Scope self-check — if any of the following holds, pause and suggest running `/
 - involves a non-obvious design decision
 - affects auth, external API, production data, or migrations
 
+This check decides whether the change warrants structured documents (`/spec-init`). It is independent of CLAUDE.md Analysis Trigger, which decides whether main invokes analyzer. Signals overlap but the two answer different questions.
+
 If the user overrides the suggestion, proceed without documents.
 
 ## Output Structure

@@ -61,6 +61,14 @@ Feature name: $ARGUMENTS
 - Do not write checkboxes, TODO lists, or per-item ordering. Those belong in implement.md.
 - Do not redefine SPEC completion criteria. Reference them by `→ SPEC §5.N` when a design element directly supports one.
 
+## Post-Write Check
+After writing plan.md, inspect §6 Decision Points. If any entry is unresolved (options listed without a selected option, or rationale missing):
+- Explicitly warn the user: `§6 Decision Points 미해결 항목이 있다. 해결 전까지 /implement-init 실행 금지.`
+- List the unresolved entries by title so the user can act on them.
+- Do NOT suggest `/implement-init` as the next step. The next natural suggestion is resolving the Decision Points (user updates plan.md, or re-runs `/plan-init`).
+
+README Status flip (`[x] PLAN`) still applies — it marks document creation, not design readiness. The `/implement-init` gate enforces readiness separately.
+
 ## README Update
 On completion:
 - Flip README.md Status `[ ] PLAN` → `[x] PLAN`.
