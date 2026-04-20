@@ -4,13 +4,11 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` matches a feature doc path (`features/<yyyyMMdd>_<title>.md`) → feature-doc mode. Analyze within that feature's scope using the feature doc §2 Exit Criteria and §3 Decision Points as references. Also read the upstream SPEC referenced in §1 when behavioral intent needs clarification.
-2. `$ARGUMENTS` matches a SPEC path (`spec/<yyyyMMdd>_<title>.md`) → SPEC mode. Analyze within the scope of SPEC §2 Feature Definition. This mode is for pre-PLAN / pre-feature-doc analysis; no Exit Criteria or Decision Points exist yet.
-3. `$ARGUMENTS` non-empty and not a SPEC or feature doc → analyze that target.
-4. `$ARGUMENTS` empty:
-   - Read PLAN.md if it exists. Identify current Phase/Task progress and relevant Decision Points.
-   - Read IMPLEMENT.md if it exists. Identify next Unit and its mapped PLAN Task (IMPLEMENT carries no design content — consult PLAN for design).
-   - If neither exists, analyze from conversation context. Proceed with stated assumptions when context provides sufficient signal (error message, file path, or symptom).
+1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it → feature mode. Read spec.md, plan.md, and implement.md (in that order, whichever exist). Scope the analysis to this feature. If verify.md exists, include its latest attempt section as context for recent failures.
+2. `$ARGUMENTS` points to a specific file or symbol → analyze that target. Read surrounding context as needed.
+3. `$ARGUMENTS` empty:
+   - If a `docs/<feature-name>/` directory is implied by recent conversation, load as in (1).
+   - Otherwise analyze from conversation context. Proceed with stated assumptions when context provides sufficient signal (error message, file path, or symptom).
 
 ## Output Structure
 Required:

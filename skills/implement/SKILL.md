@@ -1,14 +1,28 @@
 ---
 name: implement
-description: "Execute the next implementation unit from IMPLEMENT.md or a feature doc. For project-level work, run /implement-init first if IMPLEMENT.md doesn't exist."
+description: "Execute the next item from docs/<feature-name>/implement.md. For Per-Request prompts without a feature directory, execute the requested change directly after a brief approach note."
 ---
 
 ## Context Loading
-1. `$ARGUMENTS` matches a feature doc path (`features/<yyyyMMdd>_<title>.md`) → feature-doc mode. Read the feature doc. Find the first incomplete item in §4 Implementation whose prerequisites are met. Use §4 Approach + §3 Decision Points as the implementation baseline.
-2. `$ARGUMENTS` empty or otherwise → IMPLEMENT mode. Read IMPLEMENT.md; if absent, stop and guide the user to run `/implement-init`. Also read PLAN.md — IMPLEMENT.md is a checklist and never standalone. Find the first incomplete Unit whose prerequisites are met. Use the Unit's Approach + the mapped PLAN Task + relevant PLAN Decision Points as the implementation baseline.
+1. `$ARGUMENTS` matches `docs/<feature-name>/` or `docs/<feature-name>/implement.md` → Phased mode.
+   - Read implement.md. If absent, stop and guide the user to run `/implement-init`.
+   - Also read plan.md (design baseline) and spec.md (completion-criteria mapping).
+   - If verify.md exists and its latest section is a failure, read that section first and prioritize the issues it cites.
+   - Find the first incomplete item whose dependencies are met. Use its 목적 / 접근 / 검증 조건 fields as the execution baseline (artifact-language template labels).
+2. `$ARGUMENTS` empty or otherwise → Per-Request mode.
+   - No `docs/<feature>/` is created.
+   - Self-check scope before execution (see Per-Request flow below).
 
 ## Per-Request flow
-When invoked via natural prompt (not through Phased commands or a feature-doc path), state a brief approach note in 1-3 sentences before execution — scope, risky points. This is not PLAN.md creation.
+State a brief approach note in 1-3 sentences before execution: scope, risky points, files touched.
+
+Scope self-check — if any of the following holds, pause and suggest running `/spec-init` before proceeding:
+- change touches ≥2 files with non-trivial coupling
+- introduces a new interface, boundary, or public API
+- involves a non-obvious design decision
+- affects auth, external API, production data, or migrations
+
+If the user overrides the suggestion, proceed without documents.
 
 ## Output Structure
 1. Approach
@@ -17,13 +31,18 @@ When invoked via natural prompt (not through Phased commands or a feature-doc pa
 4. Notes or limitations (if any)
 
 ## Completion
-- feature-doc mode: check the implementation item's checkbox in the feature doc §4 Implementation (`[ ]` → `[x]`). Do not touch §2 Exit Criteria — verification is a separate event.
-- IMPLEMENT mode: check the Unit's checkbox in IMPLEMENT.md (`[ ]` → `[x]`).
-- Do NOT modify PLAN.md or the upstream SPEC. PLAN is a static specification; progress lives in IMPLEMENT.md only. SPEC is an upstream reference and is never modified here.
+- Phased mode: check the item's checkbox in implement.md (`[ ]` → `[x]`). Do not modify spec.md, plan.md, verify.md, or README.md. Main agent handles those.
+- Per-Request mode: no document update.
+
+## Test Handling (authoritative — implementer ownership)
+- Test code and production code are separate concerns. Implementer writes test code **only** for implement.md items whose description explicitly designates them as test items. No other implicit test additions.
+- Per-Request mode: never add tests silently. If the change carries meaningful regression risk (state change, external I/O, concurrency, new boundary), state the gap in the approach note and let the user decide whether to add tests in a follow-up.
+- Bug-fix exception: a single regression test that reproduces the fixed bug may be included with the fix itself. Feature additions do not qualify for this exception.
+- If existing tests appear missing or insufficient for the changed scope, state the gap in Notes. Do not silently add.
 
 ## Guidelines
-- Keep implementation minimal and within scope
-- Follow existing conventions: match naming, structure, and error handling patterns of existing files in the same directory.
+- Keep implementation minimal and within scope.
+- Follow existing conventions: match naming, structure, and error-handling patterns of existing files in the same directory.
   - If lint/format config exists, it takes precedence.
   - When uncertain, use the most recently modified file of the same type as reference.
-- Explain briefly only when necessary
+- Explain briefly only when necessary.
