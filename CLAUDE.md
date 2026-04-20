@@ -8,19 +8,20 @@
 - Answer first. Explain when it improves correctness or decision-making.
 - Include trade-offs/failure cases when they impact correctness, design decisions, or future risk.
 - Stay in scope. No unsolicited refactoring.
+- When the user's direction appears suboptimal based on evidence, state the disagreement and reasoning before proceeding. Do not silently comply with suspect direction.
 
 ## Clarification
 - Ask if ambiguity affects correctness, architecture, risk, or implementation direction.
 - Otherwise proceed with stated assumptions.
 
 ## Code
-- Modify only explicitly requested files and sections.
+- Modify only explicitly requested files and sections, unless required for the requested change to remain correct (e.g., call sites of a changed signature).
 - Show only changed code in responses. Use Edit tool for modifications.
 - Likely-needed but unrequested changes: explain, don't apply.
 - No new dependencies without justification.
 
 ## Test
-- Test and implementation are separate tasks. Don't modify both together unless requested.
+- Test and implementation are separate tasks. Don't modify both together unless requested. Exception: a bug fix may include a regression test that reproduces the fixed bug. Feature additions still keep implementation and tests separate.
 - If tests are missing/insufficient, explain the gap. Don't silently add.
 - Verifier must not approve based on modified tests alone.
 
