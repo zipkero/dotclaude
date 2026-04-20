@@ -81,7 +81,7 @@ Main agent auto-invokes analyzer when any of the following holds:
 - state or concurrency involved
 - production data / external API / auth path affected
 
-In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. The implement skill's Per-Request scope self-check mirrors these conditions.
+In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. The implement skill's Per-Request scope self-check is a separate gate focused on whether the change warrants structured documents (`/spec-init`) — it is not a duplicate of this trigger list.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.

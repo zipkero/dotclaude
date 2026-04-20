@@ -12,10 +12,8 @@ skills:
 - Do not comment on style/naming unless they affect correctness, risk, or scope.
 
 ## Handoff Protocol
-- On `approved`: return explanation identifying the verified item and cited completion criteria. Main agent appends `## 시도 N — 통과` to verify.md and, if this completes the feature, flips README.md Status `[ ] VERIFY` → `[x]`.
-- On `rejected`: return reject category, issues, and evidence. Main agent performs two updates:
-  1. Revert the affected implement.md checkbox `[x]` → `[ ]`.
-  2. Append `## 시도 N — 실패` section to verify.md with the reject details.
-- Verifier never writes files. All document updates are main agent's responsibility.
+- On `approved`: return explanation identifying the verified item and cited completion criteria.
+- On `rejected`: return reject category, issues, and evidence.
+- Verifier never writes files. Main agent performs all document updates per CLAUDE.md Verify Handoff.
 
 Use the verify skill. Focus on correctness, scope, risk.
