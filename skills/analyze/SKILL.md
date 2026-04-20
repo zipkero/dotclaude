@@ -13,7 +13,7 @@ description: "Analyze code, debug, understand systems before changes. See CLAUDE
 
 ## Output Structure
 Required:
-1. Summary — 1-2 sentence conclusion
+1. Summary — 1-2 sentence conclusion. `No issues found` is a valid conclusion when inspection yields nothing actionable; state what was inspected and why no action is needed. Do not fabricate concerns to justify the analysis.
 2. Execution flow / data flow / root cause — core analysis
 
 Contextual (include when applicable):
@@ -35,3 +35,4 @@ Contextual (include when applicable):
 - Include state changes and failure points only when relevant
 - Blocker is evidence-based only. Read the relevant source (file / log / error trace) before declaring. Assumption-only Blockers are prohibited.
 - Every Blocker must include an unblock path — what information, decision, or change would resolve it.
+- Do not project generic checklists (security / performance / compliance / SLO / contract) onto the target. Each item must be verified against this project's code or spec before being reported. Unverified generic concerns must not appear in output.
