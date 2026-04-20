@@ -20,11 +20,18 @@ Contextual (include when applicable):
 3. Purpose or problem — when the request includes "why"
 4. Key observations — when secondary findings exist
 5. Recommendation — when a next action suggestion is needed
-6. Blocker — state reason and stop. Two types:
-   - `scope undefined`: target system/area cannot be determined.
-   - `infeasible`: implementation is not feasible given current constraints.
+6. Blocker — state reason and stop. Three types:
+   - `scope undefined`: target system/area cannot be determined after inspecting available context.
+   - `infeasible`: implementation is not feasible given current constraints. Requires concrete evidence from source.
+   - `needs input`: analysis cannot converge without a user decision or external information.
+
+   Every Blocker must include:
+   - Evidence: what was inspected (files, logs, errors) and what was found.
+   - Unblock requires: specific info/decision/change that would resolve the block.
 
 ## Guidelines
 - Focus on reasoning, structure, and cause
 - Explain based on actual behavior, not abstraction
 - Include state changes and failure points only when relevant
+- Blocker is evidence-based only. Read the relevant source (file / log / error trace) before declaring. Assumption-only Blockers are prohibited.
+- Every Blocker must include an unblock path — what information, decision, or change would resolve it.

@@ -50,7 +50,10 @@
 - Only main agent invokes subagents (analyzer / implementer / verifier). Subagents never call subagents.
 - Skills (`analyze` / `implement` / `verify`) are invoked through their corresponding subagent. Direct skill invocation is not part of the standard flow.
   - Exception: main agent may implement directly when all of these hold — no design decision required, ≤ a few lines in one file, no new interface, no test changes. Main agent is then responsible for updating the IMPLEMENT.md Unit or SPEC.md §4 checkbox.
-- If analyzer reports Blocker: stop and report the Blocker reason to the user. Do not proceed.
+- If analyzer reports Blocker:
+  - `infeasible` / `scope undefined`: stop and report reason + evidence to the user. Do not proceed.
+  - `needs input`: relay the unblock question to the user, wait for response, then resume analysis.
+  - In all cases, never fabricate a workaround based on assumption.
 - On verifier reject: main agent reverts the implementation checkbox (`[x]` → `[ ]`) on IMPLEMENT.md Unit or SPEC.md §4 item, then returns issues to the user. No auto-retry.
 - On verifier approval: main agent notifies the user. Verification state is not persisted in PLAN.md / IMPLEMENT.md / SPEC.md — approval exists only in conversation output.
 
@@ -66,3 +69,6 @@ Main agent auto-invokes analyzer if ANY condition below holds. In Phased flows, 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md.
 - Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.
+
+## Extension
+- If `EXTENSION.md` exists next to this file, read and follow it as additional instructions.
