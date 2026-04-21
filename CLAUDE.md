@@ -40,9 +40,10 @@ Per-feature artifacts at `docs/<feature-name>/`:
 - **Per-Request** (automatic): `prompt → [analyze if triggered] → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope. No documents generated; scope self-check lives in the implement skill.
 
 ### Orchestration Rules
-- Main agent invokes the analyze and implement skills directly. Verifier runs as a subagent to preserve judgment independence; it is the only subagent.
+- Main agent is the sole invoker of subagents (analyzer / implementer / verifier). Subagents never call subagents. Skills are invoked through their corresponding subagent.
+  - Exception: main may invoke the implement skill directly (bypassing implementer agent) for trivial single-file edits with no design decision, no new interface, no test changes. Skill behavior (including implement.md checkbox update) still applies.
 - Test ownership lives in the implement and verify skills; CLAUDE.md delegates.
-- On analyze Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
+- On analyzer Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
 
 ### Verify Handoff
 Phased mode only. In Per-Request mode no documents exist — verifier returns judgment as conversation output and nothing else is written.
@@ -74,7 +75,7 @@ On `approved`:
 - Verify reject → fix implement.md items and re-run implement/verify. All verify.md attempt history is preserved.
 
 ### Analysis Trigger
-Main agent runs the analyze skill when any of the following holds:
+Main agent auto-invokes analyzer when any of the following holds:
 - cause unknown
 - non-obvious design decision required
 - multiple files affected with unclear impact
@@ -82,7 +83,7 @@ Main agent runs the analyze skill when any of the following holds:
 - state or concurrency involved
 - production data / external API / auth path affected
 
-In Phased flow the user usually runs analyze explicitly before `/spec-init`; auto-trigger still applies when skipped. This trigger decides whether main runs analyze. A separate decision — whether to suggest `/spec-init` before executing a Per-Request change — lives in the implement skill's scope self-check. The two may fire on overlapping signals but answer different questions; neither subsumes the other.
+In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. This trigger decides whether main invokes analyzer. A separate decision — whether to suggest `/spec-init` before executing a Per-Request change — lives in the implement skill's scope self-check. The two may fire on overlapping signals but answer different questions; neither subsumes the other.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.

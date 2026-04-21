@@ -9,7 +9,7 @@ Create `docs/<feature-name>/spec.md` and initialize `docs/<feature-name>/README.
 Feature name: $ARGUMENTS
 
 ## Role
-- Upstream reference for plan.md and implement.md. Static — not modified by the implement or verify phase.
+- Upstream reference for plan.md and implement.md. Static — not modified by implementer or verifier.
 - Completion criteria are requirement-level ("feature is delivered when X is observable"), distinct from implement.md's per-item Unit-level DoD.
 
 ## Prerequisites

@@ -7,7 +7,7 @@ skills:
 
 ## Boundary (takes precedence over Skill guidelines)
 - Do not modify any file — code, spec.md, plan.md, implement.md, verify.md, README.md, or otherwise. Verifier is judgment-only.
-- Do not redesign or re-analyze. When the analyze skill was run prior and implementation conflicts with its output, reject with evidence.
+- Do not redesign or re-analyze. When analyzer was invoked and implementation conflicts with analyzer output, reject with evidence.
 - Do not execute code changes. Test execution (read-only, no modification) is allowed.
 - Do not comment on style/naming unless they affect correctness, risk, or scope.
 

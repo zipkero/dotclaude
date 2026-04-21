@@ -2,7 +2,7 @@
 description: Create implement.md (execution checklist with per-item verification criteria) under docs/<feature-name>/ from plan.md
 ---
 
-> When to use: After `/plan-init`. Produces the checklist that the implement phase executes and the verify phase checks against.
+> When to use: After `/plan-init`. Produces the checklist that implementer executes and verifier checks against.
 > Prerequisite: `/plan-init`
 
 Create `docs/<feature-name>/implement.md`. IMPLEMENT is a **pure execution checklist**. Each item is a verifiable work unit with its own Unit-level verification criteria. Design rationale lives in plan.md; requirement-level completion criteria live in spec.md §5.
@@ -70,7 +70,7 @@ Bug-fix feature may fold the regression test into the fix item itself — see im
 - If a spec.md §5 criterion has no corresponding implement.md item, mark it in a trailing "Gaps" section with `<!-- gap: <reason> -->` — do not silently drop coverage.
 
 ## Progress Tracking
-- On implementation completion: the implement skill flips `[ ]` → `[x]` on the item.
+- On implementation completion: implementer flips `[ ]` → `[x]` on the item.
 - On verify reject: main agent reverts `[x]` → `[ ]`. Same item becomes the next incomplete target.
 - Verify approval is not written to implement.md — it is recorded in verify.md and reflected in README.md Status.
 
