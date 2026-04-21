@@ -45,7 +45,7 @@ If the user overrides the suggestion, proceed without documents. Non-expansion b
 4. Notes or limitations (if any)
 
 ## Completion
-- Phased mode: check the item's checkbox in implement.md (`[ ]` → `[x]`). Do not modify spec.md, plan.md, verify.md, or README.md. Main agent handles those.
+- Phased mode: flip `[ ]` → `[x]` on the item in implement.md. No other document is modified by this skill.
 - Per-Request mode: no document update.
 
 ## Test Handling (authoritative — implementer ownership)

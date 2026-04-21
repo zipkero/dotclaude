@@ -62,9 +62,7 @@ After writing plan.md, inspect §6 Decision Points. If any entry is unresolved (
 README Status flip (`[x] PLAN`) still applies — it marks document creation, not design readiness. The `/implement-init` gate enforces readiness separately.
 
 ## README Update
-On completion:
-- Flip README.md Status `[ ] PLAN` → `[x] PLAN`.
-- Append history line: `- <yyyy-MM-dd>: PLAN 작성`.
+See CLAUDE.md §README.md Status Ownership.
 
 ## Prohibited
 - Checkboxes (`- [ ]` / `- [x]`) — PLAN is static.

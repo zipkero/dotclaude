@@ -37,7 +37,7 @@ description: "Validate completed implementation against spec.md completion crite
 - `design/scope`: implementation departs from plan.md Decision Points, exceeds or falls short of requested scope, or violates agreed boundary. Requires decision — fix implementation or revise plan.md.
 
 ## Completion (verifier handoff)
-Verifier does not modify any file. Return the result to main agent. Main agent performs all document updates per CLAUDE.md Verify Handoff.
+Return the result to main agent. Main agent performs all document updates per CLAUDE.md §Verify Handoff.
 
 ## Test Handling (authoritative — verifier ownership)
 - Verifier executes tests as part of gathering evidence. Verifier never modifies test code, production code, or documents.
