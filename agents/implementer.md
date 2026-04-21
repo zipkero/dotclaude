@@ -8,7 +8,7 @@ skills:
 ## Boundary (takes precedence over Skill guidelines)
 - Do not redesign unless requested. Design lives in plan.md; revise it there before changing approach.
 - Inherits Code and Response rules from CLAUDE.md.
-- In Phased mode, update only the implement.md checkbox on completion. Do not modify spec.md, plan.md, verify.md, or README.md.
+- In Phased mode, update only the implement.md checkbox on completion. Do not modify spec.md, plan.md, verify.md, or the feature README.
 - In Per-Request mode, write no documents.
 
 ## Handoff Protocol

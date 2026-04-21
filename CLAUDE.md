@@ -25,7 +25,7 @@ Per-feature artifacts at `docs/<feature-name>/`:
 - `plan.md` — design
 - `implement.md` — checklist + per-item verification criteria
 - `verify.md` — append-only verification log
-- `README.md` — summary, status, history
+- `README.md` — feature-level summary, status, history (distinct from repo-root `/README.md`)
 
 `<feature-name>` is set at `/spec-init` and reused downstream.
 
@@ -61,8 +61,10 @@ On `approved`:
 2. When approval covers remaining scope AND every implement.md item is `[x]`, flip `[x] VERIFY` and append `- <yyyy-MM-dd>: VERIFY 완료`.
 3. Notify user.
 
-### README.md Status Ownership
-- `/spec-init`: create README.md, set `[x] SPEC`, append `- <yyyy-MM-dd>: SPEC 작성`.
+### Feature README Status Ownership
+All rules below target `docs/<feature-name>/README.md` (the feature README). Never modify the repo-root `/README.md`.
+
+- `/spec-init`: create the feature README, set `[x] SPEC`, append `- <yyyy-MM-dd>: SPEC 작성`.
 - `/plan-init`: set `[x] PLAN`, append `- <yyyy-MM-dd>: PLAN 작성`.
 - `/implement-init`: populate checklist only (do NOT touch `[ ] IMPLEMENT`), append `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 - Main agent flips `[x] IMPLEMENT` when the last implement.md item is checked, appending `- <yyyy-MM-dd>: IMPLEMENT 완료`. VERIFY: see Verify Handoff.

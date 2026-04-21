@@ -1,5 +1,5 @@
 ---
-description: Create spec.md (requirements + completion criteria) under docs/<feature-name>/ and initialize README.md
+description: Create spec.md (requirements + completion criteria) under docs/<feature-name>/ and initialize the feature README
 ---
 
 > When to use: First step of the Phased flow. Produces the SPEC that `/plan-init` and `/implement-init` reference downstream.
@@ -44,7 +44,7 @@ See CLAUDE.md §Revision & Rollback. Confirm before overwriting `spec.md`.
 - Each criterion must be verifiable by observing behavior.
 - verify.md will cite these criteria directly to record pass/fail.
 
-## README.md Structure (initialize here)
+## Feature README Structure (initialize here, at `docs/<feature-name>/README.md`)
 ```markdown
 # <feature-name>
 
@@ -67,10 +67,10 @@ See CLAUDE.md §Revision & Rollback. Confirm before overwriting `spec.md`.
 - <yyyy-MM-dd>: SPEC 작성
 ```
 
-If README.md already exists, update `[ ] SPEC` → `[x] SPEC` and append a new history line rather than overwriting the history.
+If the feature README already exists, update `[ ] SPEC` → `[x] SPEC` and append a new history line rather than overwriting the history.
 
 ## Prohibited
-- Progress markers (`- [ ]` / `- [x]`) inside spec.md — SPEC carries no state (README.md Status is the only checklist at this stage).
+- Progress markers (`- [ ]` / `- [x]`) inside spec.md — SPEC carries no state (the feature README Status is the only checklist at this stage).
 
 ## Core Question
 > What problem are we solving, and under what observable conditions is it considered solved — independent of how it is built?

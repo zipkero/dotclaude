@@ -59,10 +59,10 @@ After writing plan.md, inspect §6 Decision Points. If any entry is unresolved (
 - List the unresolved entries by title so the user can act on them.
 - Do NOT suggest `/implement-init` as the next step. The next natural suggestion is resolving the Decision Points (user updates plan.md, or re-runs `/plan-init`).
 
-README Status flip (`[x] PLAN`) still applies — it marks document creation, not design readiness. The `/implement-init` gate enforces readiness separately.
+Feature README Status flip (`[x] PLAN`) still applies — it marks document creation, not design readiness. The `/implement-init` gate enforces readiness separately.
 
-## README Update
-See CLAUDE.md §README.md Status Ownership.
+## Feature README Update
+See CLAUDE.md §Feature README Status Ownership.
 
 ## Prohibited
 - Checkboxes (`- [ ]` / `- [x]`) — PLAN is static.

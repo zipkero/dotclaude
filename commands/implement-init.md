@@ -72,10 +72,10 @@ Bug-fix feature may fold the regression test into the fix item itself — see im
 ## Progress Tracking
 - On implementation completion: implementer flips `[ ]` → `[x]` on the item.
 - On verify reject: main agent reverts `[x]` → `[ ]`. Same item becomes the next incomplete target.
-- Verify approval is not written to implement.md — it is recorded in verify.md and reflected in README.md Status.
+- Verify approval is not written to implement.md — it is recorded in verify.md and reflected in the feature README Status.
 
-## README Update
-See CLAUDE.md §README.md Status Ownership. `/implement-init` populates the checklist only; do not touch `[ ] IMPLEMENT`. Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
+## Feature README Update
+See CLAUDE.md §Feature README Status Ownership. `/implement-init` populates the checklist only; do not touch `[ ] IMPLEMENT`. Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 ## Prohibited
 - Decision Points inside implement.md — all decisions live in plan.md §6.
