@@ -43,7 +43,7 @@ Verifier does not modify any file. Return the result to main agent. Main agent p
 - Verifier executes tests as part of gathering evidence. Verifier never modifies test code, production code, or documents.
 - Minimum evidence: code diff. Preferred: diff + test result. If tests exist for the changed scope but were not run, note as a limitation.
 - When the change modifies only internal computation, conditions, or transformations (no external state, I/O, or dependency changes), diff-based reasoning is acceptable evidence if correctness is visible in the diff.
-- If tests were modified by the same change being verified, do not rely on those tests alone as evidence. If the modification looks test-gaming (assertions loosened, cases removed without justification), reject under `correctness` and route back to implementer.
+- If tests were modified by the same change being verified, do not rely on those tests alone as evidence. If the modification looks test-gaming (assertions loosened, cases removed without justification), reject under `correctness` and route back for fix.
 - Reject when correctness cannot be established from available evidence. State the limitation explicitly.
 
 ## verify.md Format (written by main agent based on verifier result)

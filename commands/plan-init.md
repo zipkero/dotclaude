@@ -10,10 +10,8 @@ Create `docs/<feature-name>/plan.md`. PLAN captures **how** the feature will be 
 Feature name: $ARGUMENTS
 
 ## Role
-- Design blueprint derived from spec.md.
-- Hold all structural and design decisions. implement.md is a pure checklist and does not carry decisions.
-- Static document. Not a progress tracker.
-- PLAN does not duplicate SPEC. Completion criteria live in spec.md §5; plan.md references them by number (`→ SPEC §5.N`) only when a design choice directly satisfies one.
+- Design blueprint derived from spec.md. Holds all structural and design decisions (implement.md is a pure checklist and carries none).
+- Static — not a progress tracker. Does not duplicate SPEC; references §5 criteria by `→ SPEC §5.N` only when a design choice directly satisfies one.
 
 ## Prerequisites
 - If feature name is empty, stop.
@@ -22,8 +20,7 @@ Feature name: $ARGUMENTS
 - Read spec.md in full before writing. PLAN scope is bounded by spec.md §1 Scope and may not add requirements.
 
 ## Overwrite Rule
-- If `plan.md` already exists, confirm before overwriting.
-- If `implement.md` or `verify.md` exists, warn that overwriting PLAN may invalidate downstream content. Proceed only on explicit confirmation. Remind the user to refresh affected sections of implement.md / verify.md afterward.
+See CLAUDE.md §Revision & Rollback. Confirm before overwriting `plan.md`.
 
 ## plan.md Structure
 
@@ -56,11 +53,6 @@ Feature name: $ARGUMENTS
   - Execution order when the order is non-obvious and affects correctness
 - Unresolved Decision Points block `/implement-init`.
 
-## Global Rules
-- Do not invent requirements beyond spec.md. New requirements require updating spec.md first.
-- Do not write checkboxes, TODO lists, or per-item ordering. Those belong in implement.md.
-- Do not redefine SPEC completion criteria. Reference them by `→ SPEC §5.N` when a design element directly supports one.
-
 ## Post-Write Check
 After writing plan.md, inspect §6 Decision Points. If any entry is unresolved (options listed without a selected option, or rationale missing):
 - Explicitly warn the user: `§6 Decision Points 미해결 항목이 있다. 해결 전까지 /implement-init 실행 금지.`
@@ -75,14 +67,8 @@ On completion:
 - Append history line: `- <yyyy-MM-dd>: PLAN 작성`.
 
 ## Prohibited
-- Checkboxes (`- [ ]` / `- [x]`) — PLAN is static
-- Implementation checklists, per-file TODOs, task ordering — belong in implement.md
-- Duplication of spec.md §5 completion criteria — reference, don't copy
-- Low-level coding details (variable names, loop bodies, private helpers)
-- Scope expansion beyond spec.md
-
-## Downstream Contract
-- `/implement-init <feature-name>` reads plan.md (structure + decisions) and spec.md §5 (completion-criteria mapping) to produce implement.md.
+- Checkboxes (`- [ ]` / `- [x]`) — PLAN is static.
+- Duplication of spec.md §5 completion criteria — reference, don't copy.
 
 ## Core Question
 > How does this feature decompose, where does data flow, and which design choices did we commit to?

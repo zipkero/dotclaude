@@ -9,15 +9,12 @@ Create `docs/<feature-name>/spec.md` and initialize `docs/<feature-name>/README.
 Feature name: $ARGUMENTS
 
 ## Role
-- Upstream reference for plan.md and implement.md.
-- Static document. SPEC is not a progress tracker and is not modified by implementer or verifier.
-- Completion criteria at the requirement level — "the feature is considered delivered when X, Y, Z are observable." Do not confuse with implement.md's per-item verification criteria (narrower Unit-level DoD).
+- Upstream reference for plan.md and implement.md. Static — not modified by the implement or verify phase.
+- Completion criteria are requirement-level ("feature is delivered when X is observable"), distinct from implement.md's per-item Unit-level DoD.
 
 ## Prerequisites
 - If feature name is empty, stop.
-  - Reason: the feature name determines the output path (`docs/<feature-name>/`) and is reused by downstream commands.
   - Guide: "Pass the feature name as argument. Example: `/spec-init payment-integration`"
-- If intent is unclear, ask before writing.
 
 ## Output Paths
 - `docs/<feature-name>/spec.md`
@@ -25,8 +22,7 @@ Feature name: $ARGUMENTS
 - Create `docs/<feature-name>/` directory if missing.
 
 ## Overwrite Rule
-- If `spec.md` already exists, confirm before overwriting.
-- If any downstream document exists (`plan.md`, `implement.md`, `verify.md`), warn the user that overwriting SPEC may invalidate downstream content. Proceed only on explicit confirmation. Remind the user that affected sections of plan.md / implement.md / verify.md must be refreshed afterward (per CLAUDE.md Revision & Rollback).
+See CLAUDE.md §Revision & Rollback. Confirm before overwriting `spec.md`.
 
 ## spec.md Structure
 
@@ -74,14 +70,7 @@ Feature name: $ARGUMENTS
 If README.md already exists, update `[ ] SPEC` → `[x] SPEC` and append a new history line rather than overwriting the history.
 
 ## Prohibited
-- Design / architecture / data-flow / interface content — belongs in plan.md
-- File / module / type / function listings — low-level detail is out of scope
-- Implementation ordering, checklists, TODOs — belongs in implement.md
-- Progress markers (`- [ ]` / `- [x]`) inside spec.md — SPEC carries no state (README.md Status is the only checklist at this stage)
-
-## Downstream Contract
-- `/plan-init <feature-name>` reads this spec.md and produces plan.md in the same directory.
-- `/implement-init <feature-name>` reads plan.md (and spec.md for completion-criteria mapping) to produce implement.md.
+- Progress markers (`- [ ]` / `- [x]`) inside spec.md — SPEC carries no state (README.md Status is the only checklist at this stage).
 
 ## Core Question
 > What problem are we solving, and under what observable conditions is it considered solved — independent of how it is built?

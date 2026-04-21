@@ -2,7 +2,7 @@
 description: Create implement.md (execution checklist with per-item verification criteria) under docs/<feature-name>/ from plan.md
 ---
 
-> When to use: After `/plan-init`. Produces the checklist that implementer executes and verifier checks against.
+> When to use: After `/plan-init`. Produces the checklist that the implement phase executes and the verify phase checks against.
 > Prerequisite: `/plan-init`
 
 Create `docs/<feature-name>/implement.md`. IMPLEMENT is a **pure execution checklist**. Each item is a verifiable work unit with its own Unit-level verification criteria. Design rationale lives in plan.md; requirement-level completion criteria live in spec.md §5.
@@ -22,8 +22,7 @@ Feature name: $ARGUMENTS
 - Read plan.md and spec.md §5 in full before writing.
 
 ## Overwrite Rule
-- If `implement.md` already exists, confirm before overwriting.
-- If `verify.md` exists, warn that overwriting implement.md invalidates previous verification state. Proceed only on explicit confirmation. Remind the user that affected verify.md sections must be refreshed.
+See CLAUDE.md §Revision & Rollback. Confirm before overwriting `implement.md`.
 
 ## implement.md Structure
 
@@ -71,22 +70,18 @@ Bug-fix feature may fold the regression test into the fix item itself — see im
 - If a spec.md §5 criterion has no corresponding implement.md item, mark it in a trailing "Gaps" section with `<!-- gap: <reason> -->` — do not silently drop coverage.
 
 ## Progress Tracking
-- On implementation completion: implementer flips `[ ]` → `[x]` on the item.
+- On implementation completion: the implement skill flips `[ ]` → `[x]` on the item.
 - On verify reject: main agent reverts `[x]` → `[ ]`. Same item becomes the next incomplete target.
 - Verify approval is not written to implement.md — it is recorded in verify.md and reflected in README.md Status.
 
 ## README Update
-On completion of `/implement-init` (items listed, not yet executed):
-- Do NOT touch `[ ] IMPLEMENT`. `/implement-init` only populates the checklist; the flip to `[x] IMPLEMENT` is performed by main agent when the last item is checked off (see CLAUDE.md Orchestration Rules).
-- Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
+See CLAUDE.md §README.md Status Ownership. `/implement-init` populates the checklist only; do not touch `[ ] IMPLEMENT`. Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 ## Prohibited
-- Decision Points inside implement.md — all decisions live in plan.md §6
-- Item sub-fields other than 목적 / 접근 / 검증 조건
-- Concept explanations, structural diagrams — belong in plan.md
-- Items without a SPEC §5 mapping (except explicit `gap` entries)
-- Modifying, weakening, or extending spec.md §5 completion criteria
-- Restating spec.md §5 verbatim inside a 검증 조건 — the Unit DoD is narrower
+- Decision Points inside implement.md — all decisions live in plan.md §6.
+- Item sub-fields other than 목적 / 접근 / 검증 조건.
+- Items without a SPEC §5 mapping (except explicit `gap` entries).
+- Restating spec.md §5 verbatim inside a 검증 조건 — the Unit DoD is narrower.
 
 ## Core Question
 > In what order do we execute, what does "done" look like for each Unit, and where are we now?

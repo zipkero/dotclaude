@@ -34,7 +34,7 @@ If any of the following holds, pause and suggest running `/spec-init` before pro
 - involves a non-obvious design decision
 - affects auth, external API, production data, or migrations
 
-This check decides whether the change warrants structured documents (`/spec-init`). It is independent of CLAUDE.md Analysis Trigger, which decides whether main invokes analyzer. Signals overlap but the two answer different questions.
+This check decides whether the change warrants structured documents (`/spec-init`). It is independent of CLAUDE.md Analysis Trigger, which decides whether main runs the analyze skill. Signals overlap but the two answer different questions.
 
 If the user overrides the suggestion, proceed without documents. Non-expansion baseline still applies unless the user explicitly waives a specific item.
 
@@ -48,7 +48,7 @@ If the user overrides the suggestion, proceed without documents. Non-expansion b
 - Phased mode: check the item's checkbox in implement.md (`[ ]` → `[x]`). Do not modify spec.md, plan.md, verify.md, or README.md. Main agent handles those.
 - Per-Request mode: no document update.
 
-## Test Handling (authoritative — implementer ownership)
+## Test Handling (authoritative — implement skill ownership)
 - Test code and production code are separate concerns. Implementer writes test code **only** for implement.md items whose description explicitly designates them as test items. No other implicit test additions.
 - Per-Request mode: never add tests silently. If the change carries meaningful regression risk (state change, external I/O, concurrency, new boundary), state the gap in the approach note and let the user decide whether to add tests in a follow-up.
 - Bug-fix exception: a single regression test that reproduces the fixed bug may be included with the fix itself. Feature additions do not qualify for this exception.
