@@ -17,19 +17,19 @@ Judgment must cite **files, diff, or test results** — not conversation memory.
 If an argument for correctness relies on "we discussed this earlier", it is not valid evidence. Re-read the file or run the test.
 
 ## Context Loading
-1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it, **or** the conversation indicates an active `docs/<feature-name>/` scope → Phased mode.
+1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it, **or** the conversation indicates an active `docs/<feature-name>/` scope (same definition as in `implement` skill §Context Loading) → Phased mode.
    - Read spec.md completion criteria (requirement-level baseline).
    - Read implement.md. The verification target is the Task most recently executed by `implement` (still `[ ]`, awaiting judgment). Use its 검증 조건 field as the Task-level baseline.
    - Read analysis.md Decision Points when design-intent match is in question.
 2. Otherwise → Per-Request mode. Verify from request scope + code diff only.
-   - Diff source: working tree (uncommitted changes from the most recent implement turn). If already committed, use `HEAD~1..HEAD` or the specific range identified during implement.
+   - Diff source: working tree (uncommitted changes from the most recent implement turn). If already committed, main passes the diff range explicitly when invoking this skill (commit SHAs, or the Files touched list from implement's output).
    - No documents are read or written.
 
 If the target Task is ambiguous (multiple pending, or none marked as the in-flight target), ask the user to specify before judging.
 
 ## Output Structure
 1. Status: `approved` | `rejected`
-2. Target Task: cite the implement.md item title (Phased) or the user's stated change (Per-Request).
+2. Target Task: cite the implement.md Task title (Phased) or the user's stated change (Per-Request).
 3. Validation
    - Request/Task match
    - spec.md completion-criteria match (cite section number and state observed behavior) — Phased only
@@ -54,11 +54,11 @@ All reject categories block Task approval equally — the checkbox does not flip
 ## Test Rules (authoritative — verify skill ownership)
 Other documents reference these rules; do not duplicate them elsewhere.
 
-### When implement.md includes a test item (referenced by `/implement-init`)
-Add an explicit test item to implement.md when analysis.md §5 Risks or §2 Data Flow indicates meaningful regression risk: state change, external I/O, concurrency, or new boundary.
+### When implement.md includes a test Task (referenced by `/implement-init`)
+Add an explicit test Task to implement.md when analysis.md §5 Risks or §2 Data Flow indicates meaningful regression risk: state change, external I/O, concurrency, or new boundary.
 
 ### When implement writes test code (referenced by `implement` skill)
-Implement writes test code **only** for implement.md items designated as test items. A Task qualifies as a test item when any of the following holds:
+Implement writes test code **only** for test Tasks. A Task qualifies as a test Task when any of the following holds:
 - Task title or 접근 field explicitly names it as a test (e.g., "…테스트 작성", "unit/integration/e2e test").
 - 검증 조건 asserts test execution (e.g., "테스트가 CI/로컬에서 통과한다").
 

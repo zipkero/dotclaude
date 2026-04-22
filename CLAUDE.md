@@ -26,7 +26,7 @@ Per-feature artifacts at `docs/<feature-name>/`:
 - `implement.md` — execution checklist (Task 단위)
 - `README.md` — feature-level summary, Status, history
 
-`<feature-name>` is set at `/spec-init` and reused downstream. There is no `verify.md` — verify returns judgment to the conversation; main flips the implement.md checkbox per §Verify Handoff.
+`<feature-name>` is set at `/spec-init` and reused downstream. There is no `verify.md` — see §Verify Handoff for how verify's judgment updates the implement.md checkbox.
 
 ## Execution & Orchestration
 
@@ -35,10 +35,12 @@ Per-feature artifacts at `docs/<feature-name>/`:
 - Step-by-step only when the user explicitly requests it, or when the task is stateful/destructive.
 
 ### Flows
-- **Phased** (user-driven): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
-- **Per-Request** (automatic): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope. No documents generated.
+Two flows. Phased preserves artifacts (spec → analysis → implement) as evidence for the work; Per-Request executes directly without persistent documents. Pick Phased when the work warrants a persistent trail (handoff, later reference, non-trivial scope); Per-Request otherwise.
 
-The `analyze` skill is a cross-cutting investigation utility — not a phase. Main invokes it on demand per §Analysis Trigger below; the user may also invoke it directly at any time. It writes no files and is orthogonal to the flow sequences above.
+- **Phased** (user-driven, artifact-preserving): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Each phase writes a document that downstream phases consume. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
+- **Per-Request** (automatic, no artifacts): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope.
+
+The `analyze` skill is orthogonal to both flows — see §Analysis Trigger.
 
 ### Orchestration Rules
 - No subagents. Main invokes `analyze`, `implement`, and `verify` skills directly.
@@ -63,7 +65,7 @@ Per-Request mode: same protocol but no implement.md exists — result is convers
 
 ### Revision & Rollback
 - Requirements change → update spec.md, propagate only to affected sections of analysis.md → implement.md. Untouched sections stay as-is.
-- Design change during implement → revise analysis.md first, then update affected implement.md items.
+- Design change during implement → revise analysis.md first, then update affected implement.md Tasks.
 - Verify reject → fix the Task and re-run implement/verify. Checkbox remains `[ ]` until approval.
 - Slash command overwrite semantics live in each command file's Overwrite Rule section.
 

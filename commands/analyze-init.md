@@ -59,7 +59,7 @@ Feature name: $ARGUMENTS
 
 ## Global Rules
 - Do not invent requirements beyond spec.md. New requirements require updating spec.md first.
-- Do not write checkboxes, TODO lists, or per-item ordering. Those belong in implement.md.
+- Do not write checkboxes, TODO lists, or per-Task ordering. Those belong in implement.md.
 - Do not redefine SPEC completion criteria. Reference them by `→ SPEC §5.N` when a design element directly supports one.
 
 ## README Update
@@ -69,7 +69,7 @@ On completion:
 
 ## Prohibited
 - Checkboxes (`- [ ]` / `- [x]`) — ANALYSIS is static
-- Implementation checklists, per-file TODOs, task ordering — belong in implement.md
+- Implementation checklists, per-file TODOs, Task ordering — belong in implement.md
 - Duplication of spec.md §5 completion criteria — reference, don't copy
 - Low-level coding details (variable names, loop bodies, private helpers)
 - Scope expansion beyond spec.md

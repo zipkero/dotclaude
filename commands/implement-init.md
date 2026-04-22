@@ -1,17 +1,17 @@
 ---
-description: Create implement.md (execution checklist with per-item verification criteria) under docs/<feature-name>/ from analysis.md
+description: Create implement.md (execution checklist with per-Task verification criteria) under docs/<feature-name>/ from analysis.md
 ---
 
 > When to use: After `/analyze-init`. Produces the checklist that `implement` executes and `verify` checks against.
 > Prerequisite: `/analyze-init`
 
-Create `docs/<feature-name>/implement.md`. IMPLEMENT is a **pure execution checklist**. Each item is a verifiable work Task with its own Task-level verification criteria. Design rationale lives in analysis.md; requirement-level completion criteria live in spec.md §5.
+Create `docs/<feature-name>/implement.md`. IMPLEMENT is a **pure execution checklist**. Each entry is a verifiable Task with its own Task-level verification criteria. Design rationale lives in analysis.md; requirement-level completion criteria live in spec.md §5.
 
 Feature name: $ARGUMENTS
 
 ## Role
 - Sole progress tracker during implementation.
-- Each item maps to (a) analysis.md design and (b) at least one spec.md §5 completion criterion.
+- Each Task maps to (a) analysis.md design and (b) at least one spec.md §5 completion criterion.
 - Task-level verification criteria are narrow — "this Task is done when X happens." Distinct from spec.md §5 (feature-level).
 
 ## Prerequisites
@@ -27,8 +27,8 @@ Feature name: $ARGUMENTS
 
 ## implement.md Structure
 
-### Item Format (Korean artifact template)
-Each item is a checklist entry with three fields. Nothing else.
+### Task Format (Korean artifact template)
+Each Task is a checklist entry with three fields. Nothing else.
 
 ```
 - [ ] <Task title — 작업 단위 제목>
@@ -38,7 +38,7 @@ Each item is a checklist entry with three fields. Nothing else.
 ```
 
 Notation for 목적 field:
-- `→ SPEC §5.N` → this Task satisfies spec.md §5 완료 조건 item N (required).
+- `→ SPEC §5.N` → this Task satisfies spec.md §5 완료 조건 criterion N (required).
 - `→ ANALYSIS §X.Y` → this Task follows the structure/design committed in analysis.md §X subsection Y (required when a design decision applies; omit otherwise).
 - `/` → AND. When both references are present they apply together.
 
@@ -56,15 +56,15 @@ Field meanings (for command author reference; the artifact itself uses Korean la
 - 검증 조건 (Verification criteria): Task-level DoD. Narrow and observable. When the Task maps 1:1 to a spec criterion, shorthand is allowed: `→ SPEC §5.N 동일`.
 
 ### Structure Options
-- Flat list: single `- [ ]` items. Use for small features.
-- Grouped: items under `## Section: <name>` headings when the feature has multiple distinct sub-areas. Each item inside follows the same format.
+- Flat list: a sequence of `- [ ]` Tasks. Use for small features.
+- Grouped: Tasks under `## Section: <name>` headings when the feature has multiple distinct sub-areas. Each Task inside follows the same format.
 
 Both forms are allowed. Choose based on analysis.md structure size.
 
-## Test Item Inclusion
-Test rules are owned by the verify skill — see `skills/verify/SKILL.md` §Test Rules for when a test item is required. Do not duplicate the rules here; reference them.
+## Test Task Inclusion
+Test rules are owned by the verify skill — see `skills/verify/SKILL.md` §Test Rules for when a test Task is required and for the bug-fix exception. Do not duplicate the rules here.
 
-Template when a test item is added:
+Template when a test Task is added:
 
 ```
 - [ ] <대상> 테스트 작성
@@ -73,16 +73,14 @@ Template when a test item is added:
   - 검증 조건: 테스트가 CI/로컬에서 통과한다
 ```
 
-Bug-fix feature may fold the regression test into the fix item itself — see verify skill §Test Rules for the exception.
-
 ## Ordering
 - By dependency only: "what must exist before the next is possible." No chronological ordering.
 - If multiple orderings are viable and the choice matters for correctness, that decision belongs in analysis.md §6 Decision Points, not here.
 
 ## Mapping
-- Every implement.md item must map to at least one spec.md §5 completion criterion via `→ SPEC §5.N`.
-- Before finalizing implement.md, list any spec.md §5 criterion that has **no** matching item. Unmapped criteria are unreachable by this checklist — do not silently drop. For each unmapped criterion the user chooses one of:
-  - add a new item covering it,
+- Every Task must map to at least one spec.md §5 completion criterion via `→ SPEC §5.N`.
+- Before finalizing implement.md, list any spec.md §5 criterion that has **no** matching Task. Unmapped criteria are unreachable by this checklist — do not silently drop. For each unmapped criterion the user chooses one of:
+  - add a new Task covering it,
   - remove the criterion from spec.md §5, or
   - defer it explicitly via spec.md §4 Exclusions.
 - If the unmapped set is non-empty, surface it to the user and wait for judgment before saving implement.md.
@@ -91,7 +89,7 @@ Bug-fix feature may fold the regression test into the fix item itself — see ve
 Checkbox flip is verify-gated — see CLAUDE.md §Verify Handoff for the approved/rejected protocol. The `implement` skill does not touch the checkbox under any condition.
 
 ## README Update
-On completion of `/implement-init` (items listed, not yet executed):
+On completion of `/implement-init` (Tasks listed, not yet executed):
 - Flip README.md Status `[ ] IMPLEMENT` → `[x] IMPLEMENT` (meaning: checklist has been written).
 - Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
@@ -99,9 +97,9 @@ See CLAUDE.md §Feature README Ownership for feature completion semantics.
 
 ## Prohibited
 - Decision Points inside implement.md — all decisions live in analysis.md §6
-- Item sub-fields other than 목적 / 접근 / 검증 조건
+- Task sub-fields other than 목적 / 접근 / 검증 조건
 - Concept explanations, structural diagrams — belong in analysis.md
-- Items without a SPEC §5 mapping
+- Tasks without a SPEC §5 mapping
 - Modifying, weakening, or extending spec.md §5 completion criteria
 
 ## Core Question
