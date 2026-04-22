@@ -8,34 +8,34 @@ Personal configuration repository for Claude Code.
 
 ### Why this structure exists
 - Claude Code's default behavior is a single monolithic response. This config splits that into **phased, verifiable steps** so each stage can be reviewed before proceeding.
-- The analyzer → implementer → verifier separation enforces **role isolation**: the agent that writes code never judges its own output.
-- Per-feature documents under `docs/<feature-name>/` (spec → plan → implement → verify → README) serve as **contracts between phases** — not implementation notes. Each downstream phase reads the upstream document, not the conversation.
+- Per-feature documents under `docs/<feature-name>/` (`spec.md` → `analysis.md` → `implement.md` + `README.md`) serve as **contracts between phases** — not implementation notes. Each downstream phase reads the upstream document, not the conversation.
+- Verify is a skill invoked directly by main. Judgment discipline comes from the skill's evidence rules (files / diff / test results, not conversation memory), not from context isolation.
 
 ### Key design decisions
-- **Agent = boundary, Skill = execution**: Agents define what NOT to do (prevent role leakage). Skills define HOW to do it (execution steps). This separation means agents stay stable while skills evolve.
-- **Verifier reject escalates to user, no auto-retry**: Prompt-only orchestration cannot enforce retry counts deterministically, so rejects are surfaced to the user for judgment. The verify skill still classifies rejects (`style/minor`, `correctness`, `design/scope`) to help the user decide.
-- **Per-feature folder**: Every feature owns a directory — `docs/<feature-name>/` — containing spec.md, plan.md, implement.md, verify.md, and README.md. README.md summarizes status and history; the four content docs carry the phase contracts.
-- **SPEC owns completion criteria; PLAN is design-only**: spec.md captures requirement-level completion criteria (§5). plan.md carries structure, data flow, interfaces, impact, risks, and Decision Points — no checklists, no Exit Criteria duplication. implement.md maps each Unit back to spec.md §5 with narrower per-item Unit-level verification criteria.
-- **verify.md is append-only history**: Each verify attempt appends one section (fail or pass) labeled with an attempt number. Failure attempts are never deleted — they are the risk record. Main agent (not verifier) writes verify.md based on the verifier's judgment.
-- **Phased flow is user-controlled**: `/spec-init` → `/plan-init` → `/implement-init` are slash commands. `implement` and `verify` are natural-language triggers so the user decides when to advance.
+- **No subagents**: main invokes `analyze`, `implement`, and `verify` skills directly. Evidence discipline is enforced by the verify skill's prompt rules (files / diff / test results only, not conversation memory), not by agent separation.
+- **`analyze` skill is a utility, not a phase**: on-demand investigation tool that writes no files. Distinct from `/analyze-init`, which is the Phased design phase producing `analysis.md`. The skill may be invoked at any time in either flow; it is orthogonal to the phase sequence.
+- **Verify reject escalates to user, no auto-retry**: prompt-only orchestration cannot enforce retry counts deterministically, so rejects surface to the user for judgment. The verify skill classifies rejects (`style/minor`, `correctness`, `design/scope`) to help decide next steps.
+- **Per-feature folder**: `docs/<feature-name>/` holds `spec.md`, `analysis.md`, `implement.md`, and `README.md`. There is no `verify.md` — verify returns judgment to the conversation, and main flips the `implement.md` checkbox per CLAUDE.md §Verify Handoff.
+- **SPEC owns completion criteria; ANALYSIS is design-only**: `spec.md` §5 holds requirement-level completion criteria. `analysis.md` carries structure, data flow, interfaces, impact, risks, and Decision Points — no checklists. `implement.md` maps each Task back to `spec.md` §5 with narrower Task-level verification criteria.
+- **Phased flow is user-controlled**: `/spec-init` → `/analyze-init` → `/implement-init` are slash commands. `implement` and `verify` are natural-language triggers so the user decides when to advance.
 
 ### What to preserve when modifying
-- Role isolation between agents (analyzer never implements, verifier never modifies any file)
-- Evidence-based verification (verifier requires diff/test evidence, not reasoning alone)
-- Phase contracts: downstream phases read documents, not conversation context
-- User controls phase transitions (commands are user-initiated, not auto-chained)
-- README.md Status checklist ownership is explicit per phase (see CLAUDE.md Orchestration Rules)
+- Evidence discipline: verify cites files / diff / test results, not conversation reasoning.
+- Judgment-only verify: no file writes from verify; main is the sole writer of the implement.md checkbox.
+- Phase contracts: downstream phases read documents, not conversation context.
+- User controls phase transitions (commands are user-initiated, not auto-chained).
+- Feature README Status flip ownership is explicit per command (see each `commands/*-init.md`).
 
 ## Workflow
 
 Two flows, authoritative in CLAUDE.md:
 
-- **User-driven — Phased**: `prompt → [analyze if triggered] → /spec-init → /plan-init → /implement-init → implement → verify`
-- **Automatic — Per-Request**: `prompt → [analyze if triggered] → implement → verify` (no docs generated)
+- **Phased (user-driven)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
+- **Per-Request (automatic)**: `prompt → implement → verify` (no docs generated)
 
-`analyze`, `implement`, `verify` are skills in `skills/`, invoked through the corresponding subagents in `agents/`. They are not slash commands — the main agent routes the user's request to the subagent, which runs the skill. Direct skill invocation is not part of the standard flow. Narrow exception: main agent may implement directly when no design decision is required, the change is ≤ a few lines in one file, there is no new interface, and no test changes.
+The `analyze` skill is an on-demand investigation utility invokable from either flow; it is not part of the phase sequence. See CLAUDE.md §Analysis Trigger for conditions.
 
-See CLAUDE.md → Execution & Orchestration for trigger conditions, handoff, and reject handling.
+See CLAUDE.md §Execution & Orchestration for trigger conditions, handoff, and reject handling.
 
 ## Structure
 
@@ -44,27 +44,19 @@ CLAUDE.md          # Global rules (response language, orchestration, policy, doc
 config.json        # Claude Code base settings
 ```
 
-### agents/ — Custom subagent definitions
-
-Run in separate contexts, bound to skills.
-
-- `analyzer.md` — Analysis agent (analyze skill)
-- `implementer.md` — Implementation agent (implement skill)
-- `verifier.md` — Verification agent (verify skill)
-
 ### commands/ — Slash command definitions
 
-Each command writes under `docs/<feature-name>/` and updates `README.md` Status.
+Each command writes under `docs/<feature-name>/` and updates the feature `README.md` Status.
 
-- `spec-init.md` — Create spec.md + initialize README.md (`/spec-init <feature-name>`)
-- `plan-init.md` — Create plan.md from spec.md (`/plan-init <feature-name>`)
-- `implement-init.md` — Create implement.md from plan.md (`/implement-init <feature-name>`)
+- `spec-init.md` — Create `spec.md` + initialize feature `README.md` (`/spec-init <feature-name>`)
+- `analyze-init.md` — Create `analysis.md` from `spec.md` (`/analyze-init <feature-name>`)
+- `implement-init.md` — Create `implement.md` from `analysis.md` (`/implement-init <feature-name>`)
 
 ### skills/ — Skill definitions
 
-- `analyze` — Analysis, debugging, design decisions. Invocation conditions live in CLAUDE.md Analysis Trigger.
-- `implement` — Execute next item from implement.md, or a Per-Request change with scope self-check.
-- `verify` — Independent verification against spec.md §5 + implement.md Unit-level criteria. Returns judgment; main agent writes verify.md.
+- `analyze` — On-demand investigation utility. Output to conversation only, no file writes. Invocation conditions live in CLAUDE.md §Analysis Trigger.
+- `implement` — Execute the next Task from `implement.md`, or a Per-Request change.
+- `verify` — Judge whether the most recent implement Task satisfies its DoD. Returns judgment to the conversation; main flips the `implement.md` checkbox per CLAUDE.md §Verify Handoff. Owns all test-related rules (when a test item is required, when implement writes test code, what counts as valid test evidence) — see `skills/verify/SKILL.md` §Test Rules.
 
 ## Management
 

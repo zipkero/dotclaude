@@ -21,69 +21,62 @@
 
 ## Document Layout
 Per-feature artifacts at `docs/<feature-name>/`:
-- `spec.md` — requirements
-- `plan.md` — design
-- `implement.md` — checklist + per-item verification criteria
-- `verify.md` — append-only verification log
-- `README.md` — summary, status, history
+- `spec.md` — requirements (what must exist)
+- `analysis.md` — analysis + design (structure, data flow, interfaces, impact, risks, decisions)
+- `implement.md` — execution checklist (Task 단위)
+- `README.md` — feature-level summary, Status, history
 
-`<feature-name>` is set at `/spec-init` and reused downstream.
+`<feature-name>` is set at `/spec-init` and reused downstream. There is no `verify.md` — verify returns judgment to the conversation; main flips the implement.md checkbox per §Verify Handoff.
 
 ## Execution & Orchestration
 
 ### Defaults
-- One user-facing reply per user turn. Internal agent orchestration is exempt.
+- One user-facing reply per user turn. Internal orchestration is exempt.
 - Step-by-step only when the user explicitly requests it, or when the task is stateful/destructive.
 
 ### Flows
-- **Phased** (user-driven): `prompt → [analyze if triggered] → /spec-init → /plan-init → /implement-init → implement → verify`. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
-- **Per-Request** (automatic): `prompt → [analyze if triggered] → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope. No documents generated; scope self-check lives in the implement skill.
+- **Phased** (user-driven): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
+- **Per-Request** (automatic): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope. No documents generated.
+
+The `analyze` skill is a cross-cutting investigation utility — not a phase. Main invokes it on demand per §Analysis Trigger below; the user may also invoke it directly at any time. It writes no files and is orthogonal to the flow sequences above.
 
 ### Orchestration Rules
-- Main agent is the sole invoker of subagents (analyzer / implementer / verifier). Subagents never call subagents. Skills are invoked through their corresponding subagent.
-  - Exception: main may invoke the implement skill directly (bypassing implementer agent) for trivial single-file edits with no design decision, no new interface, no test changes. Skill behavior (including implement.md checkbox update) still applies.
-- Test ownership lives in the implement and verify skills; CLAUDE.md delegates.
-- On analyzer Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
+- No subagents. Main invokes `analyze`, `implement`, and `verify` skills directly.
+- On analyze skill Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
+- Test ownership lives in the verify skill. Implement skill and implement-init command reference it rather than duplicating rules.
 
 ### Verify Handoff
-Phased mode only. In Per-Request mode no documents exist — verifier returns judgment as conversation output and nothing else is written.
+Verify skill returns judgment only. Main is the sole writer of the implement.md checkbox (both directions).
 
-Verifier returns judgment only. Main agent performs all document updates. Section format (fields, headings) is defined in the verify skill; this section governs orchestration only.
+- **Approved**: main flips the target implement.md checkbox `[ ]` → `[x]`. No other file changes. Notify user.
+- **Rejected**:
+  - If the target checkbox was `[ ]` (typical post-implement case), it stays `[ ]`.
+  - If re-verifying a previously approved Task and the checkbox was `[x]`, main flips it back `[x]` → `[ ]`.
+  - In either case, relay issues + reject reason to the user. No auto-retry. Next `implement` trigger resumes the same Task.
 
-On `rejected`:
-1. Revert the affected implement.md checkbox (`[x]` → `[ ]`).
-2. Append a failure section to verify.md (format per verify skill).
-3. Unflip any stale `[x] IMPLEMENT` / `[x] VERIFY`.
-4. Return issues to user. No auto-retry.
+Per-Request mode: same protocol but no implement.md exists — result is conversation output only.
 
-On `approved`:
-1. Append a pass section to verify.md (format per verify skill). Prior failure sections preserved.
-2. When approval covers remaining scope AND every implement.md item is `[x]`, flip `[x] VERIFY` and append `- <yyyy-MM-dd>: VERIFY 완료`.
-3. Notify user.
-
-### README.md Status Ownership
-- `/spec-init`: create README.md, set `[x] SPEC`, append `- <yyyy-MM-dd>: SPEC 작성`.
-- `/plan-init`: set `[x] PLAN`, append `- <yyyy-MM-dd>: PLAN 작성`.
-- `/implement-init`: populate checklist only (do NOT touch `[ ] IMPLEMENT`), append `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
-- Main agent flips `[x] IMPLEMENT` when the last implement.md item is checked, appending `- <yyyy-MM-dd>: IMPLEMENT 완료`. VERIFY: see Verify Handoff.
-- Reconciliation: after any checkbox revert, main agent unflips `[x] IMPLEMENT` / `[x] VERIFY` if no longer valid. Status must reflect current state.
+### Feature README Ownership
+- Never modify the repo-root `/README.md`. Only the per-feature README (`docs/<feature-name>/README.md`) is touched by slash commands.
+- Per-command Status flip rules live in each command file (`commands/spec-init.md`, `commands/analyze-init.md`, `commands/implement-init.md`).
+- Feature completion is observable as "every implement.md Task `[x]`". Status carries no post-implementation flag.
 
 ### Revision & Rollback
-- Overwrite rule: slash commands overwrite by default. If any downstream document exists, warn and wait for explicit confirmation.
-- Requirements change → update spec.md, propagate only to affected sections of plan.md → implement.md → verify.md. Untouched sections stay as-is.
-- Design change during implement → revise plan.md first, then update affected implement.md items.
-- Verify reject → fix implement.md items and re-run implement/verify. All verify.md attempt history is preserved.
+- Requirements change → update spec.md, propagate only to affected sections of analysis.md → implement.md. Untouched sections stay as-is.
+- Design change during implement → revise analysis.md first, then update affected implement.md items.
+- Verify reject → fix the Task and re-run implement/verify. Checkbox remains `[ ]` until approval.
+- Slash command overwrite semantics live in each command file's Overwrite Rule section.
 
 ### Analysis Trigger
-Main agent auto-invokes analyzer when any of the following holds:
+The `analyze` skill is an on-demand investigation tool, not a phase. It writes no files — output lands in the conversation. Main auto-invokes it when any of the following holds:
 - cause unknown
 - non-obvious design decision required
 - multiple files affected with unclear impact
 - new interface or boundary introduced
-- state or concurrency involved
+- concurrency or shared mutable state crossing a boundary
 - production data / external API / auth path affected
 
-In Phased flow the user usually invokes analyzer explicitly before `/spec-init`; auto-trigger still applies when skipped. This trigger decides whether main invokes analyzer. A separate decision — whether to suggest `/spec-init` before executing a Per-Request change — lives in the implement skill's scope self-check. The two may fire on overlapping signals but answer different questions; neither subsumes the other.
+Relationship to `/analyze-init`: the `analyze` skill is a utility (no file output); `/analyze-init` is the Phased design phase that writes `analysis.md`. A typical Phased pattern is to invoke `analyze` first to understand the problem, then run `/spec-init` → `/analyze-init` once scope is clear.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.

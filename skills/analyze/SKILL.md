@@ -3,8 +3,13 @@ name: analyze
 description: "Analyze code, debug, understand systems before changes. See CLAUDE.md Analysis Trigger for invocation conditions. Also usable for standalone debugging."
 ---
 
+## Role
+On-demand investigation utility, not a phase. No file writes — output lands in the conversation.
+
+Distinct from `/analyze-init`: this skill investigates; `/analyze-init` writes `analysis.md` as the Phased design phase. A typical pattern is to invoke this skill first to understand a problem, then (if the work warrants documentation) run `/spec-init` → `/analyze-init` once scope is clear.
+
 ## Context Loading
-1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it → feature mode. Read spec.md, plan.md, and implement.md (in that order, whichever exist). Scope the analysis to this feature. If verify.md exists, include its latest attempt section as context for recent failures.
+1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it → feature mode. Read spec.md, analysis.md, and implement.md (in that order, whichever exist). Scope the analysis to this feature.
 2. `$ARGUMENTS` points to a specific file or symbol → analyze that target. Read surrounding context as needed.
 3. `$ARGUMENTS` empty:
    - If a `docs/<feature-name>/` directory is implied by recent conversation, load as in (1).
