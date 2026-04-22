@@ -18,7 +18,7 @@ description: "Execute the next Task from docs/<feature-name>/implement.md. For P
 
 ## Per-Request flow
 State a brief approach note (1-3 sentences) before execution, covering:
-- scope and files touched
+- scope of the change (the explicit file list goes in the Files touched section of Output Structure)
 - risky points
 - non-expansion line — what this change will NOT add (see baseline below)
 

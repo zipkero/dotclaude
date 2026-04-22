@@ -31,7 +31,7 @@ Feature name: $ARGUMENTS
 Each Task is a checklist entry with three fields. Nothing else.
 
 ```
-- [ ] <Task title — 작업 단위 제목>
+- [ ] <Task 제목>
   - 목적: → SPEC §5.N / → ANALYSIS §X.Y
   - 접근: 1-2줄 구현 방식
   - 검증 조건: 이 Task가 완료되었음을 판별할 관찰 가능한 기준 (1-3줄)

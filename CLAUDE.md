@@ -37,8 +37,8 @@ Per-feature artifacts at `docs/<feature-name>/`:
 ### Flows
 Two flows. Phased preserves artifacts (spec → analysis → implement) as evidence for the work; Per-Request executes directly without persistent documents. Pick Phased when the work warrants a persistent trail (handoff, later reference, non-trivial scope); Per-Request otherwise.
 
-- **Phased** (user-driven, artifact-preserving): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Each phase writes a document that downstream phases consume. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
-- **Per-Request** (automatic, no artifacts): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope.
+- **Phased** (user-driven): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Each phase writes a document that downstream phases consume. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
+- **Per-Request** (automatic): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope.
 
 The `analyze` skill is orthogonal to both flows — see §Analysis Trigger.
 

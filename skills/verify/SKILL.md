@@ -25,7 +25,7 @@ If an argument for correctness relies on "we discussed this earlier", it is not 
    - Diff source: working tree (uncommitted changes from the most recent implement turn). If already committed, main passes the diff range explicitly when invoking this skill (commit SHAs, or the Files touched list from implement's output).
    - No documents are read or written.
 
-If the target Task is ambiguous (multiple pending, or none marked as the in-flight target), ask the user to specify before judging.
+If the target Task cannot be identified unambiguously (multiple pending, or no single Task identifiable as the most recent implement target), ask the user to specify before judging.
 
 ## Output Structure
 1. Status: `approved` | `rejected`

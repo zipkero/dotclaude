@@ -59,7 +59,6 @@ Feature name: $ARGUMENTS
 
 ## Global Rules
 - Do not invent requirements beyond spec.md. New requirements require updating spec.md first.
-- Do not write checkboxes, TODO lists, or per-Task ordering. Those belong in implement.md.
 - Do not redefine SPEC completion criteria. Reference them by `→ SPEC §5.N` when a design element directly supports one.
 
 ## README Update

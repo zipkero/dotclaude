@@ -21,7 +21,7 @@ Personal configuration repository for Claude Code.
 
 ### What to preserve when modifying
 - Evidence discipline: verify cites files / diff / test results, not conversation reasoning.
-- Judgment-only verify: no file writes from verify; main is the sole writer of the implement.md checkbox.
+- Judgment-only verify: verify writes no files. Checkbox authority is described in CLAUDE.md §Verify Handoff.
 - Phase contracts: downstream phases read documents, not conversation context.
 - User controls phase transitions (commands are user-initiated, not auto-chained).
 - Feature README Status flip ownership is explicit per command (see each `commands/*-init.md`).
@@ -30,8 +30,8 @@ Personal configuration repository for Claude Code.
 
 Two flows, authoritative in CLAUDE.md. Pick Phased when the work warrants a persistent trail (handoff, later reference, non-trivial scope); Per-Request otherwise.
 
-- **Phased (user-driven, artifact-preserving)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
-- **Per-Request (automatic, no artifacts)**: `prompt → implement → verify`
+- **Phased (user-driven)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
+- **Per-Request (automatic)**: `prompt → implement → verify`
 
 The `analyze` skill is an on-demand investigation utility invokable from either flow; it is not part of the phase sequence. See CLAUDE.md §Analysis Trigger for conditions.
 

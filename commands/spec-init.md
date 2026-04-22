@@ -11,7 +11,7 @@ Feature name: $ARGUMENTS
 ## Role
 - Upstream reference for analysis.md and implement.md.
 - Static document. SPEC is not a progress tracker and is not modified by implement or verify.
-- Completion criteria at the requirement level — "the feature is considered delivered when X, Y, Z are observable." Do not confuse with implement.md's Task-level verification criteria (narrower DoD per Task).
+- Completion criteria at the requirement level — "the feature is considered delivered when X, Y, Z are observable." Do not confuse with implement.md's Task-level verification criteria, which are narrower and per-Task.
 
 ## Prerequisites
 - If feature name is empty, stop.
