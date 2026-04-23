@@ -40,10 +40,11 @@ Two flows. Phased preserves artifacts (spec → analysis → implement) as evide
 - **Phased** (user-driven): `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. Each phase writes a document that downstream phases consume. Slash commands are user-invoked (no auto-chaining). `implement` and `verify` are natural-language triggers so the user controls phase advancement.
 - **Per-Request** (automatic): `prompt → implement → verify`. Entered for a natural prompt with no slash command and no active `docs/<feature>/` scope.
 
-The `analyze` skill is orthogonal to both flows — see §Analysis Trigger.
+The `analyze` skill is a standalone debugging utility, orthogonal to both flows. Not used as a pre-phase for `/spec-init`.
 
 ### Orchestration Rules
-- No subagents. Main invokes `analyze`, `implement`, and `verify` skills directly.
+- No orchestration subagents. Main invokes `analyze`, `implement`, and `verify` skills directly — these are not delegated to subagents.
+- Read-only exploration may use the `Explore` subagent when the task would otherwise require bulk grep/Read across many files (e.g., tracing a flow across 10+ files, codebase-wide keyword survey). Explore returns a summary to main, keeping raw results out of main context. Do not use Explore for single-file reads or targeted lookups where direct Read/Grep is cheaper.
 - On analyze skill Blocker: stop and report for `infeasible` / `scope undefined`; relay to user and resume for `needs input`. Never fabricate a workaround.
 - Test ownership lives in the verify skill. Implement skill and implement-init command reference it rather than duplicating rules.
 
@@ -68,17 +69,6 @@ Per-Request mode: same protocol but no implement.md exists — result is convers
 - Design change during implement → revise analysis.md first, then update affected implement.md Tasks.
 - Verify reject → fix the Task and re-run implement/verify. Checkbox remains `[ ]` until approval.
 - Slash command overwrite semantics live in each command file's Overwrite Rule section.
-
-### Analysis Trigger
-The `analyze` skill is an on-demand investigation tool, not a phase. It writes no files — output lands in the conversation. Main auto-invokes it when any of the following holds:
-- cause unknown
-- non-obvious design decision required
-- multiple files affected with unclear impact
-- new interface or boundary introduced
-- concurrency or shared mutable state crossing a boundary
-- production data / external API / auth path affected
-
-Relationship to `/analyze-init`: the `analyze` skill is a utility (no file output); `/analyze-init` is the Phased design phase that writes `analysis.md`. A typical Phased pattern is to invoke `analyze` first to understand the problem, then run `/spec-init` → `/analyze-init` once scope is clear.
 
 ## Policy Priority
 - Project CLAUDE.md > global CLAUDE.md. Same-level conflict: prefer the narrower rule tied to correctness, scope, or risk.

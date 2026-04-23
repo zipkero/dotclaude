@@ -12,8 +12,8 @@ Personal configuration repository for Claude Code.
 - `implement` → `verify` → checkbox flip is a hard gate: a Task is recorded as done only after an explicit judgment pass against artifacts, not by forward momentum.
 
 ### Key design decisions
-- **No subagents**: main invokes `analyze`, `implement`, and `verify` skills directly. Evidence discipline (judgment must cite files / diff / test results, not conversation memory) is enforced by the verify skill's prompt rules rather than by agent separation.
-- **`analyze` skill is a utility, not a phase**: on-demand investigation tool that writes no files. Distinct from `/analyze-init`, which is the Phased design phase producing `analysis.md`. The skill may be invoked at any time in either flow; it is orthogonal to the phase sequence.
+- **No orchestration subagents**: main invokes `analyze`, `implement`, and `verify` skills directly — these are not delegated to subagents. Evidence discipline (judgment must cite files / diff / test results, not conversation memory) is enforced by the verify skill's prompt rules rather than by agent separation. Read-only exploration may use the `Explore` subagent for bulk codebase survey (context isolation); see CLAUDE.md §Orchestration Rules.
+- **`analyze` skill is a standalone debugging utility, not a pre-phase**: on-demand investigation tool that writes no files. Distinct from `/analyze-init`, which is the Phased design phase producing `analysis.md`. For Phased work, invoke `/spec-init` directly — this skill is not a pre-phase.
 - **Verify reject escalates to user, no auto-retry**: prompt-only orchestration cannot enforce retry counts deterministically, so rejects surface to the user for judgment. The verify skill classifies rejects (`style/minor`, `correctness`, `design/scope`) to help decide next steps.
 - **Per-feature folder**: `docs/<feature-name>/` holds `spec.md`, `analysis.md`, `implement.md`, and `README.md`. There is no `verify.md` — verify returns judgment to the conversation, and main is the sole writer of the `implement.md` checkbox (both directions — see CLAUDE.md §Verify Handoff).
 - **SPEC owns completion criteria; ANALYSIS is design-only**: `spec.md` §5 holds requirement-level completion criteria. `analysis.md` carries structure, data flow, interfaces, impact, risks, and Decision Points — no checklists. `implement.md` maps each Task back to `spec.md` §5 with narrower Task-level verification criteria.
@@ -33,7 +33,7 @@ Two flows, authoritative in CLAUDE.md. Pick Phased when the work warrants a pers
 - **Phased (user-driven)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
 - **Per-Request (automatic)**: `prompt → implement → verify`
 
-The `analyze` skill is an on-demand investigation utility invokable from either flow; it is not part of the phase sequence. See CLAUDE.md §Analysis Trigger for conditions.
+The `analyze` skill is a standalone debugging utility invokable from either flow; it is not part of the phase sequence and not a pre-phase for `/spec-init`.
 
 See CLAUDE.md §Execution & Orchestration for flow entry conditions, handoff, and reject handling.
 
@@ -54,7 +54,7 @@ Each command writes under `docs/<feature-name>/` and updates the feature `README
 
 ### skills/ — Skill definitions
 
-- `analyze` — On-demand investigation utility. Output to conversation only, no file writes. Invocation conditions live in CLAUDE.md §Analysis Trigger.
+- `analyze` — Standalone debugging / code comprehension utility. Output to conversation only, no file writes.
 - `implement` — Execute the next Task from `implement.md` (Phased), or a Per-Request change without artifacts. Emits a **Files touched** list so the next `verify` call has an explicit diff scope.
 - `verify` — Judge whether the most recent implement Task satisfies its DoD. Returns judgment to the conversation; main flips the `implement.md` checkbox per CLAUDE.md §Verify Handoff. Owns all test-related rules (when a test Task is required, when implement writes test code, what counts as valid test evidence) — see `skills/verify/SKILL.md` §Test Rules.
 
