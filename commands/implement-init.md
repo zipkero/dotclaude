@@ -18,7 +18,7 @@ Feature name: $ARGUMENTS
 - If feature name is empty, stop.
   - Guide: "Pass the feature name as argument. Example: `/implement-init payment-integration`"
 - If `docs/<feature-name>/analysis.md` does not exist, stop and request `/analyze-init` first.
-- If analysis.md §6 Decision Points contains unresolved entries, warn before proceeding. User may override.
+- If analysis.md §5 Decision Points contains unresolved entries, warn before proceeding. User may override.
   - "unresolved" = a Decision Point with no selected option, or the selected option is marked as TBD / 미정 / 보류.
 - Read analysis.md and spec.md §5 in full before writing.
 
@@ -75,7 +75,7 @@ Template when a test Task is added:
 
 ## Ordering
 - By dependency only: "what must exist before the next is possible." No chronological ordering.
-- If multiple orderings are viable and the choice matters for correctness, that decision belongs in analysis.md §6 Decision Points, not here.
+- If multiple orderings are viable and the choice matters for correctness, that decision belongs in analysis.md §5 Decision Points, not here.
 
 ## Mapping
 - Every Task must map to at least one spec.md §5 completion criterion via `→ SPEC §5.N`.
@@ -96,7 +96,7 @@ On completion of `/implement-init` (Tasks listed, not yet executed):
 See CLAUDE.md §Feature README Ownership for feature completion semantics.
 
 ## Prohibited
-- Decision Points inside implement.md — all decisions live in analysis.md §6
+- Decision Points inside implement.md — all decisions live in analysis.md §5
 - Task sub-fields other than 목적 / 접근 / 검증 조건
 - Concept explanations, structural diagrams — belong in analysis.md
 - Tasks without a SPEC §5 mapping

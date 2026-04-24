@@ -55,7 +55,7 @@ All reject categories block Task approval equally — the checkbox does not flip
 Other documents reference these rules; do not duplicate them elsewhere.
 
 ### When implement.md includes a test Task (referenced by `/implement-init`)
-Add an explicit test Task to implement.md when analysis.md §5 Risks or §2 Data Flow indicates meaningful regression risk: state change, external I/O, concurrency, or new boundary.
+Add an explicit test Task to implement.md when analysis.md §2 Data Flow or §5 Decision Points indicates meaningful regression risk: state change, external I/O, concurrency, or new boundary.
 
 ### When implement writes test code (referenced by `implement` skill)
 Implement writes test code **only** for test Tasks. A Task qualifies as a test Task when any of the following holds:
