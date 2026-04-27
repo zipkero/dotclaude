@@ -26,7 +26,7 @@ feature 단위 산출물은 `docs/<feature-name>/` 아래에 두며, 다음 네 
 - `implement.md` — 실행 체크리스트 (Task 단위)
 - `README.md` — feature 단위 요약, Status, 히스토리
 
-`<feature-name>`은 `/spec-init`에서 결정하고 하류 단계에서 그대로 재사용한다. `verify.md`는 두지 않으며, verify의 판단이 implement.md 체크박스에 반영되는 방식은 §Verify Handoff에서 다룬다.
+`<feature-name>`은 `/spec-init`에서 결정하고 이후 단계에서 그대로 재사용한다. `verify.md`는 두지 않으며, verify의 판단이 implement.md 체크박스에 반영되는 방식은 §Verify Handoff에서 다룬다.
 
 ## Execution & Orchestration
 

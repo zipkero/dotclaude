@@ -51,7 +51,7 @@ Feature name: $ARGUMENTS
 ```
 
 필드 의미 (command 작성자 참조용; 산출물 자체는 위의 한국어 라벨을 사용한다):
-- 목적 (Purpose): 위 표기에 따른 상류 매핑.
+- 목적 (Purpose): 위 표기에 따른 spec.md 완료 조건과의 매핑.
 - 접근 (Approach): 짧은 구현 방식. 더 깊은 내용이 필요하다면 그 깊이는 analysis.md 소관이므로 analysis.md를 먼저 갱신한다.
 - 검증 조건 (Verification criteria): Task-level DoD. 좁고 관찰 가능해야 한다. Task가 spec 기준에 1:1로 매핑되면 약식 표기를 허용한다 — `→ SPEC §5.N 동일`.
 

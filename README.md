@@ -8,8 +8,8 @@ Claude Code의 개인 설정 저장소.
 
 ### 이 구조가 존재하는 이유
 - Claude Code의 기본 동작은 단일 덩어리 응답이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
-- `docs/<feature-name>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 하류 phase는 대화가 아니라 상류 문서를 읽는다.
-- `implement` → `verify` → 체크박스 전환은 엄격한 게이트다. 산출물에 근거한 명시적 판단 패스를 통과한 Task만 done으로 기록되며, 추진력만으로 넘어가지 않는다.
+- `docs/<feature-name>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
+- `implement` → `verify` → 체크박스 전환은 엄격한 통과 단계다. 산출물에 근거한 명시적 판단 패스를 통과한 Task만 done으로 기록되며, 추진력만으로 넘어가지 않는다.
 
 ### 핵심 설계 결정
 - **orchestration subagent를 두지 않는다**: main이 `analyze`/`implement`/`verify` skill을 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 agent 분리가 아니라 verify skill의 prompt 룰로 강제한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main context를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §Orchestration Rules에 둔다.
@@ -22,7 +22,7 @@ Claude Code의 개인 설정 저장소.
 ### 수정 시 보존할 것
 - evidence discipline: verify는 대화 추론이 아니라 파일·diff·테스트 결과를 인용한다.
 - 판단만 반환하는 verify: verify는 파일을 쓰지 않으며, 체크박스 권한은 CLAUDE.md §Verify Handoff에 정의한다.
-- phase contract: 하류 phase는 대화 맥락이 아니라 상류 문서를 읽는다.
+- phase contract: 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
 - phase 전이는 사용자가 통제하며, command는 사용자 발화 기반이고 자동으로 이어지지 않는다.
 - feature README의 Status 전환 소유권은 각 `commands/*-init.md`에 명시한다.
 

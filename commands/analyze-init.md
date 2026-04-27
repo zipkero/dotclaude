@@ -21,7 +21,7 @@ Feature name: $ARGUMENTS
 
 ## Overwrite Rule
 - `analysis.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
-- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 하류 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
+- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 
 ## analysis.md Structure
 

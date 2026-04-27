@@ -2,20 +2,20 @@
 description: Create spec.md (requirements + completion criteria) under docs/<feature-name>/ and initialize the feature README
 ---
 
-> 사용 시점: Phased flow의 첫 단계로, 하류의 `/analyze-init` / `/implement-init`이 참조하는 SPEC을 만든다.
+> 사용 시점: Phased flow의 첫 단계로, `/analyze-init` / `/implement-init`이 참조하는 SPEC을 만든다.
 
 `docs/<feature-name>/spec.md`를 작성하고 `docs/<feature-name>/README.md`를 초기화한다. SPEC은 요구사항 레벨에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡으며, 설계나 구현 순서는 다루지 않는다.
 
 Feature name: $ARGUMENTS
 
 ## Role
-- analysis.md와 implement.md의 상류 참조 역할을 한다.
+- analysis.md와 implement.md가 참조하는 기준 문서다.
 - 정적 문서이며 진행 상황 트래커가 아니다. implement나 verify가 SPEC을 수정하지 않는다.
 - 요구사항 레벨의 완료 조건만 다룬다 — "X·Y·Z가 관찰될 때 feature가 완성되었다고 본다." implement.md의 더 좁은 Task-level 검증 조건과는 구분한다.
 
 ## Prerequisites
 - feature name이 비어 있으면 중단한다.
-  - 사유: feature name이 출력 경로(`docs/<feature-name>/`)를 결정하며 하류 command가 이를 그대로 재사용한다.
+  - 사유: feature name이 출력 경로(`docs/<feature-name>/`)를 결정하며 이후 command가 이를 그대로 재사용한다.
   - 안내: "feature name을 인자로 전달하세요. 예: `/spec-init payment-integration`"
 - 의도가 모호하면 작성 전에 사용자에게 질문한다.
 
@@ -26,7 +26,7 @@ Feature name: $ARGUMENTS
 
 ## Overwrite Rule
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
-- 하류 문서(`analysis.md`, `implement.md`)가 존재하면, SPEC 덮어쓰기가 하류 내용을 무효화할 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 analysis.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md Revision & Rollback 참고).
+- `analysis.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 analysis.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md Revision & Rollback 참고).
 
 ## spec.md Structure
 
