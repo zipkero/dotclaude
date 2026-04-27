@@ -2,14 +2,14 @@
 
 Claude Code의 개인 설정 저장소.
 
-> 권위 있는 룰은 CLAUDE.md에 둔다. 이 README는 구조와 설계 의도를 설명한다.
+> 룰의 본문은 CLAUDE.md에 둔다. 이 README는 구조와 설계 의도를 설명한다.
 
 ## Design Intent
 
 ### 이 구조가 존재하는 이유
 - Claude Code의 기본 동작은 단일 덩어리 응답이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
 - `docs/<feature-name>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
-- `implement` → `verify` → 체크박스 전환은 엄격한 통과 단계다. 산출물에 근거한 명시적 판단 패스를 통과한 Task만 done으로 기록되며, 추진력만으로 넘어가지 않는다.
+- `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록되며, 흐름에 떠밀려 넘어가지 않는다.
 
 ### 핵심 설계 결정
 - **orchestration subagent를 두지 않는다**: main이 `analyze`/`implement`/`verify` skill을 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 agent 분리가 아니라 verify skill의 prompt 룰로 강제한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main context를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §Orchestration Rules에 둔다.
@@ -21,14 +21,14 @@ Claude Code의 개인 설정 저장소.
 
 ### 수정 시 보존할 것
 - evidence discipline: verify는 대화 추론이 아니라 파일·diff·테스트 결과를 인용한다.
-- 판단만 반환하는 verify: verify는 파일을 쓰지 않으며, 체크박스 권한은 CLAUDE.md §Verify Handoff에 정의한다.
+- 판단만 반환하는 verify: verify는 파일을 쓰지 않으며, 체크박스 갱신 룰은 CLAUDE.md §Verify Handoff에 둔다.
 - phase contract: 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
 - phase 전이는 사용자가 통제하며, command는 사용자 발화 기반이고 자동으로 이어지지 않는다.
 - feature README의 Status 전환 소유권은 각 `commands/*-init.md`에 명시한다.
 
 ## Workflow
 
-flow는 두 가지이며 권위는 CLAUDE.md에 있다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
+flow는 두 가지다. 자세한 룰은 CLAUDE.md에 두며, 여기서는 진입 시점만 요약한다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
 
 - **Phased (사용자 주도)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
 - **Per-Request (자동)**: `prompt → implement → verify`
@@ -40,7 +40,7 @@ flow 진입 조건, 핸드오프, reject 처리는 CLAUDE.md §Execution & Orche
 ## Structure
 
 ```
-CLAUDE.md          # 권위 있는 룰 (응답 언어, orchestration, policy, 문서 layout)
+CLAUDE.md          # 룰 본문 (응답 언어, orchestration, policy, 문서 layout)
 config.json        # Claude Code 기본 설정
 ```
 
