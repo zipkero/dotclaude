@@ -4,79 +4,79 @@ description: "Judge whether the most recent implement Task satisfies spec.md com
 ---
 
 ## Role
-Verify is a **Task-level judgment tool**. It runs after an `implement` turn and answers one question: did the Task that was just built meet its DoD?
+verify는 **Task-level 판단 도구**다. `implement` turn 직후에 실행되어 단 하나의 질문에 답한다 — 방금 만든 Task가 DoD를 만족했는가?
 
-- No file writes. Verify returns judgment only. Main is the sole writer of the implement.md checkbox (both directions) — see CLAUDE.md §Verify Handoff.
-- There is no feature-level verification pass and no `verify.md`.
+- verify는 판단만 반환하며, implement.md 체크박스는 main이 양방향으로 관리한다 (CLAUDE.md §Verify Handoff 참고).
+- feature-level 검증 패스는 두지 않으며, `verify.md`도 두지 않는다.
 
 ## Evidence Discipline
-Judgment must cite **files, diff, or test results** — not conversation memory. Even though main runs verify inline, the skill deliberately sets aside conversational reasoning accumulated during implement and re-derives its conclusion from artifacts:
-- Phased mode: spec.md, analysis.md, implement.md, code diff, test results.
-- Per-Request mode: user request (as originally stated), code diff, test results.
+판단은 **파일·diff·테스트 결과**를 인용해야 하며, 대화 기억에 의존하지 않는다. main이 verify를 그 자리에서 실행하더라도 skill은 implement 도중 누적된 대화 추론을 의도적으로 한쪽에 두고 산출물에서 결론을 다시 도출한다.
+- Phased mode: spec.md, analysis.md, implement.md, code diff, 테스트 결과.
+- Per-Request mode: 사용자 요청(원래 발화 그대로), code diff, 테스트 결과.
 
-If an argument for correctness relies on "we discussed this earlier", it is not valid evidence. Re-read the file or run the test.
+correctness 주장이 "전에 논의했음"에 의존한다면 그것은 유효한 evidence가 아니다. 파일을 다시 읽거나 테스트를 다시 돌린다.
 
 ## Context Loading
-1. `$ARGUMENTS` matches `docs/<feature-name>/` or any file under it, **or** the conversation indicates an active `docs/<feature-name>/` scope (same definition as in `implement` skill §Context Loading) → Phased mode.
-   - Read spec.md completion criteria (requirement-level baseline).
-   - Read implement.md. The verification target is the Task most recently executed by `implement` (still `[ ]`, awaiting judgment). Use its 검증 조건 field as the Task-level baseline.
-   - Read analysis.md Decision Points when design-intent match is in question.
-2. Otherwise → Per-Request mode. Verify from request scope + code diff only.
-   - Diff source: working tree (uncommitted changes from the most recent implement turn). If already committed, main passes the diff range explicitly when invoking this skill (commit SHAs, or the Files touched list from implement's output).
-   - No documents are read or written.
+1. `$ARGUMENTS`가 `docs/<feature-name>/` 또는 그 하위 파일과 매치하거나, 대화가 활성 `docs/<feature-name>/` scope를 가리킬 때(`implement` skill §Context Loading과 동일 정의) → Phased mode.
+   - spec.md 완료 조건을 읽는다 (요구사항 레벨 기준).
+   - implement.md를 읽는다. 검증 대상은 직전 `implement`이 실행한 Task(여전히 `[ ]`이며 판단 대기 상태)이며, 그 Task의 검증 조건 필드를 Task-level 기준으로 삼는다.
+   - 설계 의도 일치 여부가 쟁점일 때 analysis.md Decision Points를 읽는다.
+2. 그 외 → Per-Request mode. 요청 범위와 code diff만으로 verify한다.
+   - diff source: working tree (직전 implement turn의 미커밋 변경). 이미 commit된 경우, main이 이 skill 호출 시 diff 범위를 명시적으로 전달한다 (commit SHA, 또는 implement 출력의 Files touched 목록).
+   - 어떤 문서도 읽거나 쓰지 않는다.
 
-If the target Task cannot be identified unambiguously (multiple pending, or no single Task identifiable as the most recent implement target), ask the user to specify before judging.
+대상 Task를 모호하지 않게 식별할 수 없으면(여러 개가 대기 중이거나 직전 implement 대상으로 단일 식별이 불가능한 경우), 판단 전에 사용자에게 명시를 요청한다.
 
 ## Output Structure
 1. Status: `approved` | `rejected`
-2. Target Task: cite the implement.md Task title (Phased) or the user's stated change (Per-Request).
+2. Target Task: implement.md Task 제목(Phased) 또는 사용자가 발화한 변경(Per-Request)을 인용한다.
 3. Validation
-   - Request/Task match
-   - spec.md completion-criteria match (cite section number and state observed behavior) — Phased only
-   - Task 검증 조건 match — Phased only
-   - Design intent match (cite analysis.md Decision Point when relevant) — Phased only
-   - Scope correctness
-   - Behavioral correctness
-   - Evidence (diff, test result, or explicit limitation)
-4. If rejected — Issues
+   - 요청·Task 일치
+   - spec.md 완료 조건 일치 (섹션 번호 인용 + 관찰된 동작 기술) — Phased only
+   - Task 검증 조건 일치 — Phased only
+   - 설계 의도 일치 (관련 시 analysis.md Decision Point 인용) — Phased only
+   - 범위 정확성
+   - 동작 정확성
+   - Evidence (diff, 테스트 결과, 또는 명시적 한계)
+4. rejected인 경우 — Issues
    - Category: `style/minor` | `correctness` | `design/scope`
-   - List specific issues with evidence
-5. If approved — Explanation
-   - What changed and why (2-3 sentences)
-   - Remaining risk (include only if notable)
+   - 구체적 issue를 evidence와 함께 나열한다.
+5. approved인 경우 — Explanation
+   - 무엇이 어떻게 바뀌었는지 (2-3 문장).
+   - 잔여 risk (특기할 것이 있을 때만).
 
 ## Reject Categories
-All reject categories block Task approval equally — the checkbox does not flip to `[x]` until resolved. Categories exist only to help the user decide next steps.
-- `style/minor`: naming, comments, formatting, or other non-behavioral issues. Does not break correctness.
-- `correctness`: behavior does not satisfy spec.md completion criteria or implement.md verification criteria, contains a bug, breaks an invariant, or produces wrong output.
-- `design/scope`: implementation departs from analysis.md Decision Points, exceeds or falls short of requested scope, or violates agreed boundary. Requires decision — fix implementation or revise analysis.md.
+모든 reject category는 동등하게 Task 승인을 막으며, 해소 전까지 체크박스는 `[x]`로 전환되지 않는다. category는 사용자가 다음 단계를 결정하는 데 도움을 주기 위해서만 둔다.
+- `style/minor`: 명명·주석·포맷 등 비-동작적 issue로, 정확성은 깨지지 않는다.
+- `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 만족하지 않거나, 버그가 포함되었거나, invariant를 위반하거나, 잘못된 출력을 낸다.
+- `design/scope`: 구현이 analysis.md Decision Points에서 이탈하거나, 요청 범위를 초과·미달하거나, 합의된 경계를 위반한다. 결정이 필요하다 — 구현을 수정하거나 analysis.md를 개정한다.
 
-## Test Rules (authoritative — verify skill ownership)
-Other documents reference these rules; do not duplicate them elsewhere.
+## Test Rules (권위 — verify skill 소유)
+다른 문서는 이 룰을 참조하며, 다른 곳에서는 중복 기술하지 않는다.
 
-### When implement.md includes a test Task (referenced by `/implement-init`)
-Add an explicit test Task to implement.md when analysis.md §2 Data Flow or §5 Decision Points indicates meaningful regression risk: state change, external I/O, concurrency, or new boundary.
+### implement.md에 테스트 Task가 들어가는 경우 (`/implement-init`이 참조)
+analysis.md §2 Data Flow나 §5 Decision Points가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 신규 경계)을 시사할 때, implement.md에 명시적 테스트 Task를 추가한다.
 
-### When implement writes test code (referenced by `implement` skill)
-Implement writes test code **only** for test Tasks. A Task qualifies as a test Task when any of the following holds:
-- Task title or 접근 field explicitly names it as a test (e.g., "…테스트 작성", "unit/integration/e2e test").
-- 검증 조건 asserts test execution (e.g., "테스트가 CI/로컬에서 통과한다").
+### implement이 테스트 코드를 작성하는 경우 (`implement` skill이 참조)
+implement은 **테스트 Task에 한해서만** 테스트 코드를 작성한다. 다음 중 하나라도 해당하면 테스트 Task로 본다.
+- Task 제목이나 접근 필드가 명시적으로 테스트로 지칭되는 경우 (예: "…테스트 작성", "unit/integration/e2e test").
+- 검증 조건이 테스트 실행을 명시하는 경우 (예: "테스트가 CI/로컬에서 통과한다").
 
-No other implicit test additions.
+그 외의 암묵적 테스트 추가는 두지 않는다.
 
-Bug-fix exception: a single regression test that reproduces the fixed bug may be included with the fix itself. Feature additions do not qualify for this exception.
+버그 수정 예외: 수정한 버그를 재현하는 단일 회귀 테스트는 수정과 함께 포함할 수 있다. feature 추가는 이 예외에 해당하지 않는다.
 
-Per-Request mode: never add tests silently. If the change carries meaningful regression risk, `implement` states the gap in its approach note and lets the user decide whether to add tests in a follow-up.
+Per-Request mode에서는 조용히 테스트를 추가하지 않는다. 변경에 의미 있는 회귀 위험이 있으면 `implement`이 approach note에 누락을 명시하고, 테스트 추가 여부는 사용자가 후속 turn에서 결정한다.
 
-If existing tests look missing or insufficient for the changed scope, `implement` states the gap in Notes. Do not silently add.
+기존 테스트가 변경 범위에 비해 누락·부족해 보이면 `implement`이 Notes에 누락을 명시하며, 조용히 추가하지 않는다.
 
-### Test evidence during verify
-- Verify executes tests as part of gathering evidence. Never modifies test code, production code, or documents.
-- Minimum evidence: code diff. Preferred: diff + test result. If tests exist for the changed scope but were not run, note as a limitation.
-- When the change modifies only internal computation, conditions, or transformations (no external state, I/O, or dependency changes), diff-based reasoning is acceptable evidence if correctness is visible in the diff.
-- If tests were modified by the same change being verified, do not rely on those tests alone as evidence. If the modification looks test-gaming (assertions loosened, cases removed without justification), reject under `correctness`.
-- Reject when correctness cannot be established from available evidence. State the limitation explicitly.
+### verify 시 테스트 evidence
+- verify는 evidence 수집의 일부로 테스트를 실행한다. 테스트 코드·운영 코드·문서를 수정하지 않는다.
+- 최소 evidence는 code diff이며, 권장은 diff + 테스트 결과다. 변경 범위에 대한 테스트가 존재하지만 실행되지 않았다면 한계로 기록한다.
+- 변경이 내부 계산·조건·변환만 수정하고(외부 상태·I/O·의존성 변경 없음) correctness가 diff에 보이는 경우에는, diff 기반 추론도 유효 evidence다.
+- 검증 대상과 동일한 변경 안에서 테스트가 함께 수정되었다면 그 테스트만으로 evidence를 삼지 않는다. 수정이 test-gaming(assertion 약화, 사례 무근거 제거)으로 보이면 `correctness`로 reject한다.
+- 가용 evidence로 correctness를 확립할 수 없으면 reject하고 한계를 명시한다.
 
 ## Guidelines
-- Judge only the current Task. Do not opine on other pending Tasks or future work.
-- Per-Request mode returns conversation output only — no file writes, no checkbox flips.
+- 현재 Task만 판단한다. 다른 대기 중인 Task나 향후 작업에 대한 의견은 두지 않는다.
+- Per-Request mode는 대화 출력만 반환하며, 파일을 쓰거나 체크박스를 전환하지 않는다.

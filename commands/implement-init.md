@@ -2,33 +2,33 @@
 description: Create implement.md (execution checklist with per-Task verification criteria) under docs/<feature-name>/ from analysis.md
 ---
 
-> When to use: After `/analyze-init`. Produces the checklist that `implement` executes and `verify` checks against.
-> Prerequisite: `/analyze-init`
+> 사용 시점: `/analyze-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
+> 선행 조건: `/analyze-init`
 
-Create `docs/<feature-name>/implement.md`. IMPLEMENT is a **pure execution checklist**. Each entry is a verifiable Task with its own Task-level verification criteria. Design rationale lives in analysis.md; requirement-level completion criteria live in spec.md §5.
+`docs/<feature-name>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
 
 Feature name: $ARGUMENTS
 
 ## Role
-- Sole progress tracker during implementation.
-- Each Task maps to (a) analysis.md design and (b) at least one spec.md §5 completion criterion.
-- Task-level verification criteria are narrow — "this Task is done when X happens." Distinct from spec.md §5 (feature-level).
+- 구현 단계의 단독 진행 상황 트래커다.
+- 각 Task는 (a) analysis.md 설계와 (b) 최소 1개의 spec.md §5 완료 조건에 매핑된다.
+- Task-level 검증 조건은 좁다 — "이 Task는 X가 일어나면 done." spec.md §5(feature 레벨)와는 구분한다.
 
 ## Prerequisites
-- If feature name is empty, stop.
-  - Guide: "Pass the feature name as argument. Example: `/implement-init payment-integration`"
-- If `docs/<feature-name>/analysis.md` does not exist, stop and request `/analyze-init` first.
-- If analysis.md §5 Decision Points contains unresolved entries, warn before proceeding. User may override.
-  - "unresolved" = a Decision Point with no selected option, or the selected option is marked as TBD / 미정 / 보류.
-- Read analysis.md and spec.md §5 in full before writing.
+- feature name이 비어 있으면 중단한다.
+  - 안내: "feature name을 인자로 전달하세요. 예: `/implement-init payment-integration`"
+- `docs/<feature-name>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
+- analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
+  - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
+- 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
 
 ## Overwrite Rule
-- If `implement.md` already exists, confirm before overwriting. Existing Task checkboxes are discarded on overwrite.
+- `implement.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다. 덮어쓰기 시 기존 Task 체크박스는 폐기된다.
 
 ## implement.md Structure
 
-### Task Format (Korean artifact template)
-Each Task is a checklist entry with three fields. Nothing else.
+### Task Format (한국어 산출물 템플릿)
+각 Task는 세 필드를 가진 체크리스트 항목으로, 다른 필드는 두지 않는다.
 
 ```
 - [ ] <Task 제목>
@@ -37,12 +37,12 @@ Each Task is a checklist entry with three fields. Nothing else.
   - 검증 조건: 이 Task가 완료되었음을 판별할 관찰 가능한 기준 (1-3줄)
 ```
 
-Notation for 목적 field:
-- `→ SPEC §5.N` → this Task satisfies spec.md §5 완료 조건 criterion N (required).
-- `→ ANALYSIS §X.Y` → this Task follows the structure/design committed in analysis.md §X subsection Y (required when a design decision applies; omit otherwise).
-- `/` → AND. When both references are present they apply together.
+목적 필드 표기:
+- `→ SPEC §5.N` → 이 Task가 spec.md §5 완료 조건 N을 충족한다 (필수).
+- `→ ANALYSIS §X.Y` → 이 Task가 analysis.md §X 하위 섹션 Y에서 commit한 구조·설계를 따른다 (설계 결정이 적용될 때 필수, 그 외에는 생략).
+- `/` → AND. 두 참조가 함께 있을 때 모두 적용한다.
 
-Concrete example:
+구체 예시:
 ```
 - [ ] OrderService.fetchOrders 구현
   - 목적: → SPEC §5.2 / → ANALYSIS §1.3
@@ -50,21 +50,21 @@ Concrete example:
   - 검증 조건: 로그인 사용자가 본인 주문 목록을 20개 단위로 조회 가능
 ```
 
-Field meanings (for command author reference; the artifact itself uses Korean labels above):
-- 목적 (Purpose): upstream mapping per notation above.
-- 접근 (Approach): brief implementation approach. If more depth is needed, that depth belongs in analysis.md — update analysis.md first.
-- 검증 조건 (Verification criteria): Task-level DoD. Narrow and observable. When the Task maps 1:1 to a spec criterion, shorthand is allowed: `→ SPEC §5.N 동일`.
+필드 의미 (command 작성자 참조용; 산출물 자체는 위의 한국어 라벨을 사용한다):
+- 목적 (Purpose): 위 표기에 따른 상류 매핑.
+- 접근 (Approach): 짧은 구현 방식. 더 깊은 내용이 필요하다면 그 깊이는 analysis.md 소관이므로 analysis.md를 먼저 갱신한다.
+- 검증 조건 (Verification criteria): Task-level DoD. 좁고 관찰 가능해야 한다. Task가 spec 기준에 1:1로 매핑되면 약식 표기를 허용한다 — `→ SPEC §5.N 동일`.
 
 ### Structure Options
-- Flat list: a sequence of `- [ ]` Tasks. Use for small features.
-- Grouped: Tasks under `## Section: <name>` headings when the feature has multiple distinct sub-areas. Each Task inside follows the same format.
+- 평면 리스트: `- [ ]` Task의 단일 시퀀스로, 작은 feature에 쓴다.
+- 그룹: `## Section: <name>` 아래에 Task를 배치하며, feature가 별개의 하위 영역을 여러 개 가질 때 쓴다. 내부 Task 포맷은 동일하다.
 
-Both forms are allowed. Choose based on analysis.md structure size.
+둘 다 허용하며, analysis.md 구조 크기에 맞춰 선택한다.
 
 ## Test Task Inclusion
-Test rules are owned by the verify skill — see `skills/verify/SKILL.md` §Test Rules for when a test Task is required and for the bug-fix exception. Do not duplicate the rules here.
+테스트 룰은 verify skill이 단독으로 소유한다 — 테스트 Task가 필요한 시점과 버그 수정 예외는 `skills/verify/SKILL.md` §Test Rules에서 본다. 여기서 룰을 중복 기술하지 않는다.
 
-Template when a test Task is added:
+테스트 Task를 추가할 때의 템플릿:
 
 ```
 - [ ] <대상> 테스트 작성
@@ -74,33 +74,33 @@ Template when a test Task is added:
 ```
 
 ## Ordering
-- By dependency only: "what must exist before the next is possible." No chronological ordering.
-- If multiple orderings are viable and the choice matters for correctness, that decision belongs in analysis.md §5 Decision Points, not here.
+- 의존성 기준만 사용한다 — "다음이 가능하기 위해 무엇이 먼저 존재해야 하는가." 시간 순서는 사용하지 않는다.
+- 가능한 순서가 여럿이고 그 선택이 정확성에 영향을 준다면, 그 결정은 여기가 아니라 analysis.md §5 Decision Points 소관이다.
 
 ## Mapping
-- Every Task must map to at least one spec.md §5 completion criterion via `→ SPEC §5.N`.
-- Before finalizing implement.md, list any spec.md §5 criterion that has **no** matching Task. Unmapped criteria are unreachable by this checklist — do not silently drop. For each unmapped criterion the user chooses one of:
-  - add a new Task covering it,
-  - remove the criterion from spec.md §5, or
-  - defer it explicitly via spec.md §4 Exclusions.
-- If the unmapped set is non-empty, surface it to the user and wait for judgment before saving implement.md.
+- 모든 Task는 `→ SPEC §5.N`으로 최소 1개의 spec.md §5 완료 조건에 매핑되어야 한다.
+- implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준이 있는지 나열한다. 미매핑 기준은 이 체크리스트로 도달할 수 없으므로 조용히 누락시키지 않는다. 각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
+  - 해당 기준을 다루는 새 Task 추가
+  - spec.md §5에서 해당 기준 제거
+  - spec.md §4 Exclusions로 명시적 보류
+- 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 implement.md를 저장하지 않는다.
 
 ## Progress Tracking
-Checkbox flip is verify-gated — see CLAUDE.md §Verify Handoff for the approved/rejected protocol. The `implement` skill does not touch the checkbox under any condition.
+체크박스 전환은 verify-gated이며, approved/rejected 프로토콜은 CLAUDE.md §Verify Handoff에 따른다. `implement` skill은 어떤 조건에서도 체크박스를 건드리지 않는다.
 
 ## README Update
-On completion of `/implement-init` (Tasks listed, not yet executed):
-- Flip README.md Status `[ ] IMPLEMENT` → `[x] IMPLEMENT` (meaning: checklist has been written).
-- Append history line: `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
+`/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
+- README.md Status `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 전환한다 (의미: 체크리스트가 작성되었다).
+- history 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
-See CLAUDE.md §Feature README Ownership for feature completion semantics.
+feature 완료의 의미는 CLAUDE.md §Feature README Ownership에 둔다.
 
 ## Prohibited
-- Decision Points inside implement.md — all decisions live in analysis.md §5
-- Task sub-fields other than 목적 / 접근 / 검증 조건
-- Concept explanations, structural diagrams — belong in analysis.md
-- Tasks without a SPEC §5 mapping
-- Modifying, weakening, or extending spec.md §5 completion criteria
+- implement.md 안에 Decision Point를 두지 않는다 (모든 결정은 analysis.md §5에 둔다).
+- 목적 / 접근 / 검증 조건 외의 Task 하위 필드는 두지 않는다.
+- 개념 설명·구조 다이어그램은 두지 않는다 (analysis.md 소관).
+- SPEC §5 매핑이 없는 Task는 두지 않는다.
+- spec.md §5 완료 조건을 수정·약화·확장하지 않는다.
 
 ## Core Question
-> In what order do we execute, what does "done" look like for each Task, and where are we now?
+> 어떤 순서로 실행하고, 각 Task의 "done"은 무엇이며, 우리는 지금 어디인가?

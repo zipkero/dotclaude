@@ -1,64 +1,64 @@
 # .claude
 
-Personal configuration repository for Claude Code.
+Claude Code의 개인 설정 저장소.
 
-> Authoritative rules live in CLAUDE.md. This README describes structure and design intent.
+> 권위 있는 룰은 CLAUDE.md에 둔다. 이 README는 구조와 설계 의도를 설명한다.
 
 ## Design Intent
 
-### Why this structure exists
-- Claude Code's default behavior is a single monolithic response. This config splits that into **phased, verifiable steps** so each stage can be reviewed before proceeding.
-- Per-feature documents under `docs/<feature-name>/` (`spec.md` → `analysis.md` → `implement.md` + `README.md`) serve as **contracts between phases** — not implementation notes. Each downstream phase reads the upstream document, not the conversation.
-- `implement` → `verify` → checkbox flip is a hard gate: a Task is recorded as done only after an explicit judgment pass against artifacts, not by forward momentum.
+### 이 구조가 존재하는 이유
+- Claude Code의 기본 동작은 단일 덩어리 응답이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
+- `docs/<feature-name>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 하류 phase는 대화가 아니라 상류 문서를 읽는다.
+- `implement` → `verify` → 체크박스 전환은 엄격한 게이트다. 산출물에 근거한 명시적 판단 패스를 통과한 Task만 done으로 기록되며, 추진력만으로 넘어가지 않는다.
 
-### Key design decisions
-- **No orchestration subagents**: main invokes `analyze`, `implement`, and `verify` skills directly — these are not delegated to subagents. Evidence discipline (judgment must cite files / diff / test results, not conversation memory) is enforced by the verify skill's prompt rules rather than by agent separation. Read-only exploration may use the `Explore` subagent for bulk codebase survey (context isolation); see CLAUDE.md §Orchestration Rules.
-- **`analyze` skill is a standalone debugging utility, not a pre-phase**: on-demand investigation tool that writes no files. Distinct from `/analyze-init`, which is the Phased design phase producing `analysis.md`. For Phased work, invoke `/spec-init` directly — this skill is not a pre-phase.
-- **Verify reject escalates to user, no auto-retry**: prompt-only orchestration cannot enforce retry counts deterministically, so rejects surface to the user for judgment. The verify skill classifies rejects (`style/minor`, `correctness`, `design/scope`) to help decide next steps.
-- **Per-feature folder**: `docs/<feature-name>/` holds `spec.md`, `analysis.md`, `implement.md`, and `README.md`. There is no `verify.md` — verify returns judgment to the conversation, and main is the sole writer of the `implement.md` checkbox (both directions — see CLAUDE.md §Verify Handoff).
-- **SPEC owns completion criteria; ANALYSIS is design-only**: `spec.md` §5 holds requirement-level completion criteria. `analysis.md` carries structure, data flow, interfaces, impact, risks, and Decision Points — no checklists. `implement.md` maps each Task back to `spec.md` §5 with narrower Task-level verification criteria.
-- **Phased flow is user-controlled**: `/spec-init` → `/analyze-init` → `/implement-init` are slash commands. `implement` and `verify` are natural-language triggers so the user decides when to advance.
+### 핵심 설계 결정
+- **orchestration subagent를 두지 않는다**: main이 `analyze`/`implement`/`verify` skill을 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 agent 분리가 아니라 verify skill의 prompt 룰로 강제한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main context를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §Orchestration Rules에 둔다.
+- **`analyze` skill은 독립 디버깅 유틸리티이지 pre-phase가 아니다**: 파일을 작성하지 않는 즉석 조사 도구로, `analysis.md`를 작성하는 Phased 설계 phase인 `/analyze-init`과는 별개다. Phased 작업은 `/spec-init`로 바로 진입한다.
+- **verify reject는 사용자 판단에 맡기며 자동 재시도하지 않는다**: prompt 기반 orchestration으로는 재시도 횟수를 결정론적으로 강제할 수 없으므로 reject는 사용자 판단으로 올린다. verify skill은 reject를 `style/minor` / `correctness` / `design/scope`로 분류해 다음 단계 결정을 돕는다.
+- **feature별 폴더 구조**: `docs/<feature-name>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify가 판단을 대화로 반환하면 implement.md 체크박스는 main이 CLAUDE.md §Verify Handoff에 따라 양방향으로 관리한다.
+- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 구조·데이터 흐름·인터페이스·영향·리스크·Decision Points만 담는다(체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
+- **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
 
-### What to preserve when modifying
-- Evidence discipline: verify cites files / diff / test results, not conversation reasoning.
-- Judgment-only verify: verify writes no files. Checkbox authority is described in CLAUDE.md §Verify Handoff.
-- Phase contracts: downstream phases read documents, not conversation context.
-- User controls phase transitions (commands are user-initiated, not auto-chained).
-- Feature README Status flip ownership is explicit per command (see each `commands/*-init.md`).
+### 수정 시 보존할 것
+- evidence discipline: verify는 대화 추론이 아니라 파일·diff·테스트 결과를 인용한다.
+- 판단만 반환하는 verify: verify는 파일을 쓰지 않으며, 체크박스 권한은 CLAUDE.md §Verify Handoff에 정의한다.
+- phase contract: 하류 phase는 대화 맥락이 아니라 상류 문서를 읽는다.
+- phase 전이는 사용자가 통제하며, command는 사용자 발화 기반이고 자동으로 이어지지 않는다.
+- feature README의 Status 전환 소유권은 각 `commands/*-init.md`에 명시한다.
 
 ## Workflow
 
-Two flows, authoritative in CLAUDE.md. Pick Phased when the work warrants a persistent trail (handoff, later reference, non-trivial scope); Per-Request otherwise.
+flow는 두 가지이며 권위는 CLAUDE.md에 있다. 핸드오프, 후속 참조, 간단치 않은 범위처럼 지속적인 기록이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
 
-- **Phased (user-driven)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
-- **Per-Request (automatic)**: `prompt → implement → verify`
+- **Phased (사용자 주도)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
+- **Per-Request (자동)**: `prompt → implement → verify`
 
-The `analyze` skill is a standalone debugging utility invokable from either flow; it is not part of the phase sequence and not a pre-phase for `/spec-init`.
+`analyze` skill은 두 flow 어느 쪽에서도 호출할 수 있는 독립 디버깅 유틸리티이며, phase sequence의 일부가 아니고 `/spec-init`의 pre-phase도 아니다.
 
-See CLAUDE.md §Execution & Orchestration for flow entry conditions, handoff, and reject handling.
+flow 진입 조건, 핸드오프, reject 처리는 CLAUDE.md §Execution & Orchestration에 있다.
 
 ## Structure
 
 ```
-CLAUDE.md          # Authoritative rules (response language, orchestration, policy, doc layout)
-config.json        # Claude Code base settings
+CLAUDE.md          # 권위 있는 룰 (응답 언어, orchestration, policy, 문서 layout)
+config.json        # Claude Code 기본 설정
 ```
 
-### commands/ — Slash command definitions
+### commands/ — slash command 정의
 
-Each command writes under `docs/<feature-name>/` and updates the feature `README.md` Status.
+각 command는 `docs/<feature-name>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다.
 
-- `spec-init.md` — Create `spec.md` + initialize feature `README.md` (`/spec-init <feature-name>`)
-- `analyze-init.md` — Create `analysis.md` from `spec.md` (`/analyze-init <feature-name>`)
-- `implement-init.md` — Create `implement.md` from `analysis.md` (`/implement-init <feature-name>`)
+- `spec-init.md` — `spec.md`를 작성하고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`)
+- `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-name>`)
+- `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-name>`)
 
-### skills/ — Skill definitions
+### skills/ — skill 정의
 
-- `analyze` — Standalone debugging / code comprehension utility. Output to conversation only, no file writes.
-- `implement` — Execute the next Task from `implement.md` (Phased), or a Per-Request change without artifacts. Emits a **Files touched** list so the next `verify` call has an explicit diff scope.
-- `verify` — Judge whether the most recent implement Task satisfies its DoD. Returns judgment to the conversation; main flips the `implement.md` checkbox per CLAUDE.md §Verify Handoff. Owns all test-related rules (when a test Task is required, when implement writes test code, what counts as valid test evidence) — see `skills/verify/SKILL.md` §Test Rules.
+- `analyze` — 독립 디버깅·코드 이해 유틸리티. 파일을 쓰지 않고 대화로만 출력한다.
+- `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 수행한다. 다음 `verify` 호출이 명시적인 diff 범위를 가질 수 있도록 **Files touched** 리스트를 함께 출력한다.
+- `verify` — 직전 implement Task가 DoD를 만족하는지 판단한다. 판단만 대화로 반환하며, implement.md 체크박스 전환은 main이 CLAUDE.md §Verify Handoff에 따라 수행한다. 테스트 관련 룰(테스트 Task가 필요한 시점, implement이 테스트 코드를 쓰는 조건, 유효한 테스트 evidence 기준)은 `skills/verify/SKILL.md` §Test Rules에서 단독으로 소유한다.
 
 ## Management
 
-- `.gitignore` uses a whitelist approach for tracked files
-- Session data, cache, credentials are excluded from tracking
+- `.gitignore`는 추적 파일에 대해 허용 목록 방식을 사용한다.
+- 세션 데이터, 캐시, credential은 추적에서 제외한다.

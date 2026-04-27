@@ -4,51 +4,51 @@ description: "Execute the next Task from docs/<feature-name>/implement.md. For P
 ---
 
 ## Context Loading
-1. Phased mode — enter when either:
-   - `$ARGUMENTS` matches `docs/<feature-name>/` or `docs/<feature-name>/implement.md`, OR
-   - The current conversation indicates an active `docs/<feature-name>/` scope — defined as: `/spec-init` / `/analyze-init` / `/implement-init` was run on that feature earlier in this conversation, or the user explicitly targeted that feature in the current turn with implement intent (e.g., "docs/foo/ 구현 시작", "foo 피처 다음 Task 진행"). A passing mention of a feature name without execution intent does not enter Phased mode.
+1. Phased mode — 다음 둘 중 하나일 때 진입한다.
+   - `$ARGUMENTS`가 `docs/<feature-name>/` 또는 `docs/<feature-name>/implement.md`와 매치하거나,
+   - 현재 대화가 활성 `docs/<feature-name>/` scope를 가리키는 경우. 이 scope의 정의는 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 turn에서 사용자가 implement 의도로 해당 feature를 명시적으로 지목한 경우(예: "docs/foo/ 구현 시작", "foo 피처 다음 Task 진행"). 실행 의도 없이 feature 이름이 지나가듯 언급된 것만으로는 Phased mode에 진입하지 않는다.
 
-   Actions:
-   - Read implement.md. If absent, stop and guide the user to run `/implement-init`.
-   - Also read analysis.md (design baseline) and spec.md (completion-criteria mapping).
-   - Find the first incomplete Task whose dependencies are met. Use its 목적 / 접근 / 검증 조건 fields as the execution baseline (artifact-language template labels).
-2. Per-Request mode — otherwise (`$ARGUMENTS` empty **and** no active feature scope).
-   - No `docs/<feature>/` is created.
-   - Follow the Per-Request flow below.
+   동작:
+   - implement.md를 읽는다. 없으면 중단하고 사용자에게 `/implement-init`을 실행하도록 안내한다.
+   - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
+   - 의존성이 충족된 첫 미완료 Task를 찾는다. 그 Task의 목적 / 접근 / 검증 조건 필드(산출물 언어 템플릿 라벨)를 실행 기준으로 삼는다.
+2. Per-Request mode — Phased mode의 어느 조건도 만족하지 않을 때 진입한다.
+   - `docs/<feature>/`를 만들지 않는다.
+   - 아래 Per-Request flow를 따른다.
 
 ## Per-Request flow
-State a brief approach note (1-3 sentences) before execution, covering:
-- scope of the change (the explicit file list goes in the Files touched section of Output Structure)
-- risky points
-- non-expansion line — what this change will NOT add (see baseline below)
+실행하기 전에 1-3 문장의 짧은 approach note를 적는다. 다음을 다룬다.
+- 변경의 범위 (명시적 파일 목록은 Output Structure의 Files touched 섹션에 둔다)
+- 위험 지점
+- non-expansion line — 이 변경이 추가하지 **않을** 것 (아래 baseline 참고)
 
 ### Non-expansion baseline
-Unless the request explicitly asks for it, the implementation will not:
-- introduce a new interface, abstraction, public API, or boundary
-- add a new dependency or configuration surface
-- refactor adjacent code beyond what is required for the requested change to remain correct
+요청이 명시적으로 요구하지 않는 한, 구현은 다음을 추가하지 않는다.
+- 신규 인터페이스·추상화·public API·경계
+- 신규 의존성·설정 항목
+- 요청 변경의 정합성을 위해 필요한 범위를 넘는 인접 코드 리팩터링
 
-If any of these looks necessary to satisfy the request, state the expansion explicitly in the approach note before proceeding. Do not silently expand. Do not prompt the user to switch to `/spec-init` — the user chose Per-Request by not invoking it.
+이 중 어느 것이라도 요청 충족에 필요해 보이면, 진행 전에 approach note에 확장을 명시한다. 조용히 확장하지 않으며, 사용자에게 `/spec-init`로 전환하라고 안내하지도 않는다 — 사용자는 호출하지 않음으로써 Per-Request를 선택했다.
 
 ## Output Structure
 1. Approach
 2. Code or logic
 3. Key points
-4. Files touched — explicit list of paths modified. Serves as the diff scope for the next `verify` call, especially if the change is committed before verify runs.
-5. Notes or limitations (if any)
+4. Files touched — 수정한 경로의 명시적 목록. 다음 `verify` 호출의 diff 범위로 사용되며, 변경이 verify 전에 commit되었을 때 특히 유용하다.
+5. Notes or limitations (있으면)
 
 ## Completion
-- Phased mode: do not modify the implement.md checkbox (checkbox flip is verify-gated — see CLAUDE.md §Verify Handoff). Return a brief summary identifying which Task was executed. Recommend verifying this Task before the next `implement` call — an unverified Task stays `[ ]`, and the next implement trigger would re-select the same Task.
-- Per-Request mode: no document update.
+- Phased mode: implement.md 체크박스를 수정하지 않는다 (체크박스 전환은 verify-gated이며 CLAUDE.md §Verify Handoff에 따른다). 실행한 Task를 식별하는 짧은 요약을 반환하고, 다음 `implement` 호출 전에 이 Task를 verify하도록 권고한다 — 미검증 Task는 `[ ]`로 남으며 다음 implement 트리거가 같은 Task를 다시 잡는다.
+- Per-Request mode: 문서를 갱신하지 않는다.
 
 ## Test Code Authoring
-Test rules (what qualifies as a test Task, bug-fix exception, Per-Request handling, gap reporting) are owned by the verify skill — see `skills/verify/SKILL.md` §Test Rules. Do not duplicate those rules here.
+테스트 룰(테스트 Task로 인정되는 조건, 버그 수정 예외, Per-Request 처리, 누락 보고)은 verify skill이 단독으로 소유한다 — `skills/verify/SKILL.md` §Test Rules에서 본다. 여기서 중복 기술하지 않는다.
 
-Implement writes test code **only** for test Tasks per those rules.
+implement은 그 룰에 따른 테스트 Task에 한해서만 테스트 코드를 작성한다.
 
 ## Guidelines
-- Keep implementation minimal and within scope.
-- Follow existing conventions: match naming, structure, and error-handling patterns of existing files in the same directory.
-  - If lint/format config exists, it takes precedence.
-  - When uncertain, use the most recently modified file of the same type as reference.
-- Explain briefly only when necessary.
+- 구현은 최소한으로, 범위 안에서 한다.
+- 기존 컨벤션을 따른다 — 같은 디렉토리 기존 파일의 명명·구조·에러 처리 패턴에 맞춘다.
+  - lint·format 설정이 있으면 그 설정을 우선한다.
+  - 불확실하면 같은 종류의 가장 최근 수정된 파일을 참조로 삼는다.
+- 필요할 때만 짧게 설명한다.
