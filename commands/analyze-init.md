@@ -9,7 +9,7 @@ description: Create analysis.md (analysis + design) under docs/<feature-name>/ f
 Feature name: $ARGUMENTS
 
 ## Role
-- spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — implement.md가 순수 체크리스트로 남도록.
+- spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
 - 정적 문서이며 진행 상황 트래커가 아니다.
 - 자기 완결적이어야 한다. 새 세션(`/clear` 이후)에서도 `spec.md + analysis.md`만으로 implement.md를 만들 수 있어야 한다.
 - spec.md §5 완료 조건은 번호로만 참조한다(`→ SPEC §5.N`). 복사하지 않는다.

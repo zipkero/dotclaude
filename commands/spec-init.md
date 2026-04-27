@@ -10,7 +10,7 @@ Feature name: $ARGUMENTS
 
 ## Role
 - analysis.md와 implement.md의 상류 참조 역할을 한다.
-- 정적 문서이며 진행 상황 트래커가 아니다. implement이나 verify가 SPEC을 수정하지 않는다.
+- 정적 문서이며 진행 상황 트래커가 아니다. implement나 verify가 SPEC을 수정하지 않는다.
 - 요구사항 레벨의 완료 조건만 다룬다 — "X·Y·Z가 관찰될 때 feature가 완성되었다고 본다." implement.md의 더 좁은 Task-level 검증 조건과는 구분한다.
 
 ## Prerequisites

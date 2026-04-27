@@ -12,8 +12,8 @@ description: "Standalone debugging and code comprehension utility. Explains caus
 1. `$ARGUMENTS`가 `docs/<feature-name>/` 또는 그 하위 파일과 매치하면 → feature mode. 존재하는 spec.md, analysis.md, implement.md를 그 순서로 읽고 분석 범위를 이 feature로 한정한다.
 2. `$ARGUMENTS`가 특정 파일·심볼을 가리키면 → 그 대상을 분석하고 필요한 만큼 주변 맥락을 함께 읽는다.
 3. `$ARGUMENTS`가 비어 있으면 다음과 같이 처리한다.
-   - 최근 대화에서 `docs/<feature-name>/` 디렉토리가 암시되면 (1)처럼 로드한다.
-   - 그 외에는 대화 맥락 기반으로 분석하며, 맥락이 충분한 신호(에러 메시지, 파일 경로, 증상)를 줄 때 명시적 가정으로 진행한다.
+   - 활성 `docs/<feature-name>/` scope가 있으면 (1)처럼 로드한다. 활성 scope의 정의는 `implement` skill §Context Loading과 동일하되, "implement 의도"를 "분석 의도"로 읽는다. 대화에 feature 이름이 지나가듯 언급된 것만으로는 진입하지 않는다.
+   - 그 외에는 대화 맥락 기반으로 분석하며, 맥락에 충분한 신호(에러 메시지, 파일 경로, 증상)가 있을 때 명시적 가정으로 진행한다.
 
 ## Output Structure
 필수:

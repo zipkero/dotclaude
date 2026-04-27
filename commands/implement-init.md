@@ -90,10 +90,10 @@ Feature name: $ARGUMENTS
 
 ## README Update
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
-- README.md Status `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 전환한다 (의미: 체크리스트가 작성되었다).
+- README.md Status `[ ] IMPLEMENT`는 그대로 둔다. 이 체크박스는 implement.md의 모든 Task가 `[x]`가 된 시점에 main이 verify Approved 후속으로 전환한다(CLAUDE.md §Verify Handoff).
 - history 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
-feature 완료의 의미는 CLAUDE.md §Feature README Ownership에 둔다.
+feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §Verify Handoff 및 §Feature README Ownership에 둔다.
 
 ## Prohibited
 - implement.md 안에 Decision Point를 두지 않는다 (모든 결정은 analysis.md §5에 둔다).

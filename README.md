@@ -28,7 +28,7 @@ Claude Code의 개인 설정 저장소.
 
 ## Workflow
 
-flow는 두 가지이며 권위는 CLAUDE.md에 있다. 핸드오프, 후속 참조, 간단치 않은 범위처럼 지속적인 기록이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
+flow는 두 가지이며 권위는 CLAUDE.md에 있다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
 
 - **Phased (사용자 주도)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
 - **Per-Request (자동)**: `prompt → implement → verify`
@@ -56,7 +56,7 @@ config.json        # Claude Code 기본 설정
 
 - `analyze` — 독립 디버깅·코드 이해 유틸리티. 파일을 쓰지 않고 대화로만 출력한다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 수행한다. 다음 `verify` 호출이 명시적인 diff 범위를 가질 수 있도록 **Files touched** 리스트를 함께 출력한다.
-- `verify` — 직전 implement Task가 DoD를 만족하는지 판단한다. 판단만 대화로 반환하며, implement.md 체크박스 전환은 main이 CLAUDE.md §Verify Handoff에 따라 수행한다. 테스트 관련 룰(테스트 Task가 필요한 시점, implement이 테스트 코드를 쓰는 조건, 유효한 테스트 evidence 기준)은 `skills/verify/SKILL.md` §Test Rules에서 단독으로 소유한다.
+- `verify` — 직전 implement Task가 DoD를 만족하는지 판단한다. 판단만 대화로 반환하며, implement.md 체크박스 전환은 main이 CLAUDE.md §Verify Handoff에 따라 수행한다. 테스트 관련 룰(테스트 Task가 필요한 시점, implement가 테스트 코드를 쓰는 조건, 유효한 테스트 evidence 기준)은 `skills/verify/SKILL.md` §Test Rules에서 단독으로 소유한다.
 
 ## Management
 
