@@ -12,7 +12,7 @@ Feature name: $ARGUMENTS
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
 - 정적 문서이며 진행 상황 트래커가 아니다.
 - 자기 완결적이어야 한다. 새 세션(`/clear` 이후)에서도 `spec.md + analysis.md`만으로 implement.md를 만들 수 있어야 한다.
-- spec.md §5 완료 조건은 번호로만 참조한다(`→ SPEC §5.N`). 복사하지 않는다.
+- spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `→ SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는 평문으로 풀어 적는다.
 
 ## Prerequisites
 - feature name이 비어 있으면 중단한다. 안내: "feature name을 인자로 전달하세요. 예: `/analyze-init payment-integration`"
@@ -28,10 +28,12 @@ Feature name: $ARGUMENTS
 ### 1. 구조 (Structure)
 - 모듈·컴포넌트·레이어 배치와 feature를 어떤 구조로 나누는지를 다룬다.
 - 파일이 아니라 경계 중심으로 기술하며, 경계가 자명하지 않을 때만 타입·인터페이스 이름을 명시한다.
+- 기존 모듈 안에서 끝나는 변경에는 §1을 채우려고 새 모듈·레이어를 만들어 넣지 않는다.
 
 ### 2. 데이터 흐름 (Data Flow)
 - request → 처리 → response 경로, 상태 전이, 외부 통합 지점.
 - 흐름이 비선형이면 글이나 Mermaid로 다이어그램을 둔다.
+- 선형 흐름을 인위적으로 쪼개거나 없는 상태·통합 지점을 만들어 채우지 않는다.
 
 ### 3. 인터페이스 (Interfaces)
 - 외부 경계: API signature, event shape, 인접 모듈과의 contract.
