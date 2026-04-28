@@ -28,32 +28,39 @@ Feature name: $ARGUMENTS
 ## implement.md Structure
 
 ### Task Format (한국어 산출물 템플릿)
-각 Task는 세 필드를 가진 체크리스트 항목으로, 다른 필드는 두지 않는다.
+각 Task는 네 필드를 가진 체크리스트 항목으로, 다른 필드는 두지 않는다.
 
 ```
 - [ ] <Task 제목>
-  - 목적: → SPEC §5.N / → ANALYSIS §X.Y
+  - 목적: <이 Task가 만들거나 보존하는 외부 관찰 가능한 동작 한 줄, 평문>
   - 접근: 1-2줄 구현 방식
   - 검증 조건: 이 Task가 완료되었음을 판별할 관찰 가능한 기준 (1-3줄)
+  - 참조: SPEC §5.N (1개 이상 필수) / ANALYSIS §X.Y (설계 결정이 적용될 때)
 ```
 
-목적 필드 표기:
-- `→ SPEC §5.N` → 이 Task가 spec.md §5 완료 조건 N을 충족한다 (필수).
-- `→ ANALYSIS §X.Y` → 이 Task가 analysis.md §X 하위 섹션 Y에서 commit한 구조·설계를 따른다 (설계 결정이 적용될 때 필수, 그 외에는 생략).
-- `/` → AND. 두 참조가 함께 있을 때 모두 적용한다.
+목적 필드 작성 규칙:
+- **평문 동작 진술**로 적는다 — "X가 Y를 할 수 있다", "기존 Z 동작이 변경 전후 동일하다" 등. 사용자·호출자·외부 관찰자가 무엇을 보게 되는지를 한 줄로 표현한다.
+- 매핑 식별자(`→ SPEC §...`, `→ ANALYSIS §...`)를 목적 필드에 넣지 않는다. 식별자는 참조 필드에 둔다.
+- "Task가 self-contained하게 읽혀야 한다"가 기준이다 — 처음 보는 사람이 다른 문서를 펴지 않고도 이 Task가 무엇을 만드는지 알 수 있어야 한다.
+
+참조 필드 작성 규칙:
+- `SPEC §5.N`: 이 Task가 기여하는 spec.md §5 완료 조건. 최소 1개 이상 필수. 여러 개일 때는 쉼표로 나열한다.
+- `ANALYSIS §X.Y`: 이 Task가 따르는 analysis.md 구조·설계 (설계 결정이 적용될 때만, 그 외에는 생략).
 
 구체 예시:
 ```
 - [ ] OrderService.fetchOrders 구현
-  - 목적: → SPEC §5.2 / → ANALYSIS §1.3
+  - 목적: 로그인 사용자가 본인 주문 목록을 페이지 단위로 조회할 수 있다
   - 접근: DB 조회 서비스 메서드 추가, pagination은 기존 QueryBuilder 활용
   - 검증 조건: 로그인 사용자가 본인 주문 목록을 20개 단위로 조회 가능
+  - 참조: SPEC §5.2, ANALYSIS §1.3
 ```
 
 필드 의미 (command 작성자 참조용; 산출물 자체는 위의 한국어 라벨을 사용한다):
-- 목적 (Purpose): 위 표기에 따른 spec.md 완료 조건과의 매핑.
+- 목적 (Purpose): 외부 관찰 가능한 동작 한 줄. 매핑 식별자가 아니라 행동·상태로 적는다.
 - 접근 (Approach): 짧은 구현 방식. 더 깊은 내용이 필요하다면 그 깊이는 analysis.md 소관이므로 analysis.md를 먼저 갱신한다.
-- 검증 조건 (Verification criteria): Task-level DoD. 좁고 관찰 가능해야 한다. Task가 spec 기준에 1:1로 매핑되면 약식 표기를 허용한다 — `→ SPEC §5.N 동일`.
+- 검증 조건 (Verification criteria): Task-level DoD. 좁고 관찰 가능해야 한다. 목적과 동일하다면 "목적과 동일"로 약식 표기 가능.
+- 참조 (References): spec.md §5 매핑(필수)과 analysis.md 결정(해당 시). 이 필드는 closure check와 추적용 메타데이터이며, verify의 1차 evidence가 아니다.
 
 ### Structure Options
 - 평면 리스트: `- [ ]` Task의 단일 시퀀스로, 작은 feature에 쓴다.
@@ -68,9 +75,10 @@ Feature name: $ARGUMENTS
 
 ```
 - [ ] <대상> 테스트 작성
-  - 목적: → SPEC §5.N 회귀 방지
+  - 목적: <보존하려는 기존 동작 한 줄> 회귀 방지
   - 접근: test layer + coverage target (unit / integration / e2e)
   - 검증 조건: 테스트가 CI/로컬에서 통과한다
+  - 참조: SPEC §5.N
 ```
 
 ## Ordering
@@ -78,7 +86,7 @@ Feature name: $ARGUMENTS
 - 가능한 순서가 여럿이고 그 선택이 정확성에 영향을 준다면, 그 결정은 여기가 아니라 analysis.md §5 Decision Points 소관이다.
 
 ## Mapping
-- 모든 Task는 `→ SPEC §5.N`으로 최소 1개의 spec.md §5 완료 조건에 매핑되어야 한다.
+- 모든 Task는 참조 필드에서 최소 1개의 spec.md §5 완료 조건(`SPEC §5.N`)에 매핑되어야 한다.
 - implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준이 있는지 나열한다. 미매핑 기준은 이 체크리스트로 도달할 수 없으므로 조용히 누락시키지 않는다. 각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
@@ -97,9 +105,10 @@ feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §Verify 
 
 ## Prohibited
 - implement.md 안에 Decision Point를 두지 않는다 (모든 결정은 analysis.md §5에 둔다).
-- 목적 / 접근 / 검증 조건 외의 Task 하위 필드는 두지 않는다.
+- 목적 / 접근 / 검증 조건 / 참조 외의 Task 하위 필드는 두지 않는다.
+- 목적 필드를 매핑 식별자(`→ SPEC §...`, `→ ANALYSIS §...`)만으로 채우지 않는다 — 평문 동작 진술이어야 한다. 식별자는 참조 필드에 둔다.
 - 개념 설명·구조 다이어그램은 두지 않는다 (analysis.md 소관).
-- SPEC §5 매핑이 없는 Task는 두지 않는다.
+- 참조 필드에 SPEC §5 매핑이 없는 Task는 두지 않는다.
 - spec.md §5 완료 조건을 수정·약화·확장하지 않는다.
 
 ## Core Question
