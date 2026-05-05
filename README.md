@@ -30,8 +30,8 @@ Claude Code의 개인 설정 저장소.
 
 flow는 두 가지다. 자세한 룰은 CLAUDE.md에 두며, 여기서는 진입 시점만 요약한다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
 
-- **Phased (사용자 주도)**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`
-- **Per-Request (자동)**: `prompt → implement → verify`
+- **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 사용자가 각 phase 진입 시점을 직접 통제한다.
+- **Per-Request**: `prompt → implement → verify`. slash command 없이 자연어 prompt만으로 진입한다. verify는 두 mode 모두 사용자 명시 호출이 필요하며, main이 implement 직후 자동으로 verify를 이어가지 않는다.
 
 `analyze` skill은 두 flow 어느 쪽에서도 호출할 수 있는 독립 디버깅 유틸리티이며, phase sequence의 일부가 아니고 `/spec-init`의 pre-phase도 아니다.
 
