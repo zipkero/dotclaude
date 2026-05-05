@@ -78,11 +78,16 @@ Feature name: $ARGUMENTS
 - [ ] ANALYSIS
 - [ ] IMPLEMENT
 
+## 문서
+- [spec.md](./spec.md)
+- [analysis.md](./analysis.md) (ANALYSIS 단계에서 생성)
+- [implement.md](./implement.md) (IMPLEMENT 단계에서 생성)
+
 ## 작업 히스토리
 - <yyyy-MM-dd>: SPEC 작성
 ```
 
-README.md가 이미 있으면 history를 덮어쓰지 말고 `[ ] SPEC`을 `[x] SPEC`으로 갱신한 뒤 history 라인을 한 줄 추가한다.
+README.md가 이미 있으면 기존 Status·문서 섹션은 유지하고 history 라인만 한 줄 추가한다. SPEC을 다시 작성하는 경우라도 `[x] SPEC`은 그대로 둔다.
 
 ## Prohibited
 - 설계·아키텍처·데이터 흐름·인터페이스 내용은 다루지 않는다 (analysis.md 소관).
