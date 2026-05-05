@@ -100,7 +100,7 @@ Task ID 규칙:
 - 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 implement.md를 저장하지 않는다.
 
 ## Progress Tracking
-체크박스 전환은 verify-gated이며, approved/rejected 프로토콜은 CLAUDE.md §Verify Handoff에 따른다. `implement` skill은 어떤 조건에서도 체크박스를 건드리지 않는다.
+체크박스 전환은 verify가 `approved`로 판단한 뒤에만 main이 수행하며, 절차는 CLAUDE.md §Verify Handoff에 따른다. `implement` skill은 어떤 조건에서도 체크박스를 건드리지 않는다.
 
 ## README Update
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
