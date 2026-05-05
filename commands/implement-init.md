@@ -34,7 +34,9 @@ Feature name: $ARGUMENTS
 - [ ] task-<nnn>: <Task 제목>
   - 목적: <이 Task가 만들거나 보존하는 외부 관찰 가능한 동작 한 줄, 평문>
   - 접근: 1-2줄 구현 방식
-  - 검증 조건: 이 Task가 완료되었음을 판별할 관찰 가능한 기준 (1-3줄)
+  - 검증 조건:
+    - 결과: Task 완료 후 성립해야 하는 동작·출력·파일 내용·상태
+    - 확인: 그 결과를 검증하는 방법 (테스트 / 빌드 / lint / diff / 수동 확인)
   - 참조: SPEC §5.N (1개 이상 필수) / ANALYSIS §X.Y (설계 결정이 적용될 때)
 ```
 
@@ -57,14 +59,18 @@ Task ID 규칙:
 - [ ] task-003: OrderService.fetchOrders 구현
   - 목적: 로그인 사용자가 본인 주문 목록을 페이지 단위로 조회할 수 있다
   - 접근: DB 조회 서비스 메서드 추가, pagination은 기존 QueryBuilder 활용
-  - 검증 조건: 로그인 사용자가 본인 주문 목록을 20개 단위로 조회 가능
+  - 검증 조건:
+    - 결과: 로그인 사용자가 본인 주문 목록을 20개 단위로 조회 가능
+    - 확인: 단위 테스트로 페이지 경계·빈 결과 케이스 검증, 수동 호출로 응답 형태 확인
   - 참조: SPEC §5.2, ANALYSIS §1.3
 ```
 
 필드 의미 (command 작성자 참조용; 산출물 자체는 위의 한국어 라벨을 사용한다):
 - 목적 (Purpose): 외부 관찰 가능한 동작 한 줄. 매핑 식별자가 아니라 행동·상태로 적는다.
 - 접근 (Approach): 짧은 구현 방식. 더 깊은 내용이 필요하다면 그 깊이는 analysis.md 소관이므로 analysis.md를 먼저 갱신한다.
-- 검증 조건 (Verification criteria): Task-level DoD. 좁고 관찰 가능해야 한다. 목적과 동일하다면 "목적과 동일"로 약식 표기 가능.
+- 검증 조건 (Verification criteria): Task-level DoD를 두 줄로 분리한다.
+  - 결과: 좁고 관찰 가능해야 한다. 목적이 결과와 동일하다면 `결과: 목적과 동일`로 약식 표기 가능.
+  - 확인: 그 결과를 검증할 구체적 방법. verify가 evidence 종류를 결정하는 1차 입력이 된다.
 - 참조 (References): spec.md §5 매핑(필수)과 analysis.md 결정(해당 시). 이 필드는 closure check와 추적용 메타데이터이며, verify의 1차 evidence가 아니다.
 
 ### Structure Options
@@ -82,7 +88,9 @@ Task ID 규칙:
 - [ ] task-<nnn>: <대상> 테스트 작성
   - 목적: <보존하려는 기존 동작 한 줄> 회귀 방지
   - 접근: test layer + coverage target (unit / integration / e2e)
-  - 검증 조건: 테스트가 CI/로컬에서 통과한다
+  - 검증 조건:
+    - 결과: 추가된 테스트가 의도한 회귀 케이스를 커버한다
+    - 확인: CI/로컬에서 해당 테스트가 통과한다
   - 참조: SPEC §5.N
 ```
 
