@@ -12,7 +12,7 @@ Feature name: $ARGUMENTS
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
 - 정적 문서이며 진행 상황 트래커가 아니다.
 - 자기 완결적이어야 한다. 새 세션(`/clear` 이후)에서도 `spec.md + analysis.md`만으로 implement.md를 만들 수 있어야 한다.
-- spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `→ SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는 평문으로 풀어 적는다.
+- spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는 평문으로 풀어 적는다.
 
 ## Prerequisites
 - feature name이 비어 있으면 중단한다. 안내: "feature name을 인자로 전달하세요. 예: `/analyze-init payment-integration`"
