@@ -24,6 +24,9 @@ description: "Execute the next Task from docs/<feature-name>/implement.md. For P
 
 이 중 어느 것이라도 요청 충족에 필요해 보이면, 코드를 쓰지 말고 사용자에게 먼저 의견을 묻는다. 사용자가 명시적으로 허용한 경우에만 진행한다. 조용히 확장하지 않으며, 사용자에게 `/spec-init`로 전환하라고 안내하지도 않는다 — 사용자가 slash command를 호출하지 않은 것 자체가 Per-Request 선택이다.
 
+## Halt on Undecided Analysis
+analysis.md에 결정이 미뤄진 항목(예: Decision Point에 채택 옵션이 비어있음)이 현재 Task에 영향을 준다면 코드를 쓰지 말고 사용자에게 결정을 먼저 묻는다. 부분 산출물을 임시로 저장하지 않으며, 결정 후 작업을 재개한다.
+
 ## Output Structure
 1. Code or logic
 2. Key points
