@@ -27,6 +27,7 @@
 ## Side Effects
 - 되돌리기 어렵거나 공유·외부 시스템에 영향을 주는 조치(파일·브랜치 삭제, force push, hook 우회, 외부 게시·전송, DB 변경)는 사전에 사용자 확인을 받는다.
 - 로컬에서 되돌릴 수 있는 변경(파일 편집, 테스트 실행)은 그대로 진행한다.
+- 한 작업을 단계별로 쪼개 매 단계마다 사용자 확인을 받는 진행은, 사용자가 명시적으로 요청했거나 단계마다 상태 변경·되돌리기 어려운 조치가 따를 때로 한정한다. 그 외에는 일괄 진행한다.
 - 장애물을 우회하기 위해 파괴적 조치를 쓰지 않는다 — 안전 검사 우회(`--no-verify` 등)나 진행 중일 수 있는 낯선 파일·브랜치 삭제는 진행 전 확인한다.
 
 ## Document Layout
@@ -39,10 +40,6 @@ feature 단위 산출물은 `docs/<feature-name>/` 아래에 두며, 다음 네 
 `<feature-name>`은 `/spec-init`에서 결정하고 이후 단계에서 그대로 재사용한다. `verify.md`는 두지 않으며, verify의 판단이 implement.md 체크박스에 반영되는 방식은 §Verify Handoff에서 다룬다.
 
 ## Execution & Orchestration
-
-### Defaults
-- 사용자 turn당 assistant 응답은 1개로 한정한다. 단 agent 위임 round-trip(agent가 `needs input`으로 main에 질문을 반환하고 main이 사용자에게 묻기 전에 정리하는 케이스 등)은 이 한정의 예외다.
-- 사용자 확인을 받아 단계별로 진행하는 것은, 사용자가 명시적으로 요청했거나 작업에 상태 변경이 따르거나 되돌리기 어려울 때로 한정한다.
 
 ### Flows
 flow는 두 가지다. Phased는 산출물(spec → analysis → implement)을 작업 기록으로 보존하고, Per-Request는 영속 문서 없이 바로 실행한다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
