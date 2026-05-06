@@ -1,10 +1,10 @@
 ---
-description: Create spec.md (requirements + completion criteria) under docs/<feature-name>/ and initialize the feature README
+description: Create spec.md (requirements + completion criteria) under docs/<feature-dir>/ and initialize the feature README
 ---
 
 > 사용 시점: Phased flow의 첫 단계로, `/analyze-init` / `/implement-init`이 참조하는 SPEC을 만든다.
 
-`docs/<feature-name>/spec.md`를 작성하고 `docs/<feature-name>/README.md`를 초기화한다. SPEC은 요구사항 레벨에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡으며, 설계나 구현 순서는 다루지 않는다.
+`docs/<feature-dir>/spec.md`를 작성하고 `docs/<feature-dir>/README.md`를 초기화한다. `<feature-dir>` 풀 형식과 산출 룰은 §Output Paths에 둔다. SPEC은 요구사항 레벨에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡으며, 설계나 구현 순서는 다루지 않는다.
 
 Feature name: $ARGUMENTS
 
@@ -15,14 +15,22 @@ Feature name: $ARGUMENTS
 
 ## Prerequisites
 - feature name이 비어 있으면 중단한다.
-  - 사유: feature name이 출력 경로(`docs/<feature-name>/`)를 결정하며 이후 command가 이를 그대로 재사용한다.
+  - 사유: feature name이 출력 경로(`docs/<feature-dir>/`)의 마지막 마디를 결정하며 이후 command가 폴더 풀 이름을 그대로 재사용한다.
   - 안내: "feature name을 인자로 전달하세요. 예: `/spec-init payment-integration`"
 - 의도가 모호하면 작성 전에 사용자에게 질문한다.
 
 ## Output Paths
-- `docs/<feature-name>/spec.md`
-- `docs/<feature-name>/README.md` (생성하거나 갱신)
-- `docs/<feature-name>/` 디렉토리가 없으면 만든다.
+폴더 풀 이름 `<feature-dir>` = `<yyyyMMdd>-<nnn>-<feature-name>` 으로 자동 산출한다.
+- `<feature-name>`: `$ARGUMENTS`로 받은 슬러그.
+- `<yyyyMMdd>`: `/spec-init` 실행일.
+- `<nnn>`: 같은 날 순번 (`001`부터). `docs/` 아래에서 `<yyyyMMdd>-` prefix로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값으로 정한다. 같은 날 첫 feature이면 `001`.
+
+같은 날 같은 `<feature-name>`으로 재실행하면(`docs/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 Overwrite Rule이 그대로 적용된다.
+
+산출물 경로:
+- `docs/<feature-dir>/spec.md`
+- `docs/<feature-dir>/README.md` (생성하거나 갱신)
+- `docs/<feature-dir>/` 디렉토리가 없으면 만든다.
 
 ## Overwrite Rule
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
@@ -96,8 +104,9 @@ README.md가 이미 있으면 기존 Status·문서 섹션은 유지하고 histo
 - spec.md 안에는 상태 마커(`- [ ]` / `- [x]`)를 두지 않는다. SPEC은 상태를 갖지 않으며, 이 단계의 유일한 체크리스트는 README.md Status다.
 
 ## Downstream Contract
-- `/analyze-init <feature-name>`이 이 spec.md를 읽고 같은 디렉토리에 analysis.md를 만든다.
-- `/implement-init <feature-name>`이 analysis.md(완료 조건 매핑을 위해 spec.md도)를 읽고 implement.md를 만든다.
+- `/analyze-init <feature-dir>`이 이 spec.md를 읽고 같은 디렉토리에 analysis.md를 만든다.
+- `/implement-init <feature-dir>`이 analysis.md(완료 조건 매핑을 위해 spec.md도)를 읽고 implement.md를 만든다.
+- `<feature-dir>`은 `/spec-init`이 만든 폴더 풀 이름(`<yyyyMMdd>-<nnn>-<feature-name>`)이며, 이후 단계는 인자로 그 풀 이름을 받는다.
 
 ## Core Question
 > 우리가 풀려는 문제는 무엇이며, 어떻게 만드는지와는 무관하게 어떤 관찰 가능한 조건에서 풀렸다고 보는가?

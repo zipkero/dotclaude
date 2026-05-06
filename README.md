@@ -8,14 +8,14 @@ Claude Code의 개인 설정 저장소.
 
 ### 이 구조가 존재하는 이유
 - Claude Code의 기본 동작은 단일 덩어리 응답이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
-- `docs/<feature-name>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
+- `docs/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이의 contract** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 CLAUDE.md §Document Layout 참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록되며, 흐름에 떠밀려 넘어가지 않는다.
 
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 위임**: `/analyze-init`은 `analyzer` agent, `/implement-init`과 `implement` skill 호출은 `implementer` agent가 처리해 main 컨텍스트에 코드 탐색·문서 작성 잡음이 누적되지 않게 한다. 사용자가 명시 호출하는 `verify` skill과 디버깅용 `analyze` skill은 main이 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 verify skill의 prompt 룰로 강제한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main 컨텍스트를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §Orchestration Rules에 둔다.
 - **`analyze` skill은 독립 디버깅 유틸리티이지 pre-phase가 아니다**: 파일을 작성하지 않는 즉석 조사 도구로, `analysis.md`를 작성하는 Phased 설계 phase인 `/analyze-init`과는 별개다. Phased 작업은 `/spec-init`로 바로 진입한다.
 - **verify reject는 사용자 판단에 맡기며 자동 재시도하지 않는다**: prompt 기반 orchestration으로는 재시도 횟수를 결정론적으로 강제할 수 없으므로 reject는 사용자 판단으로 올린다. verify skill은 reject를 `style/minor` / `correctness` / `design/scope`로 분류해 다음 단계 결정을 돕는다.
-- **feature별 폴더 구조**: `docs/<feature-name>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify가 판단을 대화로 반환하면 implement.md 체크박스 전환(`[ ]`↔`[x]`)은 main이 CLAUDE.md §Verify Handoff에 따라 수행한다.
+- **feature별 폴더 구조**: `docs/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify가 판단을 대화로 반환하면 implement.md 체크박스 전환(`[ ]`↔`[x]`)은 main이 CLAUDE.md §Verify Handoff에 따라 수행한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 구조·데이터 흐름·인터페이스·영향·리스크·Decision Points만 담는다(체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
 
@@ -51,11 +51,11 @@ config.json        # Claude Code 기본 설정
 
 ### commands/ — slash command 정의
 
-각 command는 `docs/<feature-name>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다.
+각 command는 `docs/<feature-dir>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다.
 
-- `spec-init.md` — `spec.md`를 작성하고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`)
-- `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-name>`)
-- `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-name>`)
+- `spec-init.md` — `spec.md`를 작성하고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 풀 형식(`<yyyyMMdd>-<nnn>-<feature-name>`)을 자동 산출한다 — 자세한 룰은 `commands/spec-init.md` §Output Paths에 있다.
+- `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
+- `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 
 ### skills/ — skill 정의
 

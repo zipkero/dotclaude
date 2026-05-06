@@ -1,13 +1,13 @@
 ---
-description: Create implement.md (execution checklist with per-Task verification criteria) under docs/<feature-name>/ from analysis.md
+description: Create implement.md (execution checklist with per-Task verification criteria) under docs/<feature-dir>/ from analysis.md
 ---
 
 > 사용 시점: `/analyze-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
 > 선행 조건: `/analyze-init`
 
-`docs/<feature-name>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
+`docs/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
 
-Feature name: $ARGUMENTS
+Feature directory: $ARGUMENTS
 
 ## Role
 - 구현 단계의 단독 진행 상황 트래커다.
@@ -15,9 +15,9 @@ Feature name: $ARGUMENTS
 - Task-level 검증 조건은 좁다 — "이 Task는 X가 일어나면 done." spec.md §5(feature 레벨)와는 구분한다.
 
 ## Prerequisites
-- feature name이 비어 있으면 중단한다.
-  - 안내: "feature name을 인자로 전달하세요. 예: `/implement-init payment-integration`"
-- `docs/<feature-name>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
+- feature directory가 비어 있으면 중단한다.
+  - 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
+- `docs/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.

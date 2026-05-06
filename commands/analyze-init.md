@@ -1,12 +1,12 @@
 ---
-description: Create analysis.md (analysis + design) under docs/<feature-name>/ from spec.md
+description: Create analysis.md (analysis + design) under docs/<feature-dir>/ from spec.md
 ---
 
 > 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
 
-`docs/<feature-name>/analysis.md`를 작성한다. ANALYSIS는 feature를 어떻게 구조화하고 어떤 설계 선택을 commit했는지를 잡는다.
+`docs/<feature-dir>/analysis.md`를 작성한다. ANALYSIS는 feature를 어떻게 구조화하고 어떤 설계 선택을 commit했는지를 잡는다.
 
-Feature name: $ARGUMENTS
+Feature directory: $ARGUMENTS
 
 ## Role
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
@@ -15,8 +15,8 @@ Feature name: $ARGUMENTS
 - spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는 평문으로 풀어 적는다.
 
 ## Prerequisites
-- feature name이 비어 있으면 중단한다. 안내: "feature name을 인자로 전달하세요. 예: `/analyze-init payment-integration`"
-- `docs/<feature-name>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
+- feature directory가 비어 있으면 중단한다. 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/analyze-init 20260506-001-payment-integration`"
+- `docs/<feature-dir>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
 - 작성 전에 spec.md 전체를 읽는다. 범위는 spec.md §1에 의해 제한되며, 요구사항을 새로 추가하지 않는다.
 
 ## Overwrite Rule
@@ -67,7 +67,7 @@ Feature name: $ARGUMENTS
 - 추측성 항목은 두지 않는다 — 일반 보안·성능·컴플라이언스·contract 체크리스트, 가설적 실패 모드, spec.md·코드·사용자 prompt에 근거 없는 호환성·마이그레이션 우려.
 
 ## Downstream Contract
-- `/implement-init <feature-name>`이 analysis.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.
+- `/implement-init <feature-dir>`이 analysis.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.
 
 ## Core Question
 > 이 feature를 어떻게 구조화하며, 데이터는 어디로 흐르고, 어떤 설계 선택을 commit했는가?
