@@ -9,12 +9,12 @@ description: Create implement.md (execution checklist with per-Task verification
 
 Feature directory: $ARGUMENTS
 
-## Role
+## 역할
 - 구현 단계의 단독 진행 상황 트래커다.
 - 각 Task는 (a) analysis.md 설계와 (b) 최소 1개의 spec.md §5 완료 조건에 매핑된다.
 - Task-level 검증 조건은 좁다 — "이 Task는 X가 일어나면 done." spec.md §5(feature 레벨)와는 구분한다.
 
-## Prerequisites
+## 전제 조건
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `docs/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
@@ -22,12 +22,14 @@ Feature directory: $ARGUMENTS
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
 
-## Overwrite Rule
+## 덮어쓰기 규칙
 - `implement.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다. 덮어쓰기 시 기존 Task 체크박스는 폐기된다.
 
-## implement.md Structure
+## implement.md 구조
 
-### Task Format (한국어 산출물 템플릿)
+### Task 형식 (한국어 산출물 템플릿)
+각 Task는 한 번에 구현하고 검증할 수 있는 최소 단위이며, 검증 기준이 다른 작업(도메인 모델, 저장소 경계, 서비스 흐름, API/UI, 테스트 등)은 필요할 때 분리한다.
+
 각 Task는 네 필드를 가진 체크리스트 항목으로, 다른 필드는 두지 않는다.
 
 ```
@@ -73,14 +75,14 @@ Task ID 규칙:
   - 확인: 그 결과를 검증할 구체적 방법. verify가 evidence 종류를 결정하는 1차 입력이 된다.
 - 참조 (References): spec.md §5 매핑(필수)과 analysis.md 결정(해당 시). 이 필드는 closure check와 추적용 메타데이터이며, verify의 1차 evidence가 아니다.
 
-### Structure Options
+### 구조 옵션
 - 평면 리스트: `- [ ]` Task의 단일 시퀀스로, 작은 feature에 쓴다.
 - 그룹: `## Section: <name>` 아래에 Task를 배치하며, feature가 별개의 하위 영역을 여러 개 가질 때 쓴다. 내부 Task 포맷은 동일하다.
 
 둘 다 허용하며, analysis.md 구조 크기에 맞춰 선택한다.
 
-## Test Task Inclusion
-테스트 룰은 verify skill이 단독으로 소유한다 — 테스트 Task가 필요한 시점과 버그 수정 예외는 `skills/verify/SKILL.md` §Test Rules에서 본다. 여기서 룰을 중복 기술하지 않는다.
+## 테스트 Task 포함 기준
+테스트 룰은 verify skill이 단독으로 소유한다 — 테스트 Task가 필요한 시점과 버그 수정 예외는 `skills/verify/SKILL.md` §테스트 규칙에서 본다. 여기서 룰을 중복 기술하지 않는다.
 
 테스트 Task를 추가할 때의 템플릿:
 
@@ -94,12 +96,12 @@ Task ID 규칙:
   - 참조: SPEC §5.N
 ```
 
-## Ordering
+## 순서
 - 의존성 기준만 사용한다 — "다음이 가능하기 위해 무엇이 먼저 존재해야 하는가." 시간 순서는 사용하지 않는다.
 - 정렬은 implement.md 안의 위치로 표현하며, ID와는 무관하다. 순서를 바꿀 때 위치만 옮기고 ID는 보존한다.
 - 가능한 순서가 여럿이고 그 선택이 정확성에 영향을 준다면, 그 결정은 여기가 아니라 analysis.md §5 Decision Points 소관이다.
 
-## Mapping
+## 매핑
 - 모든 Task는 참조 필드에서 최소 1개의 spec.md §5 완료 조건(`SPEC §5.N`)에 매핑되어야 한다.
 - implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준이 있는지 나열한다. 미매핑 기준은 이 체크리스트로 도달할 수 없으므로 조용히 누락시키지 않는다. 각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
   - 해당 기준을 다루는 새 Task 추가
@@ -107,17 +109,17 @@ Task ID 규칙:
   - spec.md §4 Exclusions로 명시적 보류
 - 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 implement.md를 저장하지 않는다.
 
-## Progress Tracking
-체크박스 전환은 verify가 `approved`로 판단한 뒤에만 main이 수행하며, 절차는 CLAUDE.md §Verify Handoff에 따른다. `implement` skill은 어떤 조건에서도 체크박스를 건드리지 않는다.
+## 진행 상황 추적
+체크박스 전환은 verify가 `approved`로 판단한 뒤에만 main이 수행하며, 절차는 CLAUDE.md §verify 후처리에 따른다. `implement` skill은 어떤 조건에서도 체크박스를 건드리지 않는다.
 
-## README Update
+## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
-- README.md Status `[ ] IMPLEMENT`는 그대로 둔다. 이 체크박스는 implement.md의 모든 Task가 `[x]`가 된 시점에 main이 verify Approved 후속으로 전환한다(CLAUDE.md §Verify Handoff).
+- README.md Status `[ ] IMPLEMENT`는 그대로 둔다. 이 체크박스는 implement.md의 모든 Task가 `[x]`가 된 시점에 main이 verify Approved 후속으로 전환한다(CLAUDE.md §verify 후처리).
 - history 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
-feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §Verify Handoff 및 §Feature README Ownership에 둔다.
+feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §verify 후처리 및 §Feature README 소유에 둔다.
 
-## Prohibited
+## 금지
 - implement.md 안에 Decision Point를 두지 않는다 (모든 결정은 analysis.md §5에 둔다).
 - 목적 / 접근 / 검증 조건 / 참조 외의 Task 하위 필드는 두지 않는다.
 - 목적 필드를 매핑 식별자(`SPEC §...`, `ANALYSIS §...`)만으로 채우지 않는다 — 평문 동작 진술이어야 한다. 식별자는 참조 필드에 둔다.
@@ -125,5 +127,5 @@ feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §Verify 
 - 참조 필드에 SPEC §5 매핑이 없는 Task는 두지 않는다.
 - spec.md §5 완료 조건을 수정·약화·확장하지 않는다.
 
-## Core Question
+## 핵심 질문
 > 어떤 순서로 실행하고, 각 Task의 "done"은 무엇이며, 우리는 지금 어디인가?
