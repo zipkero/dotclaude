@@ -28,7 +28,7 @@ main이 `/implement-init <feature-dir>` 작업을 위임할 때.
 작업 시작 전 또는 도중에 애매한 부분이나 사용자 결정이 필요한 지점을 발견하면 코드·문서를 건드리지 않고 main에 반환한다. 산발적인 되돌려보내기를 막기 위해 발견 시점에 묶어서 한 번에 보낸다.
 
 - Mode 1 trigger: spec.md에 분석 결정에 영향을 주는 모순이 있거나, Decision Point 후보 옵션 중 채택이 spec.md만으로는 결정되지 않는 경우.
-- Mode 2 trigger: 미매핑 SPEC §5 기준 발견 시. 각 미매핑 항목에 대해 사용자 선택지 3가지(새 Task 추가 / SPEC §5 제거 / Exclusion 보류)를 묶어 main에 반환.
+- Mode 2 trigger: 미매핑 SPEC §5 기준 발견 시. `commands/implement-init.md` §매핑에 정의된 사용자 선택지를 그대로 따르고, 각 미매핑 항목을 묶어 main에 반환.
 
 반환 형식: 질문 항목 목록 + 각 항목별 unblock 조건. 모든 항목은 evidence(읽은 파일·발견된 모순 등)에 기반한다.
 

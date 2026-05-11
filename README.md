@@ -48,7 +48,7 @@ config.json        # Claude Code 기본 설정
 각 agent는 main에서 phase 작업을 받아 산출물을 만들고 main에는 요약만 돌려준다.
 
 - `analyzer` — `/analyze-init` 실행, `/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 작성한다. 코드는 수정하지 않는다.
-- `implementer` — `implement` skill 호출 (Phased / Per-Request 모두). 코드 변경을 담당한다. `implement.md` 체크박스는 직접 건드리지 않는다 (verify-gated).
+- `implementer` — `implement` skill 호출 (Phased / Per-Request 모두). 코드 변경을 담당한다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 전환한다.
 
 ### commands/ — slash command 정의
 

@@ -28,10 +28,7 @@ description: Audit the global configuration — rule consistency, README accurac
 - 우선순위 묶음 (룰 파일): 의미 충돌 > 모호 > 중복·다이어트 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
 - 다른 파일에 cascade가 필요한지 명시
-- 적용은 사용자의 명시 승인 후에만
-
-## 금지
-- 파일 자동 수정 금지
+- 적용은 사용자의 명시 승인 후에만 진행하며, 자동 수정하지 않는다
 
 ## 핵심 질문
 > 지금 전역설정 안의 룰이 서로 모순 없이, 명확하게, 중복 없이 표현되어 있는가? CLAUDE.md가 자기 자신의 룰을 지키는가?
