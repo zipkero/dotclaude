@@ -5,7 +5,7 @@ description: Audit the global configuration — rule consistency, README accurac
 > 사용 시점: 전역설정에 변경이 누적되어 검토가 필요할 때 사용자가 의식적으로 호출한다.
 > 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
 
-전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점에서 본다. 발견 시 before/after 수정안을 제시한다.
+전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
 
 ## 점검 항목
 
@@ -14,7 +14,7 @@ description: Audit the global configuration — rule consistency, README accurac
 2. 모호한 표현 (정의되지 않은 비유어, 권위 위치 불명)
 3. 중복 기술 (한 룰이 두 곳에서 따로 정의되어 있는 경우)
 4. `CLAUDE.md` 본인 룰 위반 (응답 룰, 용어 선택 룰을 본인이 어기는 경우)
-5. 다이어트 여지 (같은 권위 영역 안에서 비슷한 표현이 반복되거나, 동일 개념을 다른 표현으로 두 번 말하는 등 — 의미 손실 없이 줄일 수 있는 부분)
+5. 축소 여지 (같은 권위 위치 안에서 비슷한 표현이 반복되거나, 동일 개념을 다른 표현으로 두 번 말하는 등 — 의미 손실 없이 줄일 수 있는 부분)
 
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
@@ -25,10 +25,9 @@ description: Audit the global configuration — rule consistency, README accurac
 
 ## 출력 형식
 - 각 발견에 대해 위치(파일·섹션) + 현재 표현 + 제안 표현(before/after diff)
-- 우선순위 묶음 (룰 파일): 의미 충돌 > 모호 > 중복·다이어트 > 본인 룰 위반
+- 우선순위 묶음 (룰 파일): 의미 충돌 > 모호 > 중복·축소 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
 - 다른 파일에 cascade가 필요한지 명시
-- 적용은 사용자의 명시 승인 후에만 진행하며, 자동 수정하지 않는다
 
 ## 핵심 질문
 > 지금 전역설정 안의 룰이 서로 모순 없이, 명확하게, 중복 없이 표현되어 있는가? CLAUDE.md가 자기 자신의 룰을 지키는가?
