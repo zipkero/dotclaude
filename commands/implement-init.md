@@ -122,7 +122,6 @@ feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §verify 
 ## 금지
 - implement.md 안에 Decision Point를 두지 않는다 (모든 결정은 analysis.md §5에 둔다).
 - 목적 / 접근 / 검증 조건 / 참조 외의 Task 하위 필드는 두지 않는다.
-- 목적 필드를 매핑 식별자(`SPEC §...`, `ANALYSIS §...`)만으로 채우지 않는다 — 평문 동작 진술이어야 한다. 식별자는 참조 필드에 둔다.
 - 개념 설명·구조 다이어그램은 두지 않는다 (analysis.md 소관).
 - 참조 필드에 SPEC §5 매핑이 없는 Task는 두지 않는다.
 - spec.md §5 완료 조건을 수정·약화·확장하지 않는다.
