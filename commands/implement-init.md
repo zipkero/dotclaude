@@ -115,7 +115,7 @@ Task ID 규칙:
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
 - README.md Status `[ ] IMPLEMENT`는 그대로 둔다. 이 체크박스는 implement.md의 모든 Task가 `[x]`가 된 시점에 main이 verify Approved 후속으로 전환한다(CLAUDE.md §verify 후처리).
-- history 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
+- 작업 히스토리 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 feature 완료의 의미와 `[x] IMPLEMENT` 전환 규칙은 CLAUDE.md §verify 후처리 및 §Feature README 소유에 둔다.
 

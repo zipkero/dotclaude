@@ -16,7 +16,7 @@
 - 요청 범위를 넘는 리팩터링은 하지 않고 작업 범위를 유지한다.
 - 사용자의 방향이 근거를 살펴봤을 때 부적절해 보이면, 진행하기 전에 이견과 근거를 먼저 제시한다. 의심스러운 지시를 묵묵히 따르지 않는다.
 - 응답의 단정·우려는 확인된 근거 위에서만 하고, 확인 못 한 부분은 분리해 보고한다. 사용자가 특정 파일·심볼을 지목하면 답변 전에 그 파일을 읽고, 코드베이스에 대한 주장은 실제 조사한 범위 안에서만 한다. 요청에 없는 일반 우려(보안·성능 등)를 끌어오지 않으며, 이름 일치만으로 같음을 단정하거나 DB·ES·외부 호출처럼 직접 확인 못 하는 경로에 대해 단정하지 않는다.
-- 매핑 식별자(`SPEC §5.N`, `ANALYSIS §X.Y`, `file:line`, `task-<nnn>` Task ID 등)를 응답 본문 문장에 단어처럼 박지 않는다. 사용자가 그 위치를 직접 열어볼 가치가 있거나 정확성 입증에 결정적일 때만 1-2개로 한정한다.
+- 매핑 식별자(`SPEC §5.N`, `ANALYSIS §X.Y`, `file:line`, `task-<nnn>` Task ID 등)를 응답 본문 문장에 단어처럼 박지 않는다. 사용자가 그 위치를 직접 열어볼 가치가 있거나 정확성 입증에 결정적일 때만 1-2개로 한정한다. 이 제약은 응답 본문에만 적용되며, `docs/<feature-dir>/` 산출물(analysis.md 출처 표기, implement.md 참조 필드 등)에서는 매핑 식별자를 적극적으로 사용한다.
 - 코드/시스템에 정의되지 않은 비유어(예: "게이팅", "게이트 조건")를 정의된 식별자·패턴인 것처럼 박지 않는다. 실제 동작으로 풀어 쓰거나(예: "PlanMarkUp 존재 여부를 검사하는 if 조건"), 비유임을 분명히 표시한다. 응답 본문과 `docs/<feature-dir>/` 산출물 모두에 적용된다.
 
 ## 질문
@@ -36,37 +36,41 @@
 - 장애물을 우회하기 위해 파괴적 조치를 쓰지 않는다 — 안전 검사 우회(`--no-verify` 등)나 진행 중일 수 있는 낯선 파일·브랜치 삭제는 진행 전 확인한다.
 
 ## 문서 구조
-feature 단위 산출물은 `docs/<yyyyMMdd>-<nnn>-<feature-name>/` 아래에 두며, 다음 네 문서로 구성한다.
+feature 단위 산출물은 `docs/<feature-dir>/` 아래 네 문서로 구성한다.
 - `spec.md` — 요구사항 (무엇이 있어야 하는가)
 - `analysis.md` — 분석 + 설계 (구조, 데이터 흐름, 인터페이스, 영향, 리스크, 결정)
 - `implement.md` — 실행 체크리스트 (Task 단위)
 - `README.md` — feature 단위 요약, Status, 히스토리
 
-폴더명 컨벤션:
-- `<feature-name>`: feature를 식별하는 슬러그. `/spec-init` 인자로 받는다.
-- `<yyyyMMdd>`: `/spec-init` 실행일.
-- `<nnn>`: 같은 날 순번 (`001`부터). `docs/` 아래의 `<yyyyMMdd>-` prefix 폴더 중 가장 큰 번호의 다음 값으로 자동 산출한다.
+`<feature-dir>` = `<yyyyMMdd>-<nnn>-<feature-name>` 형식. 산출·재사용 룰은 `commands/spec-init.md` §산출 경로가 소유하며, `/analyze-init`·`/implement-init`은 그 풀 디렉터리명을 인자로 받는다.
 
-본문에서는 폴더 풀 이름을 `<feature-dir>` (= `<yyyyMMdd>-<nnn>-<feature-name>`)로 줄여 부른다. `<feature-dir>` 산출과 같은 날 재실행 시 기존 폴더 재사용 룰은 `commands/spec-init.md`가 소유하며, `/analyze-init`과 `/implement-init`은 그 풀 디렉터리명을 인자로 받는다. `verify.md`는 두지 않으며, verify의 판단이 implement.md 체크박스에 반영되는 방식은 §verify 후처리에서 다룬다.
+`verify.md`는 두지 않는다. verify의 판단이 implement.md 체크박스에 반영되는 방식은 §verify 후처리에서 다룬다.
 
 ## 실행과 조율
 
 ### 흐름
-flow는 두 가지다. Phased는 산출물(spec → analysis → implement)을 작업 기록으로 보존하고, Per-Request는 영속 문서 없이 바로 실행한다. 핸드오프, 후속 참조, 범위가 작지 않거나 후속 추적이 가치 있을 때는 Phased를, 그 외에는 Per-Request를 택한다.
+디폴트는 Per-Request다. 사용자가 `/spec-init`을 호출한 시점에 Phased로 진입하고, 그 이후 해당 feature에 대한 implement·verify는 활성 scope가 살아 있는 동안 Phased로 흐른다. 어느 mode를 쓸지 매번 판단할 필요는 없다 — `/spec-init` 호출 여부가 곧 선택이다. 핸드오프·후속 추적이 가치 있는 변경에는 `/spec-init`을 친다.
 
-- **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 각 phase가 작성한 문서를 다음 phase가 입력으로 사용한다. slash command는 사용자가 직접 호출하며 자동으로 이어지지 않는다. `implement`와 `verify`는 자연어 트리거이므로, 사용자가 phase 진행 시점을 통제한다.
-- **Per-Request**: `prompt → implement → verify`. slash command가 없고 활성 `docs/<feature-dir>/` scope도 없는 자연어 prompt에서 진입한다. 두 mode 모두 verify는 사용자 명시 호출이 필요하며, 자동으로 이어지지 않는다 (§verify 후처리).
+- **Phased**: `/spec-init → /analyze-init → /implement-init → implement → verify`. 각 phase가 작성한 문서를 다음 phase가 입력으로 사용한다. slash command는 사용자가 직접 호출하며 자동으로 이어지지 않는다. `implement`와 `verify`는 자연어 트리거이므로 사용자가 phase 진행 시점을 통제한다.
+- **Per-Request**: `prompt → implement → verify`. slash command가 없고 활성 `docs/<feature-dir>/` scope도 없는 자연어 prompt에서 진입한다. "활성 scope"의 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩에 두며, `analyze`·`verify` skill이 이를 그대로 참조한다.
+
+두 mode 모두 verify는 사용자 명시 호출이 필요하며, 자동으로 이어지지 않는다 (§verify 후처리).
 
 `analyze` skill은 두 flow와 직교한다. Phased flow는 `analyze`를 거치지 않고 `/spec-init`로 바로 진입한다.
 
 ### 조율 규칙
-- main은 어떤 skill이든 직접 호출할 수 있다. agent는 phase flow를 따라가며 산출물을 만들 때(코드 탐색·문서 작성·테스트 실행 잡음을 main에서 분리할 때)만 거치는 매개다. 사용자가 명시 호출하는 `verify` skill, 디버깅용 `analyze` skill은 main이 직접 호출한다.
-- phase 단위 작업의 위임:
-  - main: `/spec-init` 실행 (요구사항이 사용자 대화로 정해지는 단계는 위임하지 않는다)
-  - `analyzer`: `/analyze-init` 실행, `/implement-init` 실행
-  - `implementer`: `implement` skill 호출 (Phased / Per-Request 모두)
-- 절차의 권위는 해당 command·skill 파일에 두고, agent 본문은 그 파일들을 참조한다.
-- agent 위임 시 main은 작업 의도와 인자(`feature-name` / `feature-dir` 등)만 전달하고 command·skill 본문을 main 컨텍스트에 펼치지 않는다.
+- main은 어떤 skill이든 직접 호출할 수 있다. agent는 phase 산출물을 만들 때(코드 탐색·문서 작성·테스트 실행 잡음을 main에서 분리할 때) 거치는 매개다. 호출 경로:
+
+  | 트리거                  | 진입점             | 비고                                       |
+  |-------------------------|--------------------|--------------------------------------------|
+  | `/spec-init <name>`     | main (직접)        | 요구사항이 대화로 정해지므로 위임 안 함    |
+  | `/analyze-init <dir>`   | analyzer agent     | main이 위임                                |
+  | `/implement-init <dir>` | analyzer agent     | main이 위임                                |
+  | 자연어 implement 트리거 | implementer agent  | Phased / Per-Request 모두                  |
+  | 자연어 verify 트리거    | main (직접)        | 사용자 명시 호출, agent 거치지 않음        |
+  | 자연어 analyze 트리거   | main (직접)        | 디버깅·코드 이해용, agent 거치지 않음      |
+
+- 절차의 권위는 해당 command·skill 파일에 두고, agent 본문은 그 파일들을 참조한다. agent 위임 시 main은 작업 의도와 인자(`feature-name` / `feature-dir` 등)만 전달하고 command·skill 본문을 main 컨텍스트에 펼치지 않는다.
 - agent가 작업 시작 전 애매한 부분이나 사용자 결정이 필요한 지점을 발견하면 (예: `/implement-init`의 미매핑 SPEC §5 처리, `implement`의 Non-expansion baseline 위반, `analyze`의 `needs input` Blocker) 코드·문서를 건드리기 전에 질문 항목을 묶어 main에 반환한다. 처리 분기:
   - `needs input` 류: main이 사용자에게 받아 agent를 재호출한다.
   - `infeasible` / `scope undefined` 류: main이 결과만 사용자에게 보고하고 자동 재시도하지 않는다.
@@ -78,18 +82,25 @@ verify skill은 판단만 반환하며, implement.md 체크박스 전환은 main
 
 verify는 다음 모든 케이스에서 사용자가 명시적으로 호출해야 실행된다 — Phased mode의 implement 직후, Per-Request mode의 변경 후, 이미 `[x]`인 Task의 재검증. 어느 경우에도 main이 자동으로 verify를 이어가지 않는다.
 
-- **Approved**: main이 대상 implement.md 체크박스를 `[ ]`에서 `[x]`로 바꾸고 다른 파일은 건드리지 않는다. 전환 직후 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 전환하고 history에 `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 추가한다. 결과는 사용자에게 알린다.
+- **Approved**: main이 대상 implement.md 체크박스를 `[ ]`에서 `[x]`로 바꾸고 다른 파일은 건드리지 않는다. 전환 직후 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 전환하고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 추가한다. 결과는 사용자에게 알린다.
 - **Rejected**:
   - 대상 체크박스가 `[ ]`였다면(implement 직후의 일반 케이스) 그대로 둔다.
-  - 이미 `[x]`였던 Task를 재검증하다가 reject되면 main이 `[x]`를 `[ ]`로 되돌린다. 그 결과 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니게 되었다면, README의 `[x] IMPLEMENT`도 `[ ] IMPLEMENT`로 되돌리고 history에 그 사실을 한 줄 남긴다.
-  - 어느 경우든 issues와 reject 사유를 사용자에게 전달하고, 자동으로 재시도하지 않는다. 다음 `implement` 트리거가 같은 Task를 다시 잡는다.
+  - 이미 `[x]`였던 Task를 재검증하다가 reject되면 main이 `[x]`를 `[ ]`로 되돌린다. 그 결과 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니게 되었다면, README의 `[x] IMPLEMENT`도 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
+  - 어느 경우든 issues와 reject 사유를 사용자에게 전달하고, 자동으로 재시도하지 않는다. 다음 `implement` 호출이 같은 Task를 다시 잡는다.
 
 Per-Request mode에서는 verify가 사용자 원 prompt와 코드 변경(diff)을 보고 판단한다 (verify skill의 컨텍스트 로딩 분기 참조). 결과는 대화 출력으로만 남으며, 체크박스나 README는 갱신하지 않는다.
 
 ### Feature README 소유
 - repo-root `/README.md`(이 설정 자체의 설명)는 slash command·agent가 자동으로 수정하지 않는다. 설정 구조 변경에 따른 의도적 동기화는 사용자 지시가 있을 때만 수행한다. slash command가 자동 갱신하는 대상은 feature별 `docs/<feature-dir>/README.md`로 한정한다.
-- README Status 세 라인은 spec-init이 README 신규 생성 시 한 번에 박는다 — `[x] SPEC`, `[ ] ANALYSIS`, `[ ] IMPLEMENT` (spec-init은 SPEC 작성 직후 README를 만들므로 SPEC 라인은 처음부터 `[x]`다). 이후 라인 전환 책임은 각 command(`commands/analyze-init.md`, `commands/implement-init.md`)와 main(verify Approved 후속)이 나눠 가진다.
-- 각 command의 Status 전환 룰은 해당 command 파일에 둔다. `[x] IMPLEMENT`로의 전환만은 command가 아니라 main이 §verify 후처리 Approved 절차에 따라 수행한다.
+- README Status 세 라인은 spec-init이 README 신규 생성 시 한 번에 박는다 — `[x] SPEC`, `[ ] ANALYSIS`, `[ ] IMPLEMENT`. 이후 라인 전환 책임은 다음과 같다.
+
+  | Status 라인     | 전환 주체              | 시점                                       |
+  |-----------------|------------------------|--------------------------------------------|
+  | `[x] SPEC`      | `/spec-init`           | README 신규 생성 시 (작성 직후 박힘)       |
+  | `[x] ANALYSIS`  | `/analyze-init`        | analysis.md 작성 완료 시                   |
+  | `[x] IMPLEMENT` | main (verify Approved) | implement.md의 모든 Task가 `[x]`가 된 시점 |
+
+  각 command의 자세한 전환 룰은 해당 command 파일에 둔다. `[x] IMPLEMENT` 전환만 command가 아닌 main이 §verify 후처리 Approved 절차에 따라 수행하며, rejected 재검증 시 역전환(`[x] → [ ]`)도 main 소관이다.
 - feature 완료는 "implement.md의 모든 Task가 `[x]`"로 관찰하며, 구현 후 별도의 상태 플래그를 두지 않는다.
 
 ### Revision & Rollback

@@ -22,7 +22,7 @@ implement.md Task의 참조 필드(`SPEC §5.N`, `ANALYSIS §X.Y`)는 매핑 메
 1. `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 그 하위 파일과 매치하거나, 대화가 활성 `docs/<feature-dir>/` scope를 가리킬 때(`implement` skill §컨텍스트 로딩과 동일 정의) → Phased mode.
    - spec.md 완료 조건을 읽는다 (요구사항 레벨 기준).
    - implement.md를 읽는다. 기본 검증 대상은 직전 `implement`가 실행한 Task(여전히 `[ ]`이며 판단 대기 상태)이며, 그 Task의 검증 조건 필드를 Task-level 기준으로 삼는다.
-   - 사용자가 이미 `[x]`인 특정 Task를 명시적으로 지목해 호출한 경우 → 재검증 모드. 같은 기준(spec.md §5 매핑 + Task 검증 조건)으로 판단하며, reject 결과는 `[x]`를 `[ ]`로 되돌리는 main 동작을 트리거한다(CLAUDE.md §verify 후처리).
+   - 사용자가 이미 `[x]`인 특정 Task를 명시적으로 지목해 호출한 경우 → 재검증 모드. 같은 기준(spec.md §5 매핑 + Task 검증 조건)으로 판단한다. reject되면 main이 `[x]`를 `[ ]`로 되돌린다(CLAUDE.md §verify 후처리).
    - 설계 의도 일치 여부가 쟁점일 때 analysis.md Decision Points를 읽는다.
 2. 그 외 → Per-Request mode. 요청 범위와 code diff만으로 verify한다.
    - diff source: working tree (직전 implement turn의 미커밋 변경). 이미 commit된 경우, main이 이 skill을 호출할 때 diff 범위를 명시적으로 전달한다 (commit SHA, 또는 implement 출력의 Files touched 목록).

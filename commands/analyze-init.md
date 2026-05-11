@@ -36,8 +36,8 @@ Feature directory: $ARGUMENTS
 - 선형 흐름을 인위적으로 쪼개거나 없는 상태·통합 지점을 만들어 채우지 않는다.
 
 ### 3. 인터페이스
-- 외부 경계: API signature, event shape, 인접 모듈과의 contract.
-- 경계를 가로지르는 인터페이스만 포함하며, 내부 helper signature는 범위 밖이다.
+- 외부 경계: API signature, event 형태, 인접 모듈과의 계약.
+- 경계를 가로지르는 인터페이스만 포함하며, 내부 helper의 signature는 범위 밖이다.
 
 ### 4. 영향 범위
 - 이 변경이 실제로 건드리는 기존 모듈·파일·DB 테이블만 둔다. 호출부나 스키마를 직접 읽어 검증한다.
@@ -57,7 +57,7 @@ Feature directory: $ARGUMENTS
 ## README 갱신
 완료 시:
 - README.md Status `[ ] ANALYSIS`를 `[x] ANALYSIS`로 전환한다.
-- history 라인을 추가한다 — `- <yyyy-MM-dd>: ANALYSIS 작성`.
+- 작업 히스토리 라인을 추가한다 — `- <yyyy-MM-dd>: ANALYSIS 작성`.
 
 ## 금지
 - 체크박스(`- [ ]` / `- [x]`)를 두지 않는다. ANALYSIS는 정적 문서다.
