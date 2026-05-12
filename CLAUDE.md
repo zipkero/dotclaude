@@ -75,7 +75,7 @@ feature 단위 산출물은 `docs/<feature-dir>/` 아래 네 문서로 구성한
   - `needs input` 류: main이 사용자에게 받아 agent를 재호출한다.
   - `infeasible` / `scope undefined` 류: main이 결과만 사용자에게 보고하고 자동 재시도하지 않는다.
 - 읽기 전용 탐색에서 여러 파일에 걸친 대량 grep/Read가 필요한 경우(예: 10+ 파일에 걸친 흐름 추적, 코드베이스 전역 키워드 조사)에는 `Explore` subagent를 쓸 수 있다. Explore가 호출자에 요약을 반환하므로 원본 결과가 컨텍스트를 차지하지 않는다. 단일 파일 조회나 직접 Read/Grep으로 비용이 적게 끝나는 조회에는 쓰지 않는다.
-- 테스트 소유권은 verify skill에 있다. implement skill과 implement-init command는 룰을 중복 기술하지 말고 참조만 한다.
+- 테스트 규칙은 verify skill에 둔다. implement skill과 implement-init command는 룰을 중복 기술하지 말고 참조만 한다.
 
 ### verify 후처리
 verify skill은 판단만 반환하며, implement.md 체크박스 전환은 main이 수행한다 — `approved`면 `[ ]`을 `[x]`로 전환하고, 이미 `[x]`인 Task가 재검증에서 `rejected`되면 `[x]`를 `[ ]`로 되돌린다.

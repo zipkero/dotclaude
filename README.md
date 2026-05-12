@@ -53,11 +53,15 @@ config.json        # Claude Code 기본 설정
 
 ### commands/ — slash command 정의
 
-각 command는 `docs/<feature-dir>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다.
+Phased flow command는 `docs/<feature-dir>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다.
 
 - `spec-init.md` — `spec.md`를 작성하고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 풀 형식(`<yyyyMMdd>-<nnn>-<feature-name>`)을 자동 산출한다 — 자세한 룰은 `commands/spec-init.md` §산출 경로에 있다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
 - `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
+
+Meta command (Phased flow와 독립):
+
+- `global-review.md` — 전역설정의 정합성·README 정확성·축소 여지를 사용자 의식적 호출로 점검한다 (`/global-review`). 발견 보고만 하고 자동 수정하지 않는다.
 
 ### skills/ — skill 정의
 
