@@ -36,7 +36,7 @@ analysis.md §5에 미해결 Decision Point("미해결" 정의는 `commands/impl
 4. 비고·한계 (있으면)
 
 ## 완료
-- Phased mode: implement.md 체크박스를 수정하지 않는다 (체크박스 전환은 verify가 `approved`를 반환한 뒤 main이 수행하며, 절차는 CLAUDE.md §verify 후처리에 따른다). 실행한 Task를 식별하는 짧은 요약을 반환하고, 다음 `implement` 호출 전에 이 Task를 verify하도록 권고한다 — 미검증 Task는 `[ ]`로 남으며 다음 `implement` 호출이 같은 Task를 다시 잡는다.
+- Phased mode: implement.md 체크박스를 수정하지 않는다 (체크박스 전환은 verify가 `approved`를 반환한 뒤 main이 수행하며, 절차는 `skills/verify/SKILL.md` §verify 후처리에 따른다). 실행한 Task를 식별하는 짧은 요약을 반환하고, 다음 `implement` 호출 전에 이 Task를 verify하도록 권고한다 — 미검증 Task는 `[ ]`로 남으며 다음 `implement` 호출이 같은 Task를 다시 잡는다.
 - Per-Request mode: 문서를 갱신하지 않는다.
 
 ## 테스트 코드 작성

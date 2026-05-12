@@ -6,7 +6,7 @@ description: "Judge whether the most recent implement Task satisfies spec.md com
 ## 역할
 verify는 **Task-level 판단 도구**다. `implement` turn 직후에 실행되어 단 하나의 질문에 답한다 — 방금 만든 Task가 DoD를 만족했는가?
 
-- verify는 판단만 반환하며, implement.md 체크박스는 main이 양방향으로 관리한다 (CLAUDE.md §verify 후처리 참고).
+- verify는 판단만 반환하며, implement.md 체크박스는 main이 양방향으로 관리한다 (§verify 후처리 참고).
 - feature-level 검증 패스는 두지 않으며, `verify.md`도 두지 않는다.
 
 ## 근거 원칙
@@ -22,7 +22,7 @@ implement.md Task의 참조 필드(`SPEC §5.N`, `ANALYSIS §X.Y`)는 매핑 메
 1. `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 그 하위 파일과 매치하거나, 대화가 활성 `docs/<feature-dir>/` scope를 가리킬 때(`implement` skill §컨텍스트 로딩과 동일 정의) → Phased mode.
    - spec.md 완료 조건을 읽는다 (요구사항 레벨 기준).
    - implement.md를 읽는다. 기본 검증 대상은 직전 `implement`가 실행한 Task(여전히 `[ ]`이며 판단 대기 상태)이며, 그 Task의 검증 조건 필드를 Task-level 기준으로 삼는다.
-   - 사용자가 이미 `[x]`인 특정 Task를 명시적으로 지목해 호출한 경우 → 재검증 모드. 같은 기준(spec.md §5 매핑 + Task 검증 조건)으로 판단한다. reject되면 main이 `[x]`를 `[ ]`로 되돌린다(CLAUDE.md §verify 후처리).
+   - 사용자가 이미 `[x]`인 특정 Task를 명시적으로 지목해 호출한 경우 → 재검증 모드. 같은 기준(spec.md §5 매핑 + Task 검증 조건)으로 판단한다. reject되면 main이 `[x]`를 `[ ]`로 되돌린다(§verify 후처리).
    - 설계 의도 일치 여부가 쟁점일 때 analysis.md Decision Points를 읽는다.
 2. 그 외 → Per-Request mode. 요청 범위와 code diff만으로 verify한다.
    - diff source: working tree (직전 implement turn의 미커밋 변경). 이미 commit된 경우, main이 이 skill을 호출할 때 diff 범위를 명시적으로 전달한다 (commit SHA, 또는 implement 출력의 Files touched 목록).
@@ -53,6 +53,26 @@ implement.md Task의 참조 필드(`SPEC §5.N`, `ANALYSIS §X.Y`)는 매핑 메
 - `style/minor`: 명명·주석·포맷 등 비-동작적 issue로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 만족하지 않거나, 버그가 포함되었거나, invariant를 위반하거나, 잘못된 출력을 낸다.
 - `design/scope`: 구현이 analysis.md Decision Points에서 이탈하거나, 요청 범위를 초과·미달하거나, 합의된 경계를 위반한다. 결정이 필요하다 — 구현을 수정하거나 analysis.md를 개정한다.
+
+## verify 후처리
+verify skill은 판단만 반환하며, implement.md 체크박스와 feature README Status 전환은 main이 수행한다. 자동 재시도는 없다.
+
+- **Approved**:
+  - main이 대상 implement.md Task 체크박스를 `[ ]` → `[x]`로 바꾸고 다른 파일은 건드리지 않는다.
+  - 전환 후 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 전환하고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 추가한다.
+- **Rejected**:
+  - 대상 체크박스가 `[ ]`였다면(implement 직후의 일반 케이스) 그대로 둔다.
+  - 이미 `[x]`였던 Task를 재검증하다가 rejected되면 main이 `[x]` → `[ ]`로 되돌린다. 그 결과 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니면 README의 `[x] IMPLEMENT`를 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
+  - issues와 reject 사유는 사용자에게 전달하며, 자동으로 재시도하지 않는다. 다음 `implement` 호출이 같은 Task를 다시 잡는다.
+- Per-Request mode는 verify 결과를 대화 출력으로만 남기며, 체크박스·README를 갱신하지 않는다.
+
+README Status 전환 책임:
+
+| Status 라인     | 전환 주체              |
+|-----------------|------------------------|
+| `[x] SPEC`      | `/spec-init`           |
+| `[x] ANALYSIS`  | `/analyze-init`        |
+| `[x] IMPLEMENT` | main (verify Approved) |
 
 ## 테스트 규칙 (권위 — verify skill 소유)
 다른 문서는 이 룰을 참조하며, 다른 곳에서는 중복 기술하지 않는다.

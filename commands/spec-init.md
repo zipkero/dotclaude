@@ -34,7 +34,7 @@ Feature name: $ARGUMENTS
 
 ## 덮어쓰기 규칙
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
-- `analysis.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 analysis.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md Revision & Rollback 참고).
+- `analysis.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 analysis.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md §문서 구조 참고).
 - `README.md`가 이미 있으면 새로 만들지 않고 §README.md 구조 말미 규칙(기존 Status·문서 섹션은 유지하고 작업 히스토리 라인만 추가)을 적용한다.
 
 ## spec.md 구조
