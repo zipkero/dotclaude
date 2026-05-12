@@ -12,7 +12,7 @@ Claude Code의 개인 설정 저장소.
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록되며, 흐름에 떠밀려 넘어가지 않는다.
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 위임**: `/analyze-init`은 `analyzer` agent, `/implement-init`과 `implement` skill 호출은 `implementer` agent가 처리해 main 컨텍스트에 코드 탐색·문서 작성 잡음이 누적되지 않게 한다. 사용자가 명시 호출하는 `verify` skill과 디버깅용 `analyze` skill은 main이 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 verify skill의 prompt 룰로 강제한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main 컨텍스트를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §조율 규칙에 둔다.
+- **phase 단위 작업은 agent에 위임**: `/analyze-init`과 `/implement-init`은 `analyzer` agent, `implement` skill 호출은 `implementer` agent, `verify` skill 호출은 `verifier` agent가 처리해 main 컨텍스트에 코드 탐색·문서 작성·검증 read 잡음이 누적되지 않게 한다. 디버깅용 `analyze` skill은 main이 직접 호출한다. evidence discipline(판단을 대화 기억이 아니라 파일·diff·테스트 결과로 인용한다는 원칙)은 verify skill의 prompt 룰로 강제하며, verifier agent의 분리된 컨텍스트가 이를 자연스럽게 보강한다. 읽기 전용 탐색에 한해 `Explore` subagent로 main 컨텍스트를 격리할 수 있으며, 자세한 조건은 CLAUDE.md §조율 규칙에 둔다.
 - **`analyze` skill은 독립 디버깅 유틸리티이지 pre-phase가 아니다**: 파일을 작성하지 않는 즉석 조사 도구로, `analysis.md`를 작성하는 Phased 설계 phase인 `/analyze-init`과는 별개다. Phased 작업은 `/spec-init`로 바로 진입한다.
 - **verify reject는 사용자 판단에 맡기며 자동 재시도하지 않는다**: prompt 기반 orchestration으로는 재시도 횟수를 결정론적으로 강제할 수 없으므로 reject는 사용자 판단으로 올린다. verify skill은 reject를 `style/minor` / `correctness` / `design/scope`로 분류해 다음 단계 결정을 돕는다.
 - **feature별 폴더 구조**: `docs/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify가 판단을 대화로 반환하면 implement.md 체크박스 전환(`[ ]`↔`[x]`)은 main이 CLAUDE.md §verify 후처리에 따라 수행한다.
@@ -49,6 +49,7 @@ config.json        # Claude Code 기본 설정
 
 - `analyzer` — `/analyze-init` 실행, `/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 작성한다. 코드는 수정하지 않는다.
 - `implementer` — `implement` skill 호출 (Phased / Per-Request 모두). 코드 변경을 담당한다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 전환한다.
+- `verifier` — `verify` skill 호출 (Phased / Per-Request 모두). 판단만 반환하며, 어떤 문서·체크박스·코드도 수정하지 않는다. 체크박스·README Status 전환은 main이 CLAUDE.md §verify 후처리에 따라 수행한다.
 
 ### commands/ — slash command 정의
 

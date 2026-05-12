@@ -67,7 +67,7 @@ feature 단위 산출물은 `docs/<feature-dir>/` 아래 네 문서로 구성한
   | `/analyze-init <dir>`   | analyzer agent     | main이 위임                                |
   | `/implement-init <dir>` | analyzer agent     | main이 위임                                |
   | 자연어 implement 트리거 | implementer agent  | Phased / Per-Request 모두                  |
-  | 자연어 verify 트리거    | main (직접)        | 사용자 명시 호출, agent 거치지 않음        |
+  | 자연어 verify 트리거    | verifier agent     | main이 위임, 후처리는 main이 수행          |
   | 자연어 analyze 트리거   | main (직접)        | 디버깅·코드 이해용, agent 거치지 않음      |
 
 - 절차의 권위는 해당 command·skill 파일에 두고, agent 본문은 그 파일들을 참조한다. agent 위임 시 main은 작업 의도와 인자(`feature-name` / `feature-dir` 등)만 전달하고 command·skill 본문을 main 컨텍스트에 펼치지 않는다.
