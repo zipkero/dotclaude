@@ -22,6 +22,5 @@ main이 단일 Task 또는 Per-Request 변경을 위임할 때 호출된다.
 반환 형식: 결정이 필요한 항목 목록 + 각 항목의 옵션·근거. 코드 변경은 결정 위임 후로 미룬다.
 
 ## main에 반환
-- Phased 완료: 실행한 Task ID, 수정 파일 목록(`Files touched`), 다음 단계로 verify 호출 권고. 체크박스는 미수정 상태로 둔다.
-- Per-Request 완료: 변경 요약 + 수정 파일 목록 + 한계·비고.
+- Phased / Per-Request 모두: `skills/implement/SKILL.md` §출력 구조를 따른다. 체크박스는 미수정 상태로 둔다.
 - 결정 위임: 위 결정 위임 형식.

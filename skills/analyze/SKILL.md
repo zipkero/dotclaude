@@ -6,7 +6,7 @@ description: "Standalone debugging and code comprehension utility. Explains caus
 ## 역할
 즉석 조사 유틸리티이며 phase가 아니다. 파일을 쓰지 않고 출력은 대화로만 나간다.
 
-`/analyze-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해용이며, `/analyze-init`은 `analysis.md`를 작성하는 Phased 설계 phase다. 이 skill은 pre-phase가 아니므로 Phased 작업은 `/spec-init`로 바로 진입한다.
+`/analyze-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해용이며, `/analyze-init`은 `analysis.md`를 작성하는 Phased 설계 phase다. Phased 흐름의 진입 순서는 CLAUDE.md §흐름이 정의한다.
 
 ## 컨텍스트 로딩
 1. `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 그 하위 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고, spec.md·analysis.md·implement.md 중 질문에 필요한 부분만 읽는다.

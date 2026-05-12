@@ -1,6 +1,6 @@
 ---
 name: analyzer
-description: Owns the planning phase (analysis + implement checklist). Use for /analyze-init execution (writes analysis.md from spec.md) and /implement-init execution (writes implement.md from analysis.md + spec.md §5). Returns summary; main keeps the conversation lean. Debugging/code-comprehension via analyze skill is invoked by main directly, not through this agent.
+description: Owns the planning phase (analysis + implement checklist). Use for /analyze-init execution (writes analysis.md from spec.md) and /implement-init execution (writes implement.md from analysis.md + spec.md §5). Returns summary; main keeps the conversation lean.
 ---
 
 ## 상속

@@ -23,6 +23,5 @@ main이 verify 트리거(자연어 호출)를 위임할 때 호출된다.
 반환 형식: 식별 후보 + 식별 불가 사유. 판단은 그 이후로 미룬다.
 
 ## main에 반환
-- Phased 완료: `approved` | `rejected` + 출력 구조(Target Task, Validation, Evidence, Issues 또는 Explanation). 체크박스는 미수정 상태로 둔다.
-- Per-Request 완료: `approved` | `rejected` + 출력 구조. 어떤 문서·체크박스도 갱신하지 않는다.
+- Phased / Per-Request 모두: `skills/verify/SKILL.md` §출력 구조를 따른다. 어떤 문서·체크박스도 갱신하지 않는다.
 - 결정 위임: 위 결정 위임 형식.
