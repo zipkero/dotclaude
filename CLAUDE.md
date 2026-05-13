@@ -35,6 +35,7 @@
 ## Phase Control
 - 다음 phase는 사용자가 명시적으로 호출할 때만 실행한다.
 - `/spec-init`, `/analyze-init`, `/implement-init`, `implement`, `verify`를 자동으로 이어 실행하지 않는다.
+- `task-review`도 사용자가 명시적으로 호출할 때만 실행하며 다음 phase로 이어지지 않는다.
 - Phased / Per-Request mode의 진입 조건과 활성 scope 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## Agent / Skill Routing
@@ -43,6 +44,7 @@
 - 자연어 `implement`는 implementer agent에 위임한다.
 - 자연어 `verify`는 verifier agent에 위임한다.
 - 자연어 `analyze`는 main이 직접 처리하며 파일을 쓰지 않는다.
+- 자연어 `task-review`는 main이 직접 처리하며 파일을 쓰지 않는다. 판정·체크박스 갱신을 하지 않으므로 verify를 대체하지 않는다.
 - 절차의 권위는 해당 command·skill 파일에 있다. agent 본문은 절차를 중복 기술하지 않는다.
 - agent가 사용자 결정이 필요한 지점을 발견하면 코드·문서를 건드리지 않고 main에 반환한다.
 - 읽기 전용 탐색이 10+ 파일에 걸치거나 전역 키워드 조사가 필요한 경우 `Explore` subagent로 main 컨텍스트를 보호한다.
