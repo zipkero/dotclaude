@@ -68,7 +68,7 @@ main이 verify 판단을 받아 수행하는 절차다.
   - issues와 reject 사유는 사용자에게 전달하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
 - Per-Request mode는 verify 결과를 대화 출력으로만 남기며, 체크박스·README를 갱신하지 않는다.
 
-## 테스트 규칙 (권위 — verify skill 소유)
+## 테스트 규칙 (verify skill 소유)
 다른 문서는 이 룰을 참조하며, 다른 곳에서는 중복 기술하지 않는다.
 
 ### implement.md에 테스트 Task가 들어가는 경우 (`/implement-init`이 참조)

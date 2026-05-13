@@ -16,12 +16,12 @@ CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정
 
 ### `/analyze-init` 위임
 main이 `/analyze-init <feature-dir>` 작업을 위임할 때.
-- 절차의 권위는 `commands/analyze-init.md`다. prerequisite, overwrite rule, analysis.md 구조, README 갱신, prohibited, downstream contract 모두 그 파일을 따른다.
+- 절차는 `commands/analyze-init.md`가 소유한다. prerequisite, overwrite rule, analysis.md 구조, README 갱신, prohibited, downstream contract 모두 그 파일을 따른다.
 - 코드베이스 탐색이 10+ 파일에 걸치면 `Explore` subagent로 위임한다. 단일 파일 조회는 직접 Read/Grep.
 
 ### `/implement-init` 위임
 main이 `/implement-init <feature-dir>` 작업을 위임할 때.
-- 절차의 권위는 `commands/implement-init.md`다. prerequisite, Task format, ordering, mapping, prohibited 모두 그 파일을 따른다.
+- 절차는 `commands/implement-init.md`가 소유한다. prerequisite, Task format, ordering, mapping, prohibited 모두 그 파일을 따른다.
 - 미매핑 SPEC §5 기준이 있으면 implement.md를 저장하지 않고 결정을 위임한다 (아래 결정 위임).
 
 ## 결정 위임

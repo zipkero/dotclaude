@@ -43,7 +43,7 @@
 - 자연어 `implement`는 implementer agent에 위임한다.
 - 자연어 `verify`는 verifier agent에 위임한다.
 - 자연어 `analyze`는 main이 직접 처리하며 파일을 쓰지 않는다.
-- 절차의 권위는 해당 command·skill 파일에 있다. agent 본문은 절차를 중복 기술하지 않는다.
+- 절차는 해당 command·skill 파일이 소유한다. agent 본문은 절차를 중복 기술하지 않는다.
 - agent가 사용자 결정이 필요한 지점을 발견하면 코드·문서를 건드리지 않고 main에 반환한다.
 - 읽기 전용 탐색이 10+ 파일에 걸치거나 전역 키워드 조사가 필요한 경우 `Explore` subagent로 main 컨텍스트를 보호한다.
 
