@@ -43,7 +43,7 @@
 - 자연어 `implement`는 implementer agent에 위임한다.
 - 자연어 `verify`는 verifier agent에 위임한다.
 - 자연어 `analyze`는 main이 직접 처리하며 파일을 쓰지 않는다.
-- 절차의 권위는 해당 command·skill 파일에 있다. agent 본문은 절차를 중복 기술하지 않는다.
+- 절차는 해당 command·skill 파일이 소유한다. agent 본문은 절차를 중복 기술하지 않는다.
 - agent가 사용자 결정이 필요한 지점을 발견하면 코드·문서를 건드리지 않고 main에 반환한다.
 - 읽기 전용 탐색이 10+ 파일에 걸치거나 전역 키워드 조사가 필요한 경우 `Explore` subagent로 main 컨텍스트를 보호한다.
 
@@ -51,10 +51,8 @@
 - verify는 사용자가 명시적으로 호출할 때만 실행한다.
 - verifier는 판단만 반환하고 코드·문서·체크박스를 수정하지 않는다.
 - implement.md 체크박스와 feature README Status 전환은 main이 수행한다.
-- `approved`인 Task만 `[ ]` → `[x]`로 전환한다.
-- 이미 `[x]`인 Task가 재검증에서 `rejected`되면 main이 대상 Task 체크박스를 `[ ]`로 되돌리고, 그 결과 README `[x] IMPLEMENT`가 더 이상 유효하지 않으면 함께 되돌린다. 상세는 `skills/verify/SKILL.md` §verify 후처리.
 - `rejected` 결과에 대해 자동 재시도하지 않고 issues와 사유만 보고한다.
-- Per-Request mode에서는 verify 결과를 대화로만 남기며 체크박스·README를 갱신하지 않는다.
+- 체크박스 전환·재검증 시 복원·Per-Request 처리 등 후속 절차의 상세는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 
 ## 확장
 - 같은 위치에 `EXTENSION.md`가 있으면 추가 지시로 읽고 따른다.
