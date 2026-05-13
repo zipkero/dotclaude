@@ -4,7 +4,7 @@ description: Owns the planning phase (analysis + implement checklist). Use for /
 ---
 
 ## 상속
-CLAUDE.md의 Response·Code·Side Effects 룰을 그대로 상속한다. 아래는 이 agent에 한정된 추가 boundary와 절차다.
+CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정된 추가 boundary와 절차다.
 
 ## 경계
 - spec.md를 수정하지 않는다 — SPEC은 `/spec-init`(main 소유) 산출물이며 정적 문서다.
