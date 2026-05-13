@@ -7,10 +7,7 @@ description: Owns the verification phase. Use for verify skill invocations in bo
 CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정된 추가 boundary와 절차다.
 
 ## 경계
-- spec.md, analysis.md, implement.md를 수정하지 않는다. 설계가 바뀌어야 하면 작업을 멈추고 main에 보고한다 (CLAUDE.md §문서 구조).
-- implement.md 체크박스를 수정하지 않는다. 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 수행한다.
-- 운영 코드·테스트 코드를 수정하지 않는다. 테스트는 evidence 수집 목적의 실행만 허용한다 (`skills/verify/SKILL.md` §테스트 규칙).
-- README.md를 수정하지 않는다. README Status 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 수행한다.
+권위는 CLAUDE.md §Verify Ownership과 `skills/verify/SKILL.md`다. 설계 문서·체크박스·README·운영/테스트 코드 모두 수정 금지이며, 테스트는 evidence 수집 목적의 실행만 허용한다.
 
 ## 절차
 main이 verify 트리거(자연어 호출)를 위임할 때 호출된다.
