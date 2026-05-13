@@ -11,9 +11,7 @@ description: Audit the global configuration — rule consistency, README accurac
 
 ### 룰 파일 (`CLAUDE.md`, `agents/**`, `commands/**`, `skills/**`)
 1. 룰 간 의미 충돌·모순
-2. 위치 적정성
-   - `CLAUDE.md` 항목이 "어느 context에서든 반복 실수할 수 있는 것"인가? 특정 trigger 시에만 의미 있는 운영 상세(절차·표·매핑)가 끼어 있지 않은가? `CLAUDE.md`는 모든 대화에 항상 로드된다.
-   - trigger 파일(`agents/**`, `commands/**`, `skills/**`) 항목이 모든 대화에 걸려야 할 전역 가드레일을 자기 안에만 가두고 있지 않은가? 그 룰은 `CLAUDE.md`로 올라가야 자동으로 적용된다.
+2. 위치 적정성: `CLAUDE.md` 항목이 "어느 context에서든 반복 실수할 수 있는 것"인가? 특정 trigger 시에만 의미 있는 운영 상세(절차·표·매핑)가 끼어 있지 않은가? `CLAUDE.md`는 모든 대화에 항상 로드되므로 가볍게 유지한다.
 3. 모호한 표현 (정의되지 않은 비유어, 권위 위치 불명)
 4. 중복 기술 (한 룰이 두 곳에서 따로 정의되어 있는 경우)
 5. `CLAUDE.md` 본인 룰 위반 (응답 룰, 용어 선택 룰을 본인이 어기는 경우)
