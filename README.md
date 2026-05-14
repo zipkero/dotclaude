@@ -7,9 +7,9 @@ Claude Code의 개인 설정 저장소.
 ## Design Intent
 
 ### 이 구조가 존재하는 이유
-- Claude Code의 기본 동작은 단일 덩어리 응답이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
+- Claude Code의 기본 동작은 한 번에 답하는 방식이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
 - `docs/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는 기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로 참고)
-- `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록되며, 흐름에 떠밀려 넘어가지 않는다.
+- `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록되며, 자동으로 다음 단계로 넘어가지 않는다.
 
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 위임**: phase 산출물을 만드는 동안 main 컨텍스트에 코드 탐색·문서 작성·검증 read 잡음이 누적되지 않도록 분리한다.
@@ -23,13 +23,6 @@ Claude Code의 개인 설정 저장소.
 - **feature별 폴더 구조**: `docs/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify가 판단을 대화로 반환하면 implement.md 체크박스 전환(`[ ]`↔`[x]`)은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 수행한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 구조·데이터 흐름·인터페이스·영향·리스크·Decision Points만 담는다(체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
-
-### 수정 시 보존할 것
-- verify는 대화 추론이 아니라 파일·diff·테스트 결과를 인용해 판단한다.
-- 판단만 반환하는 verify: verify는 파일을 쓰지 않으며, 체크박스 갱신 룰은 `skills/verify/SKILL.md` §verify 후처리에 둔다.
-- 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
-- phase 전이는 사용자가 통제하며, command는 사용자 발화 기반이고 자동으로 이어지지 않는다.
-- feature README의 Status 전환 소유권은 각 `commands/*-init.md`에 명시한다 (단 `[x] IMPLEMENT` 전환은 main이 `skills/verify/SKILL.md` §verify 후처리 Approved에 따라 수행).
 
 ## Workflow
 

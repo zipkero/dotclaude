@@ -25,7 +25,7 @@ description: "Standalone debugging and code comprehension utility. Explains caus
 4. Key observations — 부차 발견이 있을 때.
 5. Recommendation — 사용자 요청에 답하기 위해 필요할 때만 둔다. 보안·테스트·로깅 강화 같은 요청과 무관한 개선안은 이 항목에 끌어오지 않는다.
 6. Blocker — 사유를 적고 중단한다. 세 종류:
-   - `scope undefined`: 가용 맥락을 조사한 뒤에도 대상 시스템·영역을 결정할 수 없다.
+   - `scope undefined`: 주어진 맥락을 조사한 뒤에도 대상 시스템·영역을 결정할 수 없다.
    - `infeasible`: 현재 제약상 구현이 불가능하다. 소스에서 가져온 구체적 evidence가 필요하다.
    - `needs input`: 사용자 결정이나 외부 정보 없이는 분석이 수렴하지 못한다.
 

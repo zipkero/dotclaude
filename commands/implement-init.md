@@ -67,13 +67,7 @@ Task ID 규칙:
   - 참조: SPEC §5.2, ANALYSIS §1.3
 ```
 
-필드 의미 (command 작성자 참조용; 산출물 자체는 위의 한국어 라벨을 사용한다):
-- 목적 (Purpose): 외부 관찰 가능한 동작 한 줄. 매핑 식별자가 아니라 행동·상태로 적는다.
-- 접근 (Approach): 짧은 구현 방식. 더 깊은 내용이 필요하다면 그 깊이는 analysis.md 소관이므로 analysis.md를 먼저 갱신한다.
-- 검증 조건 (Verification criteria): Task-level DoD를 두 줄로 분리한다.
-  - 결과: 좁고 관찰 가능해야 한다. 목적이 결과와 동일하다면 `결과: 목적과 동일`로 약식 표기 가능.
-  - 확인: 그 결과를 검증할 구체적 방법. verify가 evidence 종류를 결정하는 1차 입력이 된다.
-- 참조 (References): spec.md §5 매핑(필수)과 analysis.md 결정(해당 시). 이 필드는 closure check와 추적용 메타데이터이며, verify의 1차 evidence가 아니다.
+> 영어 표기: 목적(Purpose) / 접근(Approach) / 검증 조건(Verification criteria) / 참조(References). 결과가 목적과 동일하면 `결과: 목적과 동일`로 약식 표기할 수 있다. 참조 필드는 SPEC §5 매핑 누락 점검과 추적용 메타데이터이며 verify의 1차 evidence가 아니다.
 
 ### 구조 옵션
 - 평면 리스트: `- [ ]` Task의 단일 시퀀스로, 작은 feature에 쓴다.
@@ -82,9 +76,9 @@ Task ID 규칙:
 둘 다 허용하며, analysis.md 구조 크기에 맞춰 선택한다.
 
 ## 테스트 Task 포함 기준
-테스트 룰은 verify skill이 단독으로 소유한다 — 테스트 Task가 필요한 시점과 버그 수정 예외는 `skills/verify/SKILL.md` §테스트 규칙에서 본다. 여기서 룰을 중복 기술하지 않는다.
+analysis.md §2 데이터 흐름이나 §5 Decision Points가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 신규 경계)을 시사할 때 테스트 Task를 추가한다. 그 외 암묵적 테스트는 두지 않는다. 테스트 코드 작성 범위·예외는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
 
-테스트 Task를 추가할 때의 템플릿:
+테스트 Task 템플릿:
 
 ```
 - [ ] task-<nnn>: <대상> 테스트 작성
