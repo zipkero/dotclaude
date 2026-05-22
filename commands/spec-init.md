@@ -25,7 +25,7 @@ Feature name: $ARGUMENTS
 - `<yyyyMMdd>`: `/spec-init` 실행일.
 - `<nnn>`: 같은 날 순번 (`001`부터). `docs/` 아래에서 `<yyyyMMdd>-` prefix로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값으로 정한다. 같은 날 첫 feature이면 `001`.
 
-같은 날 같은 `<feature-name>`으로 재실행하면(`docs/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 Overwrite Rule이 그대로 적용된다.
+같은 날 같은 `<feature-name>`으로 재실행하면(`docs/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 §덮어쓰기 규칙이 그대로 적용된다.
 
 산출물 경로:
 - `docs/<feature-dir>/spec.md`
@@ -63,7 +63,7 @@ Feature name: $ARGUMENTS
   - Infra/ops → health endpoint·metric·log signal
 - 각 기준은 동작을 관찰함으로써 검증할 수 있어야 한다.
 - `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
-- 각 조건은 번호 리스트(`1.`, `2.`, …)로 쓴다. N번 항목이 다운스트림에서 `SPEC §5.N`으로 참조된다 — analysis.md 본문 인라인 인용과 implement.md 참조 필드의 추적 단위다. 이 계약은 `SPEC §5.N` 표기만 소유한다. 접두사 없는 `§5`는 각 문서가 자기 5번 섹션을 가리킬 때 쓰는 별개 표기다.
+- 각 조건은 번호 리스트(`1.`, `2.`, …)로 쓴다. N번 항목은 이후 단계(analysis.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — analysis.md 본문 인라인 인용과 implement.md 참조 필드의 추적 단위다. 이 계약은 `SPEC §5.N` 표기만 소유한다. 접두사 없는 `§5`는 각 문서가 자기 5번 섹션을 가리킬 때 쓰는 별개 표기다.
 - 번호는 영구 식별자다. 기존 항목을 재배열·삭제·재번호하면 그 번호를 참조하던 analysis.md·implement.md가 조용히 깨진다. 기존 번호는 보존하고, 새 조건은 다음 번호로만 추가한다.
 
 예시 (한국어 산출물, 대상 유형별로 묶음):

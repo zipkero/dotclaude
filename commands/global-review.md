@@ -18,6 +18,7 @@ description: Audit the global configuration — rule consistency, README accurac
 6. 중복 기술 (한 룰이 두 곳에서 따로 정의되어 있는 경우)
 7. `CLAUDE.md` 본인 룰 위반 (응답 룰, 용어 선택 룰을 본인이 어기는 경우)
 8. 축소 여지 (같은 소유 위치 안에서 비슷한 표현이 반복되거나, 동일 개념을 다른 표현으로 두 번 말하는 등 — 의미 손실 없이 줄일 수 있는 부분)
+9. Bullet 단위 단일성: 한 bullet에 의미 단위가 다른 독립 주장이 둘 이상 묶여 있지 않은가? 묶여 있으면 의미 단위로 줄을 나눠 'bullet 하나당 하나의 룰' 구조를 유지한다.
 
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
@@ -31,7 +32,7 @@ description: Audit the global configuration — rule consistency, README accurac
 - 위치 오배치 진단의 경우: 현재 위치 → 제안 위치 + 옮겨야 할 사유 (예: "trigger 시에만 활성되는 운영 상세", "모든 대화에 걸려야 할 가드레일")
 - 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > 모호·콩글리쉬 > 중복·축소 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
-- 다른 파일에 cascade가 필요한지 명시
+- 다른 파일에도 함께 갱신해야 하는지 명시
 
 ## 핵심 질문
 > 각 룰이 그 룰의 owner 파일에 있는가 — `CLAUDE.md`에는 어느 context에서든 반복 실수할 수 있는 것만, trigger 파일에는 그 trigger가 활성될 때 필요한 운영 상세만? 룰 사이에 의미 충돌·중복·모호함은 없는가? `CLAUDE.md`가 자기 자신의 룰을 지키는가?

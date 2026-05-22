@@ -46,10 +46,8 @@
 - 읽기 전용 탐색이 10+ 파일에 걸치거나 전역 키워드 조사가 필요한 경우 `Explore` subagent로 main 컨텍스트를 보호한다.
 
 ## Verify Ownership
-- verifier는 판단만 반환하고 코드·문서·체크박스를 수정하지 않는다.
-- implement.md 체크박스와 feature README Status 전환은 main이 수행한다.
-- `rejected` 결과에 대해 자동 재시도하지 않고 issues와 사유만 보고한다.
-- 체크박스 전환·재검증 시 복원·Per-Request 처리 등 후속 절차의 상세는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- verifier는 판단만 반환하며 코드·문서·체크박스를 수정하지 않는다.
+- 후속 전환(체크박스, feature README Status, 재검증 복원, reject 처리, Per-Request 출력 범위)은 main이 수행하며 절차는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 
 ## 확장
 - 같은 위치에 `EXTENSION.md`가 있으면 추가 지시로 읽고 따른다.
