@@ -1,5 +1,5 @@
 ---
-description: Provide an in-conversation walkthrough of the call flow, state transitions, and existence reasoning for a selected or recently changed code scope. Pairs with code-level intent expressed as comments. Use when the user wants to understand how a package/file/symbol fits into the overall flow, how data and control move through it, or asks to explain recent work as a flow walkthrough. Never write files unless explicitly asked.
+description: Provide an in-conversation walkthrough of the call flow, state transitions, and existence reasoning for a selected or recently changed code scope. Pairs with code-level intent expressed as comments. Use when the user wants to understand how a package/file/symbol fits into the overall flow, how data and control move through it, or asks to explain recent work as a flow walkthrough. Does not write files.
 ---
 
 > 사용 시점: 코드 단위 의도(주석)는 IDE에서 직접 읽고, 흐름·존재 이유·다이어그램만 대화에서 풀어 보고 싶을 때.
@@ -12,7 +12,7 @@ Scope: $ARGUMENTS
 - 코드 단위 의도는 본 커맨드의 범위가 아니다. 그건 코드 옆 주석으로 남기며, 주석 작성 기준은 `skills/implement/SKILL.md`가 소유한다.
 
 ## 전제 조건
-- 인용한 모든 `file:line`은 실제로 읽은 위치여야 한다. 안 읽은 파일·검증 안 된 외부 자료는 단언하지 않는다.
+- 인용한 모든 `file:line`은 실제로 읽은 위치여야 한다 (CLAUDE.md §Response의 일반 룰을 flow 출력에 한정해 강조).
 
 ## 인자 처리
 
@@ -35,7 +35,9 @@ Scope: $ARGUMENTS
 
 ## 작성 절차
 
-1. 대상 파일 전체를 Read로 읽는다. 후보 파일 수집은 Glob, 심볼·호출자 위치 탐색은 Grep. Read 한계(2000줄) 초과 시 청크로 나눠 모두 읽는다.
+1. 대상 파일 전체를 Read로 읽는다.
+   - 후보 파일 수집은 Glob, 심볼·호출자 위치 탐색은 Grep.
+   - Read 한계(2000줄) 초과 시 청크로 나눠 모두 읽는다.
 2. 같은 패키지의 test 파일이 있으면 보조 자료로 읽는다. 흐름의 진입점과 계약을 정확히 보여주는 경우가 많다.
 3. 호출 사슬은 1단계만 따라간다. 그 이상은 다음 회차 후보로 미룬다.
 4. 본문을 작성한다 (§출력 구조 참조).
@@ -69,14 +71,6 @@ Scope: $ARGUMENTS
 ## 2. <두 번째 파일/패키지 이름>
 … (1과 같은 구조)
 
-## 테스트가 보장하는 계약
-
-| 테스트 | 보장하는 것 |
-| --- | --- |
-| `Test...` | ... |
-
-테스트가 없는 범위라면 이 절을 통째로 생략한다.
-
 ## 회차 마무리
 
 | 파일 | 한 줄 정리 | 다른 곳에서 의존하는 방식 |
@@ -89,9 +83,6 @@ Scope: $ARGUMENTS
 인지하고 있어야 할 미검증 경로:
 - … (diff·테스트로 직접 확인되지 않은 분기·경로만. 가설적 우려는 두지 않는다)
 
-잊으면 곤란한 가정:
-- … (코드가 의존하는 비자명한 전제. "이 입력은 항상 X일 것이다"처럼 구체 가정만. "동시성 우려" 류 일반론은 두지 않는다)
-
 다음에 보면 좋을 후보:
 - … (2~3개, 각 한 줄로 "왜 다음인지" 이유 포함)
 ````
@@ -103,30 +94,26 @@ Scope: $ARGUMENTS
   - 호출·메시지 순서: mermaid `sequenceDiagram`
   - 분기·결정 로직: mermaid `flowchart`
   - 상태 전이·라이프사이클: mermaid `stateDiagram-v2`
-  - 단선형 호출 사슬: 텍스트 화살표(`→`)
+  - 분기 없는 호출 사슬: 텍스트 화살표(`→`)
   - 동시성(goroutine·worker pool 등)도 sequenceDiagram에 lane을 나눠 표현한다.
 - 노드 이름은 실제 메소드명·타입명을 그대로 쓴다. 추상화하지 않는다.
 - 다이어그램 1개가 한 화면을 넘기면(노드 15개 이상) 두 개로 분할한다.
 
 ## 해설 품질 기준
 
-- 진입점과 종착점이 명시되었는가.
-- 설명이 필요한 결정 지점·분기·동시성 구간이 다이어그램과 텍스트 양쪽에 모두 드러나는가.
-- 실패·재시도·timeout 경로가 정상 경로와 동등한 깊이로 풀렸는가.
-- "이 흐름이 어떤 시스템 보장을 떠받치는가"가 드러나는가.
+- "이 흐름이 어떤 시스템 보장을 떠받치는가"가 드러나는가. 진입점·결정 지점·실패 경로를 푼 뒤에도 이 질문에 답이 없다면 §1-1 존재 이유를 보강한다.
+- 진입점·결정 지점·종착점이 한 줄씩으로 끝났다면 깊이 부족 신호다. 결정 지점의 "왜"와 시스템 보장을 보강한다.
 
 ## 분량 가이드
 
 - 이 출력은 빠른 복기를 위한 자료다. 흐름 절(다이어그램·진입점·결정 지점·실패 경로)은 줄이지 않는다.
 - 흐름이 한 응답에 다 풀기 어려운 분량이면 "범위를 X·Y까지로 좁히겠다"를 먼저 보고하고 좁혀서 깊이를 유지한다. 깊이를 줄여 범위를 욱여넣지 않는다.
-- 진입점·결정 지점·종착점이 한 줄씩으로 끝났다면 깊이 부족 신호다. 결정 지점의 "왜"와 시스템 보장을 보강한다.
 
 ## 금지
 
 - 일반론·교과서 인용을 코드와의 연결 없이 늘어놓지 않는다.
 
 ## 후속 행동
-- 본문 끝에 "다음에 보면 좋을 후보"를 2~3개 둔다.
 - 사용자가 후보 중 하나를 고르거나 직접 범위를 지정해 다시 `/flow`를 부르는 것을 기대한다. 자동으로 이어 실행하지 않는다.
 
 ## 핵심 질문

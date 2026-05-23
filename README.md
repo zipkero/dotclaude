@@ -60,7 +60,7 @@ Phased flow command는 `docs/<feature-dir>/` 아래에 산출물을 작성하고
 Meta command (Phased flow와 독립):
 
 - `global-review.md` — 전역설정의 정합성·README 정확성·축소 여지를 사용자 의식적 호출로 점검한다 (`/global-review`). 발견 보고만 하고 자동 수정하지 않는다.
-- `flow.md` — 선택한 코드 범위(패키지·파일·심볼·최근 변경분)의 호출 흐름·존재 이유를 대화로 풀어준다 (`/flow [범위]`). 파일을 만들거나 수정하지 않는다.
+- `flow.md` — 선택한 코드 범위(패키지·파일·심볼·최근 변경분)의 호출 흐름·상태 전이·존재 이유를 다이어그램과 함께 대화로 풀어준다 (`/flow [범위]`). 파일을 만들거나 수정하지 않는다.
 
 ### skills/ — skill 정의
 
