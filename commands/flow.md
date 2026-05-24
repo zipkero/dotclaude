@@ -12,7 +12,7 @@ Scope: $ARGUMENTS
 - 코드 단위 의도는 본 커맨드의 범위가 아니다. 그건 코드 옆 주석으로 남기며, 주석 작성 기준은 `skills/implement/SKILL.md`가 소유한다.
 
 ## 전제 조건
-- 인용한 모든 `file:line`은 실제로 읽은 위치여야 한다 (CLAUDE.md §Response의 일반 룰을 flow 출력에 한정해 강조).
+- 인용한 모든 `file:line`은 실제로 읽은 위치여야 한다 (CLAUDE.md §응답의 일반 룰을 flow 출력에 한정해 강조).
 
 ## 인자 처리
 

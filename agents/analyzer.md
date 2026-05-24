@@ -17,7 +17,7 @@ CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정
 ### `/analyze-init` 위임
 main이 `/analyze-init <feature-dir>` 작업을 위임할 때.
 - 절차는 `commands/analyze-init.md`가 소유한다. 전제 조건·덮어쓰기 규칙·analysis.md 구조·README 갱신·금지·후속 단계 계약 모두 그 파일을 따른다.
-- 코드베이스 탐색이 10+ 파일에 걸치면 `Explore` subagent에 `model: sonnet`으로 위임한다. 단일 파일 조회는 직접 Read/Grep.
+- 코드베이스 탐색이 광범위하면 `Explore` subagent에 위임한다(조건은 CLAUDE.md §agent·skill 라우팅). 단일 파일 조회는 직접 Read/Grep.
 
 ### `/implement-init` 위임
 main이 `/implement-init <feature-dir>` 작업을 위임할 때.
