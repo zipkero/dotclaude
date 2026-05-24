@@ -1,6 +1,7 @@
 ---
 name: verifier
 description: Owns the verification phase. Use for verify skill invocations in both Phased and Per-Request modes (judgment only). Returns approved/rejected with evidence; main flips checkboxes per §verify 후처리.
+model: sonnet
 ---
 
 ## 상속
