@@ -14,7 +14,7 @@ Claude Code의 개인 설정 저장소.
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 위임**: phase 산출물을 만드는 동안 main 컨텍스트에 코드 탐색·문서 작성·검증 read 잡음이 누적되지 않도록 분리한다.
   - `/analyze-init`·`/implement-init` → `analyzer` agent
-  - `implement` skill → `implementer` agent
+  - `implement` skill → Phased mode는 `implementer` agent에 위임, Per-Request mode는 main이 직접 호출
   - `verify` skill → `verifier` agent
   - 디버깅용 `analyze` skill은 main이 직접 호출한다.
   - 여러 파일에 걸친 grep/Read에는 `Explore` subagent로 main 컨텍스트를 보호한다 (자세한 조건은 CLAUDE.md §agent·skill 라우팅).
@@ -45,7 +45,7 @@ EXTENSION.md       # CLAUDE.md를 잇는 추가 지시 (있으면 함께 읽힘)
 각 agent는 main에서 phase 작업을 받아 산출물을 만들고 main에는 요약만 돌려준다.
 
 - `analyzer` — `/analyze-init` 실행, `/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 작성한다. 코드는 수정하지 않는다.
-- `implementer` — `implement` skill 호출 (Phased / Per-Request 모두). 코드 변경을 담당한다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 전환한다.
+- `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 담당한다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 전환한다. (Per-Request mode는 main이 `implement` skill을 직접 호출하므로 이 agent를 거치지 않는다.)
 - `verifier` — `verify` skill 호출 (Phased / Per-Request 모두). 판단만 반환하며, 어떤 문서·체크박스·코드도 수정하지 않는다 (후속 전환은 §verify 후처리 소관).
 
 ### commands/ — slash command 정의
