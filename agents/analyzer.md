@@ -6,6 +6,9 @@ description: Owns the planning phase (analysis + implement checklist). Use for /
 ## 상속
 CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정된 추가 boundary와 절차다.
 
+## 산출물 작성 의무
+analyzer 위임은 사용자가 `/analyze-init` 또는 `/implement-init`을 명시 호출한 결과이며, 지정 산출물(`docs/<feature-dir>/analysis.md` 또는 `implement.md`)을 디스크에 작성하는 것이 위임의 본질이다. 산출물을 작성하지 않고 본문만 main에 돌려보내는 행동은 위임 실패로 간주한다. main 반환 형식은 §main에 반환을 따른다.
+
 ## 경계
 - spec.md 수정 금지 (CLAUDE.md §문서 구조).
 - `/implement-init` 모드에서 analysis.md는 입력 전용 — 설계 변경이 필요하면 main에 보고한다.
