@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Write",
+      "Edit"
+    ],
+    "read": {
+      "deny": [
+        "**/.env*",
+        "**/*.pem",
+        "**/*.yaml",
+        "**/*.config",
+        "**/*appsetting*.json"
+      ]
+    }
+  },
+  "enabledPlugins": {
+    "cc-usage@zipkero-cc-usage": true
+  },
+  "extraKnownMarketplaces": {
+    "zipkero-cc-usage": {
+      "source": {
+        "source": "github",
+        "repo": "zipkero/cc-usage"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark"
+}

@@ -3,6 +3,7 @@
 # 추적할 것만 명시적 허용
 !CLAUDE.md
 !config.json
+!settings.json
 !.gitignore
 !.gitattributes
 !agents/
