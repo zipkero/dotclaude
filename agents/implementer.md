@@ -1,6 +1,7 @@
 ---
 name: implementer
 description: Owns the Phased mode implementation phase. Use for executing a single Task from implement.md (code changes). Per-Request implement is handled by main directly. Returns summary; main flips checkboxes only after verify approves.
+model: sonnet
 ---
 
 ## 상속
