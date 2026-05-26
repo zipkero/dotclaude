@@ -1,15 +1,15 @@
 ---
-description: Audit the global configuration — rule consistency, README accuracy, and trimming opportunities
+description: Audit the global configuration — rule consistency, README accuracy, context health, and trimming opportunities
 ---
 
 > 사용 시점: 전역설정에 변경이 누적되어 검토가 필요할 때 사용자가 의식적으로 호출한다.
-> 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
+> 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`, `.claude/rules/**`, `.claude/hooks/**`.
 
-전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
+전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점, Harness 구성은 구조·맥락·계획·실행·검증·개선 축의 균형 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
 
 ## 점검 항목
 
-### 룰 파일 (`CLAUDE.md`, `agents/**`, `commands/**`, `skills/**`)
+### 룰 파일 (`CLAUDE.md`, `agents/**`, `commands/**`, `skills/**`, `.claude/rules/**`, `.claude/hooks/**`)
 1. 룰 간 의미 충돌·모순
 2. 위치 적정성: `CLAUDE.md` 항목이 "어느 context에서든 반복 실수할 수 있는 것"인가? 특정 trigger 시에만 의미 있는 운영 상세(절차·표·매핑)가 끼어 있지 않은가? `CLAUDE.md`는 모든 대화에 항상 로드되므로 가볍게 유지한다.
 3. 역할-본문 일치: 각 파일의 frontmatter `description`이 정의한 역할과 본문에 호스팅된 정책이 어긋나지 않는가? (예: skill A의 본문이 skill B·command C가 소유해야 할 작성 정책을 호스팅하는 경우)
@@ -22,6 +22,40 @@ description: Audit the global configuration — rule consistency, README accurac
 10. 추상 수준 적정성: 구체 예시·트리 형태 나열·도구 사용 패턴이 룰의 본질을 가리거나 적용 범위를 좁히지 않는가? 추상 원칙으로 의미가 전달되면 예시 부분은 줄인다.
 11. 긍정형 표현 우선: 룰은 "...한다"의 긍정 단언을 기본으로 한다. 부정형(`...하지 않는다`, `...아니다`)이 앞·뒤 긍정형과 같은 의미라서 무게 없이 따라 붙은 경우에는 잉여로 보고 정리한다. anti-pattern을 두드리는 부정 단언과 `금지` 섹션처럼 부정 단언이 owner인 자리는 그대로 둔다.
 
+### Context health
+다음 신호가 보이면 context pollution 또는 설정 과잉으로 보고 원인 파일과 축소 후보를 제시한다.
+
+1. 같은 규칙이 `CLAUDE.md`, command, skill, agent에 반복 정의되어 있다.
+2. command·skill 파일이 자기 trigger 밖의 정책까지 설명한다.
+3. agent 본문이 위임 역할보다 절차를 많이 들고 있다.
+4. README가 실제 동작 설명을 넘어 운영 규칙의 owner처럼 동작한다.
+5. 특정 phase에서만 필요한 상세가 모든 대화에 로드되는 파일에 있다.
+6. `Explore` 또는 다른 subagent로 분리해야 할 대규모 읽기 기준이 불명확하다.
+7. 오래된 handoff·임시 메모·실험 기록이 공식 룰처럼 남아 있다.
+
+### Harness 축 균형
+다음 6개 축 중 특정 축이 비어 있거나 과하게 비대해졌는지 본다.
+
+1. Scaffolding — 폴더 구조, 산출물 위치, owner 파일
+2. Context — 로딩 범위, progressive disclosure, handoff, compact/clear 기준
+3. Planning — 질문, 요구사항, 설계 판단, 승인 지점
+4. Orchestration — main/agent/skill 역할, subagent 사용 기준
+5. Verification — 완료 기준, evidence, 후처리, reject 처리
+6. Compound — 세션 회고, rule/skill/docs 후보, cleanup 후보
+
+### Safety gate
+되돌리기 어렵거나 외부 영향이 있는 동작이 정책으로만 존재하고 실행 전 차단 기준이 없는지 본다.
+
+- 파일·브랜치 삭제
+- force push
+- hook 우회 (`--no-verify`)
+- 외부 전송
+- DB 변경
+- credential·secret 노출 가능 작업
+- dry-run 없이 수행되는 migration·대량 변경
+
+각 항목에 대해 현재 owner, 부족한 차단 기준, 추가할 hook/rule 후보를 제시한다.
+
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
 - 설명이 실제 구조·기능과 일치하는가 (`CLAUDE.md`, `commands/**`, `skills/**`, `agents/**`의 실제 동작과 어긋난 진술이 있는지)
@@ -32,9 +66,10 @@ description: Audit the global configuration — rule consistency, README accurac
 ## 출력 형식
 - 각 발견에 대해 위치(파일·섹션) + 현재 표현 + 제안 표현(before/after diff)
 - 위치 오배치 진단의 경우: 현재 위치 → 제안 위치 + 옮겨야 할 사유 (예: "trigger 시에만 활성되는 운영 상세", "모든 대화에 걸려야 할 가드레일")
-- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형 > 본인 룰 위반
-- `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
-- 다른 파일에도 함께 갱신해야 하는지 명시
+- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > 안전장치 누락 > context health > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형 > 본인 룰 위반
+- Harness 축 균형은 별도 표로 보고한다.
+- `README.md` 부정확 항목은 별도 묶음으로 분리해 보고한다.
+- 다른 파일에도 함께 갱신해야 하는지 명시한다.
 
 ## 핵심 질문
-> 각 룰이 그 룰의 owner 파일에 있는가 — `CLAUDE.md`에는 어느 context에서든 반복 실수할 수 있는 것만, trigger 파일에는 그 trigger가 활성될 때 필요한 운영 상세만? 룰 사이에 의미 충돌·중복·모호함은 없는가? `CLAUDE.md`가 자기 자신의 룰을 지키는가?
+> 각 룰이 그 룰의 owner 파일에 있는가 — `CLAUDE.md`에는 어느 context에서든 반복 실수할 수 있는 것만, trigger 파일에는 그 trigger가 활성될 때 필요한 운영 상세만? 구조·맥락·계획·실행·검증·개선 중 비어 있거나 과해진 축은 없는가?
