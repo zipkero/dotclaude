@@ -1,11 +1,11 @@
 ---
-description: Audit the global configuration — rule consistency, README accuracy, and trimming opportunities
+description: Audit the global configuration — rule consistency, README accuracy, context health, and trimming opportunities
 ---
 
 > 사용 시점: 전역설정에 변경이 누적되어 검토가 필요할 때 사용자가 의식적으로 호출한다.
 > 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
 
-전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
+전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점, 설정 전반은 context pollution 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
 
 ## 점검 항목
 
@@ -22,6 +22,16 @@ description: Audit the global configuration — rule consistency, README accurac
 10. 추상 수준 적정성: 구체 예시·트리 형태 나열·도구 사용 패턴이 룰의 본질을 가리거나 적용 범위를 좁히지 않는가? 추상 원칙으로 의미가 전달되면 예시 부분은 줄인다.
 11. 긍정형 표현 우선: 룰은 "...한다"의 긍정 단언을 기본으로 한다. 부정형(`...하지 않는다`, `...아니다`)이 앞·뒤 긍정형과 같은 의미라서 무게 없이 따라 붙은 경우에는 잉여로 보고 정리한다. anti-pattern을 두드리는 부정 단언과 `금지` 섹션처럼 부정 단언이 owner인 자리는 그대로 둔다.
 
+### Context health
+다음 신호가 보이면 context pollution 또는 설정 과잉으로 보고 원인 파일과 축소 후보를 제시한다.
+
+1. 같은 규칙이 `CLAUDE.md`, command, skill, agent에 반복 정의되어 있다.
+2. command·skill 파일이 자기 trigger 밖의 정책까지 설명한다.
+3. agent 본문이 위임 역할보다 절차를 많이 들고 있다.
+4. `README.md`가 실제 동작 설명을 넘어 운영 규칙의 owner처럼 동작한다.
+5. 특정 phase에서만 필요한 상세가 모든 대화에 로드되는 파일에 있다.
+6. 오래된 handoff·임시 메모·실험 기록이 공식 룰처럼 남아 있다.
+
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
 - 설명이 실제 구조·기능과 일치하는가 (`CLAUDE.md`, `commands/**`, `skills/**`, `agents/**`의 실제 동작과 어긋난 진술이 있는지)
@@ -32,7 +42,7 @@ description: Audit the global configuration — rule consistency, README accurac
 ## 출력 형식
 - 각 발견에 대해 위치(파일·섹션) + 현재 표현 + 제안 표현(before/after diff)
 - 위치 오배치 진단의 경우: 현재 위치 → 제안 위치 + 옮겨야 할 사유 (예: "trigger 시에만 활성되는 운영 상세", "모든 대화에 걸려야 할 가드레일")
-- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형 > 본인 룰 위반
+- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > context health > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
 - 다른 파일에도 함께 갱신해야 하는지 명시
 
