@@ -4,6 +4,7 @@
 - 응답은 한국어로, 정중하되 과한 격식은 피하는 톤으로 쓴다.
 - `.claude/` 파일 본문은 한국어로 쓰되, frontmatter `name`/`description`과 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등)는 영어로 둔다.
 - `docs/<feature-dir>/` 산출물은 한국어로 쓴다.
+- `docs/<feature-dir>/` 산출물은 한 줄 표시폭 120칸(한글 기준 약 60자)을 넘기지 않도록 줄바꿈한다. 표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
 
 ## 응답
 - 결론을 먼저 말한다.
