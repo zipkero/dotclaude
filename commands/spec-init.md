@@ -59,7 +59,7 @@ Feature name: $ARGUMENTS
   - Library/SDK → 호출자에게 반환되는 값·예외
   - CLI → stdout / stderr / exit code
   - Backend API → HTTP response·status code
-  - Data pipeline → DB row·event·하류용 파일 산출물
+  - Data pipeline → DB row·event·후속 소비용 파일 산출물
   - Infra/ops → health endpoint·metric·log signal
 - 각 기준은 동작을 관찰함으로써 검증할 수 있어야 한다.
 - `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
