@@ -8,6 +8,9 @@ description: Create analysis.md (analysis + design) under docs/<feature-dir>/ fr
 
 Feature directory: $ARGUMENTS
 
+## 실행 주체
+analyzer agent가 아래 구조·규칙대로 analysis.md **전체 본문**을 생산해 main에 반환한다 — 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `docs/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을 수행한다. 즉 이 파일의 디스크 동작(파일 생성·덮어쓰기 확인·README 갱신)은 모두 main이 담당하고, analyzer는 그 입력이 될 본문과 갱신 지시를 반환만 한다.
+
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 보유한다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
 - 정적 문서이며 진행 상황 트래커가 아니다.
@@ -65,7 +68,7 @@ Feature directory: $ARGUMENTS
 - 판단 거리가 없는 작은 feature는 "해당 없음"으로 적고 넘어간다.
 
 ## README 갱신
-완료 시:
+완료 시 (analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
 - README.md Status `[ ] ANALYSIS`를 `[x] ANALYSIS`로 전환한다.
 - 작업 히스토리 라인을 추가한다 — `- <yyyy-MM-dd>: ANALYSIS 작성`.
 

@@ -9,6 +9,9 @@ description: Create implement.md (execution checklist with per-Task verification
 
 Feature directory: $ARGUMENTS
 
+## 실행 주체
+analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환한다 — 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `docs/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
+
 ## 역할
 - 구현 단계의 단독 진행 상황 트래커다.
 - 각 Task는 (a) analysis.md 설계와 (b) 최소 1개의 spec.md §5 완료 조건에 매핑된다.
@@ -107,13 +110,13 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
   - spec.md §4 Exclusions로 명시적 보류
-- 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 implement.md를 저장하지 않는다.
+- 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 main이 implement.md를 기록하지 않는다 (analyzer도 본문을 확정해 반환하지 않는다).
 
 ## 진행 상황 추적
 체크박스 전환은 verify가 `approved`로 판단한 뒤에만 main이 수행하며, 절차는 `skills/verify/SKILL.md` §verify 후처리에 따른다.
 
 ## README 갱신
-`/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태):
+`/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
 - README.md Status `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - 작업 히스토리 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 

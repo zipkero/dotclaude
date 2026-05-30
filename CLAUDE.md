@@ -38,7 +38,7 @@
 
 ## agent·skill 라우팅
 - `/spec-init <name>`은 main이 직접 처리한다.
-- `/analyze-init <dir>`와 `/implement-init <dir>`은 analyzer agent에 위임한다.
+- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 생산을 analyzer agent에 위임하고, main이 반환 본문을 검토한 뒤 디스크에 기록한다. analyzer는 디스크에 쓰지 않으며, 기록·README 갱신·덮어쓰기 확인·미매핑 결정 절차는 각 command 파일과 `agents/analyzer.md`가 소유한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 위임한다. Per-Request mode는 main이 `implement` skill을 직접 호출한다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`는 verifier agent에 위임한다.
 - 자연어 `analyze`는 main이 직접 처리하며 파일을 쓰지 않는다.
