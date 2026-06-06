@@ -4,7 +4,7 @@ description: "Judge whether the most recent implement Task satisfies spec.md com
 ---
 
 ## 역할
-verify는 **Task-level 판단 도구**다. `implement` turn 직후에 실행되어 단 하나의 질문에 답한다 — 방금 만든 Task가 자기 검증 조건과 매핑된 spec.md 완료 조건을 만족했는가? feature 단위 통합 검증 단계는 두지 않는다. 체크박스 전환과 자동 재시도 정책은 §verify 후처리에 둔다.
+verify는 **Task-level 판단 도구**다. `implement` turn 직후에 실행되어 단 하나의 질문에 답한다 — 방금 만든 Task가 자기 검증 조건과 매핑된 spec.md 완료 조건을 만족했는가? feature 단위 통합 검증 단계는 두지 않는다. 체크박스 전환은 §verify 후처리에 둔다.
 
 ## 근거 원칙
 판단은 **파일·diff·테스트 결과**를 인용해야 하며 대화 추론에 의존하지 않는다.
