@@ -2,7 +2,7 @@
 description: Audit the global configuration — rule consistency, README accuracy, context health, and trimming opportunities
 ---
 
-> 사용 시점: 전역설정에 변경이 누적되어 검토가 필요할 때 사용자가 의식적으로 호출한다.
+> 사용 시점: 전역설정에 변경이 누적되었을 때, 또는 런타임 모델 세대가 바뀌었을 때 사용자가 의식적으로 호출한다.
 > 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
 
 전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점, 설정 전반은 context pollution 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
@@ -31,6 +31,7 @@ description: Audit the global configuration — rule consistency, README accurac
 4. `README.md`가 실제 동작 설명을 넘어 운영 규칙의 owner처럼 동작한다.
 5. 특정 phase에서만 필요한 상세가 모든 대화에 로드되는 파일에 있다.
 6. 오래된 handoff·임시 메모·실험 기록이 공식 룰처럼 남아 있다.
+7. 역량 보상형 지시의 잉여화: 모델의 약점을 메우려 박아 둔 지시(장황한 절차 나열, anti-pattern 반복 경고, 같은 강조의 재진술)가 현재 런타임 모델 기준으로 불필요해졌는가. 정적 판정은 추정이므로 결론은 "제거"가 아니라 "제거 후보 + 그 지시가 막던 실패 가설"로 낸다. 정책·계약형 지시(언어·폴더 구조·소유권·출력 형식·부작용 가드)는 모델과 무관하게 유지 대상이며 이 항목으로 줄이지 않는다.
 
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
