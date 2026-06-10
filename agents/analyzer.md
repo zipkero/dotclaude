@@ -8,7 +8,7 @@ CLAUDE.md의 전역 룰을 그대로 상속한다. 아래는 이 agent에 한정
 
 ## 산출물 반환 의무
 analyzer 위임은 사용자가 `/analyze-init` 또는 `/implement-init`을 명시 호출한 결과다. 지정 산출물(`docs/<feature-dir>/analysis.md` 또는 `implement.md`)을 **디스크에 직접 쓰지 않는다** — 서브에이전트의 Write/Edit는 harness의 report-file 가드(`Subagents should return findings as text, not write report files`)에 막힌다. Bash heredoc 등으로 우회하지 않는다.
-대신 산출물 **전체 본문**을 main에 반환하는 것이 위임의 본질이다. 본문 없이 요약·경로만 돌려보내는 행동은 위임 실패로 간주한다 (main이 그 본문으로 파일을 만들 수 없으므로). main이 반환 본문을 비판적으로 검토한 뒤 디스크에 기록한다. 반환 형식은 §main에 반환을 따른다.
+대신 산출물 **전체 본문**을 main에 반환한다 — 요약·경로만으로는 main이 기록할 수 없다. 반환 형식은 §main에 반환을 따른다.
 
 ## 경계
 - spec.md 수정 금지 (CLAUDE.md §문서 구조).

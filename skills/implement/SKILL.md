@@ -6,7 +6,7 @@ description: "Execute the next Task from docs/<feature-dir>/implement.md. For Pe
 ## 컨텍스트 로딩
 1. Phased mode — 다음 둘 중 하나일 때 진입한다.
    - `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 `docs/<feature-dir>/implement.md`와 매치하거나,
-   - 현재 대화가 활성 `docs/<feature-dir>/` scope를 가리키는 경우. 이 scope의 정의는 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 turn에서 사용자가 implement 의도로 해당 feature를 명시적으로 지목한 경우(예: "docs/foo/ 구현 시작", "foo 피처 다음 Task 진행"). 실행 의도 없이 feature 이름이 지나가듯 언급된 것만으로는 Phased mode에 진입하지 않는다.
+   - 현재 대화가 활성 `docs/<feature-dir>/` scope를 가리키는 경우. 이 scope의 정의는 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 turn에서 사용자가 implement 의도로 해당 feature를 명시적으로 지목한 경우. 실행 의도 없이 feature 이름이 지나가듯 언급된 것만으로는 Phased mode에 진입하지 않는다.
 
    동작:
    - implement.md를 읽는다. 없으면 중단하고 사용자에게 `/implement-init`을 실행하도록 안내한다.
@@ -57,7 +57,7 @@ Per-Request mode에서는 조용히 테스트를 추가하지 않는다. 의미 
 - 단순 유틸, 얇은 위임, 이름 그대로의 절차 설명에는 주석을 생략한다.
 - 코드로 드러나지 않는 제약, 외부 시스템의 의외의 동작, 예외적 변환, 바꾸면 깨지는 선택은 해당 코드 바로 옆에 짧게 남긴다.
 - 공개 경계(타입·패키지 포함)에는 그 심볼이 소유한 역할과 계약만 요약해 남긴다. 여러 멤버에 공통되는 배경은 멤버마다 반복하지 말고 이 경계로 모으되, 다른 심볼·패키지가 소유한 동작까지 끌어와 기술하지 않는다.
-- 변경 경위·구현 순서·계획 식별자(예: D5) 같은 작업 과정 메타는 주석으로 남기지 않는다.
+- 변경 경위·구현 순서·계획 식별자·계획 문서 본문 전사 같은 작업 과정 메타는 주석으로 남기지 않는다.
 - 구조·형식은 언어·프로젝트 컨벤션을, 주석 언어는 `CLAUDE.md` §언어를 따른다.
 - 로직이 바뀌면 관련 주석도 같은 turn에 갱신하거나 제거한다.
 
@@ -65,4 +65,5 @@ Per-Request mode에서는 조용히 테스트를 추가하지 않는다. 의미 
 - 기존 컨벤션을 따른다 — 같은 디렉토리 기존 파일의 명명·구조·에러 처리 패턴에 맞춘다.
   - lint·format 설정이 있으면 그 설정을 우선한다.
   - 불확실하면 같은 종류의 가장 최근 수정된 파일을 참조로 삼는다.
+  - 파일 배치·분리가 Task 접근 필드의 힌트와 충돌하면 디렉토리 컨벤션을 우선한다.
 - 요청 범위 안의 변경이 책임 분리·경계·공개 contract·상태 소유권·의존성 방향에 영향을 주면, 그 영향을 해당 언어·프로젝트 관례에 맞는 설계 기준으로 판단한 뒤 반영한다.

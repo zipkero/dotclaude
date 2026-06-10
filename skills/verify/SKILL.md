@@ -68,3 +68,4 @@ main이 verify 판단을 받아 수행하는 절차다.
 
 ## 지침
 - 현재 Task만 판단한다. 다른 대기 중인 Task나 향후 작업에 대한 의견은 두지 않는다.
+- 변경 diff의 주석이 `skills/implement/SKILL.md` §주석 작성 기준을 위반하면 `style/minor`로 reject한다.
