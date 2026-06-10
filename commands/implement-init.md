@@ -10,7 +10,7 @@ description: Create implement.md (execution checklist with per-Task verification
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환한다 — 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `docs/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
+analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환하며, 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `docs/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
 
 ## 역할
 - 구현 단계의 단독 진행 상황 트래커다.
@@ -52,7 +52,7 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 Task ID 규칙:
 - 모든 Task에 전역 일련번호 prefix `task-<nnn>`을 붙인다 (`task-001`, `task-002`, ...). 그룹(`## Section:`)이 있어도 번호는 리셋하지 않고 문서 전체에서 연속한다.
 - ID는 영구 식별자다. 새 Task는 현재 가장 큰 ID의 다음 번호를 사용하고, 삭제·병합된 ID는 재사용하지 않는다. 의존성 순서가 바뀌어도 ID는 재번호하지 않는다.
-- 의존성 순서는 implement.md 안의 위치(line order)로 표현한다 — 위치가 곧 순서이며, 별도 의존성 필드를 두지 않는다. ID 숫자와 위치는 무관할 수 있다.
+- 의존성 순서는 implement.md 안의 위치(line order)로 표현하며, 별도 의존성 필드를 두지 않는다 — 위치가 곧 순서다. ID 숫자와 위치는 무관할 수 있다.
 
 목적 필드 작성 규칙:
 - **평문 동작 진술**로 적는다 — "X가 Y를 할 수 있다", "기존 Z 동작이 변경 전후 동일하다" 등. 사용자·호출자·외부 관찰자가 무엇을 보게 되는지를 한 줄로 표현한다.
