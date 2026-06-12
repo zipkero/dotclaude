@@ -14,7 +14,8 @@ description: "Execute the next Task from docs/<feature-dir>/implement.md. For Pe
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 위치가 곧 의존성 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건 필드를 실행 기준으로 삼는다.
 2. Per-Request mode — Phased mode의 어느 조건도 만족하지 않을 때 진입한다.
    - `docs/<feature-dir>/`를 만들지 않는다.
-   - 요청 범위를 그대로 받아 바로 변경을 적용한다. §비확장 기본 원칙을 따른다.
+   - 파일을 수정하기 전에 CLAUDE.md §요청 해석에 따라 해석이 갈리는 모호함을 질문으로 해소한다.
+   - 해소된 요청 범위에 변경을 적용한다. §비확장 기본 원칙을 따른다.
 
 ## 비확장 기본 원칙
 요청이 명시적으로 요구하지 않는 한, 구현은 다음을 추가하지 않는다.

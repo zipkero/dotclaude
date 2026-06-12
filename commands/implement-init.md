@@ -24,6 +24,8 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
+- 완료 기준·Task 경계·검증 조건이 여러 방향으로 해석될 수 있으면 analyzer는 본문을 확정하지 않고 main에 결정을 위임하며, main은 질문으로 해소한 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
+- 미확정 판단을 임의로 Task 범위나 검증 조건으로 변환하지 않는다.
 
 ## 덮어쓰기 규칙
 - `implement.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 폐기됨을 함께 알린다.

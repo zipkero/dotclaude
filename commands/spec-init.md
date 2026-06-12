@@ -17,7 +17,9 @@ Feature name: $ARGUMENTS
 - feature name이 비어 있으면 중단한다.
   - 사유: feature name이 출력 경로(`docs/<feature-dir>/`)의 마지막 마디를 결정하며 이후 command가 폴더 전체 이름을 그대로 재사용한다.
   - 안내: "feature name을 인자로 전달하세요. 예: `/spec-init payment-integration`"
-- 의도가 모호하면 작성 전에 사용자에게 질문한다.
+- 작성 전에 범위·목표·제약·제외 범위·완료 조건이 여러 방향으로 해석될 수 있으면 질문으로 해소한다. 질문 방식과 모호함 구분은 CLAUDE.md §요청 해석이 소유한다.
+- 미확정 판단이 남아 있으면 추정으로 채워 spec.md를 생성하지 않는다.
+- 질문으로 해소한 판단은 대화에만 남기지 않고 §1–§5 중 맞는 섹션에 반영한다.
 
 ## 산출 경로
 폴더 전체 이름 `<feature-dir>` = `<yyyyMMdd>-<nnn>-<feature-name>` 으로 자동 산출한다.
