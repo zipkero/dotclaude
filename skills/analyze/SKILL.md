@@ -9,10 +9,10 @@ description: "Standalone debugging and code comprehension utility. Explains caus
 `/analyze-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해용이며, `/analyze-init`은 `analysis.md`를 작성하는 Phased 설계 phase다. Phased 흐름의 진입 순서는 CLAUDE.md §phase 제어가 정의한다.
 
 ## 컨텍스트 로딩
-1. `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 그 하위 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고, spec.md·analysis.md·implement.md 중 질문에 필요한 부분만 읽는다.
+1. `$ARGUMENTS`가 `features/<feature-dir>/` 또는 그 하위 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고, spec.md·analysis.md·implement.md 중 질문에 필요한 부분만 읽는다.
 2. `$ARGUMENTS`가 특정 파일·심볼을 가리키면 → 그 대상을 분석하고 필요한 만큼 주변 맥락을 함께 읽는다.
 3. `$ARGUMENTS`가 비어 있으면 다음과 같이 처리한다.
-   - 활성 `docs/<feature-dir>/` scope가 있으면 (1)처럼 로드한다. 활성 scope의 정의는 `implement` skill §컨텍스트 로딩과 동일하되, "implement 의도"를 "분석 의도"로 읽는다.
+   - 활성 `features/<feature-dir>/` scope가 있으면 (1)처럼 로드한다. 활성 scope의 정의는 `implement` skill §컨텍스트 로딩과 동일하되, "implement 의도"를 "분석 의도"로 읽는다.
    - 그 외에는 대화 맥락 기반으로 분석하며, 맥락에 충분한 신호(에러 메시지, 파일 경로, 증상)가 있을 때 명시적 가정으로 진행한다.
 
 ## 출력 구조

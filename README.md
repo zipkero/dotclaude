@@ -9,19 +9,14 @@ Claude Code의 개인 설정 저장소.
 
 ### 이 구조가 존재하는 이유
 - Claude Code의 기본 동작은 한 번에 답하는 방식이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게 한다.
-- `docs/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는 기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로 참고)
+- `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는 기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로 참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록된다.
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 위임**: 산출물을 만드는 동안의 코드 탐색·검증 read 잡음이 main 컨텍스트에 누적되지 않도록 분리한다. analyzer 산출물 본문 자체는 가드상 main이 기록하지만, 그 본문을 만들기 위한 입력 읽기·설계 추론은 agent에 격리된다.
-  - `/analyze-init`·`/implement-init` → `analyzer` agent
-  - `implement` skill → Phased mode는 `implementer` agent에 위임, Per-Request mode는 main이 직접 호출
-  - `verify` skill → `verifier` agent
-  - 디버깅용 `analyze` skill은 main이 직접 호출한다.
-  - 여러 파일에 걸친 grep/Read에는 `Explore` subagent로 main 컨텍스트를 보호한다 (자세한 조건은 CLAUDE.md §agent·skill 라우팅).
+- **phase 단위 작업은 agent에 위임**: 산출물을 만드는 동안의 코드 탐색·검증 read 잡음이 main 컨텍스트에 누적되지 않도록 분리한다. analyzer 산출물 본문 자체는 가드상 main이 기록하지만, 그 본문을 만들기 위한 입력 읽기·설계 추론은 agent에 격리된다. 어느 작업이 어느 agent로 가는지는 CLAUDE.md §agent·skill 라우팅이 소유하고, 각 agent 정의는 아래 §agents/에 정리돼 있다.
 - **`analyze` skill은 독립 디버깅 유틸리티이지 pre-phase가 아니다**: Phased 작업은 `/spec-init`로 바로 진입하며, 디버깅 조사는 어디서든 `analyze` skill로 호출한다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동 재시도하지 않는다**: prompt 기반 orchestration으로는 재시도 횟수를 결정론적으로 강제할 수 없으므로 reject는 사용자 판단으로 올린다. verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
-- **feature별 폴더 구조**: `docs/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- **feature별 폴더 구조**: `features/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 구조·데이터 흐름·인터페이스·영향 범위·Decision Points만 담는다(설계를 막는 리스크는 §5에 포함, 체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
 - **모호함은 질문으로 해소한 뒤 진행한다**: 해석이 갈리는 판단은 추정으로 채우지 않고 질문으로 닫은 뒤에 문서·코드를 만든다.
@@ -29,7 +24,7 @@ Claude Code의 개인 설정 저장소.
 
 ## Workflow
 
-flow는 두 가지다. 진입 시점만 여기 요약하고, 선택 기준·핸드오프는 CLAUDE.md §phase 제어 / §agent·skill 라우팅 / §verify 책임에, verify 후처리(체크박스·README Status 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
+flow는 두 가지다. 진입 시점만 여기 요약하고, 선택 기준·핸드오프는 CLAUDE.md §phase 제어 / §agent·skill 라우팅 / §verify 책임에, verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
 - **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 사용자가 각 phase 진입 시점을 직접 통제한다.
 - **Per-Request**: `prompt → implement → verify`. slash command 없이 자연어 prompt만으로 진입한다.
@@ -53,7 +48,7 @@ EXTENSION.md       # CLAUDE.md를 잇는 추가 지시 (있으면 함께 읽힘)
 
 ### commands/ — slash command 정의
 
-Phased flow command는 `docs/<feature-dir>/` 아래에 산출물을 작성하고 feature `README.md`의 Status를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill 라우팅 참고).
+Phased flow command는 `features/<feature-dir>/` 아래에 산출물을 작성하고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill 라우팅 참고).
 
 - `spec-init.md` — `spec.md`를 작성하고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 전체 형식(`<yyyyMMdd>-<nnn>-<feature-name>`)을 자동 산출한다 — 자세한 룰은 `commands/spec-init.md` §산출 경로에 있다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)

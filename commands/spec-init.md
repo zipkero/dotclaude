@@ -1,10 +1,10 @@
 ---
-description: Create spec.md (requirements + completion criteria) under docs/<feature-dir>/ and initialize the feature README
+description: Create spec.md (requirements + completion criteria) under features/<feature-dir>/ and initialize the feature README
 ---
 
 > 사용 시점: Phased flow의 첫 단계로, `/analyze-init` / `/implement-init`이 참조하는 SPEC을 만든다.
 
-`docs/<feature-dir>/spec.md`를 작성하고 `docs/<feature-dir>/README.md`를 초기화한다. `<feature-dir>` 전체 형식과 산출 룰은 §산출 경로에 둔다. SPEC은 요구사항 레벨에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡으며, 설계나 구현 순서는 다루지 않는다.
+`features/<feature-dir>/spec.md`를 작성하고 `features/<feature-dir>/README.md`를 초기화한다. `<feature-dir>` 전체 형식과 산출 룰은 §산출 경로에 둔다. SPEC은 요구사항 레벨에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡으며, 설계나 구현 순서는 다루지 않는다.
 
 Feature name: $ARGUMENTS
 
@@ -15,7 +15,7 @@ Feature name: $ARGUMENTS
 
 ## 전제 조건
 - feature name이 비어 있으면 중단한다.
-  - 사유: feature name이 출력 경로(`docs/<feature-dir>/`)의 마지막 마디를 결정하며 이후 command가 폴더 전체 이름을 그대로 재사용한다.
+  - 사유: feature name이 출력 경로(`features/<feature-dir>/`)의 마지막 마디를 결정하며 이후 command가 폴더 전체 이름을 그대로 재사용한다.
   - 안내: "feature name을 인자로 전달하세요. 예: `/spec-init payment-integration`"
 - 작성 전에 범위·목표·제약·제외 범위·완료 조건이 여러 방향으로 해석될 수 있으면 질문으로 해소한다. 질문 방식과 모호함 구분은 CLAUDE.md §요청 해석이 소유한다.
 - 미확정 판단이 남아 있으면 추정으로 채워 spec.md를 생성하지 않는다.
@@ -25,19 +25,19 @@ Feature name: $ARGUMENTS
 폴더 전체 이름 `<feature-dir>` = `<yyyyMMdd>-<nnn>-<feature-name>` 으로 자동 산출한다.
 - `<feature-name>`: `$ARGUMENTS`로 받은 슬러그.
 - `<yyyyMMdd>`: `/spec-init` 실행일.
-- `<nnn>`: 같은 날 순번 (`001`부터). `docs/` 아래에서 `<yyyyMMdd>-` prefix로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값으로 정한다. 같은 날 첫 feature이면 `001`.
+- `<nnn>`: 같은 날 순번 (`001`부터). `features/` 아래에서 `<yyyyMMdd>-` prefix로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값으로 정한다. 같은 날 첫 feature이면 `001`.
 
-같은 날 같은 `<feature-name>`으로 재실행하면(`docs/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 §덮어쓰기 규칙이 그대로 적용된다.
+같은 날 같은 `<feature-name>`으로 재실행하면(`features/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 §덮어쓰기 규칙이 그대로 적용된다.
 
 산출물 경로:
-- `docs/<feature-dir>/spec.md`
-- `docs/<feature-dir>/README.md` (생성하거나 갱신)
-- `docs/<feature-dir>/` 디렉토리가 없으면 만든다.
+- `features/<feature-dir>/spec.md`
+- `features/<feature-dir>/README.md` (생성하거나 갱신)
+- `features/<feature-dir>/` 디렉토리가 없으면 만든다.
 
 ## 덮어쓰기 규칙
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
 - `analysis.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 analysis.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md §문서 구조 참고).
-- `README.md`가 이미 있으면 새로 만들지 않고 §README.md 구조 말미 규칙(기존 Status·문서 섹션은 유지하고 작업 히스토리 라인만 추가)을 적용한다.
+- `README.md`가 이미 있으면 새로 만들지 않고 §README.md 구조 말미 규칙(기존 상태·문서 섹션은 유지하고 작업 히스토리 라인만 추가)을 적용한다.
 
 ## spec.md 구조
 
@@ -78,8 +78,6 @@ Feature name: $ARGUMENTS
 
 반례 (내부 실행 — analysis.md / implement.md에 들어갈 내용이며 spec.md가 아니다):
 - "OrderListService가 DB에서 주문 목록을 가져온다"
-- "YAMLParser.parse()가 호출된다"
-- "healthcheck handler가 DB.ping()을 수행한다"
 
 ## README.md 구조 (여기서 초기화)
 ```markdown
@@ -102,13 +100,13 @@ Feature name: $ARGUMENTS
 - <yyyy-MM-dd>: SPEC 작성
 ```
 
-README.md가 이미 있으면 기존 Status·문서 섹션은 유지하고 작업 히스토리 라인만 한 줄 추가한다. SPEC을 다시 작성하는 경우라도 `[x] SPEC`은 그대로 둔다.
+README.md가 이미 있으면 기존 상태·문서 섹션은 유지하고 작업 히스토리 라인만 한 줄 추가한다. SPEC을 다시 작성하는 경우라도 `[x] SPEC`은 그대로 둔다.
 
 ## 금지
 - 설계·아키텍처·데이터 흐름·인터페이스 내용은 다루지 않는다 (analysis.md 소관).
 - 파일·모듈·타입·함수 나열은 두지 않는다 (저수준 디테일은 범위 밖).
 - 구현 순서·체크리스트·TODO는 두지 않는다 (implement.md 소관).
-- spec.md 안에는 상태 마커(`- [ ]` / `- [x]`)를 두지 않는다. SPEC은 상태를 갖지 않으며, 이 단계의 유일한 체크리스트는 README.md Status다.
+- spec.md 안에는 상태 마커(`- [ ]` / `- [x]`)를 두지 않는다. SPEC은 상태를 갖지 않으며, 이 단계의 유일한 체크리스트는 README.md 상태 섹션이다.
 - 승인 전 확인·§1–§5 외의 섹션은 두지 않는다. 보류로 확정한 항목은 별도 '열린 질문' 섹션이 아니라 §3 제약 또는 §4 제외 범위로 표현한다.
 
 ## 후속 단계 계약

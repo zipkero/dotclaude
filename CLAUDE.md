@@ -4,8 +4,8 @@
 - 응답은 한국어로, 정중하되 과한 격식은 피하는 톤으로 쓴다.
 - `.claude/` 파일 본문은 한국어로 쓰되, frontmatter `name`/`description`과 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등)는 영어로 둔다.
 - 코드 주석은 한국어로 쓴다. 단, 대상 파일이나 같은 디렉토리에 명확한 영어 주석 컨벤션이 있으면 그 컨벤션을 따른다.
-- `docs/<feature-dir>/` 산출물은 한국어로 쓴다.
-- Markdown 문서(`docs/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다. 표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
+- `features/<feature-dir>/` 산출물은 한국어로 쓴다.
+- Markdown 문서(`features/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다. 표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
 
 ## 응답
 - 확인한 근거와 추정은 분리해 보고한다.
@@ -53,7 +53,7 @@
 
 ## verify 책임
 - verifier는 판단만 반환하며 코드·문서·체크박스를 수정하지 않는다.
-- 후속 전환(체크박스, feature README Status, 재검증 복원, reject 처리, Per-Request 출력 범위)은 main이 수행하며 절차는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- 후속 전환(체크박스, feature README 상태, 재검증 복원, reject 처리, Per-Request 출력 범위)은 main이 수행하며 절차는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 
 ## 확장
 - 같은 위치에 `EXTENSION.md`가 있으면 추가 지시로 읽고 따른다.

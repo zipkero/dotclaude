@@ -1,19 +1,19 @@
 ---
 name: implement
-description: "Execute the next Task from docs/<feature-dir>/implement.md. For Per-Request prompts without a feature directory, execute the requested change directly."
+description: "Execute the next Task from features/<feature-dir>/implement.md. For Per-Request prompts without a feature directory, execute the requested change directly."
 ---
 
 ## 컨텍스트 로딩
 1. Phased mode — 다음 둘 중 하나일 때 진입한다.
-   - `$ARGUMENTS`가 `docs/<feature-dir>/` 또는 `docs/<feature-dir>/implement.md`와 매치하거나,
-   - 현재 대화가 활성 `docs/<feature-dir>/` scope를 가리키는 경우. 이 scope의 정의는 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 turn에서 사용자가 implement 의도로 해당 feature를 명시적으로 지목한 경우. 실행 의도 없이 feature 이름이 지나가듯 언급된 것만으로는 Phased mode에 진입하지 않는다.
+   - `$ARGUMENTS`가 `features/<feature-dir>/` 또는 `features/<feature-dir>/implement.md`와 매치하거나,
+   - 현재 대화가 활성 `features/<feature-dir>/` scope를 가리키는 경우. 이 scope의 정의는 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 turn에서 사용자가 implement 의도로 해당 feature를 명시적으로 지목한 경우. 실행 의도 없이 feature 이름이 지나가듯 언급된 것만으로는 Phased mode에 진입하지 않는다.
 
    동작:
    - implement.md를 읽는다. 없으면 중단하고 사용자에게 `/implement-init`을 실행하도록 안내한다.
    - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 위치가 곧 의존성 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건 필드를 실행 기준으로 삼는다.
 2. Per-Request mode — Phased mode의 어느 조건도 만족하지 않을 때 진입한다.
-   - `docs/<feature-dir>/`를 만들지 않는다.
+   - `features/<feature-dir>/`를 만들지 않는다.
    - 파일을 수정하기 전에 CLAUDE.md §요청 해석에 따라 해석이 갈리는 모호함을 질문으로 해소한다.
    - 해소된 요청 범위에 변경을 적용한다. §비확장 기본 원칙을 따른다.
 

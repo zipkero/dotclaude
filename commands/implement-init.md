@@ -1,16 +1,16 @@
 ---
-description: Create implement.md (execution checklist with per-Task verification criteria) under docs/<feature-dir>/ from analysis.md
+description: Create implement.md (execution checklist with per-Task verification criteria) under features/<feature-dir>/ from analysis.md
 ---
 
 > 사용 시점: `/analyze-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
 > 선행 조건: `/analyze-init`
 
-`docs/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
+`features/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
 
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환하며, 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `docs/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
+analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환하며, 디스크에 직접 쓰지 않는다(서브에이전트 report-file 가드, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `features/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
 
 ## 역할
 - 구현 단계의 단독 진행 상황 트래커다.
@@ -20,7 +20,7 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
-- `docs/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
+- `features/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
@@ -55,7 +55,6 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 Task ID 규칙:
 - 모든 Task에 전역 일련번호 prefix `task-<nnn>`을 붙인다 (`task-001`, `task-002`, ...). 그룹(`## Section:`)이 있어도 번호는 리셋하지 않고 문서 전체에서 연속한다.
 - ID는 영구 식별자다. 새 Task는 현재 가장 큰 ID의 다음 번호를 사용하고, 삭제·병합된 ID는 재사용하지 않는다. 의존성 순서가 바뀌어도 ID는 재번호하지 않는다.
-- 의존성 순서는 implement.md 안의 위치(line order)로 표현하며, 별도 의존성 필드를 두지 않는다 — 위치가 곧 순서다. ID 숫자와 위치는 무관할 수 있다.
 
 목적 필드 작성 규칙:
 - **평문 동작 진술**로 적는다 — "X가 Y를 할 수 있다", "기존 Z 동작이 변경 전후 동일하다" 등. 사용자·호출자·외부 관찰자가 무엇을 보게 되는지를 한 줄로 표현한다.
@@ -93,7 +92,7 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
 
 ## 순서
 - 의존성 기준만 사용한다 — "다음이 가능하기 위해 무엇이 먼저 존재해야 하는가." Task ID 숫자 순이나 작성 순으로 정렬하지 않는다.
-- 정렬은 implement.md 안의 위치로 표현하며, ID와는 무관하다. 순서를 바꿀 때 위치만 옮기고 ID는 보존한다.
+- 정렬은 implement.md 안의 위치(line order)로 표현하며 별도 의존성 필드를 두지 않는다 — 위치가 곧 순서다. ID 숫자와 위치는 무관하며, 순서를 바꿀 때 위치만 옮기고 ID는 보존한다.
 - 가능한 순서가 여럿이고 그 선택이 정확성에 영향을 준다면, 그 결정은 여기가 아니라 analysis.md §5 Decision Points 소관이다.
 
 ## 매핑
@@ -109,7 +108,7 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
 
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
-- README.md Status `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- README.md 상태 `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - 작업 히스토리 라인을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 ## 금지
