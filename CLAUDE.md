@@ -55,5 +55,8 @@
 - verifier는 판단만 반환하며 코드·문서·체크박스를 수정하지 않는다.
 - 후속 전환(체크박스, feature README 상태, 재검증 복원, reject 처리, Per-Request 출력 범위)은 main이 수행하며 절차는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 
-## 확장
-- 같은 위치에 `EXTENSION.md`가 있으면 추가 지시로 읽고 따른다.
+## 문서화
+- 명시 요청된 문서 산출물(노트·정리 문서 등)은 `~/obsidian`을 기준 디렉토리로 한다.
+  `features/<feature-dir>/` 산출물과 저장소 내 문서(README 등)는 이 규칙의 대상이 아니다.
+- 구체 작성 위치는 `~/obsidian/INDEX.md`를 먼저 읽고 그 라우팅을 따른다.
+  INDEX.md가 없거나 해당 매핑이 없으면 위치를 질문으로 정한 뒤 INDEX.md에 반영한다.
