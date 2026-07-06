@@ -3,7 +3,9 @@ description: Audit the global configuration — rule consistency, README accurac
 ---
 
 > 사용 시점: 전역설정에 변경이 누적되었을 때, 또는 런타임 모델 세대가 바뀌었을 때 사용자가 의식적으로 호출한다.
-> 분석 범위: 호출 시점 working directory의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
+> 분석 범위: 전역설정 디렉토리(`~/.claude`)의 `CLAUDE.md`, `README.md`, `agents/**`, `commands/**`, `skills/**`.
+> 실행 주체: main이 직접 수행한다. 전 파일 정독과 감사 판단이 한 몸이므로 CLAUDE.md §agent·skill 라우팅의
+> Explore 위임 조건을 적용하지 않는다.
 
 전역설정 전체를 다시 읽고 분석한다. 룰 파일은 정합성 관점, `README.md`는 프로젝트 설명의 정확성 관점, 설정 전반은 context pollution 관점에서 본다. 발견 시 before/after 수정안을 제시하되, 적용은 사용자의 명시 승인 후에만 진행하며 자동 수정하지 않는다.
 
@@ -31,7 +33,7 @@ description: Audit the global configuration — rule consistency, README accurac
 4. `README.md`가 실제 동작 설명을 넘어 운영 규칙의 owner처럼 동작한다.
 5. 특정 phase에서만 필요한 상세가 모든 대화에 로드되는 파일에 있다.
 6. 오래된 handoff·임시 메모·실험 기록이 공식 룰처럼 남아 있다.
-7. 역량 보상형 지시의 잉여화: 모델의 약점을 메우려 박아 둔 지시(장황한 절차 나열, anti-pattern 반복 경고, 같은 강조의 재진술)가 현재 런타임 모델 기준으로 불필요해졌는가. 정적 판정은 추정이므로 결론은 "제거"가 아니라 "제거 후보 + 그 지시가 막던 실패 가설"로 낸다. 정책·계약형 지시(언어·폴더 구조·소유권·출력 형식·부작용 가드)는 모델과 무관하게 유지 대상이며 이 항목으로 줄이지 않는다.
+7. 역량 보상형 지시의 잉여화: 모델의 약점을 메우려 박아 둔 지시(장황한 절차 나열, anti-pattern 반복 경고, 같은 강조의 재진술)가 그 지시를 소비하는 주체의 모델 기준으로 불필요해졌는가. 판정 기준 모델은 소비 주체를 따른다 — agent frontmatter에 `model`이 고정되어 있으면 그 모델, 아니면 main 모델이며, 한 파일을 여러 주체가 소비하면(예: `skills/implement/SKILL.md`) 가장 약한 소비 모델 기준으로 판정한다. 정적 판정은 추정이므로 결론은 "제거"가 아니라 "제거 후보 + 그 지시가 막던 실패 가설"로 낸다. 정책·계약형 지시(언어·폴더 구조·소유권·출력 형식·부작용 가드)는 모델과 무관하게 유지 대상이며 이 항목으로 줄이지 않는다.
 
 ### `README.md` (프로젝트 자체에 대한 설명)
 정합성 룰을 적용하지 않는다. 대신 다음을 본다.
@@ -43,7 +45,7 @@ description: Audit the global configuration — rule consistency, README accurac
 ## 출력 형식
 - 각 발견에 대해 위치(파일·섹션) + 현재 표현 + 제안 표현(before/after diff)
 - 위치 오배치 진단의 경우: 현재 위치 → 제안 위치 + 옮겨야 할 사유
-- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > context health > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형 > 본인 룰 위반
+- 우선순위 묶음 (룰 파일): 의미 충돌 > 위치 오배치 > 역할-본문 불일치 > context health > 모호·콩글리쉬 > 중복·축소 > 추상 수준·긍정형·bullet 단일성 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
 - 다른 파일에도 함께 갱신해야 하는지 명시
 

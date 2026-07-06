@@ -3,7 +3,6 @@ description: Create implement.md (execution checklist with per-Task verification
 ---
 
 > 사용 시점: `/analyze-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
-> 선행 조건: `/analyze-init`
 
 `features/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다. 설계 근거는 analysis.md에 두고, 요구사항 레벨 완료 조건은 spec.md §5에 둔다.
 

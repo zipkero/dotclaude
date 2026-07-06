@@ -2,7 +2,7 @@
 description: Launch N independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
 ---
 
-> 사용 시점: 결론의 신뢰도가 중요해 여러 에이전트에게 같은 질문을 독립적으로 풀게 하고, 메인이 그 결과를 교차검증해 합의·불일치를 가려내고 싶을 때. 단일 관점으로 충분하면 `/explain`이나 자연어 `analyze`를 쓴다.
+> 사용 시점: 결론의 신뢰도가 중요해 여러 에이전트에게 같은 질문을 독립적으로 풀게 하고, 메인이 그 결과를 교차검증해 합의·불일치를 가려내고 싶을 때. 단일 관점으로 충분하면 자연어 `analyze`를 쓴다.
 
 Scope: $ARGUMENTS
 
