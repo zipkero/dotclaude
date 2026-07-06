@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: "Standalone debugging and code comprehension utility. Explains causes, flows, and structures without writing files. Not a pre-phase for /spec-init."
+description: "Standalone debugging and root-cause utility. Explains causes and structures behind a symptom or question without writing files."
 ---
 
 ## 역할
