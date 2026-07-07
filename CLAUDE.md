@@ -32,7 +32,7 @@
 - Go·C#·JavaScript·TypeScript 파일을 수정하거나 검토할 때는 `~/.claude/docs/languages.md`와 해당 언어 문서를 읽고 적용한다.
 - 프로젝트에 더 구체적인 `CLAUDE.md`나 formatter·linter·test 설정이 있으면 그 기준을 우선한다.
 
-## 부작용
+## 사전 확인
 - 파일·브랜치 삭제, force push, hook 우회, 외부 전송, DB 변경처럼 되돌리기 어렵거나 공유·외부 시스템에 영향 주는 조치는 사전 확인을 받아서 진행한다.
 - 로컬에서 되돌릴 수 있는 변경과 테스트 실행은 요청 범위 안에서 진행한다.
 
@@ -42,7 +42,7 @@
 - 요구사항이 바뀌면 spec.md를 먼저 갱신하고, 영향받은 analysis.md → implement.md 섹션에만 전파한다.
 
 ## phase 제어
-- 다음 phase(`/spec-init`, `/analyze-init`, `/implement-init`, `implement`, `verify`)는 사용자가 명시 호출할 때만 실행하며, 자동으로 이어 실행하지 않는다.
+- 다음 phase는 명시 호출로만 진행하며, 앞 phase를 마쳐도 자동으로 이어가지 않는다.
 - Phased / Per-Request mode의 진입 조건과 활성 scope 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅
