@@ -28,6 +28,11 @@ description: Audit the global configuration — role prompt sufficiency, respons
    (예: skill A의 본문이 skill B·command C가 소유해야 할 작성 정책을 호스팅하는 경우).
 4. 다른 파일이 소유한 기준을 재정의하거나 암묵적으로 대체하는 문구가 없는가.
 
+### 플로우 산출물 완결성
+1. 각 phase 산출물이 이전 대화 맥락 없이 그 문서(와 선행 산출물)만으로 다음 phase를 진행할 수 있게 하는 기준을 갖는가.
+2. phase가 중간에 끊겨도 다음 phase가 기존 문서와 사용자 지시만으로 재개될 수 있는가.
+3. 승인 전 확인, 미해결 Decision Point, 접근 이탈 보고, 검증할 변경 범위가 다음 단계에서 무시되거나 대화 기억에만 의존하지 않는가.
+
 ### 룰 파일 (`CLAUDE.md`, `agents/**`, `commands/**`, `skills/**`, `docs/**`)
 1. 룰 간 의미 충돌·모순
 2. 위치 적정성: `CLAUDE.md` 항목이 "어느 context에서든 반복 실수할 수 있는 것"인가? 특정 trigger 시에만 의미 있는 운영 상세(절차·표·매핑)가 끼어 있지 않은가? `CLAUDE.md`는 모든 대화에 항상 로드되므로 가볍게 유지한다.
@@ -66,7 +71,7 @@ description: Audit the global configuration — role prompt sufficiency, respons
   `부족` — 역할이 추상적이거나 실행 가능한 기준 없이 모델 재량에 크게 의존한다.
 - 각 발견에 대해 위치(파일·섹션) + 현재 표현 + 제안 표현(before/after diff)
 - 위치 오배치 진단의 경우: 현재 위치 → 제안 위치 + 옮겨야 할 사유
-- 우선순위 묶음: 역할 프롬프트 충분성·책임 경계 > 의미 충돌 > 위치 오배치 > context health > 모호·콩글리쉬 >
+- 우선순위 묶음: 역할 프롬프트 충분성·책임 경계·플로우 산출물 완결성 > 의미 충돌 > 위치 오배치 > context health > 모호·콩글리쉬 >
   중복·축소 > 추상 수준·긍정형·bullet 단일성 > 본인 룰 위반
 - `README.md` 부정확 항목은 별도 묶음으로 분리해 보고
 - 다른 파일에도 함께 갱신해야 하는지 명시

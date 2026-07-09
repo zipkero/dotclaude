@@ -20,6 +20,9 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
+- analysis.md에 승인 전 확인 섹션이 있으면, 그 질문들이 이 대화에서 사용자 답을 받았는지 확인하고 받지 않은 질문은 해소한 뒤 진행한다. 문서에는 확인 여부가 표시되지 않으므로 대화 밖 기억으로 답을 받은 것으로 간주하지 않는다.
+- 답으로 설계 결정이 바뀌면 analysis.md의 영향받은 섹션에 먼저 반영한 뒤 implement.md를 작성한다.
+- 사용자가 확인 질문을 명시적으로 보류하고 진행을 지시한 경우에만, 그 질문이 영향을 주지 않는 Task까지 작성한다.
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
