@@ -17,7 +17,7 @@ Claude Code의 개인 설정 저장소.
 - **`analyze` skill은 독립 디버깅 유틸리티이지 pre-phase가 아니다**: Phased 작업은 `/spec-init`로 바로 진입하며, 디버깅 조사는 어디서든 `analyze` skill로 호출한다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동 재시도하지 않는다**: prompt 기반 orchestration으로는 재시도 횟수를 결정론적으로 강제할 수 없으므로 reject는 사용자 판단으로 올린다. verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: `features/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 구조·데이터 흐름·인터페이스·영향 범위·Decision Points만 담는다(설계를 막는 리스크는 §5에 포함, 체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
+- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과 구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 리스크는 §5에 포함, 체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
 - **모호함은 질문으로 해소한 뒤 진행한다**: 해석이 갈리는 판단은 추정으로 채우지 않고 질문으로 닫은 뒤에 문서·코드를 만든다.
   질문 방식과 모호함 구분은 CLAUDE.md §요청 해석이 소유한다.
@@ -63,6 +63,10 @@ Meta command (Phased flow와 독립):
 - `analyze` — 독립 디버깅·코드 이해 유틸리티. 파일을 쓰지 않고 대화로만 출력한다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 수행한다. 다음 `verify` 호출이 명시적인 diff 범위를 가질 수 있도록 **Files touched** 리스트를 함께 출력한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 만족하는지 판단한다. 판단만 대화로 반환하며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 수행한다. 테스트 관련 룰은 영역별로 분산 소유한다 — 테스트 Task 포함 시점은 `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한 테스트 evidence 기준은 `skills/verify/SKILL.md` §테스트 evidence 규칙.
+
+### docs/ — 언어별 작업 기준
+
+- `languages.md` — 언어별 기준의 진입점. 세부 기준은 `languages/*.md`(go·csharp·javascript-typescript)가 소유하며, 적용 라우팅은 CLAUDE.md §언어별 작업 기준에 있다.
 
 ## Management
 

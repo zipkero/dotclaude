@@ -2,7 +2,6 @@
 
 ## 적용 범위
 - 이 문서는 전역 기본값이다. 프로젝트의 `CLAUDE.md`, `.editorconfig`, analyzer, formatter, test 설정이 있으면 그 기준을 우선한다.
-- C# 파일을 수정하거나 검토할 때 적용한다.
 
 ## 코드 작성
 - nullable reference type 설정을 확인하고, null 가능성은 타입과 guard로 명확히 표현한다.
