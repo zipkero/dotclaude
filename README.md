@@ -19,7 +19,7 @@ Claude Code의 개인 설정 저장소.
 - **feature별 폴더 구조**: `features/<feature-dir>/`에는 `spec.md`, `analysis.md`, `implement.md`, `README.md`만 둔다. `verify.md`는 두지 않으며, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 레벨의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과 구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 리스크는 §5에 포함, 체크리스트 없음). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased flow는 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어 트리거다. 진행 시점은 사용자가 결정한다.
-- **모호함은 질문으로 해소한 뒤 진행한다**: 해석이 갈리는 판단은 추정으로 채우지 않고 질문으로 닫은 뒤에 문서·코드를 만든다.
+- **결과에 영향을 주는 모호함은 질문으로 해소한 뒤 진행한다**: 그런 판단은 추정으로 채우지 않고 질문으로 닫은 뒤에 문서·코드를 만든다.
   질문 방식과 모호함 구분은 CLAUDE.md §요청 해석이 소유한다.
 
 ## Workflow
