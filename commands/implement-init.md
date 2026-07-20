@@ -67,6 +67,10 @@ Task ID 규칙:
 - `SPEC §5.N`: 이 Task가 기여하는 spec.md §5 완료 조건. 최소 1개 이상 필수. 여러 개일 때는 쉼표로 나열한다.
 - `ANALYSIS §X.Y`: 이 Task가 따르는 analysis.md 구조·설계 (설계 결정이 적용될 때만, 그 외에는 생략).
 
+검증 조건 작성 규칙:
+- spec.md §3 제약에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)가 있으면
+  관련 Task의 `확인` 필드에 빠짐없이 반영한다.
+
 > 영어 표기: 목적(Purpose) / 접근(Approach) / 검증 조건(Verification criteria) / 참조(References). 결과가 목적과 동일하면 `결과: 목적과 동일`로 약식 표기할 수 있다. 참조 필드는 SPEC §5 매핑 누락 점검과 추적용 메타데이터이며 verify의 1차 evidence가 아니다.
 
 ### 구조 옵션

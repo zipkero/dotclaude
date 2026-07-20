@@ -50,7 +50,9 @@
 - 요구사항이 바뀌면 spec.md를 먼저 갱신하고, 영향받은 analysis.md → implement.md 섹션에만 전파한다.
 
 ## phase 제어
-- 다음 phase는 명시 호출로만 진행하며, 앞 phase를 마쳐도 자동으로 이어가지 않는다.
+- 문서 phase(spec-init → analyze-init → implement-init)는 명시 호출로만 진행하며, 앞 phase를 마쳐도 자동으로 이어가지 않는다.
+- 사용자가 구현과 검증 전체를 명시 요청한 경우에 한해 implement → verify를 연속 진행한다.
+  미확정 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 중단하고 확인받는다.
 - Phased / Per-Request mode의 진입 조건과 활성 scope 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅

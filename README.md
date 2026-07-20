@@ -26,7 +26,8 @@ Claude Code의 개인 설정 저장소.
 
 flow는 두 가지다. 진입 시점만 여기 요약하고, 선택 기준·핸드오프는 CLAUDE.md §phase 제어 / §agent·skill 라우팅 / §verify 책임에, verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
-- **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 사용자가 각 phase 진입 시점을 직접 통제한다.
+- **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 진입 시점은 사용자가 직접 통제하고,
+  구현과 검증 전체를 명시 요청한 경우에 한해 implement → verify가 연속 진행된다(CLAUDE.md §phase 제어).
 - **Per-Request**: `prompt → implement → verify`. slash command 없이 자연어 prompt만으로 진입한다.
 
 `analyze` skill은 두 flow 어느 쪽에서도 호출할 수 있다 (정의는 `skills/analyze/SKILL.md`).
