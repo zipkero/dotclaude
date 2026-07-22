@@ -58,6 +58,8 @@ Meta command (Phased flow와 독립):
 
 - `config-review.md` — 전역설정의 역할 프롬프트 충분성·책임 경계·정합성·README 정확성·context health·축소 여지를 사용자 의식적 호출로 점검한다 (`/config-review`). 발견 보고만 하고 자동 수정하지 않는다.
 - `cross-analyze.md` — 같은 분석 질문을 N개 에이전트에 동일 프롬프트로 독립 분석시키고 main이 교차검증해 합의·불일치를 보고한다 (`/cross-analyze [N] <질문>`). 읽기 전용이다.
+- `context-save.md` — 현재 설계·전달 작업의 위치를 프로젝트 루트 `CONTEXT.md`에 저장해 세션 인수인계 진입점을 만든다 (`/context-save`). 기본적으로 `CONTEXT.md`만 변경한다.
+- `context-restore.md` — `CONTEXT.md`에서 작업 맥락을 복원하고 원본·Phased 문서와 대조한다 (`/context-restore`). 읽기 전용이며 복원 보고에서 멈춘다. 다음 작업 수행은 사용자의 별도 요청과 CLAUDE.md §phase 제어를 따른다.
 
 ### skills/ — skill 정의
 
