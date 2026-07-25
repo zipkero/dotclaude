@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.{js,jsx,mjs,cjs}"
+  - "**/*.{ts,tsx,mts,cts}"
+---
+
 # JavaScript / TypeScript 작업 기준
 
 ## 적용 범위
