@@ -11,7 +11,7 @@ description: "Execute the next Task from features/<feature-dir>/implement.md. Fo
    동작:
    - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
    - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
-   - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건 필드를 실행 기준으로 삼는다. 잡은 Task가 닫힌 동작이 아니라 코드 조각 수준이면, 구현하지 말고 Task를 다시 나눠야 한다고 보고한다.
+   - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건 필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task를 다시 나눠야 한다고 보고한다.
 2. Per-Request mode — Phased mode의 어느 조건도 맞지 않을 때 들어간다.
    - `features/<feature-dir>/`를 만들지 않는다.
    - 파일을 고치기 전에 CLAUDE.md §요청 해석에 따라 결과를 실제로 바꾸는 모호함만 질문으로 정리한다.
@@ -32,9 +32,9 @@ analysis.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/impleme
 
 ## 출력 구조
 main에 돌려주는 보고는 다음을 담는다. 해당 항목이 없으면 뺀다.
-1. Code or logic — 무엇을 바꿨는지. 코드 블록을 다시 붙여넣지 않으며, 변경 내용으로 대신한다.
-2. Key points — 실행한 Task 식별자(Phased: `task-<nnn>` 제목, Per-Request: 사용자 요청 인용)와 핵심 변경점.
-3. Files touched — 고친 경로 목록. 다음 `verify` 호출의 변경 범위로 쓰이며, 변경이 verify 전에 commit되었을 때 특히 쓸모 있다.
+1. 변경 내용 — 무엇을 바꿨는지. 코드 블록을 다시 붙여넣지 않으며, 변경 내용으로 대신한다.
+2. 핵심 — 실행한 Task 식별자(Phased: `task-<nnn>` 제목, Per-Request: 사용자 요청 인용)와 핵심 변경점.
+3. 고친 파일 — 고친 경로 목록. 다음 `verify` 호출의 변경 범위로 쓰이며, 변경이 verify 전에 commit되었을 때 특히 쓸모 있다.
 4. 비고·한계 — 범위 밖에서 찾은 것이나 확인 못 한 부분이 있을 때만.
 5. 접근 이탈 — Phased mode에서 실제 구현이 Task 접근 필드와 달라졌을 때만. 다음을 나눠서 적는다.
    - 단순 구현 상세 차이인지, 설계 변경이 필요한지
@@ -61,9 +61,9 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
 테스트 Task가 implement.md에 들어가는 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, verify 때의 테스트 근거 규칙은 `skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
 
 ## 주석 작성 기준
-- 단순 유틸, 얇은 위임에는 주석을 뺀다.
+- 단순 유틸이나 값을 그대로 넘기는 위임에는 주석을 뺀다.
 - 코드로 드러나지 않는 제약, 외부 시스템의 뜻밖의 동작, 예외적인 변환, 바꾸면 깨지는 선택은 해당 코드 바로 옆에 남긴다.
-- 주석 하나는 제약 하나에 1~2줄로 답한다. 배경 이야기·다른 구현 비교·코드 다시 쓰기로 늘리지 않는다.
+- 주석 하나는 제약 하나를 1~2줄로 설명한다. 배경 이야기·다른 구현 비교·코드 다시 쓰기로 늘리지 않는다.
 - 심볼 위 doc 주석은 역할·계약 요약만 담고, 실행 흐름·검증 절차는 해당 단계 코드 옆에 둔다.
 - 여러 멤버에 공통인 배경은 멤버마다 되풀이하지 말고 경계(타입·패키지)로 모으되, 다른 심볼·패키지가 가진 동작까지 끌어와 적지 않는다.
 - 변경 경위·구현 순서·계획 식별자·계획 문서 본문 옮겨 적기 같은 작업 과정 기록은 주석으로 남기지 않는다.

@@ -11,7 +11,7 @@ paths:
 
 ## 코드 작성
 - 패키지 매니저는 lockfile 기준으로 판단한다: `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`.
-- 기존 module system, framework, state management, styling 관례를 따른다.
+- 기존 모듈 시스템, 프레임워크, 상태 관리, 스타일링 관례를 따른다.
 - TypeScript에서는 불필요한 `any`를 추가하지 않는다.
 - 타입 단언은 런타임 근거가 있거나 외부 경계에서 값을 좁히는 경우에만 제한적으로 사용한다.
 

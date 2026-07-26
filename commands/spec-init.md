@@ -30,6 +30,7 @@ Feature name: $ARGUMENTS
 같은 날 같은 `<feature-name>`으로 재실행하면(`features/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지 않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / analysis.md / implement.md에는 아래 §덮어쓰기 규칙이 그대로 적용된다.
 
 산출물 경로:
+- `features/<feature-dir>/`에 두는 문서는 `spec.md`, `analysis.md`, `implement.md`, `README.md` 넷뿐이다.
 - `features/<feature-dir>/spec.md`
 - `features/<feature-dir>/README.md` (생성하거나 갱신)
 - `features/<feature-dir>/` 디렉토리가 없으면 만든다.
@@ -43,6 +44,9 @@ Feature name: $ARGUMENTS
 
 ### 승인 전 확인
 - 사용자가 SPEC 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
+- 사용자가 항목에 답하면 그 결과를 §1–§5 중 맞는 섹션에 반영하고 해당 항목을 이 섹션에서 지운다.
+  사용자가 명시적으로 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N` 형태로 남긴다.
+  남아 있는 항목은 아직 답을 받지 않은 질문이라는 뜻이며, 이후 단계는 이 표기로 미답 여부를 판정한다.
 - 어느 feature에나 성립하는 일반 확인 질문("범위가 의도와 맞는지 확인" 류)은 두지 않는다.
 - 항목은 `- <판단 질문>. 관련 본문: §N` 형식으로 쓴다.
 - 본문을 요약·복제하는 진술은 두지 않는다 — 본문에서 파생 가능한 수치·요약이나 "승인하면 요구사항이 고정된다" 같은 문서 타입 상수가 그 예다.
@@ -53,6 +57,8 @@ Feature name: $ARGUMENTS
 - 이 feature가 다루는 영역. 작업의 경계.
 - 입력 맥락: 조사 출발점이 되는 파일·오류 메시지·기존 동작. 대화에서 나온 단서를 남겨
   analyze 단계가 대화 없이 재개할 수 있게 한다. 없으면 생략한다.
+  `/spec-init` 전에 설계를 논의했다면 그 논의에서 사용자가 정한 방향과, 검토했으나 접은 접근을 접은 이유와 함께 남긴다.
+  설계 판단 자체는 analysis.md 소관이므로 여기에는 논의의 출발점만 적는다.
 
 ### 2. 목표
 - 이 작업이 존재하는 이유. 사용자·이해관계자에게 어떤 결과를 만들어내는지.
@@ -75,7 +81,7 @@ Feature name: $ARGUMENTS
   - Infra/ops → health endpoint·metric·log signal
 - 각 기준은 동작을 관찰함으로써 검증할 수 있어야 한다.
 - `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
-- 각 조건은 번호 목록(`1.`, `2.`, …)로 쓴다. N번 항목은 이후 단계(analysis.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — analysis.md 본문 인라인 인용과 implement.md 참조 필드의 추적 단위다. 이 규칙은 `SPEC §5.N` 표기만 소유한다. 접두사 없는 `§5`는 각 문서가 자기 5번 섹션을 가리킬 때 쓰는 별개 표기다.
+- 각 조건은 번호 목록(`1.`, `2.`, …)으로 쓴다. N번 항목은 이후 단계(analysis.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — analysis.md 본문 인라인 인용과 implement.md 참조 필드의 추적 단위다. 이 규칙은 `SPEC §5.N` 표기만 소유한다. 접두사 없는 `§5`는 각 문서가 자기 5번 섹션을 가리킬 때 쓰는 별개 표기다.
 - 번호는 영구 식별자다. 기존 항목을 재배열·삭제·재번호하면 그 번호를 참조하던 analysis.md·implement.md가 조용히 깨진다. 기존 번호는 보존하고, 새 조건은 다음 번호로만 추가한다.
 
 반례 (내부 실행 — analysis.md / implement.md에 들어갈 내용이며 spec.md가 아니다):

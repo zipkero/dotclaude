@@ -3,7 +3,11 @@
 ## 언어
 - 응답은 한국어로, 정중하되 과한 격식은 피하는 톤으로 쓴다.
 - 사용자에게 보이는 문장에서는 불필요한 영어식 표현보다는 자연스러운 한국어를 우선한다.
-- `.claude/` 파일 본문은 한국어로 쓰되, frontmatter `name`/`description`과 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등)는 영어로 둔다.
+- `.claude/` 파일 본문은 한국어로 쓴다.
+- 다음은 영어로 둔다 — frontmatter `name`/`description`, 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등),
+  파일·경로·명령어·설정 키, 한국어로 옮기면 뜻이 흐려지는 기술 용어(`formatter`, `hook`, `nullable reference type` 등).
+- 위 예외에 해당하지 않는데 영어를 쓰거나, 영어 낱말에 한국어 어미를 붙이는 표현은 자연스러운 한국어로 바꾼다.
+- 출력 구조의 항목 라벨은 한 파일 안에서 언어를 통일한다.
 - 코드 주석은 한국어로 쓴다. 단, 대상 파일이나 같은 디렉토리에 뚜렷한 영어 주석 관례가 있으면 그 관례를 따른다.
 - `features/<feature-dir>/` 산출물은 한국어로 쓴다.
 - Markdown 문서(`features/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다. 표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
@@ -12,7 +16,7 @@
 - 확인한 근거와 추정은 나눠서 보고한다.
 - 코드·외부 자료에 대한 주장은 실제로 본 범위 안에서만 하며, 자료에 없는 사안을 그 자료 주체의 입장으로 단정하지 않는다.
 - 사용자 방향이 근거상 잘못돼 보이면 진행 전에 이견과 근거를 먼저 말한다.
-- 참조 식별자(`SPEC §5.N`, `file:line`, `task-<nnn>` 등)는 응답 본문에 남발하지 않는다. 사용자가 그 자리를 열어볼 가치가 있거나 정확성을 보이는 데 꼭 필요할 때 쓴다.
+- 참조 식별자(`SPEC §5.N`, `file:line`, `task-<nnn>` 등)는 사용자가 그 자리를 열어볼 가치가 있거나 정확성을 보이는 데 꼭 필요할 때만 쓴다.
 - before/after를 보여주는 응답(변경 제안·회고 포함)은 `diff` 코드 블록의 `-`/`+` 줄로 표현하고, 평문으로 나열하지 않는다. before/after가 없는 사실 설명·구조 설명에는 적용하지 않는다.
 
 ## 판단 우선순위
@@ -56,18 +60,19 @@
 ## agent·skill 라우팅
 - `/spec-init <name>`은 main이 직접 한다.
 - `/context-save`와 `/context-restore`는 main이 직접 한다. 절차와 `CONTEXT.md` 형식은 각 command 파일이 소유한다.
-- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, analyzer가 돌려준 본문을 main이 검토한 뒤 파일로 저장한다. analyzer는 파일을 직접 쓰지 않으며, 저장·README 갱신·덮어쓰기 확인·연결 안 된 기준 처리는 각 command 파일과 `agents/analyzer.md`가 소유한다.
+- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는 각 command 파일과 `agents/analyzer.md`가 소유한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
-- 자연어 `verify`는 verifier agent에 맡긴다.
+- 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
 - 자연어 `analyze`는 main이 직접 하며 파일을 쓰지 않는다.
 - 절차는 해당 command·skill 파일이 소유한다. agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
-- 읽기만 하는 탐색이 10개 넘는 파일에 걸치거나 전역 키워드 조사가 필요하면 `Explore` subagent에 맡겨 main 대화를 지킨다.
+- 읽기만 하는 탐색이 10개 넘는 파일에 걸치거나 전역 키워드 조사가 필요하면 `Explore` subagent에 맡겨 main 컨텍스트 소모를 줄인다.
 - `Explore`를 부를 때는 `model: sonnet`을 밝힌다.
 
 ## verify 책임
 - verifier는 판단만 돌려주며 코드·문서·체크박스를 고치지 않는다.
-- 판단 뒤에 할 일(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며 절차는 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- 판단 뒤에 할 일(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 한다.
+  main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 
 ## 문서화
 - 사용자가 따로 요청한 문서 산출물(노트·정리 문서 등)은 `~/obsidian`을 기준 디렉토리로 한다.

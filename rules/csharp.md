@@ -12,7 +12,7 @@ paths:
 - nullable reference type 설정을 확인하고, null 가능성은 타입과 guard로 명확히 표현한다.
 - public contract 변경은 호출부, 테스트, XML documentation 영향을 함께 확인한다.
 - LINQ는 가독성이 유지되는 범위에서 사용하고, 중첩으로 의도가 흐려지면 명시적 흐름을 우선한다.
-- DI, options, logging, configuration 패턴은 기존 프로젝트 관례를 따른다.
+- 의존성 주입, 옵션, 로깅, 설정 구성 패턴은 기존 프로젝트 관례를 따른다.
 
 ## 오류와 비동기
 - 예외는 실패 상황 표현에 사용하고, catch 후 근거 없이 삼키지 않는다.

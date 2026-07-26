@@ -9,7 +9,9 @@ description: Create analysis.md (analysis + design) under features/<feature-dir>
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 analysis.md **전체 본문**을 생산해 main에 반환하며, 디스크에 직접 쓰지 않는다(subagent report-file 제한, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해결 결정이 남아 있으면 기록 전에 질문으로 정리해(방식은 CLAUDE.md §요청 해석) 그 결과를 §5 Decision Points의 채택 옵션으로 반영한 뒤 `features/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을 수행한다.
+analyzer agent가 아래 구조·규칙대로 analysis.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환 의무).
+main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해결 결정이 남아 있으면 기록 전에 질문으로 정리해(방식은 CLAUDE.md §요청 해석)
+그 결과를 §5 Decision Points의 채택 옵션으로 반영한 뒤 `features/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을 수행한다.
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 담는다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
@@ -20,6 +22,8 @@ analyzer agent가 아래 구조·규칙대로 analysis.md **전체 본문**을 �
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다. 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/analyze-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
+- spec.md 승인 전 확인 섹션에 남아 있는 항목은 미답으로 보고 진행 전에 질문으로 정리한다(`(보류)` 표기 항목은 제외).
+  답으로 요구사항이 바뀌면 spec.md를 먼저 고친 뒤 analysis.md를 작성한다(CLAUDE.md §문서 구조).
 - 작성 전에 spec.md 전체를 읽는다. 범위는 spec.md §1에 의해 제한되며, 요구사항을 새로 추가하지 않는다.
 - spec.md §1에 입력 맥락이 있으면 코드베이스 조사의 출발점으로 삼는다.
 
@@ -31,6 +35,9 @@ analyzer agent가 아래 구조·규칙대로 analysis.md **전체 본문**을 �
 
 ### 승인 전 확인
 - 사용자가 ANALYSIS 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
+- 사용자가 항목에 답하면 그 결과를 §1–§5 중 맞는 섹션에 반영하고 해당 항목을 이 섹션에서 지운다.
+  사용자가 명시적으로 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N` 형태로 남긴다.
+  남아 있는 항목은 아직 답을 받지 않은 질문이라는 뜻이며, 이후 단계는 이 표기로 미답 여부를 판정한다.
 - 어느 feature에나 성립하는 일반 확인 질문("§5 채택안이 의도와 맞는지 확인" 류)은 두지 않는다.
 - 항목은 `- <판단 질문>. 관련 본문: §N` 형식으로 쓴다. 질문에는 그 feature에서 무엇이 걸려 있는지가 드러나야 한다.
 - 본문을 요약·복제하는 진술은 두지 않는다 — 채택 옵션 재서술이나 Decision Point 개수 같은 파생 내용이 그 예다.

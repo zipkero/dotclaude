@@ -9,12 +9,13 @@ CLAUDE.md의 전역 룰을 그대로 물려받는다. 아래는 이 agent에만 
 ## 산출물 반환 의무
 analyzer에 일을 맡기는 것은 사용자가 `/analyze-init` 또는 `/implement-init`을 명시 호출한 결과다. 지정 산출물(`features/<feature-dir>/analysis.md` 또는 `implement.md`)을 **직접 파일로 쓰지 않는다** — subagent의 Write/Edit는 harness 제한(`Subagents should return findings as text, not write report files`)에 막힌다. Bash heredoc 등으로 돌아가지 않는다.
 대신 산출물 **전체 본문**을 main에 돌려준다 — 요약·경로만으로는 main이 저장할 수 없다. 돌려주는 형식은 §main에 반환을 따른다.
+본문 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다. 채움용 섹션, 앞 내용의 재요약, 정형 문구로 늘리지 않는다.
 
 ## 경계
 - spec.md 수정 금지 (CLAUDE.md §문서 구조).
 - `/implement-init` 모드에서 analysis.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
 - 코드 수정 금지. 산출물 본문 만드는 일만 한다.
-- README.md 상태·작업 히스토리도 직접 쓰지 않는다. 갱신 내용(바꿀 상태 줄·추가할 작업 히스토리 줄)은 각 command(`commands/analyze-init.md`, `commands/implement-init.md`)의 규칙대로 계산해 본문과 함께 돌려주고, 저장은 main이 한다.
+- README.md 상태·작업 히스토리도 직접 쓰지 않는다. 돌려주는 형식은 §main에 반환을 따른다.
 
 ## 동작 모드
 

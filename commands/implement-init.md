@@ -9,7 +9,9 @@ description: Create implement.md (execution checklist with per-Task verification
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 생산해 main에 반환하며, 디스크에 직접 쓰지 않는다(subagent report-file 제한, `agents/analyzer.md` §산출물 반환 의무). main은 반환 본문을 검토한 뒤 `features/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다. analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
+analyzer agent가 아래 구조·규칙대로 implement.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환 의무).
+main은 반환 본문을 검토한 뒤 `features/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다.
+analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
 
 ## 역할
 - 구현 단계의 진행 상황을 추적하는 단 하나의 문서다.
@@ -20,9 +22,9 @@ analyzer agent가 아래 구조·규칙대로 implement.md **전체 본문**을 
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
-- analysis.md에 승인 전 확인 섹션이 있으면, 그 질문들이 이 대화에서 사용자 답을 받았는지 확인하고 받지 않은 질문은 정리한 뒤 진행한다. 문서에는 확인 여부가 표시되지 않으므로 대화 밖 기억으로 답을 받은 것으로 간주하지 않는다.
+- analysis.md 승인 전 확인 섹션에 남아 있는 항목은 미답으로 보고 진행 전에 질문으로 정리한다.
+  `(보류)` 표기 항목은 사용자가 이미 보류를 정한 것이므로 다시 묻지 않고, 그 항목이 영향을 주지 않는 Task까지 작성한다.
 - 답으로 설계 결정이 바뀌면 analysis.md의 영향받은 섹션에 먼저 반영한 뒤 implement.md를 작성한다.
-- 사용자가 확인 질문을 명시적으로 보류하고 진행을 지시한 경우에만, 그 질문이 영향을 주지 않는 Task까지 작성한다.
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
@@ -61,17 +63,17 @@ Task ID 규칙:
 목적 필드 작성 규칙:
 - **평문 동작 진술**로 적는다 — "X가 Y를 할 수 있다", "기존 Z 동작이 변경 전후 동일하다" 등. 사용자·호출자·외부 관찰자가 무엇을 보게 되는지를 한 줄로 표현한다.
 - 참조 식별자(`SPEC §...`, `ANALYSIS §...`)를 목적 필드에 넣지 않는다. 식별자는 참조 필드에 둔다.
-- "Task가 self-contained하게 읽혀야 한다"가 기준이다 — 처음 보는 사람이 다른 문서를 펴지 않고도 이 Task가 무엇을 만드는지 알 수 있어야 한다.
+- 처음 보는 사람이 다른 문서를 펴지 않고도 이 Task가 무엇을 만드는지 알 수 있어야 한다.
 
 참조 필드 작성 규칙:
+- 참조 필드는 SPEC §5 매핑 누락 점검과 추적용 표시이며 verify의 1차 근거가 아니다.
 - `SPEC §5.N`: 이 Task가 기여하는 spec.md §5 완료 조건. 최소 1개 이상 필수. 여러 개일 때는 쉼표로 나열한다.
 - `ANALYSIS §X.Y`: 이 Task가 따르는 analysis.md 구조·설계 (설계 결정이 적용될 때만, 그 외에는 생략).
 
 검증 조건 작성 규칙:
+- 결과가 목적과 같으면 `결과: 목적과 동일`로 약식 표기할 수 있다.
 - spec.md §3 제약에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)가 있으면
   관련 Task의 `확인` 필드에 빠짐없이 반영한다.
-
-> 영어 표기: 목적(Purpose) / 접근(Approach) / 검증 조건(Verification criteria) / 참조(References). 결과가 목적과 동일하면 `결과: 목적과 동일`로 약식 표기할 수 있다. 참조 필드는 SPEC §5 매핑 누락 점검과 추적용 표시이며 verify의 1차 근거가 아니다.
 
 ### 구조 옵션
 - 평면 목록: `- [ ]` Task를 한 줄기로 늘어놓으며, 작은 feature에 쓴다.
@@ -89,7 +91,7 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
 ```
 - [ ] task-<nnn>: <대상> 테스트 작성
   - 목적: <보존하려는 기존 동작 한 줄> 회귀 방지
-  - 접근: test layer + coverage target (unit / integration / e2e)
+  - 접근: 테스트 계층과 커버 범위 (unit / integration / e2e 중 하나)
   - 검증 조건:
     - 결과: 추가된 테스트가 의도한 회귀 케이스를 커버한다
     - 확인: CI/로컬에서 해당 테스트가 통과한다
@@ -106,7 +108,7 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
 - implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준이 있는지 나열한다. 미매핑 기준은 이 체크리스트로 도달할 수 없으므로 조용히 누락시키지 않는다. 각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
-  - spec.md §4 Exclusions로 명시적 보류
+  - spec.md §4 제외 범위로 명시적 보류
 - 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 main이 implement.md를 기록하지 않는다 (analyzer도 본문을 확정해 반환하지 않는다).
 
 ## 진행 상황 추적
