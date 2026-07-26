@@ -8,8 +8,6 @@ description: "Standalone debugging and root-cause utility. Explains causes and s
 
 `/analyze-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해용이며, `/analyze-init`은 `analysis.md`를 쓰는 Phased 설계 phase다. Phased 흐름의 진행 순서는 CLAUDE.md §phase 제어가 소유한다.
 
-`explain-change`와도 다르다. 이 skill은 증상·질문에서 출발해 원인을 찾고, `explain-change`는 이미 있는 변경에서 출발해 왜 그렇게 됐는지를 이해시킨다.
-
 ## 컨텍스트 로딩
 1. `$ARGUMENTS`가 `features/<feature-dir>/` 또는 그 아래 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고, spec.md·analysis.md·implement.md 중 질문에 필요한 부분만 읽는다.
 2. `$ARGUMENTS`가 특정 파일·심볼을 가리키면 → 그 대상을 분석하고 필요한 만큼 주변 맥락을 함께 읽는다.
