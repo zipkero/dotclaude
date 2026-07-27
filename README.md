@@ -74,6 +74,9 @@ Meta command (Phased 흐름과 독립):
 
 frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다. 항상 로드되는 CLAUDE.md와 달리 해당 언어를 만질 때만 비용을 낸다.
 
+매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다. 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야 한다.
+`paths` 대신 `globs`를 쓰면 스코프 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
+
 - `code-common.md` — go·csharp·js·ts 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계). 코드 주석 기준의 owner이며, `implement`·`verify`가 이 파일을 참조한다.
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
 
