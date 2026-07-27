@@ -99,4 +99,4 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 
 ## 지침
 - 현재 Task와 그 approve로 완료되는 요구사항만 판단한다. 다른 기다리는 Task나 앞으로의 작업에 대한 의견은 두지 않는다.
-- 변경 내용의 주석이 `skills/implement/SKILL.md` §주석 작성 기준을 어기면 `style/minor`로 reject한다.
+- 변경 내용의 주석이 `rules/code-common.md` §주석 작성 기준을 어기면 `style/minor`로 reject한다. 주석이 필요한 자리를 비워 둔 경우도 같게 본다.
