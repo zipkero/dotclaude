@@ -25,4 +25,3 @@ paths:
 - 기존 script와 test runner 관례를 우선한다.
 - 프로젝트 관례가 없고 JS/TS 코드 동작을 바꿨다면 `test`, `lint`, `typecheck` 계열 package script를 확인한다.
 - 타입으로 표현 가능한 설명은 주석보다 타입 정의, 이름, 경계 검증을 우선한다.
-- 복잡한 narrowing, runtime compatibility, bundler 제약, browser 차이, server/client boundary처럼 오해하면 결함이 되는 제약만 설명한다.

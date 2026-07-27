@@ -10,7 +10,6 @@ paths:
 
 ## 코드 작성
 - nullable reference type 설정을 확인하고, null 가능성은 타입과 guard로 명확히 표현한다.
-- public contract 변경은 호출부, 테스트, XML documentation 영향을 함께 확인한다.
 - LINQ는 가독성이 유지되는 범위에서 사용하고, 중첩으로 의도가 흐려지면 명시적 흐름을 우선한다.
 - 의존성 주입, 옵션, 로깅, 설정 구성 패턴은 기존 프로젝트 관례를 따른다.
 
@@ -24,4 +23,3 @@ paths:
 - 기존 테스트 프레임워크와 assertion 스타일을 따른다.
 - 프로젝트 관례가 없고 C# 코드 동작을 바꿨다면 `dotnet test`를 우선 검증 명령으로 고려한다.
 - public API의 XML documentation은 프로젝트가 유지하고 있다면 함께 갱신한다.
-- backward compatibility, framework limitation, exception boundary, async cancellation처럼 오해하면 결함이 되는 제약만 설명한다.

@@ -25,4 +25,3 @@ paths:
 - 프로젝트 관례가 없고 Go 코드 동작을 바꿨다면 `go test ./...`를 우선 검증 명령으로 고려한다.
 - 새 패키지와 새 exported 선언에는 Go doc 주석을 작성하고, 기존 exported 선언 수정으로
   호출자 계약이 달라지면 같은 변경에서 주석을 보완한다. 형식은 표준 godoc 관례를 따른다.
-- error wrapping, goroutine lifecycle, context cancellation처럼 오해하면 결함이 되는 제약만 설명한다.
