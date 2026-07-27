@@ -48,17 +48,19 @@
 
 ## 문서 구조
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
+- 프로젝트 루트 `README.md`·`ROADMAP.md`의 작성 기준은 `commands/project-init.md`가 소유한다.
 - `verify.md`는 만들지 않는다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 부분에만 반영한다.
 
 ## phase 제어
-- 문서 phase(spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
+- 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
+  project-init은 루트 문서가 없는 새 프로젝트에서만 쓰는 선행 단계이며, 기존 프로젝트의 Phased 작업은 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
   정해지지 않은 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 멈추고 확인받는다.
 - Phased / Per-Request mode에 들어가는 조건과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅
-- `/spec-init <name>`은 main이 직접 한다.
+- `/project-init`과 `/spec-init <name>`은 main이 직접 한다.
 - `/context-save`와 `/context-restore`는 main이 직접 한다. 절차와 `CONTEXT.md` 형식은 각 command 파일이 소유한다.
 - `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는 각 command 파일과 `agents/analyzer.md`가 소유한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.

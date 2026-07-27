@@ -28,6 +28,7 @@ Claude Code의 개인 설정 저장소.
 
 - **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
   구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).
+  루트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 feature 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement → verify`. slash command 없이 자연어 prompt만으로 시작한다.
 
 `analyze` skill은 두 흐름 어느 쪽에서도 부를 수 있다 (정의는 `skills/analyze/SKILL.md`).
@@ -48,8 +49,9 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 ### commands/ — slash command 정의
 
-Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill 라우팅 참고).
+Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill 라우팅 참고). 그 앞에 오는 `project-init`만 프로젝트 루트에 쓴다.
 
+- `project-init.md` — 프로젝트 루트 `README.md`와 `ROADMAP.md`를 초기화한다 (`/project-init [프로젝트명]`). 최종 결과물·서비스 완료 기준·마일스톤·feature 후보를 잡으며, feature 문서는 만들지 않는다. 루트 문서가 없는 새 프로젝트에서만 쓴다.
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로 만든다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
 - `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
