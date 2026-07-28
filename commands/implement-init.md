@@ -82,7 +82,7 @@ Task ID 규칙:
 둘 다 허용하며, analysis.md 구조 크기에 맞춰 선택한다.
 
 ## 테스트 Task 포함 기준
-analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 새 경계)을 내비칠 때만 테스트를 더한다. 테스트 코드 작성 범위·예외는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
+analysis.md에 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 새 경계)이 드러날 때만 테스트를 더한다. 테스트 코드 작성 범위·예외는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
 
 회귀 테스트는 구현 Task의 `확인` 필드 안에 둔다. 별도 테스트 Task는 테스트가 여러 구현에 걸치거나 그 자체로 독립된 검증 산출물(예: 여러 흐름을 묶는 e2e)일 때만 둔다.
 
@@ -110,9 +110,6 @@ analysis.md가 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성,
   - spec.md §5에서 해당 기준 제거
   - spec.md §4 제외 범위로 명시적 보류
 - 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 main이 implement.md를 기록하지 않는다 (analyzer도 본문을 확정해 반환하지 않는다).
-
-## 진행 상황 추적
-체크박스 바꾸기는 verify가 `approved`로 판단한 뒤에만 main이 하며, 절차는 `skills/verify/SKILL.md` §verify 후처리에 따른다.
 
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):

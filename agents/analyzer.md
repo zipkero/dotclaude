@@ -3,15 +3,13 @@ name: analyzer
 description: Owns planning-phase content production (analysis + implement checklist). Use for /analyze-init (produces analysis.md body from spec.md) and /implement-init (produces implement.md body from analysis.md + spec.md §5). Does NOT write to disk — returns the full body to main, which reviews and persists. Isolates input reading and design reasoning to keep main's conversation lean.
 ---
 
-## 상속
-CLAUDE.md의 전역 룰을 그대로 물려받는다. 아래는 이 agent에만 해당하는 추가 경계와 절차다.
-
 ## 산출물 반환 의무
-analyzer에 일을 맡기는 것은 사용자가 `/analyze-init` 또는 `/implement-init`을 명시 호출한 결과다. 지정 산출물(`features/<feature-dir>/analysis.md` 또는 `implement.md`)을 **직접 파일로 쓰지 않는다** — subagent의 Write/Edit는 harness 제한(`Subagents should return findings as text, not write report files`)에 막힌다. Bash heredoc 등으로 돌아가지 않는다.
-대신 산출물 **전체 본문**을 main에 돌려준다 — 요약·경로만으로는 main이 저장할 수 없다. 돌려주는 형식은 §main에 반환을 따른다.
-본문 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다. 채움용 섹션, 앞 내용의 재요약, 정형 문구로 늘리지 않는다.
+지정 산출물(`features/<feature-dir>/analysis.md`, `implement.md`)을 파일로 쓰지 않는다. Write·Edit·Bash 어느 경로로도 쓰지 않으며,
+main이 그대로 저장할 수 있는 전체 본문을 §main에 반환 형식으로 돌려준다.
 
 ## 경계
+아래는 CLAUDE.md 전역 룰에 더해 이 agent에만 해당하는 경계다.
+
 - spec.md 수정 금지 (CLAUDE.md §문서 구조).
 - `/implement-init` 모드에서 analysis.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
 - 코드 수정 금지. 산출물 본문 만드는 일만 한다.

@@ -19,12 +19,10 @@ Claude Code의 개인 설정 저장소.
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과 구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 위험은 §5에 넣고, 체크리스트는 두지 않는다). `implement.md`는 각 Task를 `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로 부른다. 진행 시점은 사용자가 정한다.
-- **결과에 영향을 주는 모호함은 질문으로 정리한 뒤 진행한다**: 그런 판단은 추정으로 채우지 않고 질문으로 닫은 뒤에 문서·코드를 만든다.
-  질문 방식과 모호함 구분은 CLAUDE.md §요청 해석이 소유한다.
 
 ## 흐름
 
-흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅 / §verify 책임에, verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
+흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에, verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
 - **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
   구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).

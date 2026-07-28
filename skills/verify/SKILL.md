@@ -64,7 +64,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
    없으면 `없음`으로 적는다. Per-Request mode에서는 항목을 뺀다.
 5. rejected인 경우 — 문제
    - 분류: `style/minor` | `correctness` | `design/scope`
-   - 구체적인 문제를 근거와 함께 늘어놓는다.
+   - 구체적인 문제를 근거와 함께 적는다.
 6. approved인 경우 — 설명
    - 무엇이 어떻게 바뀌었는지 (2-3 문장).
    - 남은 위험 (따로 적을 게 있을 때만).

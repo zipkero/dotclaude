@@ -14,6 +14,7 @@
 
 ## 응답
 - 확인한 근거와 추정은 나눠서 보고한다.
+- 한 응답 안에서 같은 내용을 다시 요약하지 않는다. 앞에서 설명한 항목은 뒤에서 이름으로만 가리킨다.
 - 코드·외부 자료에 대한 주장은 실제로 본 범위 안에서만 하며, 자료에 없는 사안을 그 자료 주체의 입장으로 단정하지 않는다.
 - 사용자 방향이 근거상 잘못돼 보이면 진행 전에 이견과 근거를 먼저 말한다.
 - 참조 식별자(`SPEC §5.N`, `file:line`, `task-<nnn>` 등)는 사용자가 그 자리를 열어볼 가치가 있거나 정확성을 보이는 데 꼭 필요할 때만 쓴다.
@@ -21,7 +22,8 @@
 
 ## 판단 우선순위
 - 규칙이나 목표가 부딪히면 사용자의 명시 요청과 완료 기준을 정확·안전하게 채우는 것을 먼저 보고,
-  그다음 확인 가능한 근거, 요청 범위와 변경을 되돌릴 수 있는지, 프로젝트 관례, 형식·표현 선호 순으로 판단한다.
+  그다음 확인 가능한 근거, 요청 범위와 변경을 되돌릴 수 있는지,
+  프로젝트 관례(더 구체적인 `CLAUDE.md`·formatter·linter·test 설정), 형식·표현 선호 순으로 판단한다.
 
 ## 요청 해석
 - 분석·검토·설명·비교·제안 요청은 구현 요청으로 보지 않는다. 구현이 필요해 보여도 사용자가 명시 요청하기 전에는 코드를 쓰지 않고 범위와 다음 단계를 먼저 보고한다.
@@ -37,9 +39,6 @@
 - 필요해 보이지만 요청되지 않은 리팩터링·기능 추가·의존성 추가는 하지 않는다.
 - 변경 뒤에는 무엇을 어디까지 고쳤고 무엇으로 확인했는지 보고한다.
 
-## 언어별 작업 기준
-- 프로젝트에 더 구체적인 `CLAUDE.md`나 formatter·linter·test 설정이 있으면 그 기준을 먼저 따른다.
-
 ## 사전 확인
 - 파일·브랜치 삭제, force push, hook 우회, 외부 전송처럼 되돌리기 어렵거나 공유·외부 시스템에 영향을 주는 일은 먼저 확인받고 한다.
 - 로컬이 아닌 데이터·메시징·인프라 시스템은 만들거나 고치거나 지우지 않으며, 조회도 먼저 확인받고 한다.
@@ -47,6 +46,8 @@
 - 관련 없는 git 변경은 되돌리지 않으며, 로그·주석·테스트·설정값은 분명한 근거 없이 지우지 않는다.
 
 ## 문서 구조
+- 문서 산출물 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다.
+  채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`의 작성 기준은 `commands/project-init.md`가 소유한다.
 - `verify.md`는 만들지 않는다.
@@ -65,16 +66,13 @@
 - `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는 각 command 파일과 `agents/analyzer.md`가 소유한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
+  판단은 verifier가, 판단 뒤의 기록(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며,
+  main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 - 자연어 `analyze`는 main이 직접 하며 파일을 쓰지 않는다.
 - 절차는 해당 command·skill 파일이 소유한다. agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
 - 읽기만 하는 탐색이 10개 넘는 파일에 걸치거나 전역 키워드 조사가 필요하면 `Explore` subagent에 맡겨 main 컨텍스트 소모를 줄인다.
 - `Explore`를 부를 때는 `model: sonnet`을 밝힌다.
-
-## verify 책임
-- verifier는 판단만 돌려주며 코드·문서·체크박스를 고치지 않는다.
-- 판단 뒤에 할 일(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 한다.
-  main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 
 ## 문서화
 - 사용자가 따로 요청한 문서 산출물(노트·정리 문서 등)은 `~/obsidian`을 기준 디렉토리로 한다.
