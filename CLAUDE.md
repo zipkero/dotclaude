@@ -64,6 +64,7 @@
 - `/project-init`과 `/spec-init <name>`은 main이 직접 한다.
 - `/context-save`와 `/context-restore`는 main이 직접 한다. 절차와 `CONTEXT.md` 형식은 각 command 파일이 소유한다.
 - `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는 각 command 파일과 `agents/analyzer.md`가 소유한다.
+- `/implement-loop <dir>`은 main이 루프를 돌리며, 각 반복의 `implement`·`verify`는 아래 Phased 라우팅을 그대로 따른다. 반복·재시도·정지 조건은 `commands/implement-loop.md`가 소유한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
   판단은 verifier가, 판단 뒤의 기록(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며,
