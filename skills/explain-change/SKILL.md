@@ -1,6 +1,8 @@
 ---
 name: explain-change
-description: "Explain a code change, diff, commit, branch, or pull request through its background, core idea, behavior flow, implementation, and trade-offs. Read-only. Invoked explicitly as /explain-change."
+description: >-
+  Explain a code change, diff, commit, branch, or pull request through its background, core idea, behavior flow, implementation, and trade-offs.
+  Read-only. Invoked explicitly as /explain-change.
 disable-model-invocation: true
 ---
 

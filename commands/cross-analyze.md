@@ -1,8 +1,12 @@
 ---
-description: Launch N independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
+description: >-
+  Launch N independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a
+  consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior
+  question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
 ---
 
-> 사용 시점: 결론의 신뢰도가 중요해 여러 agent에게 같은 질문을 독립적으로 풀게 하고, main이 그 결과를 교차검증해 합의·불일치를 가려내고 싶을 때. 단일 관점으로 충분하면 자연어 `analyze`를 쓴다.
+> 사용 시점: 결론의 신뢰도가 중요해 여러 agent에게 같은 질문을 독립적으로 풀게 하고, main이 그 결과를 교차검증해 합의·불일치를 가려내고 싶을 때. 단일
+> 관점으로 충분하면 자연어 `analyze`를 쓴다.
 
 Scope: $ARGUMENTS
 
@@ -14,17 +18,20 @@ Scope: $ARGUMENTS
 `$ARGUMENTS` 파싱:
 - 맨 앞 토큰이 정수면 그 값을 **agent 수 N**으로 쓰고, 나머지를 분석 대상으로 본다. (예: `/cross-analyze 5 <질문>`)
 - 정수가 없으면 **N=3**(기본), 전체를 분석 대상으로 본다.
-- 대상이 비어 있으면 직전 대화 맥락에서 "가장 최근에 논의된 미해결 분석 질문"을 후보로 잡고, 본문 착수 전에 "이 질문을 N개로 교차분석하겠다"를 한 줄로 먼저 보고한다. 후보가 분명하지 않으면 질문으로 정리한다.
+- 대상이 비어 있으면 직전 대화 맥락에서 "가장 최근에 논의된 미해결 분석 질문"을 후보로 잡고, 본문 착수 전에 "이 질문을 N개로 교차분석하겠다"를 한 줄로
+  먼저 보고한다. 후보가 분명하지 않으면 질문으로 정리한다.
 
 ## 절차
 
-1. 분석 브리프 1개 작성 — main이 대상 질문을 다음을 포함한 단일 프롬프트로 정리한다. 이 프롬프트는 **모든 agent에게 문구까지 똑같이** 전달한다 (결론이 모이는지 보는 게 목적이므로 각도를 다르게 주지 않는다).
+1. 분석 브리프 1개 작성 — main이 대상 질문을 다음을 포함한 단일 프롬프트로 정리한다. 이 프롬프트는 **모든 agent에게 문구까지 똑같이** 전달한다
+   (결론이 모이는지 보는 게 목적이므로 각도를 다르게 주지 않는다).
    - 분석 질문(무엇을 답해야 하는가)과 반드시 답할 하위 질문 목록
    - 읽어야 할 핵심 파일/심볼 경로 힌트(아는 범위에서). 절대경로로.
    - 출력 규칙(아래 §agent 프롬프트 고정 규칙)
 2. N개 agent 병렬 실행 — `general-purpose` subagent N개를 한 메시지에서 동시에 띄운다(각각 별도 Agent 호출). 동일 프롬프트를 넣는다.
 3. 완료 대기 — 전부 완료될 때까지 기다린다. 중간에 main이 같은 파일을 직접 분석해 작업을 중복하지 않는다.
-4. 교차검증 — 반환된 N개 보고를 §교차검증 규칙으로 대조해 하나로 합친다. 필요하면 main이 결정적 근거 1~2곳만 직접 열어 확인하고, 전면 재분석은 하지 않는다.
+4. 교차검증 — 반환된 N개 보고를 §교차검증 규칙으로 대조해 하나로 합친다. 필요하면 main이 결정적 근거 1~2곳만 직접 열어 확인하고, 전면 재분석은 하지
+   않는다.
 5. 보고 — §출력 구조로 사용자에게 보고한다.
 
 ## agent 프롬프트 고정 규칙
@@ -38,9 +45,11 @@ Scope: $ARGUMENTS
 
 ## 교차검증 규칙
 - **합의**: N개 중 다수가 같은 근거(가능하면 같은 file:line)로 도달한 결론. "N/N" 또는 "몇 개가 동의했는지"를 표기한다.
-- **불일치**: 결론이 갈린 지점은 숨기지 않는다. 누가 무엇을 다르게 말했는지, 어느 쪽 근거가 더 강한지(직접 확인한 line 기준)를 적는다. 필요 시 main이 해당 line만 열어 판정한다.
+- **불일치**: 결론이 갈린 지점은 숨기지 않는다. 누가 무엇을 다르게 말했는지, 어느 쪽 근거가 더 강한지(직접 확인한 line 기준)를 적는다. 필요 시 main이
+  해당 line만 열어 판정한다.
 - **단독 발견**: 한 agent만 짚은 유효한 발견도 근거가 확인되면 채택하고 "단독 발견"으로 표기한다.
-- **사실/추정 통합**: agent별 사실/추정을 합쳐, 최종적으로 확인된 사실과 남은 추정을 다시 가른다. 한 agent가 "추정"이라 한 걸 다른 agent가 line으로 확인했으면 "사실"로 승격한다.
+- **사실/추정 통합**: agent별 사실/추정을 합쳐, 최종적으로 확인된 사실과 남은 추정을 다시 가른다. 한 agent가 "추정"이라 한 걸 다른 agent가 line으로
+  확인했으면 "사실"로 승격한다.
 - agent가 지정 파일을 못 찾았거나 다른 파일로 대신했으면 그 한계를 보고에 명시한다(결론 신뢰도에 영향).
 
 ## 출력 구조
@@ -77,4 +86,5 @@ Scope: $ARGUMENTS
 - 사용자가 결론을 받고 추가 분석·구현 여부를 지시하기를 기대한다. 자동으로 이어가지 않는다.
 
 ## 핵심 질문
-> 같은 질문을 독립적으로 풀었을 때 결론이 한곳으로 모이는가? 갈린 지점은 어디이고, 근거로 어느 쪽이 옳은가? 확정된 사실과 아직 추정인 것은 각각 무엇인가?
+> 같은 질문을 독립적으로 풀었을 때 결론이 한곳으로 모이는가? 갈린 지점은 어디이고, 근거로 어느 쪽이 옳은가? 확정된 사실과 아직 추정인 것은 각각
+> 무엇인가?

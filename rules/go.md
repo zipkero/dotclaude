@@ -6,7 +6,7 @@ paths:
 # Go 작업 기준
 
 ## 적용 범위
-- 이 문서는 전역 기본값이다. 프로젝트의 `CLAUDE.md`, `go.mod`, formatter, linter, test 설정이 있으면 그 기준을 우선한다.
+- 프로젝트에 `go.mod`, formatter, linter, test 설정이 있으면 그 기준을 우선한다.
 
 ## 코드 작성
 - `gofmt` 또는 `go fmt` 결과를 기준으로 삼는다.

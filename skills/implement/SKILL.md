@@ -1,17 +1,23 @@
 ---
 name: implement
-description: "Execute the next Task from features/<feature-dir>/implement.md. For Per-Request prompts without a feature directory, execute the requested change directly."
+description: >-
+  Execute the next Task from features/<feature-dir>/implement.md. For Per-Request prompts without a feature directory, execute the requested change
+  directly.
 ---
 
 ## 컨텍스트 로딩
 1. Phased mode — 다음 둘 중 하나일 때 들어간다.
    - `$ARGUMENTS`가 `features/<feature-dir>/` 또는 `features/<feature-dir>/implement.md`와 매치하거나,
-   - 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리키는 경우. 이 범위의 뜻은 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` / `/analyze-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이 feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
+   - 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리키는 경우. 이 범위의 뜻은 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` /
+     `/analyze-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이
+     feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
 
    동작:
    - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
    - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
-   - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건 필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task를 다시 나눠야 한다고 보고한다.
+   - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건
+     필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task를 다시
+     나눠야 한다고 보고한다.
 2. Per-Request mode — Phased mode의 어느 조건도 맞지 않을 때 들어간다.
    - `features/<feature-dir>/`를 만들지 않는다.
    - 파일을 고치기 전에 CLAUDE.md §요청 해석에 따라 결과를 실제로 바꾸는 모호함만 질문으로 정리한다.
@@ -23,12 +29,22 @@ description: "Execute the next Task from features/<feature-dir>/implement.md. Fo
 - 새 의존성·설정 항목
 - 요청한 변경이 앞뒤가 맞는 데 필요한 범위를 넘는 인접 코드 리팩터링
 
-이 중 어느 것이라도 요청을 채우는 데 필요해 보이면, 코드를 쓰지 말고 사용자에게 먼저 의견을 묻는다. 사용자가 명시적으로 허락한 경우에만 진행한다. 조용히 범위를 넓히지 않으며, 사용자에게 `/spec-init`로 옮기라고 안내하지도 않는다 — 사용자가 slash command를 부르지 않은 것 자체가 Per-Request 선택이다.
+이 중 어느 것이라도 요청을 채우는 데 필요해 보이면, 코드를 쓰지 말고 사용자에게 먼저 의견을 묻는다. 사용자가 명시적으로 허락한 경우에만 진행한다.
+조용히 범위를 넓히지 않으며, 사용자에게 `/spec-init`로 옮기라고 안내하지도 않는다 — 사용자가 slash command를 부르지 않은 것 자체가 Per-Request
+선택이다.
 
-또한 현재 Task(Per-Request에서는 사용자 요청) 범위 밖에서 찾은 문제(기존 버그, 잘못된 주석, dead code 등)는 같은 응답에서 고치지 않고 §출력 구조의 비고·한계 항목에 보고만 한다.
+또한 현재 Task(Per-Request에서는 사용자 요청) 범위 밖에서 찾은 문제(기존 버그, 잘못된 주석, dead code 등)는 같은 응답에서 고치지 않고 §출력 구조의
+비고·한계 항목에 보고만 한다.
 
 ## 미결정 분석 시 중단
-analysis.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면, 코드를 쓰지 말고 사용자에게 결정을 먼저 묻는다. 부분 산출물을 임시로 저장하지 않으며, 결정이 난 뒤 작업을 다시 시작한다.
+analysis.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면, 코드를 쓰지 말고
+사용자에게 결정을 먼저 묻는다. 부분 산출물을 임시로 저장하지 않으며, 결정이 난 뒤 작업을 다시 시작한다.
+
+## 재작업 시 파급 점검
+verify가 reject한 Task를 다시 구현할 때는 지적받은 자리만 고치고 끝내지 않는다. 앞선 시도에 이미 성립했던 동작과
+이미 `[x]`인 Task가 만든 동작이 그대로인지, 변경 범위에 걸리는 기존 테스트·빌드가 여전히 통과하는지 확인한다.
+영향이 있으면 같은 재작업 안에서 함께 고치고, 설계 변경이 필요하면 고치지 않고 §출력 구조 접근 이탈로 보고한다.
+확인하지 못한 항목은 §출력 구조 비고·한계에 밝힌다.
 
 ## 출력 구조
 main에 돌려주는 보고는 다음을 담는다. 해당 항목이 없으면 뺀다.
@@ -42,8 +58,10 @@ main에 돌려주는 보고는 다음을 담는다. 해당 항목이 없으면 �
    - 목적·검증 조건·참조를 바꾸지 않고 접근만 고쳐도 되는 근거
 
 ## 완료
-- Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리). 다음 단계로 `verify`를 권하되, 사용자가 구현과 검증 전체를 명시 요청한 경우에는 `verify`를 이어서 한다(CLAUDE.md §phase 제어).
-- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 analysis.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그 Task의 접근 필드를 실제 구현 방식으로 고친다.
+- Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리). 다음 단계로 `verify`를 권하되,
+  사용자가 구현과 검증 전체를 명시 요청한 경우에는 `verify`를 이어서 한다(CLAUDE.md §phase 제어).
+- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 analysis.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그
+  Task의 접근 필드를 실제 구현 방식으로 고친다.
 - 설계 결정이나 목적·검증 조건·참조가 바뀌어야 하는 이탈이면 문서를 고치지 않고 analysis.md 또는 implement.md를 다시 써야 한다고 사용자에게 보고한다.
 - Per-Request mode: 문서를 고치지 않는다.
 
@@ -54,11 +72,15 @@ implement는 **테스트 Task에 한해서만** 테스트 코드를 쓴다. 다�
 
 버그 수정 예외: 고친 버그를 다시 재현하는 회귀 테스트 하나는 함께 넣을 수 있다. feature 추가는 이 예외에 해당하지 않는다.
 
-Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있는 회귀 위험이 있으면 §출력 구조 비고·한계 항목에 빠진 것을 밝히고, 더할지는 사용자가 다음 응답에서 정한다. 기존 테스트가 변경 범위에 비해 모자라 보일 때도 똑같이 한다.
+Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있는 회귀 위험이 있으면 §출력 구조 비고·한계 항목에 빠진 것을 밝히고, 더할지는 사용자가
+다음 응답에서 정한다. 기존 테스트가 변경 범위에 비해 모자라 보일 때도 똑같이 한다.
 
-테스트를 쓸 때든 기존 테스트를 마주할 때든, 구현의 근거는 `목적`·`참조(SPEC §5)`이지 테스트가 아니다. 특정 테스트를 통과시키려고 `목적`에 없는 값을 하드코딩하거나 그 경우만 따로 빼지 않는다. 테스트가 실패하면 `목적` 기준으로 구현과 테스트 중 무엇이 틀렸는지 가려내고, 어느 쪽도 spec.md 완료 조건을 약하게 만드는 방향으로는 고치지 않는다.
+테스트를 쓸 때든 기존 테스트를 마주할 때든, 구현의 근거는 `목적`·`참조(SPEC §5)`이지 테스트가 아니다. 특정 테스트를 통과시키려고 `목적`에 없는 값을
+하드코딩하거나 그 경우만 따로 빼지 않는다. 테스트가 실패하면 `목적` 기준으로 구현과 테스트 중 무엇이 틀렸는지 가려내고, 어느 쪽도 spec.md 완료 조건을
+약하게 만드는 방향으로는 고치지 않는다.
 
-테스트 Task가 implement.md에 들어가는 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, verify 때의 테스트 근거 규칙은 `skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
+테스트 Task가 implement.md에 들어가는 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, verify 때의 테스트 근거 규칙은
+`skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
 
 ## 지침
 - 기존 관례를 따른다 — 같은 디렉토리 기존 파일의 이름 짓기·구조·에러 처리 패턴에 맞춘다.
@@ -67,6 +89,7 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
   - 파일 배치·분리가 Task 접근 필드의 힌트와 부딪히면 디렉토리 관례를 먼저 따른다.
 - 같은 개념을 가리키는 타입·필드·메서드·테스트 설명은 같은 말로 쓰고,
   외부 스키마·프로토콜·사용자 입력에서 온 이름은 경계에서 그대로 둔다.
-- 요청 범위 안의 변경이 책임 나누기·경계·공개 계약·상태를 누가 가지는지·의존 방향에 영향을 주면, 그 영향을 해당 언어·프로젝트 관례에 맞는 설계 기준으로 판단한 뒤 반영한다.
-- 코드 주석은 `rules/code-common.md` §주석 작성 기준을 따른다. `rules/`는 작업 디렉토리 안의 매칭 파일을 읽을 때만 로드되므로,
-  그 기준이 컨텍스트에 없으면 코드를 고치기 전에 파일을 읽는다.
+- 요청 범위 안의 변경이 책임 나누기·경계·공개 계약·상태를 누가 가지는지·의존 방향에 영향을 주면, 그 영향을 해당 언어·프로젝트 관례에 맞는 설계
+  기준으로 판단한 뒤 반영한다.
+- 코드 주석은 `rules/code-common.md` §주석 작성 기준을 따른다. 고치는 파일이 그 파일 `paths`에 걸리지 않는 언어면
+  코드를 고치기 전에 `rules/code-common.md`를 읽는다.

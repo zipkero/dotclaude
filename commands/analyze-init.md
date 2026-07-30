@@ -9,18 +9,21 @@ description: Create analysis.md (analysis + design) under features/<feature-dir>
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 analysis.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환 의무).
+analyzer agent가 아래 구조·규칙대로 analysis.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환
+의무).
 main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해결 결정이 남아 있으면 기록 전에 질문으로 정리해(방식은 CLAUDE.md §요청 해석)
-그 결과를 §5 Decision Points의 채택 옵션으로 반영한 뒤 `features/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을 수행한다.
+그 결과를 §5 Decision Points의 채택 옵션으로 반영한 뒤 `features/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을
+수행한다.
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 담는다 — 그래야 implement.md를 순수 체크리스트로 둘 수 있다.
 - 정적 문서이며 진행 상황을 추적하는 문서가 아니다.
 - 자기 완결적이어야 한다. 새 세션(`/clear` 이후)에서도 `spec.md + analysis.md`만으로 implement.md를 만들 수 있어야 한다.
-- spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는 평문으로 풀어 적는다.
+- spec.md §5 완료 조건의 본문 텍스트를 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는
+  평문으로 풀어 적는다.
 
 ## 전제 조건
-- feature directory가 비어 있으면 중단한다. 안내: "feature directory(`<yyyyMMdd>-<nnn>-<feature-name>`)를 인자로 전달하세요. 예: `/analyze-init 20260506-001-payment-integration`"
+- feature directory가 비어 있으면 중단한다. 안내: "feature directory를 인자로 전달하세요. 예: `/analyze-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
 - spec.md 승인 전 확인 섹션에 남아 있는 항목은 미답으로 보고 진행 전에 질문으로 정리한다(`(보류)` 표기 항목은 제외).
   답으로 요구사항이 바뀌면 spec.md를 먼저 고친 뒤 analysis.md를 작성한다(CLAUDE.md §문서 구조).
@@ -29,7 +32,8 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 
 ## 덮어쓰기 규칙
 - `analysis.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
-- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
+- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
+  implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 
 ## analysis.md 구조
 
@@ -42,8 +46,10 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 - 항목은 `- <판단 질문>. 관련 본문: §N` 형식으로 쓴다. 질문에는 그 feature에서 무엇이 걸려 있는지가 드러나야 한다.
 - 본문을 요약·복제하는 진술은 두지 않는다 — 채택 옵션 재서술이나 Decision Point 개수 같은 파생 내용이 그 예다.
 - 질문은 본문 결정을 다시 여는 형태("A와 B 중 무엇을 고를까")가 아니라 채택안이 의도와 맞는지 확인하는 형태로 쓴다.
-- 구현 Task가 갈릴 정도의 미해결 결정은 §5에 미정으로 남기기 전에 질문으로 정리한다(§실행 주체). 사용자가 명시적으로 보류한 결정만 §5 Decision Points에 미해결로 남기고, 여기에는 그에 대한 판단 질문만 둔다.
-- 근거·§1–§5 앞에 두는 서문이며 번호를 매기지 않는다. `§N` 참조 대상이 아니다. 본문 섹션을 갱신할 때 질문과 위치 참조가 여전히 유효한지 함께 확인한다.
+- 구현 Task가 갈릴 정도의 미해결 결정은 §5에 미정으로 남기기 전에 질문으로 정리한다(§실행 주체). 사용자가 명시적으로 보류한 결정만 §5 Decision
+  Points에 미해결로 남기고, 여기에는 그에 대한 판단 질문만 둔다.
+- 근거·§1–§5 앞에 두는 서문이며 번호를 매기지 않는다. `§N` 참조 대상이 아니다. 본문 섹션을 갱신할 때 질문과 위치 참조가 여전히 유효한지 함께
+  확인한다.
 
 ### 근거
 - 작성 전에 실제로 읽은 spec.md 범위와, 코드베이스에서 확인한 사실(기존 경계·타입·삭제 여부 등)을 적는다.
@@ -93,8 +99,11 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 - 체크박스(`- [ ]` / `- [x]`)를 두지 않는다. ANALYSIS는 정적 문서다.
 - 구현 체크리스트·파일별 TODO·Task 순서는 두지 않는다 (implement.md 소관).
 - 저수준 코딩 디테일(변수명, 루프 본문, private helper)은 다루지 않는다.
-- 추측성 항목은 두지 않는다 — 일반 보안·성능·규정·계약 체크리스트, 가정에 기댄 실패 경우, spec.md·코드·사용자 prompt에 근거 없는 호환성·마이그레이션 우려.
-- 승인 전 확인·근거·§1–§5 외의 섹션은 두지 않는다. 특히: 'SPEC 추적' 매트릭스(spec.md §5 연결은 해당 설계를 기술하는 본문에 `SPEC §5.N`을 인라인으로 달아 표현하고, Task 단위 매핑은 implement.md 참조 필드가 소유한다), 독립 '위험' 섹션(설계를 막는 위험은 §5 Decision Points에 푸는 옵션과 짝지어 둔다), 독립 '검증 관점' 섹션(Task별 검증은 implement.md 검증 조건이 소유한다), '열린 질문' 섹션.
+- 추측성 항목은 두지 않는다 — 일반 보안·성능·규정·계약 체크리스트, 가정에 기댄 실패 경우, spec.md·코드·사용자 prompt에 근거 없는 호환성·마이그레이션
+  우려.
+- 승인 전 확인·근거·§1–§5 외의 섹션은 두지 않는다. 특히: 'SPEC 추적' 매트릭스(spec.md §5 연결은 해당 설계를 기술하는 본문에 `SPEC §5.N`을 인라인으로
+  달아 표현하고, Task 단위 매핑은 implement.md 참조 필드가 소유한다), 독립 '위험' 섹션(설계를 막는 위험은 §5 Decision Points에 푸는 옵션과 짝지어
+  둔다), 독립 '검증 관점' 섹션(Task별 검증은 implement.md 검증 조건이 소유한다), '열린 질문' 섹션.
 
 ## 후속 단계 계약
 - `/implement-init <feature-dir>`이 analysis.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.

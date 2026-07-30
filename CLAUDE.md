@@ -10,7 +10,8 @@
 - 출력 구조의 항목 라벨은 한 파일 안에서 언어를 통일한다.
 - 코드 주석은 한국어로 쓴다. 단, 대상 파일이나 같은 디렉토리에 뚜렷한 영어 주석 관례가 있으면 그 관례를 따른다.
 - `features/<feature-dir>/` 산출물은 한국어로 쓴다.
-- Markdown 문서(`features/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다. 표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
+- Markdown 문서(`features/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다.
+  표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
 
 ## 응답
 - 확인한 근거와 추정은 나눠서 보고한다.
@@ -18,7 +19,8 @@
 - 코드·외부 자료에 대한 주장은 실제로 본 범위 안에서만 하며, 자료에 없는 사안을 그 자료 주체의 입장으로 단정하지 않는다.
 - 사용자 방향이 근거상 잘못돼 보이면 진행 전에 이견과 근거를 먼저 말한다.
 - 참조 식별자(`SPEC §5.N`, `file:line`, `task-<nnn>` 등)는 사용자가 그 자리를 열어볼 가치가 있거나 정확성을 보이는 데 꼭 필요할 때만 쓴다.
-- before/after를 보여주는 응답(변경 제안·회고 포함)은 `diff` 코드 블록의 `-`/`+` 줄로 표현하고, 평문으로 나열하지 않는다. before/after가 없는 사실 설명·구조 설명에는 적용하지 않는다.
+- before/after를 보여주는 응답(변경 제안·회고 포함)은 `diff` 코드 블록의 `-`/`+` 줄로 표현하고, 평문으로 나열하지 않는다. before/after가 없는 사실
+  설명·구조 설명에는 적용하지 않는다.
 
 ## 판단 우선순위
 - 규칙이나 목표가 부딪히면 사용자의 명시 요청과 완료 기준을 정확·안전하게 채우는 것을 먼저 보고,
@@ -26,10 +28,13 @@
   프로젝트 관례(더 구체적인 `CLAUDE.md`·formatter·linter·test 설정), 형식·표현 선호 순으로 판단한다.
 
 ## 요청 해석
-- 분석·검토·설명·비교·제안 요청은 구현 요청으로 보지 않는다. 구현이 필요해 보여도 사용자가 명시 요청하기 전에는 코드를 쓰지 않고 범위와 다음 단계를 먼저 보고한다.
-- 코드·문서·실행으로 확인할 수 있는 것은 묻지 않고 먼저 조사한다. 의도·산출물·변경 범위·성공 기준의 해석 차이가 결과를 실제로 바꿀 때만 질문으로 정리한 뒤 문서 작성이나 파일 수정을 시작한다.
+- 분석·검토·설명·비교·제안 요청은 구현 요청으로 보지 않는다. 구현이 필요해 보여도 사용자가 명시 요청하기 전에는 코드를 쓰지 않고 범위와 다음 단계를
+  먼저 보고한다.
+- 코드·문서·실행으로 확인할 수 있는 것은 묻지 않고 먼저 조사한다. 의도·산출물·변경 범위·성공 기준의 해석 차이가 결과를 실제로 바꿀 때만 질문으로
+  정리한 뒤 문서 작성이나 파일 수정을 시작한다.
 - 되돌리기 어렵거나 밖에 영향을 주거나 이후 작업의 기준이 되는 판단은 추정으로 채우지 않는다.
-- 서로 독립인 질문은 한 번에 묶어 묻고, 앞선 답에 따라 달라지는 질문만 순서대로 묻는다. 각 질문에는 권하는 답과 근거, 다른 선택의 대가를 짧게 함께 적는다.
+- 서로 독립인 질문은 한 번에 묶어 묻고, 앞선 답에 따라 달라지는 질문만 순서대로 묻는다. 각 질문에는 권하는 답과 근거, 다른 선택의 대가를 짧게 함께
+  적는다.
 - 사용자가 잘 모르는 분야라 질문에 답하기 어려워 보이면, 선택지와 판단 기준을 먼저 설명한 뒤 묻는다.
 - 답을 받으면 남은 모호함을 다시 보고, 결과를 바꾸는 모호함이 남아 있으면 추가 질문으로 닫는다.
 - 결과에 영향이 없고 되돌리기 쉬운 세부는 기존 관례를 따르고, 가정을 두면 응답에 밝힌다.
@@ -63,17 +68,20 @@
 ## agent·skill 라우팅
 - `/project-init`과 `/spec-init <name>`은 main이 직접 한다.
 - `/context-save`와 `/context-restore`는 main이 직접 한다. 절차와 `CONTEXT.md` 형식은 각 command 파일이 소유한다.
-- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는 각 command 파일과 `agents/analyzer.md`가 소유한다.
-- `/implement-loop <dir>`은 main이 루프를 돌리며, 각 반복의 `implement`·`verify`는 아래 Phased 라우팅을 그대로 따른다. 반복·재시도·정지 조건은 `commands/implement-loop.md`가 소유한다.
-- 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
+- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는
+  각 command 파일과 `agents/analyzer.md`가 소유한다.
+- `/implement-loop <dir>`은 main이 루프를 돌리며, 각 반복의 `implement`·`verify`는 아래 Phased 라우팅을 그대로 따른다. 반복·재시도·정지 조건은
+  `commands/implement-loop.md`가 소유한다.
+- 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은
+  `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
   판단은 verifier가, 판단 뒤의 기록(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며,
   main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 - 자연어 `analyze`는 main이 직접 하며 파일을 쓰지 않는다.
 - 절차는 해당 command·skill 파일이 소유한다. agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
-- 읽기만 하는 탐색이 10개 넘는 파일에 걸치거나 전역 키워드 조사가 필요하면 `Explore` subagent에 맡겨 main 컨텍스트 소모를 줄인다.
-- `Explore`를 부를 때는 `model: sonnet`을 밝힌다.
+- subagent 모델은 역할로 정한다. 설계·판단은 부모 모델을 상속하고, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`을 쓴다.
+- 한 작업을 쪼개려고 subagent를 여러 개 띄우지 않는다. 하나로 끝나면 하나만 쓴다.
 
 ## 문서화
 - 사용자가 따로 요청한 문서 산출물(노트·정리 문서 등)은 `~/obsidian`을 기준 디렉토리로 한다.

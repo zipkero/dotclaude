@@ -4,6 +4,8 @@ paths:
   - "**/*.cs"
   - "**/*.{js,jsx,mjs,cjs}"
   - "**/*.{ts,tsx,mts,cts}"
+  - "**/*.{py,pyi}"
+  - "**/*.{kt,kts}"
 ---
 
 # 언어 공통 작업 기준

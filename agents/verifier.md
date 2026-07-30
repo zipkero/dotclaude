@@ -1,7 +1,8 @@
 ---
 name: verifier
-description: Owns the verification phase in Phased mode. Use for verify skill invocations that target a Task in features/<feature-dir>/implement.md (judgment only). Per-Request verify is handled by main directly. Returns approved/rejected with evidence; main flips checkboxes per §verify 후처리.
-model: sonnet
+description: >-
+  Owns the verification phase in Phased mode. Use for verify skill invocations that target a Task in features/<feature-dir>/implement.md (judgment
+  only). Per-Request verify is handled by main directly. Returns approved/rejected with evidence; main flips checkboxes per §verify 후처리.
 ---
 
 ## 동작

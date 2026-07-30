@@ -1,10 +1,12 @@
 ---
-description: Create project-level README.md and ROADMAP.md that define the target outcome, service completion criteria, milestones, and feature entry points
+description: >-
+  Create project-level README.md and ROADMAP.md that define the target outcome, service completion criteria, milestones, and feature entry points
 ---
 
 > 사용 시점: 프로젝트 최초 문서화 단계. Phased 흐름보다 앞서며, ROADMAP의 마일스톤별 feature 후보가 `/spec-init`의 입력이 된다.
 
-프로젝트 루트 `README.md`와 `ROADMAP.md`를 작성한다. README는 프로젝트의 정체성·목적·현재 사용 방법·문서 진입점을 소유하고, ROADMAP은 최종 결과물·서비스 완료 기준·포함 범위·마일스톤·최종 관문·보류 범위를 소유한다.
+프로젝트 루트 `README.md`와 `ROADMAP.md`를 작성한다. README는 프로젝트의 정체성·목적·현재 사용 방법·문서 진입점을 소유하고, ROADMAP은 최종
+결과물·서비스 완료 기준·포함 범위·마일스톤·최종 관문·보류 범위를 소유한다.
 
 프로젝트 이름 또는 한 줄 설명: $ARGUMENTS
 
@@ -20,7 +22,8 @@ description: Create project-level README.md and ROADMAP.md that define the targe
 - README 문구만 고치는 작고 명확한 변경은 이 command 없이 Per-Request로 처리한다.
 - 작성 전에 기존 `README.md`·`ROADMAP.md`, 주요 manifest, 기존 문서, 코드 구조를 확인한다.
 - 인자가 비어 있으면 프로젝트 이름은 저장소·manifest에서 확인한 값을 쓰고, 확인되지 않으면 질문한다.
-- 최종 결과물, 핵심 사용자, 목표 제공 수준, 서비스 완료 기준, 포함 범위, 보류 범위의 해석 차이가 결과를 바꾸면 문서 작성 전에 질문으로 정리한다(방식은 CLAUDE.md §요청 해석).
+- 최종 결과물, 핵심 사용자, 목표 제공 수준, 서비스 완료 기준, 포함 범위, 보류 범위의 해석 차이가 결과를 바꾸면 문서 작성 전에 질문으로 정리한다(방식은
+  CLAUDE.md §요청 해석).
 - 미확정 판단이 남아 있으면 추정으로 채워 문서를 생성하지 않는다.
 
 ## 산출 경로
@@ -35,7 +38,8 @@ description: Create project-level README.md and ROADMAP.md that define the targe
 ## 작성 규칙
 - 기술 선택, 명령어, 현재 동작은 확인한 파일이나 실행 결과에 근거해서만 단정한다.
 - 확인되지 않은 설치 방법, 실행 명령, 지원 기능, 성능 목표, 운영 보장은 추정으로 쓰지 않는다.
-- 마일스톤은 이 단계에서 완성되는 검증 가능한 결과, 의존 관계, 전환 기준만 정의한다. feature별 상세 완료 조건과 검증 기준은 `/spec-init` 이후에서 확정한다.
+- 마일스톤은 이 단계에서 완성되는 검증 가능한 결과, 의존 관계, 전환 기준만 정의한다. feature별 상세 완료 조건과 검증 기준은 `/spec-init` 이후에서
+  확정한다.
 - 최종 관문은 목표 제공 수준에 별도 관문이 필요한 경우에만 쓰고, 근거 없는 운영 환경 요구사항을 관례적으로 추가하지 않는다.
 - feature 문서 후보는 kebab-case 이름으로만 제시한다.
 - 보류·제외 범위는 사용자가 언급했거나 최종 결과물과 직접 경계를 이루는 항목만 적는다.

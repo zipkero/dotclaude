@@ -7,7 +7,7 @@ paths:
 # JavaScript / TypeScript 작업 기준
 
 ## 적용 범위
-- 이 문서는 전역 기본값이다. 프로젝트의 `CLAUDE.md`, `package.json`, lockfile, ESLint, Prettier, `tsconfig` 설정이 있으면 그 기준을 우선한다.
+- 프로젝트에 `package.json`, lockfile, ESLint, Prettier, `tsconfig` 설정이 있으면 그 기준을 우선한다.
 
 ## 코드 작성
 - 패키지 매니저는 lockfile 기준으로 판단한다: `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`.
