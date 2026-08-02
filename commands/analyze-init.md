@@ -33,6 +33,8 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 ## 덮어쓰기 규칙
 - `analysis.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
 - `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다.
+- 작성 또는 재작성 뒤 README의 `SPEC`은 `[x]`로 유지하고 `ANALYSIS`, `IMPLEMENT`를 `[ ]`로 둔다.
+- 기존 `implement.md`는 파일과 Task 내용·ID·순서를 보존하고 모든 Task 체크박스만 `[ ]`로 바꾼다.
 
 ## analysis.md 구조
 
@@ -92,7 +94,6 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 ## README 갱신
 완료 시 (analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
 - README.md의 `SPEC`은 `[x]`로 유지하고 `ANALYSIS`, `IMPLEMENT`는 `[ ]`로 둔다.
-- 기존 `implement.md`는 파일과 Task 내용·ID·순서를 보존하고 모든 Task 체크박스만 `[ ]`로 바꾼다.
 - 새로 작성하면 `- <yyyy-MM-dd>: ANALYSIS 작성`, 다시 작성하면
   `- <yyyy-MM-dd>: ANALYSIS 재작성으로 구현 승인 상태 초기화`를 작업 히스토리에 추가한다.
 - 작성만으로 `ANALYSIS`를 `[x]`로 바꾸지 않는다. 승인은 `/verify-analysis` 뒤 main이 수행한다.

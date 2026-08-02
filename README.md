@@ -28,6 +28,9 @@ Claude Code의 개인 설정 저장소.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과
   구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 위험은 §5에 넣고, 체크리스트는 두지 않는다). `implement.md`는 각 Task를
   `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
+- **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/verify-analysis` → `/implement-init`은 slash command이고,
+  `implement`와 `verify`는 자연어로 부른다. 진행 시점은 사용자가 정한다.
+
 ## 흐름
 
 흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에 둔다.
