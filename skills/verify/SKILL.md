@@ -31,7 +31,6 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
 
 ## 컨텍스트 로딩
 1. Phased mode — 들어가는 조건은 `implement` skill §컨텍스트 로딩과 같다. 이 mode는 verifier agent가 맡는다.
-   - README의 `SPEC`, `ANALYSIS`가 모두 `[x]`인지 확인한다. 아니면 구현 검증을 중단하고 필요한 선행 command를 안내한다.
    - spec.md의 완료 조건과 제약·제외 범위를 읽는다 (요구사항 수준 기준).
    - implement.md를 읽는다. 기본 검증 대상은 직전 `implement`가 실행한 Task(아직 `[ ]`이며 판단을 기다리는 상태)이며, 그 Task의 검증 조건 필드를
      Task-level 기준으로 삼는다.
@@ -90,8 +89,7 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 
 - **Approved**:
   - main이 대상 implement.md Task 체크박스를 `[ ]` → `[x]`로 바꾸고 다른 파일은 건드리지 않는다.
-  - 바꾼 뒤 현재 승인된 SPEC·ANALYSIS 기준으로 implement.md의 모든 Task가 `[x]`가 되었으면,
-    feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에
+  - 바꾼 뒤 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에
     `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 더한다.
 - **Rejected**:
   - 대상 체크박스가 `[ ]`였다면(implement 직후의 보통 경우) 그대로 둔다.

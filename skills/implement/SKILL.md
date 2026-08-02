@@ -13,9 +13,8 @@ description: >-
      feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
 
    동작:
-   - `README.md`, `spec.md`, `analysis.md`, `implement.md`가 모두 있어야 한다.
-   - README의 `SPEC`, `ANALYSIS`가 모두 `[x]`가 아니면 구현하지 않는다. `ANALYSIS`가 `[ ]`이면 `/verify-analysis`를 안내한다.
-   - 승인된 analysis.md와 spec.md, implement.md를 읽는다.
+   - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
+   - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건
      필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task를 다시
      나눠야 한다고 보고한다.

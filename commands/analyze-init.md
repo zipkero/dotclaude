@@ -2,7 +2,7 @@
 description: Create analysis.md (analysis + design) under features/<feature-dir>/ from spec.md
 ---
 
-> 사용 시점: `/spec-init` 이후, `/verify-analysis` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
+> 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
 
 `features/<feature-dir>/analysis.md`를 작성한다. ANALYSIS는 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
 
@@ -32,9 +32,8 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 
 ## 덮어쓰기 규칙
 - `analysis.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
-- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다.
-- 작성 또는 재작성 뒤 README의 `SPEC`은 `[x]`로 유지하고 `ANALYSIS`, `IMPLEMENT`를 `[ ]`로 둔다.
-- 기존 `implement.md`는 파일과 Task 내용·ID·순서를 보존하고 모든 Task 체크박스만 `[ ]`로 바꾼다.
+- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
+  implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 
 ## analysis.md 구조
 
@@ -93,10 +92,8 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
 
 ## README 갱신
 완료 시 (analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
-- README.md의 `SPEC`은 `[x]`로 유지하고 `ANALYSIS`, `IMPLEMENT`는 `[ ]`로 둔다.
-- 새로 작성하면 `- <yyyy-MM-dd>: ANALYSIS 작성`, 다시 작성하면
-  `- <yyyy-MM-dd>: ANALYSIS 재작성으로 구현 승인 상태 초기화`를 작업 히스토리에 추가한다.
-- 작성만으로 `ANALYSIS`를 `[x]`로 바꾸지 않는다. 승인은 `/verify-analysis` 뒤 main이 수행한다.
+- README.md 상태 `[ ] ANALYSIS`를 `[x] ANALYSIS`로 전환한다.
+- 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: ANALYSIS 작성`.
 
 ## 금지
 - 체크박스(`- [ ]` / `- [x]`)를 두지 않는다. ANALYSIS는 정적 문서다.
@@ -109,7 +106,7 @@ main은 반환 본문을 검토하고, 답이 사용자에게만 있는 미해�
   둔다), 독립 '검증 관점' 섹션(Task별 검증은 implement.md 검증 조건이 소유한다), '열린 질문' 섹션.
 
 ## 후속 단계 계약
-- `/verify-analysis <feature-dir>`이 analysis.md를 승인한 뒤 `/implement-init <feature-dir>`이 analysis.md와 spec.md §5를 읽어 implement.md를 만든다.
+- `/implement-init <feature-dir>`이 analysis.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.
 
 ## 핵심 질문
 > 이 feature를 어떻게 구조화하며, 데이터는 어디로 흐르고, 어떤 설계 선택을 확정했는가?

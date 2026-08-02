@@ -18,7 +18,6 @@ Claude Code의 개인 설정 저장소.
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. 어느 작업이 어느
   agent로 가는지는 CLAUDE.md §agent·skill 라우팅이 소유하고, 각 agent 정의는 아래 §agents/에 정리돼 있다.
-- **ANALYSIS 작성과 승인을 분리한다**: analyzer가 만든 `analysis.md`는 verifier가 실제 코드·설정과 독립 대조한 뒤에만 승인한다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든 `analyze` skill로
   부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동으로 다시 하지 않는다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로 reject는
@@ -28,16 +27,15 @@ Claude Code의 개인 설정 저장소.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과
   구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 위험은 §5에 넣고, 체크리스트는 두지 않는다). `implement.md`는 각 Task를
   `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
-- **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/verify-analysis` → `/implement-init`은 slash command이고,
-  `implement`와 `verify`는 자연어로 부른다. 진행 시점은 사용자가 정한다.
+- **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
+  부른다. 진행 시점은 사용자가 정한다.
 
 ## 흐름
 
-흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에 둔다.
-ANALYSIS 상태 전환은 `commands/verify-analysis.md`, 구현 verify 후처리는 `skills/verify/SKILL.md`가 소유한다.
+흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에, verify 후처리(체크박스·README 상태
+전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
-- **Phased**: `prompt → /spec-init → /analyze-init → /verify-analysis → /implement-init → implement → verify`.
-  문서 phase 시작 시점은 사용자가 직접 정하고,
+- **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
   구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
   루트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 feature 후보를 `/spec-init`의 인자로 넘긴다.
@@ -59,8 +57,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
   한다. 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
   판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
-- `verifier` — `/verify-analysis`와 Phased mode의 `verify` 호출에서 독립 조사와 후보 판단만 돌려주며,
-  어떤 문서·체크박스·코드도 고치지 않는다. 뒤이은 상태 전환은 main 소관이다.
+- `verifier` — Phased mode에서 `verify` skill 호출. 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관).
   (Per-Request mode는 main이 `verify` skill을 직접 부르므로 이 agent를 거치지 않는다.)
 
 ### commands/ — slash command 정의
@@ -73,7 +70,6 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
   만든다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
-- `verify-analysis.md` — `analysis.md`를 실제 코드·설정과 대조해 승인·거절 후보를 판단한다 (`/verify-analysis <feature-dir>`)
 - `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`). 구현·판단
   규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다. spec.md·analysis.md를 고쳐야 하는 상황을 만나면 고치지 않고 멈춰 사용자에게

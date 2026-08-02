@@ -2,7 +2,7 @@
 description: Create implement.md (execution checklist with per-Task verification criteria) under features/<feature-dir>/ from analysis.md
 ---
 
-> 사용 시점: `/verify-analysis` 승인 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
+> 사용 시점: `/analyze-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
 
 `features/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한
 Task다. 설계 근거는 analysis.md에 두고, 요구사항 수준 완료 조건은 spec.md §5에 둔다.
@@ -23,9 +23,7 @@ analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 �
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
-- `README.md`, `spec.md`, `analysis.md`가 없으면 필요한 선행 command를 안내하고 중단한다.
-- README의 `SPEC`, `ANALYSIS`가 모두 `[x]`가 아니면 구현 체크리스트를 만들지 않는다.
-  `ANALYSIS`가 `[ ]`이면 `/verify-analysis`를 먼저 실행하도록 안내한다.
+- `features/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
 - analysis.md 승인 전 확인 섹션에 남아 있는 항목은 미답으로 보고 진행 전에 질문으로 정리한다.
   `(보류)` 표기 항목은 사용자가 이미 보류를 정한 것이므로 다시 묻지 않고, 그 항목이 영향을 주지 않는 Task까지 작성한다.
 - 답으로 설계 결정이 바뀌면 analysis.md의 영향받은 섹션에 먼저 반영한 뒤 implement.md를 작성한다.
@@ -82,7 +80,6 @@ Task ID 규칙:
 - 결과가 목적과 같으면 `결과: 목적과 동일`로 약식 표기할 수 있다.
 - spec.md §3 제약에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)가 있으면
   관련 Task의 `확인` 필드에 빠짐없이 반영한다.
-- `확인`은 현재 저장소에서 실행 가능한 테스트·빌드·lint·명령·diff 또는 구체적인 수동 확인 절차를 가리켜야 한다.
 
 ### 구조 옵션
 - 평면 목록: `- [ ]` Task를 한 줄기로 늘어놓으며, 작은 feature에 쓴다.
