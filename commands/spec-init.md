@@ -42,9 +42,7 @@ Feature name: $ARGUMENTS
 ## 덮어쓰기 규칙
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
 - `analysis.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다.
-  진행하면 README의 `SPEC`은 `[x]`로 유지하고 `ANALYSIS`, `IMPLEMENT`를 `[ ]`로 되돌린다.
-- 기존 `implement.md`는 파일과 Task 내용·ID·순서를 보존하고 모든 Task 체크박스만 `[ ]`로 바꾼다.
-- `README.md`가 이미 있으면 새로 만들지 않고 문서 섹션을 보존하며, 위 상태 초기화와 작업 히스토리 갱신만 적용한다.
+- 기존 `README.md`의 문서 섹션과 `implement.md`의 Task 내용·ID·순서는 보존하고 §README.md 구조의 초기화 규칙만 적용한다.
 
 ## spec.md 구조
 
@@ -118,8 +116,8 @@ Feature name: $ARGUMENTS
 - <yyyy-MM-dd>: SPEC 작성
 ```
 
-README.md가 이미 있으면 문서 섹션을 보존한다. SPEC을 다시 작성하면 `[x] SPEC`은 유지하고 `ANALYSIS`, `IMPLEMENT`를 `[ ]`로 되돌린 뒤
-`- <yyyy-MM-dd>: SPEC 재작성으로 하위 승인 상태 초기화`를 작업 히스토리에 추가한다. 기존 `implement.md`의 모든 Task 체크박스도 `[ ]`로 바꾼다.
+README.md가 이미 있으면 문서 섹션을 보존한다. SPEC을 다시 작성하면 `[x] SPEC`은 유지하고 `ANALYSIS`, `IMPLEMENT`와 기존 `implement.md`의
+모든 Task 체크박스를 `[ ]`로 되돌린 뒤 `- <yyyy-MM-dd>: SPEC 재작성으로 하위 승인 상태 초기화`를 작업 히스토리에 추가한다.
 
 ## 금지
 - 설계·아키텍처·데이터 흐름·인터페이스 내용은 다루지 않는다 (analysis.md 소관).

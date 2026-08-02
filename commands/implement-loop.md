@@ -18,8 +18,7 @@ main이 루프를 돌린다. 각 반복의 `implement`·`verify` 호출은 Phase
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-loop 20260506-001-payment-integration`"
-- `README.md`, `spec.md`, `analysis.md`, `implement.md`가 없으면 필요한 선행 command를 안내하고 중단한다.
-- README의 `SPEC`, `ANALYSIS`가 모두 `[x]`가 아니면 중단한다. `ANALYSIS`가 `[ ]`이면 `/verify-analysis`를 안내한다.
+- `skills/implement/SKILL.md` §컨텍스트 로딩의 Phased mode 진입 조건을 충족해야 한다. 충족하지 않으면 필요한 선행 command를 안내하고 중단한다.
 - 루프가 도는 동안은 Phased mode로 고정한다.
 
 ## 루프
