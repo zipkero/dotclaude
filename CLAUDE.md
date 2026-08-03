@@ -56,7 +56,8 @@
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`의 작성 기준은 `commands/project-init.md`가 소유한다.
 - `verify.md`는 만들지 않는다.
-- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 부분에만 반영한다.
+- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md의 본문 내용에만 반영한다.
+- 재작성으로 되돌리는 하위 승인 상태(체크박스)는 `commands/spec-init.md` §재작성 시 하위 승인 상태 초기화가 소유한다.
 
 ## phase 제어
 - 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.

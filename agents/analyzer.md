@@ -34,7 +34,8 @@ main이 `/implement-init <feature-dir>` 작업을 맡길 때.
 작업 시작 전이나 도중에 애매한 부분이나 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다. 돌려보낼 항목은 흩어 보내지 않고
 찾은 시점에 묶어 한 번에 보낸다.
 
-- `/analyze-init` 호출: spec.md에 분석 결정에 영향을 주는 모순이 있거나, Decision Point 후보 중 무엇을 고를지 spec.md만으로는 정해지지 않는 경우.
+- `/analyze-init` 호출: spec.md에 분석 결정에 영향을 주는 모순이 있거나, `commands/analyze-init.md` §실행 주체가 정의하는 미해결 결정 유형에 걸리는
+  경우.
 - `/implement-init` 호출: 연결 안 된 SPEC §5 기준을 찾았을 때(`commands/implement-init.md` §매핑의 사용자 선택지를 그대로 따른다), 또는 완료 기준·Task
   경계·검증 조건이 여러 뜻으로 갈릴 때(같은 파일 §전제 조건). 항목을 묶어 main에 돌려준다.
 

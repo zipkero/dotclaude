@@ -72,8 +72,8 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
 - `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`). 구현·판단
-  규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다. spec.md·analysis.md를 고쳐야 하는 상황을 만나면 고치지 않고 멈춰 사용자에게
-  올린다.
+  규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다. verify가 낸 `수정 소유 단계`가 구현 수정이 아니면 문서를 고치지 않고 멈춰
+  사용자에게 올린다.
 
 Meta command (Phased 흐름과 독립):
 
