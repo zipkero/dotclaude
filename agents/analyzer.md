@@ -22,13 +22,13 @@ main이 그대로 저장할 수 있는 전체 본문을 §main에 반환 형식�
 
 ### `/analyze-init` 위임
 main이 `/analyze-init <feature-dir>` 작업을 맡길 때.
-- 절차는 `commands/analyze-init.md`가 소유한다. 전제 조건·덮어쓰기 규칙·analysis.md 구조·README 갱신·금지·다음 단계 약속 모두 그 파일을 따른다.
+- 절차는 `commands/analyze-init.md`가 소유하며 그 파일의 규칙을 그대로 따른다.
 - 코드베이스를 넓게 뒤져야 하면 `Explore` subagent에 맡긴다. 파일 하나 보는 정도는 직접 Read/Grep.
 
 ### `/implement-init` 위임
 main이 `/implement-init <feature-dir>` 작업을 맡길 때.
-- 절차는 `commands/implement-init.md`가 소유한다. 전제 조건·Task 형식·순서·매핑·금지 모두 그 파일을 따른다.
-- 연결 안 된 SPEC §5 기준이 있으면 implement.md 본문을 확정해 돌려주지 않고 결정을 main에 넘긴다 (아래 결정 위임).
+- 절차는 `commands/implement-init.md`가 소유하며 그 파일의 규칙을 그대로 따른다.
+- 미매핑 SPEC §5 기준이 있으면 implement.md 본문을 확정해 돌려주지 않고 결정을 main에 넘긴다 (아래 결정 위임).
 
 ## 결정 위임
 작업 시작 전이나 도중에 애매한 부분이나 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다. 돌려보낼 항목은 흩어 보내지 않고
@@ -36,7 +36,7 @@ main이 `/implement-init <feature-dir>` 작업을 맡길 때.
 
 - `/analyze-init` 호출: spec.md에 분석 결정에 영향을 주는 모순이 있거나, `commands/analyze-init.md` §실행 주체가 정의하는 미해결 결정 유형에 걸리는
   경우.
-- `/implement-init` 호출: 연결 안 된 SPEC §5 기준을 찾았을 때(`commands/implement-init.md` §매핑의 사용자 선택지를 그대로 따른다), 또는 완료 기준·Task
+- `/implement-init` 호출: 미매핑 SPEC §5 기준을 찾았을 때(`commands/implement-init.md` §매핑의 사용자 선택지를 그대로 따른다), 또는 완료 기준·Task
   경계·검증 조건이 여러 뜻으로 갈릴 때(같은 파일 §전제 조건). 항목을 묶어 main에 돌려준다.
 
 돌려주는 형식: 질문 항목 목록 + 각 항목을 푸는 조건. 모든 항목은 근거(읽은 파일·찾은 모순 등)에 기반한다.

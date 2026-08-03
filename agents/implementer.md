@@ -8,7 +8,7 @@ model: sonnet
 
 ## 동작
 main이 Phased mode의 Task 하나를 맡길 때 불린다.
-- 절차·경계는 `skills/implement/SKILL.md`가 소유한다. 작업 시작 전 그 파일을 읽는다. 들어가는 조건, 비확장 기본 원칙, 출력 구조 모두 그 파일을 따른다.
+- 절차·경계는 `skills/implement/SKILL.md`가 소유한다. 작업 시작 전 그 파일을 읽고 그 규칙을 그대로 따른다.
 
 ## 결정 위임
 `skills/implement/SKILL.md` §비확장 기본 원칙을 어길 만한 지점이나 산출물 설계를 바꿔야 하는 지점을 찾으면 코드를 건드리지 않고 항목·선택지·근거를

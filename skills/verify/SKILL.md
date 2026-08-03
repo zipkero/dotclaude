@@ -59,7 +59,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
   대신하지 않고 완료 조건 문장 자체를 기준으로 본다.
 - 근거 규칙은 Task 판단과 같다(§근거 원칙). 앞선 `[x]` Task의 산출물이 근거로 필요하면
   해당 파일·테스트를 다시 확인한다.
-- 하나라도 성립하지 않으면 Task 검증 조건을 채웠는지와 상관없이 Status는 `rejected`다. category는
+- 하나라도 성립하지 않으면 Task 검증 조건을 채웠는지와 상관없이 판정은 `rejected`다. 분류는
   §reject 분류를 따른다(완료 조건 불충족은 `correctness`).
 
 ## 출력 구조
@@ -82,7 +82,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
    - 남은 위험 (따로 적을 게 있을 때만).
 
 ## reject 분류
-모든 reject category는 똑같이 Task 승인을 막으며, 풀리기 전까지 체크박스는 `[x]`로 바뀌지 않는다. category는 사용자가 다음 단계를 정하는 데 도움을
+모든 reject 분류는 똑같이 Task 승인을 막으며, 풀리기 전까지 체크박스는 `[x]`로 바뀌지 않는다. 분류는 사용자가 다음 단계를 정하는 데 도움을
 주려고만 둔다.
 - `style/minor`: 이름 짓기·주석·포맷 등 동작과 무관한 문제로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 낸다.
@@ -103,7 +103,7 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
     체크박스는 되돌리지 않는다.
   - 이미 `[x]`였던 Task를 다시 검증하다가 rejected되면 main이 `[x]` → `[ ]`로 되돌린다. 그래서 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니면
     README의 `[x] IMPLEMENT`를 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
-  - issues와 reject 사유는 사용자에게 전하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
+  - §출력 구조의 문제 항목을 사용자에게 전하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
 - Per-Request mode는 verify 결과를 대화 출력으로만 남기며, 체크박스·README를 고치지 않는다.
 
 ## 테스트 evidence 규칙

@@ -2,11 +2,10 @@
 
 ## 언어
 - 응답은 한국어로, 정중하되 과한 격식은 피하는 톤으로 쓴다.
-- 사용자에게 보이는 문장에서는 불필요한 영어식 표현보다는 자연스러운 한국어를 우선한다.
 - `.claude/` 파일 본문은 한국어로 쓴다.
 - 다음은 영어로 둔다 — frontmatter `name`/`description`, 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등),
   파일·경로·명령어·설정 키, 한국어로 옮기면 뜻이 흐려지는 기술 용어(`formatter`, `hook`, `nullable reference type` 등).
-- 위 예외에 해당하지 않는데 영어를 쓰거나, 영어 낱말에 한국어 어미를 붙이는 표현은 자연스러운 한국어로 바꾼다.
+- 위 예외에 해당하지 않는데 영어를 쓰거나, 영어 낱말에 한국어 어미를 붙이거나, 직역체로 쓴 표현은 자연스러운 한국어로 바꾼다.
 - 출력 구조의 항목 라벨은 한 파일 안에서 언어를 통일한다.
 - 코드 주석은 한국어로 쓴다. 단, 대상 파일이나 같은 디렉토리에 뚜렷한 영어 주석 관례가 있으면 그 관례를 따른다.
 - `features/<feature-dir>/` 산출물은 한국어로 쓴다.
@@ -55,7 +54,6 @@
   채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`의 작성 기준은 `commands/project-init.md`가 소유한다.
-- `verify.md`는 만들지 않는다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md의 본문 내용에만 반영한다.
 - 재작성으로 되돌리는 하위 승인 상태(체크박스)는 `commands/spec-init.md` §재작성 시 하위 승인 상태 초기화가 소유한다.
 
@@ -67,19 +65,17 @@
 - Phased / Per-Request mode에 들어가는 조건과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅
-- `/project-init`과 `/spec-init <name>`은 main이 직접 한다.
-- `/context-save`와 `/context-restore`는 main이 직접 한다. 절차와 `CONTEXT.md` 형식은 각 command 파일이 소유한다.
-- `/analyze-init <dir>`와 `/implement-init <dir>`은 산출물 본문 쓰는 일을 analyzer agent에 맡기고, 돌려받은 본문은 main이 검토한 뒤 저장한다. 세부는
-  각 command 파일과 `agents/analyzer.md`가 소유한다.
-- `/implement-loop <dir>`은 main이 루프를 돌리며, 각 반복의 `implement`·`verify`는 아래 Phased 라우팅을 그대로 따른다. 반복·재시도·정지 조건은
-  `commands/implement-loop.md`가 소유한다.
+- slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
+- `/project-init`·`/spec-init <name>`·`/context-save`·`/context-restore`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은
   `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
   판단은 verifier가, 판단 뒤의 기록(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며,
   main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
+- verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다. 변경이 이미 commit되었으면 commit SHA·파일 목록·비교 범위 중 하나로
+  명시한다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`는 main이 직접 하며 파일을 쓰지 않는다.
-- 절차는 해당 command·skill 파일이 소유한다. agent 본문에 절차를 다시 적지 않는다.
+- agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
 - subagent 모델은 역할로 정한다. 설계·판단은 부모 모델을 상속하고, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`을 쓴다.
 - 한 작업을 쪼개려고 subagent를 여러 개 띄우지 않는다. 하나로 끝나면 하나만 쓴다.

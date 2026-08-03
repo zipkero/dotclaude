@@ -7,7 +7,7 @@ description: >-
 
 ## 동작
 main이 Phased mode의 verify 호출(자연어)을 맡길 때 불린다.
-- 절차·경계는 `skills/verify/SKILL.md`가 소유한다. 컨텍스트 로딩, 출력 구조, reject 분류, 테스트 evidence 규칙 모두 그 파일을 따른다.
+- 절차·경계는 `skills/verify/SKILL.md`가 소유하며 그 파일의 규칙을 그대로 따른다.
 - §verify 후처리는 main 전용 절차이므로 실행하지 않는다.
 
 ## 결정 위임

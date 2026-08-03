@@ -13,12 +13,12 @@ Feature directory: $ARGUMENTS
 analyzer agent가 아래 구조·규칙대로 implement.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환
 의무).
 main은 반환 본문을 검토한 뒤 `features/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다.
-analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정 위임한다.
+analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정을 위임한다.
 
 ## 역할
 - 구현 단계의 진행 상황을 추적하는 단 하나의 문서다.
 - 각 Task는 (a) analysis.md 설계와 (b) 최소 1개의 spec.md §5 완료 조건에 매핑된다.
-- Task-level 검증 조건은 좁다 — "이 Task는 X가 일어나면 done." spec.md §5(feature 수준)와는 구분한다.
+- Task-level 검증 조건은 좁다 — "이 Task는 X가 일어나면 완료." spec.md §5(feature 수준)와는 구분한다.
 
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다.
@@ -136,4 +136,4 @@ e2e)일 때만 둔다.
 - spec.md §5 완료 조건을 수정·약화·확장하지 않는다.
 
 ## 핵심 질문
-> 어떤 순서로 실행하고, 각 Task의 "done"은 무엇이며, 우리는 지금 어디인가?
+> 어떤 순서로 실행하고, 각 Task의 완료는 무엇이며, 우리는 지금 어디인가?

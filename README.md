@@ -8,25 +8,24 @@ Claude Code의 개인 설정 저장소.
 ## 설계 의도
 
 ### 이 구조가 존재하는 이유
-- Claude Code의 기본 동작은 한 번에 답하는 방식이다. 이 설정은 그 흐름을 **phased·검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게
+- Claude Code의 기본 동작은 한 번에 답하는 방식이다. 이 설정은 그 흐름을 **검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게
   한다.
 - `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는
   기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로
   참고)
-- `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 done으로 기록된다.
+- `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. 어느 작업이 어느
-  agent로 가는지는 CLAUDE.md §agent·skill 라우팅이 소유하고, 각 agent 정의는 아래 §agents/에 정리돼 있다.
-- **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든 `analyze` skill로
-  부른다(정의는 `skills/analyze/SKILL.md`).
+- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. 자연어 호출의 위임
+  대상은 CLAUDE.md §agent·skill 라우팅이, slash command의 위임 대상은 각 command 파일 §실행 주체가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
+- **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
+  `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동으로 다시 하지 않는다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로 reject는
   사용자 판단으로 올린다. verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을 가지고, `analysis.md`는 승인 전 확인·근거 서문과
-  구조·데이터 흐름·인터페이스·영향 범위·Decision Points를 담는다(설계를 막는 위험은 §5에 넣고, 체크리스트는 두지 않는다). `implement.md`는 각 Task를
-  `spec.md` §5에 매핑하면서 더 좁은 Task-level 검증 조건을 함께 둔다.
+- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analysis.md`는 설계 판단을,
+  `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
   부른다. 진행 시점은 사용자가 정한다.
 
@@ -47,6 +46,7 @@ Claude Code의 개인 설정 저장소.
 
 ```
 CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작업 분배·정책·문서 구조)
+config.json        # MCP 서버 등록 (현재 비어 있음)
 ```
 
 ### agents/ — phase 위임 정의
@@ -62,7 +62,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 ### commands/ — slash command 정의
 
-Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill 라우팅
+Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일 §실행 주체
 참고). 그 앞에 오는 `project-init`만 프로젝트 루트에 쓴다.
 
 - `project-init.md` — 프로젝트 루트 `README.md`와 `ROADMAP.md`를 초기화한다 (`/project-init [프로젝트명]`). 최종 결과물·서비스 완료
@@ -90,7 +90,7 @@ Meta command (Phased 흐름과 독립):
 
 - `analyze` — 독립 디버깅·코드 이해 도구. 증상·질문에서 원인을 찾는다. 파일을 쓰지 않고 대화로만 출력한다.
 - `explain-change` — 이미 있는 변경을 배경·핵심 생각·흐름·판단까지 풀어 설명한다 (`/explain-change`). `disable-model-invocation`이라 명시 호출로만
-  뜬다. 설명 깊이는 항목별 done 조건으로 잡는다.
+  발동한다. 설명 깊이는 항목마다 근거가 있는 만큼으로 잡는다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
   범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
@@ -104,7 +104,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 
 매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다. 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야
 한다.
-`paths` 대신 `globs`를 쓰면 스코프 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
+`paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
 - `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계). 코드 주석 기준의 owner이며,
   `implement`·`verify`가 이 파일을 참조한다.
