@@ -12,7 +12,7 @@ Feature directory: $ARGUMENTS
 이 command가 소유하는 것은 **반복·재시도·정지 조건**뿐이다.
 
 ## 실행 주체
-main이 루프를 돌린다. 각 반복의 `implement`·`verify` 호출은 Phased mode 라우팅을 그대로 따라 implementer·verifier agent에 맡기고,
+main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 맡기고, `verify` 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준을 따르며,
 체크박스와 feature README 갱신은 main이 한다 (CLAUDE.md §agent·skill 라우팅).
 
 ## 전제 조건

@@ -57,8 +57,8 @@ config.json        # MCP 서버 등록 (현재 비어 있음)
   한다. 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
   판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
-- `verifier` — Phased mode에서 `verify` skill 호출. 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관).
-  (Per-Request mode는 main이 `verify` skill을 직접 부르므로 이 agent를 거치지 않는다.)
+- `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관). 위임 기준은
+  `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 
 ### commands/ — slash command 정의
 
@@ -88,7 +88,8 @@ Meta command (Phased 흐름과 독립):
 
 ### skills/ — skill 정의
 
-- `analyze` — 독립 디버깅·코드 이해 도구. 증상·질문에서 원인을 찾는다. 파일을 쓰지 않고 대화로만 출력한다.
+- `analyze` — 독립 디버깅·코드 이해·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
+  파일을 쓰지 않고 대화로만 출력한다.
 - `explain-change` — 이미 있는 변경을 배경·핵심 생각·흐름·판단까지 풀어 설명한다 (`/explain-change`). `disable-model-invocation`이라 명시 호출로만
   발동한다. 설명 깊이는 항목마다 근거가 있는 만큼으로 잡는다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
@@ -112,5 +113,6 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 
 ## 운영
 
-- `.gitignore`는 추적 파일에 대해 허용 목록 방식을 쓴다.
+- `.gitignore`는 추적 파일에 대해 허용 목록 방식을 쓴다. 이 저장소에서 돈 Phased 작업의 `features/` 산출물도 추적 대상이다.
 - 세션 데이터, 캐시, credential은 추적에서 뺀다.
+- 인코딩·줄바꿈·markdown 줄 길이(150칸)는 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.

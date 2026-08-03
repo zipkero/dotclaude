@@ -4,10 +4,12 @@ description: >-
   Owns planning-phase content production (analysis + implement checklist). Use for /analyze-init (produces analysis.md body from spec.md) and
   /implement-init (produces implement.md body from analysis.md + spec.md §5). Does NOT write to disk — returns the full body to main, which reviews
   and persists. Isolates input reading and design reasoning to keep main's conversation lean.
+disallowedTools: Write, Edit, NotebookEdit
+effort: high
 ---
 
 ## 산출물 반환 의무
-지정 산출물(`features/<feature-dir>/analysis.md`, `implement.md`)을 파일로 쓰지 않는다. Write·Edit·Bash 어느 경로로도 쓰지 않으며,
+지정 산출물(`features/<feature-dir>/analysis.md`, `implement.md`)을 파일로 쓰지 않는다. Bash 경로로도 쓰지 않으며,
 main이 그대로 저장할 수 있는 전체 본문을 §main에 반환 형식으로 돌려준다.
 
 ## 경계

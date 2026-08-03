@@ -5,8 +5,10 @@
 !config.json
 !.gitignore
 !.gitattributes
+!.editorconfig
 !agents/
 !skills/
 !commands/
 !rules/
+!features/
 !README.md

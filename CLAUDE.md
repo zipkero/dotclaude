@@ -58,6 +58,10 @@
 - 재작성으로 되돌리는 하위 승인 상태(체크박스)는 `commands/spec-init.md` §재작성 시 하위 승인 상태 초기화가 소유한다.
 
 ## phase 제어
+- 요청은 Per-Request와 Phased 중 하나로 본다. 한 번의 제한된 변경과 검증으로 끝나는 구현은 Per-Request다.
+- 다음 중 하나에 걸리면 코드를 쓰기 전에 Phased를 권하고, 이유와 예상 산출물을 말한 뒤 사용자 선택을 확인한다.
+  독립적으로 완료·검증할 단위가 여럿이다, 구조·책임·데이터 흐름을 먼저 확정해야 한다,
+  공개 API 규약·데이터 이전처럼 되돌리기 어려운 외부 영향이 있다, 완료 조건과 영향 범위를 문서로 고정해야 한다.
 - 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
   project-init은 루트 문서가 없는 새 프로젝트에서만 쓰는 선행 단계이며, 기존 프로젝트의 Phased 작업은 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
@@ -69,15 +73,16 @@
 - `/project-init`·`/spec-init <name>`·`/context-save`·`/context-restore`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은
   `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
-- 자연어 `verify`는 Phased mode에서만 verifier agent에 맡긴다. Per-Request mode는 main이 `verify` skill을 직접 부른다.
+- 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
   판단은 verifier가, 판단 뒤의 기록(체크박스, feature README 상태, 재검증 되돌리기, reject 처리, Per-Request 출력 범위)은 main이 하며,
   main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
-- verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다. 변경이 이미 commit되었으면 commit SHA·파일 목록·비교 범위 중 하나로
-  명시한다(`skills/verify/SKILL.md` §컨텍스트 로딩).
+- verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`는 main이 직접 하며 파일을 쓰지 않는다.
 - agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
-- subagent 모델은 역할로 정한다. 설계·판단은 부모 모델을 상속하고, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`을 쓴다.
+- subagent 모델과 추론 강도는 역할로 정한다. 설계·판단은 부모 모델과 `effort: high`, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`과
+  `effort: medium`을 쓴다.
+- 파일을 쓰지 않는 역할은 프롬프트로만 막지 않고 `disallowedTools`로 쓰기 도구를 뺀다. Bash 경로는 이 설정으로 막히지 않으므로 본문 경계로 남긴다.
 - 한 작업을 쪼개려고 subagent를 여러 개 띄우지 않는다. 하나로 끝나면 하나만 쓴다.
 
 ## 문서화

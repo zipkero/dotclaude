@@ -2,8 +2,8 @@
 name: verify
 description: >-
   Judge whether the most recent implement Task satisfies its implement.md verification criteria, and whether any spec.md §5 criteria completed by this
-  Task actually hold. Phased mode runs via the verifier agent; Per-Request mode runs in main. Post-processing is always main's. Returns
-  approved/rejected with evidence.
+  Task actually hold. Delegation to the verifier agent follows §verifier 위임 기준; post-processing is always main's. Returns approved/rejected with
+  evidence.
 ---
 
 ## 역할
@@ -33,7 +33,7 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
 - 셋째 기준은 analysis.md의 설계 결정을 벗어나지 않는지다.
 
 ## 컨텍스트 로딩
-1. Phased mode — 들어가는 조건은 `implement` skill §컨텍스트 로딩과 같다. 이 mode는 verifier agent가 맡는다.
+1. Phased mode — 들어가는 조건은 `implement` skill §컨텍스트 로딩과 같다.
    - spec.md의 완료 조건과 제약·제외 범위를 읽는다 (요구사항 수준 기준).
    - implement.md를 읽는다. 기본 검증 대상은 직전 `implement`가 실행한 Task(아직 `[ ]`이며 판단을 기다리는 상태)이며, 그 Task의 검증 조건 필드를
      Task-level 기준으로 삼는다.
@@ -45,12 +45,17 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
      `SPEC §5.N` 목록. implement.md 참조 필드를 거꾸로 모아 구하며, 목록은 비어 있을 수 있다.
      재검증 모드에서도 같은 규칙으로 계산한다.
    - 설계 뜻과 맞는지가 쟁점일 때 analysis.md Decision Points를 읽는다.
-2. 그 외 → Per-Request mode. 요청 범위와 코드 변경 내용만으로 verify한다. 이 mode는 main이 직접 맡으며 verifier agent를 거치지 않는다.
+2. 그 외 → Per-Request mode. 요청 범위와 코드 변경 내용만으로 verify한다.
    - 검증할 변경 범위 규칙은 Phased mode와 같다.
    - 어떤 문서도 읽거나 쓰지 않는다.
 
 Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우), 판단 전에 후보와 사유를 묶어 main에
 돌려준다(CLAUDE.md §agent·skill 라우팅).
+
+## verifier 위임 기준
+- 변경이 여러 파일에 걸치고 동작·상태·외부 I/O·동시성·경계 중 하나 이상에 영향을 주면 mode와 무관하게 verifier agent에 맡긴다.
+- 변경 내용만으로 판정할 수 있는 문서·오타·정적 설정 문구는 main이 직접 판단한다.
+- 위임 여부는 근거를 모으기 전에 정한다.
 
 ## 완료되는 요구사항 판정
 Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` 각각에 대해 판단한다. Per-Request mode에는 적용하지 않는다.
