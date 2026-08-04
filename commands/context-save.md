@@ -21,7 +21,7 @@ description: >-
 - Phased 문서가 있으면 Task 상태, 요구사항과 구현 계획은 해당 문서를 기준으로 유지한다.
 - `CONTEXT.md`에는 Phased 작업을 중단시킨 설계 변경, 현재 논점, 이어서 볼 문서와 다음 작업만 기록한다.
 - Phased 문서의 체크리스트나 전체 내용을 `CONTEXT.md`에 옮겨 적지 않는다.
-- 프로젝트 루트를 하나로 결정할 수 없으면 파일을 만들기 전에 사용자에게 대상 프로젝트를 확인한다.
+- 대상 프로젝트 루트는 파일을 만들기 전에 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다.
 - `/context-save`는 기본적으로 `CONTEXT.md`만 변경한다.
   확정된 결정을 원본 문서에도 반영해 달라는 요청이 없으면 다른 파일을 수정하지 않는다.
 - Git branch, commit, status, diff는 조사하거나 `CONTEXT.md`에 기록하지 않는다.
