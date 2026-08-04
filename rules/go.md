@@ -19,9 +19,10 @@ paths:
 - goroutine을 추가하거나 수정할 때는 종료 조건, cancellation, channel close 책임을 확인한다.
 - `context.Context`가 이미 흐르는 경로에서는 cancellation과 timeout 전달을 끊지 않는다.
 
-## 테스트와 주석
+## 테스트
 - 기존 테스트 관례를 따른다.
 - 순수 로직은 table-driven test를 우선 고려한다.
 - 프로젝트 관례가 없고 Go 코드 동작을 바꿨다면 `go test ./...`를 우선 검증 명령으로 고려한다.
-- 새 패키지와 새 exported 선언에는 Go doc 주석을 작성하고, 기존 exported 선언 수정으로
-  호출자 계약이 달라지면 같은 변경에서 주석을 보완한다. 형식은 표준 godoc 관례를 따른다.
+
+## 주석
+- `Go doc`은 프로젝트 관례와 linter 설정을 따른다.

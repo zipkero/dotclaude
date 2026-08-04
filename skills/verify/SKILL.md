@@ -88,7 +88,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 
 ## reject 분류
 모든 reject 분류는 똑같이 Task 승인을 막는다. 분류는 사용자가 다음 단계를 정하는 데 도움을 주려고만 둔다.
-- `style/minor`: 이름 짓기·주석·포맷 등 동작과 무관한 문제로, 정확성은 깨지지 않는다.
+- `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement 지침을 어긴 문제로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 낸다.
 - `design/scope`: 구현이 analysis.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을
   고치거나 analysis.md를 고쳐 쓴다.
@@ -121,5 +121,3 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 
 ## 지침
 - 현재 Task와 그 approve로 완료되는 요구사항만 판단하고, 다른 Task나 앞으로의 작업에 대한 의견은 두지 않는다.
-- 변경 내용의 주석이 `rules/code-common.md` §주석 작성 기준을 어기면 `style/minor`로 reject한다. 주석이 필요한 자리를 비워 둔 경우도 같게 본다.
-  검증 대상이 그 파일 `paths`에 걸리지 않는 언어면 판정 전에 `rules/code-common.md`를 읽는다.

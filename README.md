@@ -96,7 +96,7 @@ Meta command (Phased 흐름과 독립):
 - `explain-change` — 이미 있는 변경을 배경·핵심 생각·흐름·판단까지 풀어 설명한다 (`/explain-change`). `disable-model-invocation`이라 명시 호출로만
   발동한다. 설명 깊이는 항목마다 근거가 있는 만큼으로 잡는다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
-  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
+  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 코드 주석 기준의 owner이며(§지침), 형식과 대상은 프로젝트·언어 관례에 맡긴다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
   `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
@@ -110,8 +110,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 한다.
 `paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
-- `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계). 코드 주석 기준의 owner이며,
-  `implement`·`verify`가 이 파일을 참조한다.
+- `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
 
 ## 운영
