@@ -46,7 +46,6 @@ Claude Code의 개인 설정 저장소.
 
 ```
 CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작업 분배·정책·문서 구조)
-config.json        # MCP 서버 등록 (현재 비어 있음)
 ```
 
 ### agents/ — phase 위임 정의
