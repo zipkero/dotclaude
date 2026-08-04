@@ -1,6 +1,8 @@
 ---
 description: >-
   Create project-level README.md and ROADMAP.md that define the target outcome, service completion criteria, milestones, and feature entry points
+argument-hint: "[프로젝트명]"
+disable-model-invocation: true
 ---
 
 > 사용 시점: 프로젝트 최초 문서화 단계. Phased 흐름보다 앞서며, ROADMAP의 마일스톤별 feature 후보가 `/spec-init`의 입력이 된다.

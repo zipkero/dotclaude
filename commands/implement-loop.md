@@ -1,5 +1,7 @@
 ---
 description: Run features/<feature-dir>/implement.md Tasks in a loop - implement, verify, advance, and stop when a decision needs the user
+argument-hint: "<feature-dir>"
+disable-model-invocation: true
 ---
 
 > 사용 시점: `/implement-init` 이후. 체크리스트가 준비된 상태에서 남은 Task를 연속으로 실행한다.

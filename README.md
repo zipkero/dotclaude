@@ -65,6 +65,9 @@ config.json        # MCP 서버 등록 (현재 비어 있음)
 Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일 §실행 주체
 참고). 그 앞에 오는 `project-init`만 프로젝트 루트에 쓴다.
 
+문서 phase command 넷과 `implement-loop`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다. CLAUDE.md §phase
+제어의 "사용자가 부를 때만 넘어간다"를 설정으로 집행하는 자리다. 나머지 meta command는 자연어 호출을 허용한다.
+
 - `project-init.md` — 프로젝트 루트 `README.md`와 `ROADMAP.md`를 초기화한다 (`/project-init [프로젝트명]`). 최종 결과물·서비스 완료
   기준·마일스톤·feature 후보를 잡으며, feature 문서는 만들지 않는다. 루트 문서가 없는 새 프로젝트에서만 쓴다.
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
