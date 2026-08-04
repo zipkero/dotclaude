@@ -24,7 +24,6 @@ description: >-
 - 대상 프로젝트 루트는 파일을 만들기 전에 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다.
 - `/context-save`는 기본적으로 `CONTEXT.md`만 변경한다.
   확정된 결정을 원본 문서에도 반영해 달라는 요청이 없으면 다른 파일을 수정하지 않는다.
-- Git branch, commit, status, diff는 조사하거나 `CONTEXT.md`에 기록하지 않는다.
 
 ## 저장 절차
 
