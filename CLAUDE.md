@@ -48,7 +48,7 @@
 - 문서 산출물 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다.
   채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
-- 프로젝트 루트 `README.md`·`ROADMAP.md`와 선택 문서의 작성 기준은 `commands/project-init.md`가 소유한다.
+- 프로젝트 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`의 최초 생성 기준은 `commands/project-init.md`가 소유한다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 순서로 반영한다.
 - 정정 방식은 문서 종류에 따라 다르다 — spec.md·analysis.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
 - implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
@@ -59,7 +59,7 @@
   독립적으로 완료·검증할 단위가 여럿이다, 설계 선택이 갈려 먼저 확정하지 않으면 구현을 되돌려야 한다,
   공개 API 규약·데이터 이전처럼 되돌리기 어려운 외부 영향이 있다, 완료 조건이나 영향 범위를 나중에 제3자가 확인해야 한다.
 - 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
-  project-init은 루트 문서가 없는 새 프로젝트에서만 쓰는 선행 단계이며, 기존 프로젝트의 Phased 작업은 spec-init에서 시작한다.
+  project-init은 프로젝트 문서가 하나도 없을 때 최초 1회만 쓰는 선행 단계이며, 기존 프로젝트의 Phased 작업은 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
   정해지지 않은 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 멈추고 확인받는다.
 - Phased / Per-Request mode에 들어가는 조건과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.

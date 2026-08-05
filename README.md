@@ -41,7 +41,7 @@ verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/v
 - **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
   구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
-  루트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 feature 후보를 `/spec-init`의 인자로 넘긴다.
+  프로젝트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 작업 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement → verify`. slash command 없이 자연어 prompt만으로 시작한다.
 
 `analyze` skill은 두 흐름 어느 쪽에서도 부를 수 있다 (정의는 `skills/analyze/SKILL.md`).
@@ -67,7 +67,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 ### commands/ — slash command 정의
 
 Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill
-라우팅과 각 command 파일 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 선택 문서를 쓴다.
+라우팅과 각 command 파일 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
 실행된다. 앞의 다섯은 CLAUDE.md §phase 제어의 "사용자가 부를 때만 넘어간다"를 설정으로 집행하는 자리이고, `config-review`는 자기 머리말이 정한
@@ -77,9 +77,9 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 라우팅). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의 도구 풀은 이 설정으로 막히지 않으므로 본문 경계로
 남는다.
 
-- `project-init.md` — 프로젝트 루트 `README.md`와 `ROADMAP.md`를 초기화하고, 조건에 따라 선택 문서(`docs/product.md`·`docs/design.md`)를
-  함께 생성·갱신한다 (`/project-init [프로젝트명]`). 최종 결과물·서비스 완료 기준·마일스톤·feature 후보를 잡으며, feature 문서는 만들지 않는다.
-  루트 문서가 없는 새 프로젝트에서만 쓴다.
+- `project-init.md` — 프로젝트 루트에 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 넷을 만든다
+  (`/project-init [프로젝트명 또는 한 줄 설명]`). 최종 결과물·서비스 완료 기준·마일스톤·작업 후보를 잡는다.
+  이 중 하나라도 이미 있으면 아무 파일도 쓰지 않으며, 이후 갱신은 이 command 밖에서 한다.
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
   만든다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
