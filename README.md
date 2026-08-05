@@ -16,9 +16,9 @@ Claude Code의 개인 설정 저장소.
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. `/analyze-init`·
-  `/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다. 위임 대상은 CLAUDE.md §agent·skill 라우팅과 각 command 파일
-  §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
+- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만
+  읽어 검토한다. `/analyze-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다. 위임 대상은
+  CLAUDE.md §agent·skill 라우팅과 각 command 파일 §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동으로 다시 하지 않는다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로 reject는
@@ -27,6 +27,9 @@ Claude Code의 개인 설정 저장소.
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analysis.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
+- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`analysis.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/analyze-init`으로
+  전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다
+  (CLAUDE.md §문서 구조).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
   부른다. 진행 시점은 사용자가 정한다.
 
@@ -54,6 +57,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 각 agent는 main에서 phase 작업을 받아 처리하고 결과를 main에 돌려준다. 반환 계약은 각 agent 파일이 소유한다.
 
 - `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
+  승인 전 확인에 남은 질문, 미해결 Decision Point, 미매핑 SPEC §5처럼 사용자 결정이 필요한 지점을 찾으면 아예 기록하지 않고 목록만 돌려준다.
   feature `README.md`와 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
   판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)

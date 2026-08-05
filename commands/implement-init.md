@@ -26,10 +26,11 @@ analyzer는 미매핑 SPEC §5 기준이 남아 있으면 파일을 기록하지
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/analysis.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
-- analysis.md 승인 전 확인 섹션에 남아 있는 항목은 미답으로 보고 진행 전에 질문으로 정리한다.
+- analysis.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다. analyzer는 그런 항목을 찾으면 implement.md를 기록하지
+  않고 목록을 main에 넘기고, main이 질문으로 정리한다.
   `(보류)` 표기 항목은 사용자가 이미 보류를 정한 것이므로 다시 묻지 않고, 그 항목이 영향을 주지 않는 Task까지 작성한다.
-- 답으로 설계 결정이 바뀌면 analysis.md의 영향받은 섹션에 먼저 반영한 뒤 implement.md를 작성한다.
-- analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
+- 승인 전 확인 항목의 답으로 설계 결정이 바뀌면 `/analyze-init`으로 analysis.md를 다시 쓴 뒤 implement.md를 작성한다(CLAUDE.md §문서 구조).
+- analysis.md §5 Decision Points에 미해결 항목이 있으면 analyzer가 목록을 main에 넘기고 main이 사용자에게 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
 - 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 결정을 위임하며, main은

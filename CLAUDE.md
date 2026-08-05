@@ -50,7 +50,9 @@
   채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`와 선택 문서의 작성 기준은 `commands/project-init.md`가 소유한다.
-- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md의 본문 내용에만 반영한다.
+- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 순서로 반영한다.
+- 정정 방식은 문서 종류에 따라 다르다 — spec.md·analysis.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
+- implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
 
 ## phase 제어
 - 요청은 Per-Request와 Phased 중 하나로 본다. 한 번의 제한된 변경과 검증으로 끝나는 구현은 Per-Request다.
@@ -81,7 +83,7 @@
 - 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
 - 파일을 쓰지 않는 역할은 프롬프트로만 막지 않고 `disallowedTools`로 쓰기 도구를 뺀다. Bash 경로는 이 설정으로 막히지 않으므로 본문 경계로 남긴다.
-- 한 작업을 쪼개려고 subagent를 여러 개 띄우지 않는다. 하나로 끝나면 하나만 쓴다.
+- 한 작업은 subagent 하나에 맡기고, 쪼개서 여러 개 띄우지 않는다.
 
 ## 문서화
 - 사용자가 따로 요청한 문서 산출물(노트·정리 문서 등)은 `~/obsidian`을 기준 디렉토리로 한다.
