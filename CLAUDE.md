@@ -1,14 +1,13 @@
 # Core Behavior
 
 ## 언어
-- 응답은 한국어로, 정중하되 과한 격식은 피하는 톤으로 쓴다.
-- `.claude/` 파일 본문은 한국어로 쓴다.
+- 응답, `.claude/` 파일 본문, `features/<feature-dir>/` 산출물은 한국어로 쓴다.
+- 응답 톤은 정중하되 과한 격식은 피한다.
 - 다음은 영어로 둔다 — frontmatter `name`/`description`, 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>` 등),
   파일·경로·명령어·설정 키, 한국어로 옮기면 뜻이 흐려지는 기술 용어(`formatter`, `hook`, `nullable reference type` 등).
 - 예외 밖의 영어, 영어 낱말에 한국어 어미를 붙인 표현, 직역체는 자연스러운 한국어로 바꾼다.
 - 출력 구조의 항목 라벨은 한 파일 안에서 언어를 통일한다.
 - 코드 주석은 한국어로 쓴다. 단, 대상 파일이나 같은 디렉토리에 뚜렷한 영어 주석 관례가 있으면 그 관례를 따른다.
-- `features/<feature-dir>/` 산출물은 한국어로 쓴다.
 - Markdown 문서(`features/<feature-dir>/` 산출물, `README.md`, `ROADMAP.md` 등)는 한 줄 표시폭 150칸(한글 기준 약 80자)을 넘기지 않도록 줄바꿈한다.
   표·코드블록·링크 등 줄바꿈 시 깨지는 구문은 예외.
 
@@ -52,7 +51,6 @@
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`와 선택 문서의 작성 기준은 `commands/project-init.md`가 소유한다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md의 본문 내용에만 반영한다.
-- 재작성으로 되돌리는 하위 승인 상태(체크박스)는 `commands/spec-init.md` §재작성 시 하위 승인 상태 초기화가 소유한다.
 
 ## phase 제어
 - 요청은 Per-Request와 Phased 중 하나로 본다. 한 번의 제한된 변경과 검증으로 끝나는 구현은 Per-Request다.

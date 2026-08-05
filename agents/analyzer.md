@@ -15,7 +15,7 @@ main이 그대로 저장할 수 있는 전체 본문을 §main에 반환 형식�
 ## 경계
 아래는 CLAUDE.md 전역 룰에 더해 이 agent에만 해당하는 경계다.
 
-- spec.md 수정 금지 (CLAUDE.md §문서 구조).
+- spec.md 수정 금지 (`commands/spec-init.md` §역할).
 - `/implement-init` 모드에서 analysis.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
 - 코드 수정 금지. 산출물 본문 만드는 일만 한다.
 - README.md 상태·작업 히스토리도 직접 쓰지 않는다. 돌려주는 형식은 §main에 반환을 따른다.
