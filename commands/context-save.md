@@ -6,8 +6,6 @@ description: >-
   spec, analysis, planning, or implementation work.
 ---
 
-> 사용 시점: 세션 이어받기 준비, 탐색적 설계 작업의 중단, Phased 작업 중 예기치 않은 설계 변경의 기록.
-
 ## 역할
 
 - 설계 또는 전달 작업의 현재 위치를 다음 세션이 대화 기록 없이 복원할 수 있게 저장한다.

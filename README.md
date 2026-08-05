@@ -16,8 +16,9 @@ Claude Code의 개인 설정 저장소.
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. 자연어 호출의 위임
-  대상은 CLAUDE.md §agent·skill 라우팅이, slash command의 위임 대상은 각 command 파일 §실행 주체가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
+- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만드는 동안 읽은 코드와 검증 내용이 main 컨텍스트에 쌓이지 않도록 떼어놓는다. `/analyze-init`·
+  `/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다. 위임 대상은 CLAUDE.md §agent·skill 라우팅과 각 command 파일
+  §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 사용자 판단에 맡기며 자동으로 다시 하지 않는다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로 reject는
@@ -61,11 +62,16 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 ### commands/ — slash command 정의
 
-Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일 §실행 주체
-참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 선택 문서를 쓴다.
+Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill
+라우팅과 각 command 파일 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 선택 문서를 쓴다.
 
-문서 phase command 넷과 `implement-loop`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다. CLAUDE.md §phase
-제어의 "사용자가 부를 때만 넘어간다"를 설정으로 집행하는 자리다. 나머지 meta command는 자연어 호출을 허용한다.
+문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
+실행된다. 앞의 다섯은 CLAUDE.md §phase 제어의 "사용자가 부를 때만 넘어간다"를 설정으로 집행하는 자리이고, `config-review`는 자기 머리말이 정한
+"의식적으로 호출한다"를 집행한다. 나머지 meta command는 자연어 호출을 허용한다.
+
+읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다 (CLAUDE.md §agent·skill
+라우팅). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의 도구 풀은 이 설정으로 막히지 않으므로 본문 경계로
+남는다.
 
 - `project-init.md` — 프로젝트 루트 `README.md`와 `ROADMAP.md`를 초기화하고, 조건에 따라 선택 문서(`docs/product.md`·`docs/design.md`)를
   함께 생성·갱신한다 (`/project-init [프로젝트명]`). 최종 결과물·서비스 완료 기준·마일스톤·feature 후보를 잡으며, feature 문서는 만들지 않는다.
@@ -93,10 +99,8 @@ Meta command (Phased 흐름과 독립):
 
 - `analyze` — 독립 디버깅·코드 이해·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
   파일을 쓰지 않고 대화로만 출력한다.
-- `explain-change` — 이미 있는 변경을 배경·핵심 생각·흐름·판단까지 풀어 설명한다 (`/explain-change`). `disable-model-invocation`이라 명시 호출로만
-  발동한다. 설명 깊이는 항목마다 근거가 있는 만큼으로 잡는다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
-  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 코드 주석 기준의 owner이며(§지침), 형식과 대상은 프로젝트·언어 관례에 맡긴다.
+  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 코드 주석 기준의 소유자이며(§지침), 형식과 대상은 프로젝트·언어 관례에 맡긴다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
   `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
@@ -107,7 +111,7 @@ Meta command (Phased 흐름과 독립):
 frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다. 항상 로드되는 CLAUDE.md와 달리 해당 언어를 만질 때만 비용을 낸다.
 
 매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다. 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야
-한다.
+한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
 `paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
 - `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).

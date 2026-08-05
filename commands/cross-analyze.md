@@ -4,6 +4,7 @@ description: >-
   consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior
   question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
 argument-hint: "[N] <질문>"
+disallowed-tools: Write, Edit, NotebookEdit
 ---
 
 > 사용 시점: 결론의 신뢰도가 중요해 여러 agent에게 같은 질문을 독립적으로 풀게 하고, main이 그 결과를 교차검증해 합의·불일치를 가려내고 싶을 때. 단일

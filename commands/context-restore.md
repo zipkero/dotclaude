@@ -4,9 +4,8 @@ description: >-
   and Phased documents. Read-only: reports the restored context and stops. Use when resuming work in a new session,
   picking up saved context, revisiting an unexpected design change, or asking what to do next during spec, analysis,
   planning, or implementation work.
+disallowed-tools: Write, Edit, NotebookEdit
 ---
-
-> 사용 시점: 새 세션에서 작업 재개, 저장된 맥락 확인, 중단시킨 설계 변경의 재검토, 다음 작업 문의.
 
 ## 역할
 

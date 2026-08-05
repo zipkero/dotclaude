@@ -49,11 +49,13 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
    - 검증할 변경 범위 규칙은 Phased mode와 같다.
    - 어떤 문서도 읽거나 쓰지 않는다.
 
-Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우), 판단 전에 후보와 사유를 묶어 main에
-돌려준다(CLAUDE.md §agent·skill 라우팅).
+Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우) 판단 전에 멈춘다. verifier는 후보와
+사유를 묶어 main에 돌려주고(CLAUDE.md §agent·skill 라우팅), main이 직접 판단하는 경우에는 사용자에게 확인한다.
 
 ## verifier 위임 기준
-- 변경이 여러 파일에 걸치고 동작·상태·외부 I/O·동시성·경계 중 하나 이상에 영향을 주면 mode와 무관하게 verifier agent에 맡긴다.
+- Phased mode에서 변경이 여러 파일에 걸치고 동작·상태·외부 I/O·동시성·경계 중 하나 이상에 영향을 주면 verifier agent에 맡긴다.
+  판정 결과가 체크박스로 남는 상태 전환이므로 독립 판단이 필요한 자리다.
+- Per-Request mode는 main이 직접 판단한다. 사용자가 독립 검증을 따로 요청하면 같은 기준으로 verifier agent에 맡긴다.
 - 변경 내용만으로 판정할 수 있는 문서·오타·정적 설정 문구는 main이 직접 판단한다.
 - 위임 여부는 근거를 모으기 전에 정한다.
 
