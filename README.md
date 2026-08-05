@@ -53,8 +53,8 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 각 agent는 main에서 phase 작업을 받아 처리하고 결과를 main에 돌려준다. 반환 계약은 각 agent 파일이 소유한다.
 
-- `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`) 본문을 만들어 main에 돌려주며, 파일 기록은 main이
-  한다. 코드는 고치지 않는다.
+- `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
+  feature `README.md`와 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
   판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
 - `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관). 위임 기준은

@@ -11,12 +11,12 @@ disable-model-invocation: true
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 analysis.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환
+analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/analysis.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
 의무).
-main은 반환 본문을 검토한 뒤 `features/<feature-dir>/analysis.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인과 §README 갱신을 수행한다.
-기록 전에 spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 걸려 있는지 확인한다. 빠진 조건은 설계 본문에 반영하고, 범위 밖이면 근거를 §4 영향
+main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §README 갱신을 수행한다.
+검토에서 spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 걸려 있는지 확인한다. 빠진 조건은 설계 본문에 반영하고, 범위 밖이면 근거를 §4 영향
 범위에 남긴다.
-검토에서 아래 유형에 걸리면서 선택이 실제로 갈리는 미해결 결정을 찾으면, 기록 전에 질문으로 정리해(방식은 CLAUDE.md §요청 해석)
+검토에서 아래 유형에 걸리면서 선택이 실제로 갈리는 미해결 결정을 찾으면, 질문으로 정리해(방식은 CLAUDE.md §요청 해석)
 그 결과를 §5 Decision Points의 채택 옵션으로 반영한다.
 - 외부에 드러나는 계약의 형태
 - 저장 형식·데이터 모델
@@ -39,7 +39,8 @@ main은 반환 본문을 검토한 뒤 `features/<feature-dir>/analysis.md`에 �
 - spec.md §1에 입력 맥락이 있으면 코드베이스 조사의 출발점으로 삼는다.
 
 ## 덮어쓰기 규칙
-- `analysis.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
+확인은 main이 analyzer에 위임하기 전에 받는다. analyzer는 확인 없이 기존 파일을 덮어쓰지 않는다.
+- `analysis.md`가 이미 있으면 사용자 확인을 받는다.
 - `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
   implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 

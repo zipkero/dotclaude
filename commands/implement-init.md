@@ -12,10 +12,10 @@ Task다. 설계 근거는 analysis.md에 두고, 요구사항 수준 완료 조�
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 implement.md 전체 본문을 생산하고, main이 그 본문을 받아 기록한다(반환 계약은 `agents/analyzer.md` §산출물 반환
+analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/implement.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
 의무).
-main은 반환 본문을 검토한 뒤 `features/<feature-dir>/implement.md`에 기록하고, 아래 §덮어쓰기 규칙의 확인·§매핑의 미매핑 결정·§README 갱신을 수행한다.
-analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 반환하지 않고 미매핑 항목을 묶어 main에 결정을 위임한다.
+main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §매핑의 미매핑 결정·§README 갱신을 수행한다.
+analyzer는 미매핑 SPEC §5 기준이 남아 있으면 파일을 기록하지 않고 미매핑 항목을 묶어 main에 결정을 위임한다.
 
 ## 역할
 - 구현 단계의 진행 상황을 추적하는 단 하나의 문서다.
@@ -32,12 +32,13 @@ analyzer는 미매핑 SPEC §5 기준이 남아 있으면 본문을 확정해 �
 - analysis.md §5 Decision Points에 미해결 항목이 있으면 진행 전에 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 analysis.md와 spec.md §5 전체를 읽는다.
-- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 본문을 확정하지 않고 main에 결정을 위임하며, main은
+- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 결정을 위임하며, main은
   질문으로 정리한 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
 - 정해지지 않은 판단을 마음대로 Task 범위나 검증 조건으로 바꾸지 않는다.
 
 ## 덮어쓰기 규칙
-- `implement.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 버려짐을 함께 알린다.
+- `implement.md`가 이미 있으면 main이 위임 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 버려짐을 함께 알린다.
+  analyzer는 확인 없이 기존 파일을 덮어쓰지 않는다.
 
 ## implement.md 구조
 
@@ -113,8 +114,7 @@ e2e)일 때만 둔다.
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
   - spec.md §4 제외 범위로 명시적 보류
-- 미매핑 목록이 비어 있지 않으면 사용자에게 드러내고, 판단을 받기 전에는 main이 implement.md를 기록하지 않는다 (analyzer도 본문을 확정해 반환하지
-  않는다).
+- 미매핑 목록이 비어 있지 않으면 analyzer가 기록하지 않고 목록을 main에 넘긴다. main은 사용자에게 드러내고 판단을 받은 뒤 진행한다.
 
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
