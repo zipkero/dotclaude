@@ -54,23 +54,23 @@
 - implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
 
 ## phase 제어
-- 요청은 Per-Request와 Phased 중 하나로 본다. 한 번의 제한된 변경과 검증으로 끝나는 구현은 Per-Request다.
+- 요청은 Per-Request와 Phased 중 하나로 본다.
 - 다음 중 하나에 걸리면 코드를 쓰기 전에 Phased를 권하고, 이유와 예상 산출물을 말한 뒤 사용자 선택을 확인한다.
   독립적으로 완료·검증할 단위가 여럿이다, 설계 선택이 갈려 먼저 확정하지 않으면 구현을 되돌려야 한다,
   공개 API 규약·데이터 이전처럼 되돌리기 어려운 외부 영향이 있다, 완료 조건이나 영향 범위를 나중에 제3자가 확인해야 한다.
 - 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
-  project-init은 프로젝트 문서가 하나도 없을 때 최초 1회만 쓰는 선행 단계이며, 기존 프로젝트의 Phased 작업은 spec-init에서 시작한다.
+  프로젝트 문서가 이미 있으면 project-init을 건너뛰고 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
   정해지지 않은 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 멈추고 확인받는다.
 - Phased / Per-Request mode에 들어가는 조건과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
-- 다음 넷은 예외로 여기서 정한다 — `/project-init`·`/spec-init <name>`·`/context-save`·`/context-restore`는 main이 직접 한다.
+- 다음 넷은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은
   `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
-  판단은 verifier가, 판단 뒤의 기록은 main이 하며, main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
+  판단은 verifier가 하고, main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 - verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`의 판단은 main이 직접 한다.
 - 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
@@ -78,8 +78,7 @@
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
 - subagent 모델과 추론 강도는 역할로 정한다 — 설계·판단은 부모 모델과 `effort: high`, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`과
   `effort: medium`을 쓴다.
-- 산출물을 만드는 agent가 그 산출물을 직접 쓴다.
-- 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
+- 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
 - 파일을 쓰지 않는 역할은 프롬프트로만 막지 않고 `disallowedTools`로 쓰기 도구를 뺀다. Bash 경로는 이 설정으로 막히지 않으므로 본문 경계로 남긴다.
 - 한 작업은 subagent 하나에 맡기고, 쪼개서 여러 개 띄우지 않는다.
