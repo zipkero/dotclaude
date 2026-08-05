@@ -35,8 +35,8 @@ Claude Code의 개인 설정 저장소.
 
 ## 흐름
 
-흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에, verify 후처리(체크박스·README 상태
-전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
+흐름은 두 가지다. 시작 시점만 여기 요약하고, 선택 기준·넘겨주기는 CLAUDE.md §phase 제어 / §agent·skill 라우팅에,
+verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
 - **Phased**: `prompt → /spec-init → /analyze-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
   구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).
@@ -84,14 +84,15 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
   만든다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
 - `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
-- `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`). 구현·판단
-  규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다. verify가 낸 `수정 소유 단계`가 구현 수정이 아니면 문서를 고치지 않고 멈춰
-  사용자에게 올린다.
+- `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`).
+  구현·판단 규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다.
+  verify가 낸 `수정 소유 단계`가 구현 수정이 아니면 문서를 고치지 않고 멈춰 사용자에게 올린다.
 
 Meta command (Phased 흐름과 독립):
 
-- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할 프롬프트가 충분한지, 책임 경계가 겹치지 않는지, 규칙끼리 어긋나지 않는지,
-  README가 맞는지, 컨텍스트를 얼마나 쓰는지, 줄일 곳이 있는지를 사용자가 직접 부를 때 본다. 발견만 보고하고 자동으로 고치지 않는다.
+- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할 프롬프트가 충분한지, 책임 경계가 겹치지 않는지, phase 흐름이 끊기지 않는지,
+  규칙끼리 어긋나지 않는지, 공식 권고와 어긋나지 않는지, README가 맞는지, 컨텍스트를 얼마나 쓰는지, 줄일 곳이 있는지를 사용자가 직접 부를 때 본다.
+  발견만 보고하고 자동으로 고치지 않는다.
 - `cross-analyze.md` — 같은 분석 질문을 N개 agent에 같은 프롬프트로 따로 분석시키고 main이 교차검증해 합의·불일치를 보고한다
   (`/cross-analyze [N] <질문>`). 읽기 전용이다.
 - `context-save.md` — 지금 설계·전달 작업이 어디까지 왔는지를 프로젝트 루트 `CONTEXT.md`에 저장해 세션을 이어받을 시작점을 만든다 (`/context-save`).
@@ -121,10 +122,25 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
 
+### hooks/ — settings.json이 실행하는 검사
+
+- `md-width.mjs` — markdown 한 줄 표시폭이 150칸을 넘는지 본다. `settings.json`의 PostToolUse(`Write|Edit`)로 걸리고,
+  초과가 있으면 exit 2로 초과 줄을 돌려줘 같은 턴에서 고치게 한다.
+  표시폭은 비ASCII를 2칸으로 세며, fenced code block·표 행·줄바꿈으로 해결되지 않는 긴 토큰은 예외다.
+  대상은 전역설정 디렉토리, `features/<feature-dir>/`, `README.md`·`ROADMAP.md`로 좁혀 남의 저장소 문서까지 막지 않는다.
+  `node hooks/md-width.mjs --scan <파일...>`로 일괄 점검도 된다.
+- `install.mjs` — 위 hook을 지금 기계의 `settings.json`에 등록한다. `node hooks/install.mjs`를 한 번 돌리면 되고,
+  여러 번 돌려도 결과는 같다. 등록할 hook 목록은 이 파일의 `WANTED` 배열이 소유한다.
+- Node로 쓴 이유는 Claude Code 자체가 Node 패키지라 플랫폼과 무관하게 실행기가 보장되기 때문이다.
+  경로는 `$HOME`으로 적어 bash와 PowerShell 양쪽에서 확장된다.
+- `settings.json`을 추적하지 않는 이유는 기계에 묶인 값 때문이다 — `statusLine`의 Windows exe 경로,
+  `wt-local` marketplace의 AppData 경로, 그에 딸린 `wt-agent-hooks` plugin.
+  나머지 설정과 hook 블록 자체는 이식 가능하므로, 새 기계에서는 `install.mjs`로 hook만 넣는다.
+
 ## 운영
 
 - `.gitignore`는 추적 파일에 대해 허용 목록 방식을 쓴다. `features/` 산출물은 로컬 작업물이며 추적하지 않는다.
 - 세션 데이터, 캐시, credential은 추적에서 뺀다.
 - 인코딩·줄바꿈은 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.
-- markdown 줄 길이는 CLAUDE.md §언어가 소유하며 기준은 표시폭 150칸(한글 약 80자)이다. `.editorconfig`의 `max_line_length = 150`은 문자 수 기준
-  편집기 힌트로 단위가 다르다.
+- markdown 줄 길이는 CLAUDE.md §언어와 `hooks/md-width.mjs`가 나눠 소유한다 (§hooks/).
+  `.editorconfig`의 `max_line_length = 150`은 문자 수 기준 편집기 힌트라 단위가 다르며, 이 hook과 별개로 남겨 둔다.

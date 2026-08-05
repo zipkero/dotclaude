@@ -1,9 +1,9 @@
 ---
 name: verify
 description: >-
-  Judge whether the most recent implement Task satisfies its implement.md verification criteria, and whether any spec.md §5 criteria completed by this
-  Task actually hold. Delegation to the verifier agent follows §verifier 위임 기준; post-processing is always main's. Returns approved/rejected with
-  evidence.
+  Judge whether the most recent implement Task satisfies its implement.md verification criteria, and whether any spec.md §5 criteria
+  completed by this Task actually hold. Delegation to the verifier agent follows §verifier 위임 기준;
+  post-processing is always main's. Returns approved/rejected with evidence.
 ---
 
 ## 역할
@@ -118,8 +118,8 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 - 같은 변경 안에 더하거나 고친 테스트는 통과만으로 근거가 되지 않는다. 구현 변경 내용과 함께 회귀 경우를 실제로 다루는지 확인한다. 테스트
   꼼수(assertion 약하게 만들기, 근거 없이 경우 지우기)로 보이면 `correctness`로 reject한다.
 
-테스트 Task 포함 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, 테스트 코드 작성 범위는 `skills/implement/SKILL.md` §테스트 코드 작성이
-소유한다.
+테스트 Task 포함 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이,
+테스트 코드 작성 범위는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
 
 ## 지침
 - 현재 Task와 그 approve로 완료되는 요구사항만 판단하고, 다른 Task나 앞으로의 작업에 대한 의견은 두지 않는다.
