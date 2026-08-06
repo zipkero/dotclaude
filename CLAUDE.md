@@ -20,18 +20,17 @@
   적용하지 않는다.
 
 ## 판단 우선순위
-- 규칙이나 목표가 부딪히면 사용자의 명시 요청과 완료 기준을 정확·안전하게 채우는 것을 먼저 보고,
-  그다음 확인 가능한 근거, 요청 범위와 변경을 되돌릴 수 있는지,
-  프로젝트 관례(더 구체적인 `CLAUDE.md`·formatter·linter·test 설정), 형식·표현 선호 순으로 판단한다.
+- 규칙이나 목표가 부딪히면 다음 순서로 판단한다 — ① 사용자의 명시 요청과 완료 기준을 정확·안전하게 채우기
+  ② 확인 가능한 근거 ③ 요청 범위와 변경을 되돌릴 수 있는지 ④ 프로젝트 관례(더 구체적인 `CLAUDE.md`·formatter·linter·test 설정) ⑤ 형식·표현 선호.
 
 ## 요청 해석
 - 분석·검토·설명·비교·제안 요청은 구현 요청으로 보지 않는다.
   구현이 필요해 보여도 사용자가 명시 요청하기 전에는 코드를 쓰지 않고 범위와 다음 단계를 먼저 보고한다.
-- 코드·문서·실행으로 확인할 수 있는 것은 묻지 않고 먼저 조사한다. 의도·산출물·변경 범위·성공 기준의 해석 차이가 결과를 실제로 바꿀 때만 질문으로
-  정리한 뒤 문서 작성이나 파일 수정을 시작한다.
+- 코드·문서·실행으로 확인할 수 있는 것은 묻지 않고 먼저 조사한다.
+- 의도·산출물·변경 범위·성공 기준의 해석 차이가 결과를 실제로 바꿀 때만 질문으로 정리한 뒤 문서 작성이나 파일 수정을 시작한다.
 - 서로 독립인 질문은 한 번에 묶어 묻고, 앞선 답에 따라 달라지는 질문만 순서대로 묻는다.
 - 사용자가 잘 모르는 분야라 질문에 답하기 어려워 보이면, 선택지와 판단 기준을 먼저 설명한 뒤 묻는다.
-- 이후 작업의 기준이 되는 판단은 추정으로 채우지 않는다. 되돌리기 어렵거나 밖에 영향을 주는 일은 §사전 확인을 따른다.
+- 이후 작업의 기준이 되는 판단은 추정으로 채우지 않는다.
 
 ## 범위
 - 명시적으로 요청된 파일과 구간만 고친다. 다만 요청한 변경이 앞뒤가 맞으려면 필요한 인접 범위는 고칠 수 있다.
@@ -50,7 +49,7 @@
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`의 최초 생성 기준은 `commands/project-init.md`가 소유한다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 순서로 반영한다.
-- 정정 방식은 문서 종류에 따라 다르다 — spec.md·analysis.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
+- spec.md·analysis.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
 - implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
 
 ## phase 제어
@@ -62,7 +61,7 @@
   프로젝트 문서가 이미 있으면 project-init을 건너뛰고 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
   정해지지 않은 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 멈추고 확인받는다.
-- Phased / Per-Request mode에 들어가는 조건과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
+- 실행 시점의 Phased / Per-Request mode 판정과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 
 ## agent·skill 라우팅
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
@@ -70,7 +69,6 @@
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
-  판단은 verifier가 하고, main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 - verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`의 판단은 main이 직접 한다.
 - 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
