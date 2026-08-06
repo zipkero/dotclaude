@@ -79,7 +79,8 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 
 - `project-init.md` — 프로젝트 루트에 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 넷을 만든다
   (`/project-init [프로젝트명 또는 한 줄 설명]`). 최종 결과물·서비스 완료 기준·마일스톤·작업 후보를 잡는다.
-  이 중 하나라도 이미 있으면 아무 파일도 쓰지 않으며, 이후 갱신은 이 command 밖에서 한다.
+  이 중 하나라도 이미 있으면 아무 파일도 쓰지 않는다. 이후 갱신은 사용자가 관리하며, feature 완료 시
+  `skills/verify/SKILL.md` §verify 후처리가 갱신 후보만 보고한다.
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
   만든다.
 - `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)

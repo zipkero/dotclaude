@@ -102,6 +102,11 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
   - main이 대상 implement.md Task 체크박스를 `[ ]` → `[x]`로 바꾸고 다른 파일은 건드리지 않는다.
   - 바꾼 뒤 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에
     `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 더한다.
+  - IMPLEMENT 완료 시 프로젝트 루트에 있는 문서 중 이번 feature로 낡은 것을 보고한다. 파일은 고치지 않으며 갱신 여부와 내용은 사용자가 정한다.
+    후보 판정 — spec.md §5가 사용자에게 보이는 동작을 더했으면 `docs/product.md`,
+    analysis.md §5에 이 feature 밖에서도 성립하는 결정이 있으면 `docs/design.md`,
+    담당 마일스톤의 전환 기준을 채웠으면 `ROADMAP.md`, 설치·실행 방법이 바뀌었으면 루트 `README.md`.
+    없는 문서와 해당하지 않는 후보는 보고에서 뺀다.
 - **Rejected**:
   - 대상 체크박스가 `[ ]`였다면(implement 직후의 보통 경우) 그대로 둔다.
   - 완료되는 요구사항이 성립하지 않아 rejected된 경우도 같다 — 대상 Task 체크박스는 `[ ]`로 남고,

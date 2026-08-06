@@ -67,20 +67,22 @@
 ## agent·skill 라우팅
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
 - 다음 넷은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`는 main이 직접 한다.
-- 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다. Per-Request mode는 main이 `implement` skill을 직접 부른다. 모드 판정은
-  `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
+- 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
+- Per-Request mode는 main이 `implement` skill을 직접 부른다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
   판단은 verifier가 하고, main은 판단을 받은 뒤 `skills/verify/SKILL.md` §verify 후처리를 읽고 그대로 따른다.
 - verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`의 판단은 main이 직접 한다.
 - 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
+  `Explore`는 CLAUDE.md를 받지 않으므로 지켜야 할 조사 범위·제외 경로·출력 형식은 위임 프롬프트에 직접 적는다.
 - agent 본문에 절차를 다시 적지 않는다.
 - agent가 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
 - subagent 모델과 추론 강도는 역할로 정한다 — 설계·판단은 부모 모델과 `effort: high`, 정해진 것을 실행하거나 탐색만 하는 역할은 `model: sonnet`과
   `effort: medium`을 쓴다.
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
-- 파일을 쓰지 않는 역할은 프롬프트로만 막지 않고 `disallowedTools`로 쓰기 도구를 뺀다. Bash 경로는 이 설정으로 막히지 않으므로 본문 경계로 남긴다.
+- 파일을 쓰지 않는 역할은 프롬프트로만 막지 않고 frontmatter에서 쓰기 도구를 뺀다 — agent는 `disallowedTools`, command·skill은 `disallowed-tools`.
+- Bash 경로는 이 설정으로 막히지 않으므로 본문 경계로 남긴다.
 - 한 작업은 subagent 하나에 맡기고, 쪼개서 여러 개 띄우지 않는다.
 
 ## 문서화
