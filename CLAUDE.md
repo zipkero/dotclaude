@@ -48,8 +48,8 @@
   채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`의 최초 생성 기준은 `commands/project-init.md`가 소유한다.
-- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analysis.md → implement.md 순서로 반영한다.
-- spec.md·analysis.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
+- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analyze.md → implement.md 순서로 반영한다.
+- spec.md·analyze.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
 - implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
 
 ## phase 제어

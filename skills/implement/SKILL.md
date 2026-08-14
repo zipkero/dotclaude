@@ -14,7 +14,7 @@ description: >-
 
    동작:
    - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
-   - analysis.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
+   - analyze.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건
      필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task를 다시
      나눠야 한다고 보고한다.
@@ -37,7 +37,7 @@ Phased 권장은 요청을 분류하는 시점에만 하며(CLAUDE.md §phase �
 비고·한계 항목에 보고만 한다.
 
 ## 미결정 분석 시 중단
-analysis.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면,
+analyze.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면,
 코드를 쓰지 말고 사용자에게 결정을 먼저 묻는다. 부분 산출물을 임시로 저장하지 않으며, 결정이 난 뒤 작업을 다시 시작한다.
 
 ## 재작업 시 파급 점검
@@ -62,10 +62,10 @@ Phased mode 반환에는 상태를 항상 적고, 나머지 항목은 해당하�
 ## 완료
 - Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리).
   다음 단계로 `verify`를 권하되, 사용자가 구현과 검증 전체를 명시 요청한 경우에는 `verify`를 이어서 한다(CLAUDE.md §phase 제어).
-- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 analysis.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그
+- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 analyze.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그
   Task의 접근 필드를 실제 구현 방식으로 고친다.
 - 설계 결정이나 목적·검증 조건·참조가 바뀌어야 하는 이탈이면 문서를 고치지 않고
-  analysis.md 또는 implement.md를 다시 써야 한다고 사용자에게 보고한다.
+  analyze.md 또는 implement.md를 다시 써야 한다고 사용자에게 보고한다.
 - Per-Request mode: 문서를 고치지 않는다.
 
 ## 테스트 코드 작성

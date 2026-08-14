@@ -52,16 +52,16 @@ reject 사유와 함께 `implement` 입력에 밝힌다. 점검 결과 설계 �
 
 1. **수정 소유 단계가 `implement`가 아닌 경우** — 형태를 가리지 않는다.
    - implement가 접근 이탈을 "설계 변경이 필요함"으로 보고한 경우
-   - 대상 Task가 analysis.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
+   - 대상 Task가 analyze.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
 2. 재시도 한도를 소진한 경우
 3. §자동 진행 제외에 걸린 Task를 만난 경우
 4. **implement가 `blocked`를 돌려준 경우** — 대상 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못해
-   재분할을 요구한 경우를 포함한다. 막힌 사유가 spec.md·analysis.md 수정을 요구하면 더 앞선 조건 1로 본다.
+   재분할을 요구한 경우를 포함한다. 막힌 사유가 spec.md·analyze.md 수정을 요구하면 더 앞선 조건 1로 본다.
 5. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
 ## 금지
-- **spec.md와 analysis.md를 고치지 않는다.** 판정 기준을 스스로 바꾸는 일이기 때문이다. 고쳐야 하는 상황은 정지 조건 1로 올린다.
+- **spec.md와 analyze.md를 고치지 않는다.** 판정 기준을 스스로 바꾸는 일이기 때문이다. 고쳐야 하는 상황은 정지 조건 1로 올린다.
   - 예외는 하나다 — `skills/implement/SKILL.md` §완료가 허용하는 접근 필드 정정(단순 구현 상세 차이). implement.md의 접근 필드만 바뀌고 판정 기준은
     그대로다.
 - spec.md §5 완료 조건이나 Task 검증 조건을 약하게·넓게 고쳐 통과시키지 않는다.

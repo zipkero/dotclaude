@@ -12,7 +12,7 @@ verify는 `implement` 바로 다음에 도는 판단 도구로, 두 가지를 �
 2. **완료되는 요구사항 판단** — 이 Task의 approve로 매핑 Task 묶음이 전부 완료되는 `SPEC §5.N`이 있다면, 그 완료 조건이 실제로 성립하는가?
 
 feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸친 `SPEC §5.N`이 마지막 Task에서 완료될 때, 같은 규칙으로 feature 수준 검증이 일어난다.
-체크박스 바꾸기는 §verify 후처리에 둔다. Task `[x]`는 현재 승인된 spec.md·analysis.md 기준으로 검증되었다는 뜻이며,
+체크박스 바꾸기는 §verify 후처리에 둔다. Task `[x]`는 현재 승인된 spec.md·analyze.md 기준으로 검증되었다는 뜻이며,
 상위 문서 재작성으로 초기화된 Task는 기존 구현 결과가 남아 있어도 현재 기준으로 다시 검증해야 한다.
 
 ## 근거 원칙
@@ -30,7 +30,7 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
 - 첫째 기준은 대상 Task의 검증 조건이다.
 - 둘째 기준은 매핑된 `SPEC §5.N`과 spec.md의 제약·제외 범위를 어기지 않는지다. 단, 이번 approve로 완료되는 `SPEC §5.N`은
   어기지 않음이 아니라 성립 확인까지 요구한다(§완료되는 요구사항 판정).
-- 셋째 기준은 analysis.md의 설계 결정을 벗어나지 않는지다.
+- 셋째 기준은 analyze.md의 설계 결정을 벗어나지 않는지다.
 
 ## 컨텍스트 로딩
 1. Phased mode — 들어가는 조건은 `implement` skill §컨텍스트 로딩과 같다.
@@ -44,7 +44,7 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
    - 완료되는 요구사항을 계산한다 — 대상 Task를 `[x]`로 쳤을 때 매핑 Task가 전부 `[x]`가 되는
      `SPEC §5.N` 목록. implement.md 참조 필드를 거꾸로 모아 구하며, 목록은 비어 있을 수 있다.
      재검증 모드에서도 같은 규칙으로 계산한다.
-   - 설계 뜻과 맞는지가 쟁점일 때 analysis.md Decision Points를 읽는다.
+   - 설계 뜻과 맞는지가 쟁점일 때 analyze.md Decision Points를 읽는다.
 2. 그 외 → Per-Request mode. 요청 범위와 코드 변경 내용만으로 verify한다.
    - 검증할 변경 범위 규칙은 Phased mode와 같다.
    - 어떤 문서도 읽거나 쓰지 않는다.
@@ -92,8 +92,8 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 모든 reject 분류는 똑같이 Task 승인을 막는다. 분류는 사용자가 다음 단계를 정하는 데 도움을 주려고만 둔다.
 - `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement 지침을 어긴 문제로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 낸다.
-- `design/scope`: 구현이 analysis.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을
-  고치거나 analysis.md를 고쳐 쓴다.
+- `design/scope`: 구현이 analyze.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을
+  고치거나 analyze.md를 고쳐 쓴다.
 
 ## verify 후처리
 main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, 판단을 돌려준 뒤 멈춘다.
@@ -104,7 +104,7 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
     `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 더한다.
   - IMPLEMENT 완료 시 프로젝트 루트에 있는 문서 중 이번 feature로 낡은 것을 보고한다. 파일은 고치지 않으며 갱신 여부와 내용은 사용자가 정한다.
     후보 판정 — spec.md §5가 사용자에게 보이는 동작을 더했으면 `docs/product.md`,
-    analysis.md §5에 이 feature 밖에서도 성립하는 결정이 있으면 `docs/design.md`,
+    analyze.md §5에 이 feature 밖에서도 성립하는 결정이 있으면 `docs/design.md`,
     담당 마일스톤의 전환 기준을 채웠으면 `ROADMAP.md`, 설치·실행 방법이 바뀌었으면 루트 `README.md`.
     없는 문서와 해당하지 않는 후보는 보고에서 뺀다.
 - **Rejected**:

@@ -10,7 +10,7 @@ Claude Code의 개인 설정 저장소.
 ### 이 구조가 존재하는 이유
 - Claude Code의 기본 동작은 한 번에 답하는 방식이다. 이 설정은 그 흐름을 **검증 가능한 단계**로 쪼개어 각 단계를 진행하기 전에 검토할 수 있게
   한다.
-- `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analysis.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는
+- `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `analyze.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는
   기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로
   참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
@@ -25,9 +25,9 @@ Claude Code의 개인 설정 저장소.
   사용자 판단으로 올린다. verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analysis.md`는 설계 판단을,
+- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analyze.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
-- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`analysis.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/analyze-init`으로
+- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`analyze.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/analyze-init`으로
   전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다
   (CLAUDE.md §문서 구조).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
@@ -56,7 +56,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 각 agent는 main에서 phase 작업을 받아 처리하고 결과를 main에 돌려준다. 반환 계약은 각 agent 파일이 소유한다.
 
-- `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analysis.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
+- `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analyze.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
   승인 전 확인에 남은 질문, 미해결 Decision Point, 미매핑 SPEC §5처럼 사용자 결정이 필요한 지점을 찾으면 아예 기록하지 않고 목록만 돌려준다.
   feature `README.md`와 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
@@ -83,8 +83,8 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
   `skills/verify/SKILL.md` §verify 후처리가 갱신 후보만 보고한다.
 - `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
   만든다.
-- `analyze-init.md` — `spec.md`로부터 `analysis.md`를 만든다 (`/analyze-init <feature-dir>`)
-- `implement-init.md` — `analysis.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
+- `analyze-init.md` — `spec.md`로부터 `analyze.md`를 만든다 (`/analyze-init <feature-dir>`)
+- `implement-init.md` — `analyze.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`).
   구현·판단 규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다.
   verify가 낸 `수정 소유 단계`가 구현 수정이 아니면 문서를 고치지 않고 멈춰 사용자에게 올린다.
