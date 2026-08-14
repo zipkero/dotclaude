@@ -91,7 +91,7 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 
 Meta command (Phased 흐름과 독립):
 
-- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할 프롬프트가 충분한지, 책임 경계가 겹치지 않는지, phase 흐름이 끊기지 않는지,
+- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할 프롬프트가 충분한지, 책임 경계가 겹치지 않는지, phase·세션 흐름이 끊기지 않는지,
   규칙끼리 어긋나지 않는지, 공식 권고와 어긋나지 않는지, README가 맞는지, 컨텍스트를 얼마나 쓰는지, 줄일 곳이 있는지를 사용자가 직접 부를 때 본다.
   발견만 보고하고 자동으로 고치지 않는다.
 - `cross-analyze.md` — 같은 분석 질문을 N개 agent에 같은 프롬프트로 따로 분석시키고 main이 교차검증해 합의·불일치를 보고한다
