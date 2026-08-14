@@ -41,7 +41,8 @@
 - 파일·브랜치 삭제, force push, hook 우회, 외부 전송처럼 되돌리기 어렵거나 공유·외부 시스템에 영향을 주는 일은 먼저 확인받고 한다.
 - 로컬이 아닌 데이터·메시징·인프라 시스템은 만들거나 고치거나 지우지 않으며, 조회도 먼저 확인받고 한다.
 - 로컬에서 되돌릴 수 있는 변경과 테스트 실행은 요청 범위 안에서 그냥 한다.
-- 관련 없는 git 변경은 되돌리지 않으며, 로그·주석·테스트·설정값은 분명한 근거 없이 지우지 않는다.
+- 관련 없는 git 변경은 되돌리지 않는다.
+- 로그·주석·테스트·설정값은 분명한 근거 없이 지우지 않는다.
 
 ## 문서 구조
 - 문서 산출물 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다.
@@ -50,6 +51,7 @@
 - 프로젝트 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`의 최초 생성 기준은 `commands/project-init.md`가 소유한다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analyze.md → implement.md 순서로 반영한다.
 - spec.md·analyze.md는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
+  예외는 `commands/analyze-init.md` §실행 주체가 main에 맡긴 검토 후 정정뿐이다 — `SPEC §5.N` 표기 보완과 확정된 답의 §5 반영.
 - implement.md와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다.
 
 ## phase 제어
@@ -58,7 +60,7 @@
   독립적으로 완료·검증할 단위가 여럿이다, 설계 선택이 갈려 먼저 확정하지 않으면 구현을 되돌려야 한다,
   공개 API 규약·데이터 이전처럼 되돌리기 어려운 외부 영향이 있다, 완료 조건이나 영향 범위를 나중에 제3자가 확인해야 한다.
 - 문서 phase(project-init → spec-init → analyze-init → implement-init)는 사용자가 부를 때만 넘어가며, 앞 phase를 마쳐도 저절로 이어가지 않는다.
-  프로젝트 문서가 이미 있으면 project-init을 건너뛰고 spec-init에서 시작한다.
+- 프로젝트 문서가 이미 있으면 project-init을 건너뛰고 spec-init에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
   정해지지 않은 판단, 설계 변경, 되돌리기 어려운 판단이 나오면 멈추고 확인받는다.
 - 실행 시점의 Phased / Per-Request mode 판정과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
@@ -69,7 +71,6 @@
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
-- verifier agent에 맡길 때 main은 검증할 변경 범위를 함께 넘긴다(`skills/verify/SKILL.md` §컨텍스트 로딩).
 - 자연어 `analyze`의 판단은 main이 직접 한다.
 - 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
   `Explore`는 CLAUDE.md를 받지 않으므로 지켜야 할 조사 범위·제외 경로·출력 형식은 위임 프롬프트에 직접 적는다.

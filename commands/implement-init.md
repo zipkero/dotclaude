@@ -15,7 +15,6 @@ Feature directory: $ARGUMENTS
 analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/implement.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
 의무).
 main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §매핑의 미매핑 결정·§README 갱신을 수행한다.
-analyzer는 미매핑 SPEC §5 기준이 남아 있으면 파일을 기록하지 않고 미매핑 항목을 묶어 main에 결정을 위임한다.
 
 ## 역할
 - 구현 단계의 진행 상황을 추적하는 단 하나의 문서다.
@@ -39,7 +38,6 @@ analyzer는 미매핑 SPEC §5 기준이 남아 있으면 파일을 기록하지
 
 ## 덮어쓰기 규칙
 - `implement.md`가 이미 있으면 main이 위임 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 버려짐을 함께 알린다.
-  analyzer는 확인 없이 기존 파일을 덮어쓰지 않는다.
 
 ## implement.md 구조
 

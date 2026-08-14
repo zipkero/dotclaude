@@ -21,8 +21,10 @@ Claude Code의 개인 설정 저장소.
   CLAUDE.md §agent·skill 라우팅과 각 command 파일 §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
-- **verify reject는 사용자 판단에 맡기며 자동으로 다시 하지 않는다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로 reject는
-  사용자 판단으로 올린다. verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
+- **verify reject는 기본적으로 사용자 판단에 맡긴다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로, 자연어 `implement` →
+  `verify` 경로에서는 reject를 자동으로 다시 하지 않고 사용자 판단으로 올린다. 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는
+  `/implement-loop` 하나뿐이고, 그 한도와 정지 조건은 `commands/implement-loop.md` §재시도가 소유한다.
+  verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analyze.md`는 설계 판단을,
@@ -70,8 +72,9 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 라우팅과 각 command 파일 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
-실행된다. 앞의 다섯은 CLAUDE.md §phase 제어의 "사용자가 부를 때만 넘어간다"를 설정으로 집행하는 자리이고, `config-review`는 자기 머리말이 정한
-"의식적으로 호출한다"를 집행한다. 나머지 meta command는 자연어 호출을 허용한다.
+실행된다. 문서 phase command 넷은 CLAUDE.md §phase 제어의 "사용자가 부를 때만 넘어간다"를, `implement-loop`은 같은 절의 "사용자가 구현과 검증
+전체를 명시 요청한 경우에만 implement → verify를 이어서 한다"를 설정으로 집행하고, `config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를
+집행한다. 나머지 meta command는 자연어 호출을 허용한다.
 
 읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다 (CLAUDE.md §agent·skill
 라우팅). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의 도구 풀은 이 설정으로 막히지 않으므로 본문 경계로
@@ -106,7 +109,8 @@ Meta command (Phased 흐름과 독립):
 - `analyze` — 독립 디버깅·코드 이해·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
   파일을 쓰지 않고 대화로만 출력한다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
-  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 코드 주석 기준의 소유자이며(§지침), 형식과 대상은 프로젝트·언어 관례에 맡긴다.
+  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 더하고 고치는지는 이 skill이 소유하고(§지침), 주석 언어는 CLAUDE.md §언어가,
+  언어별 doc 관례는 해당 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
   `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
