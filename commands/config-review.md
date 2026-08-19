@@ -2,6 +2,7 @@
 description: >-
   Audit the global configuration — role prompt sufficiency, responsibility boundaries, flow completeness, rule consistency, conformance to current
   official Anthropic guidance, README accuracy, context health, and trimming opportunities
+argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true
 ---
 

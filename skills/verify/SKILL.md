@@ -7,7 +7,7 @@ description: >-
 ---
 
 ## 역할
-verify는 `implement` 바로 다음에 도는 판단 도구로, 두 가지를 본다.
+verify는 Phased mode에서 `implement` 다음에 도는 판단 도구이며, Per-Request mode에서는 사용자가 부를 때만 돈다. 두 가지를 본다.
 1. **Task 판단** — 방금 만든 Task가 자기 검증 조건을 채웠는가?
 2. **완료되는 요구사항 판단** — 이 Task의 approve로 매핑 Task 묶음이 전부 완료되는 `SPEC §5.N`이 있다면, 그 완료 조건이 실제로 성립하는가?
 
@@ -54,7 +54,6 @@ Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다�
 
 ## verifier 위임 기준
 - Phased mode에서 변경이 여러 파일에 걸치고 동작·상태·외부 I/O·동시성·경계 중 하나 이상에 영향을 주면 verifier agent에 맡긴다.
-  판정 결과가 체크박스로 남는 상태 전환이므로 독립 판단이 필요한 자리다.
 - Per-Request mode는 main이 직접 판단한다. 사용자가 독립 검증을 따로 요청하면 같은 기준으로 verifier agent에 맡긴다.
 - 변경 내용만으로 판정할 수 있는 문서·오타·정적 설정 문구는 main이 직접 판단한다.
 - 위임 여부는 근거를 모으기 전에 정한다.
@@ -89,7 +88,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
    - 남은 위험 (따로 적을 게 있을 때만).
 
 ## reject 분류
-모든 reject 분류는 똑같이 Task 승인을 막는다. 분류는 사용자가 다음 단계를 정하는 데 도움을 주려고만 둔다.
+모든 reject 분류는 똑같이 Task 승인을 막는다.
 - `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement 지침을 어긴 문제로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 낸다.
 - `design/scope`: 구현이 analyze.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을

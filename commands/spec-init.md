@@ -125,8 +125,7 @@ Feature name: $ARGUMENTS
   N번 항목은 이후 단계(analyze.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — analyze.md 본문 인라인 인용과
   implement.md 참조 필드의 추적 단위다. 이 규칙은 `SPEC §5.N` 표기만 소유한다.
   접두사 없는 `§5`는 각 문서가 자기 5번 섹션을 가리킬 때 쓰는 별개 표기다.
-- 번호는 영구 식별자다. 기존 항목을 재배열·삭제·재번호하면 그 번호를 참조하던 analyze.md·implement.md가 조용히 깨진다. 기존 번호는 보존하고, 새
-  조건은 다음 번호로만 추가한다.
+- 번호는 영구 식별자다. 기존 번호는 재배열·삭제·재번호하지 않고 보존하며, 새 조건은 다음 번호로만 추가한다.
 
 반례 (내부 실행 — analyze.md / implement.md에 들어갈 내용이며 spec.md가 아니다):
 - "OrderListService가 DB에서 주문 목록을 가져온다"

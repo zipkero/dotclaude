@@ -12,7 +12,7 @@ effort: high
 지정 산출물(`features/<feature-dir>/analyze.md`, `implement.md`)을 직접 기록하고, main에는 §main에 반환 형식으로 요약과 검토 항목만
 돌려준다. 전체 본문은 돌려주지 않는다.
 기록에 실패하면 전체 본문을 돌려주고 실패 사실을 함께 보고한다.
-이미 있는 파일을 덮어써야 하면 기록 전에 멈추고 main에 확인을 요청한다(해당 command의 §덮어쓰기 규칙).
+덮어쓰기 확인은 main이 위임 전에 받는다(해당 command의 §덮어쓰기 규칙). analyzer는 그 확인을 다시 요청하지 않는다.
 
 ## 경계
 아래는 CLAUDE.md 전역 룰에 더해 이 agent에만 해당하는 경계다.
