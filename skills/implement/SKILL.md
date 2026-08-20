@@ -12,6 +12,8 @@ description: >-
      `/analyze-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이
      feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
 
+   예외: `/implement-loop`이 부른 경우는 판정 없이 Phased mode로 고정된다(`commands/implement-loop.md` §전제 조건).
+
    동작:
    - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
    - analyze.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.

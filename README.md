@@ -14,6 +14,8 @@ Claude Code의 개인 설정 저장소.
   기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로
   참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
+  Phased 밖에서 쓰는 진행 추적자의 체크박스는 이 판정을 거치지 않으므로 완료 기록이 아니라 진행 표시다
+  (구분은 CLAUDE.md §agent·skill 라우팅이 소유한다).
 
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만

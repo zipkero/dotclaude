@@ -38,6 +38,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - 한도는 재시도 2회다 (한 Task당 최대 3번 구현). 소진하면 정지한다.
 - `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다. reject 뒤의 재시도·정지 판정은 분류가 아니라
   `수정 소유 단계`만 따른다.
+- 예외는 `design/scope` 분류 하나다. `수정 소유 단계`가 `implement`여도 재시도하지 않고 §정지 조건 1로 간다.
+  설계에서 이탈했을 때 구현을 고칠지 analyze.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
 - 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다. 점검 결과 설계 변경이 필요하다고 보고되면 §정지 조건 1로 간다.
 
 ## 자동 진행 제외
