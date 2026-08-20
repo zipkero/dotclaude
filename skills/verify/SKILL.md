@@ -50,13 +50,16 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
    - 어떤 문서도 읽거나 쓰지 않는다.
 
 Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우) 판단 전에 멈춘다. verifier는 후보와
-사유를 묶어 main에 돌려주고(CLAUDE.md §agent·skill 라우팅), main이 직접 판단하는 경우에는 사용자에게 확인한다.
+사유를 묶어 main에 돌려주고, main이 직접 판단하는 경우에는 사용자에게 확인한다.
 
 ## verifier 위임 기준
 - Phased mode에서 변경이 여러 파일에 걸치고 동작·상태·외부 I/O·동시성·경계 중 하나 이상에 영향을 주면 verifier agent에 맡긴다.
 - Per-Request mode는 main이 직접 판단한다. 사용자가 독립 검증을 따로 요청하면 같은 기준으로 verifier agent에 맡긴다.
 - 변경 내용만으로 판정할 수 있는 문서·오타·정적 설정 문구는 main이 직접 판단한다.
 - 위임 여부는 근거를 모으기 전에 정한다.
+- 위임 프롬프트에 `<feature-dir>`, 대상 Task의 `task-<nnn>` 제목, 재검증 모드인지 여부를 적는다.
+  verifier는 main의 대화를 받지 않으므로 §컨텍스트 로딩이 말하는 "직전 `implement`"를 스스로 구할 수 없다.
+  Per-Request 위임에는 대상 Task 대신 검증할 사용자 요청을 인용한다.
 
 ## 완료되는 요구사항 판정
 Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` 각각에 대해 판단한다. Per-Request mode에는 적용하지 않는다.
@@ -114,6 +117,8 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
   - 이미 `[x]`였던 Task를 다시 검증하다가 rejected되면 main이 `[x]` → `[ ]`로 되돌린다. 그래서 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니면
     README의 `[x] IMPLEMENT`를 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
   - §출력 구조의 문제 항목을 사용자에게 전하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
+  - 자연어 `implement` → `verify` 경로에서는 reject를 자동으로 다시 구현하지 않고 사용자 판단으로 올린다.
+    자동 재시도는 `/implement-loop`만 하며, 그 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이 소유한다.
 - Per-Request mode는 verify 결과를 대화 출력으로만 남기며, 체크박스·README를 고치지 않는다.
 
 ## 테스트 evidence 규칙

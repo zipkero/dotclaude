@@ -77,8 +77,10 @@ disable-model-invocation: true
 
 ### 공식 권고 대조
 확인 대상은 다음 출처에서 직접 가져온 문서로 한정한다.
-- `platform.claude.com/docs` — Claude Code 문서, 모델 문서, 릴리스 노트.
-  prompt engineering은 `/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`가 기준 문서다.
+- `code.claude.com/docs` — Claude Code 문서.
+- `platform.claude.com/docs` — 모델 문서, 릴리스 노트, prompt engineering.
+  prompt engineering 기준 문서는 `/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`이고,
+  실행 모델의 `prompting-claude-<model>` 페이지를 함께 본다.
 - `anthropic.com/engineering`, `claude.com/blog` — 엔지니어링 블로그.
 - `github.com/anthropics/claude-code` — CHANGELOG와 releases.
 

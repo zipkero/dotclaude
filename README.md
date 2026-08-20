@@ -21,9 +21,9 @@ Claude Code의 개인 설정 저장소.
   CLAUDE.md §agent·skill 라우팅과 위임하는 command 파일의 §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
-- **verify reject는 기본적으로 사용자 판단에 맡긴다**: 프롬프트로 도는 구조에서는 재시도 횟수를 확실하게 강제할 수 없으므로, 자연어 `implement` →
-  `verify` 경로에서는 reject를 자동으로 다시 하지 않고 사용자 판단으로 올린다. 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는
-  `/implement-loop` 하나뿐이고, 그 한도와 정지 조건은 `commands/implement-loop.md` §재시도가 소유한다.
+- **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop` 하나뿐이다.
+  정책은 `skills/verify/SKILL.md` §verify 후처리가, 루프의 재시도 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이
+  소유한다.
   verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
@@ -73,13 +73,13 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 라우팅과 위임하는 command 파일의 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
-실행된다. 문서 phase command 넷은 CLAUDE.md §phase 제어의 "사용자가 부를 때만 넘어간다"를, `implement-loop`은 같은 절의 "사용자가 구현과 검증
-전체를 명시 요청한 경우에만 implement → verify를 이어서 한다"를 설정으로 집행하고, `config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를
-집행한다. 나머지 meta command는 자연어 호출을 허용한다.
+실행된다. 문서 phase command 넷은 위 §핵심 설계 결정의 "Phased 흐름은 사용자가 통제한다"를, `implement-loop`은 CLAUDE.md §agent·skill 라우팅의
+"사용자가 직접 부를 때만 실행된다"를 설정으로 집행하고, `config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를 집행한다.
+나머지 meta command는 자연어 호출을 허용한다.
 
-읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다 (CLAUDE.md §agent·skill
-라우팅). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의 도구 풀은 이 설정으로 막히지 않으므로 본문 경계로
-남는다.
+읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다
+(`rules/claude-config-authoring.md`). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의
+도구 풀은 이 설정으로 막히지 않으므로 본문 경계로 남는다.
 
 - `project-init.md` — 프로젝트 루트에 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 넷을 만든다
   (`/project-init [프로젝트명 또는 한 줄 설명]`). 최종 결과물·서비스 완료 기준·마일스톤·작업 후보를 잡는다.
@@ -119,7 +119,7 @@ Meta command (Phased 흐름과 독립):
 
 ### rules/ — 파일 경로로 걸리는 작업 기준
 
-frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다. 항상 로드되는 CLAUDE.md와 달리 해당 언어를 만질 때만 비용을 낸다.
+frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다. 항상 로드되는 CLAUDE.md와 달리 그 파일 종류를 만질 때만 비용을 낸다.
 
 매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다. 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야
 한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
@@ -127,6 +127,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 
 - `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
+- `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 frontmatter·본문 작성 기준.
 
 ## 운영
 
@@ -134,4 +135,6 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - 세션 데이터, 캐시, credential은 추적에서 뺀다.
 - 인코딩·줄바꿈은 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.
 - `settings.json`은 기계에 묶인 값 때문에 추적하지 않는다 —
-  `statusLine`의 Windows exe 경로, `wt-local` marketplace의 AppData 경로, 그에 딸린 `wt-agent-hooks` plugin.
+  `statusLine`의 Windows exe 경로, `hooks`가 부르는 `conhost.exe`·`%USERPROFILE%` 절대경로, plugin marketplace 캐시 경로.
+- 응답 길이와 preamble 생략은 내장 output style `Concise`가 담당한다. `CLAUDE.md`는 언어·톤·설명 깊이만 소유한다.
+  `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.

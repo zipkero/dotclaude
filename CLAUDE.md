@@ -11,6 +11,7 @@
 - Markdown 문서는 한 줄에 한 문장이나 절을 담는다.
 
 ## 응답
+- 깊은 설명을 따로 요청받지 않은 설명 요청에는 개요 수준으로 답한다.
 - 확인한 근거와 추정은 나눠서 보고한다.
 - 한 응답 안에서 앞에 설명한 항목은 이름으로만 가리키고 다시 요약하지 않는다.
 - 코드·외부 자료에 대한 주장은 실제로 본 범위 안에서만 한다.
@@ -69,16 +70,14 @@
 - 다음 넷은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
+- 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 요청은 `/implement-loop`이 받으며, 사용자가 직접 부를 때만 실행된다.
+  자연어로 온 구현·검증 요청은 §phase 제어의 implement → verify 경로로 받는다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 - 자연어 `analyze`의 판단은 main이 직접 한다.
 - 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
 - subagent에 위임할 때는 지켜야 할 범위·제외 경로·출력 형식을 위임 프롬프트에 직접 적는다.
-- agent 본문에 절차를 다시 적지 않는다.
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
-- 파일을 쓰지 않는 역할은 frontmatter에서 쓰기 도구를 뺀다 — agent는 `disallowedTools`, command·skill은 `disallowed-tools`.
-- command·skill의 `disallowed-tools`는 그 역할로 턴이 끝나는 경우에만 건다. 그 밖에는 본문 경계로 남긴다.
-- 쓰기 도구를 뺀 역할에도 Bash로 파일을 고치지 않는다는 경계는 본문에 적는다.
 - 한 작업은 subagent 하나에 맡기고, 쪼개서 여러 개 띄우지 않는다. 예외는 `/cross-analyze`뿐이다.
 
 ## 문서화

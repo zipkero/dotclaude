@@ -26,6 +26,7 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 담는다. implement.md에는 결정을 남기지 않는다.
+- feature README 상태판의 `[x] ANALYSIS`는 analyze.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
 - 정적 문서이며 진행 상황을 추적하는 문서가 아니다.
 - 새 세션(`/clear` 이후)에서도 `spec.md + analyze.md`만으로 implement.md를 만들 수 있게 쓴다.
 - spec.md §5 완료 조건의 본문을 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는
