@@ -25,9 +25,9 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/analyze.md`가 없으면 중단하고 `/analyze-init`을 먼저 실행하도록 안내한다.
-- analyze.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다. analyzer는 그런 항목을 찾으면 implement.md를 기록하지
-  않고 목록을 main에 넘기고, main이 질문으로 정리한다.
-  `(보류)` 표기 항목은 사용자가 이미 보류를 정한 것이므로 다시 묻지 않고, 그 항목이 영향을 주지 않는 Task까지 작성한다.
+- analyze.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외). analyzer는 그런 항목을 찾으면
+  implement.md를 기록하지 않고 목록을 main에 넘기고, main이 질문으로 정리한다.
+  `(보류)` 표기 항목은 그 항목이 영향을 주지 않는 Task까지 작성한다.
 - 승인 전 확인 항목의 답으로 설계 결정이 바뀌면 `/analyze-init`으로 analyze.md를 다시 쓴 뒤 implement.md를 작성한다(CLAUDE.md §문서 구조).
 - analyze.md §5 Decision Points에 미해결 항목이 있으면 analyzer가 목록을 main에 넘기고 main이 사용자에게 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
