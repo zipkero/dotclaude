@@ -111,6 +111,7 @@ Meta command (Phased 흐름과 독립):
 
 - `analyze` — 독립 디버깅·코드 이해·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
   파일을 쓰지 않고 대화로만 출력한다.
+  같은 턴 안에서 다른 작업에 이어 불릴 수 있어 `disallowed-tools`를 걸지 않고 본문 경계로만 막는다(`rules/claude-config-authoring.md`).
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
   범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 더하고 고치는지는 이 skill이 소유하고(§지침),
   주석 언어는 CLAUDE.md §언어가 소유한다.
