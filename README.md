@@ -32,7 +32,7 @@ Claude Code의 개인 설정 저장소.
 - **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analyze.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
 - **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`analyze.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/analyze-init`으로
-  전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID·체크박스를 보존해야 하므로 main이 영향받은 자리만 고친다
+  전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
   (CLAUDE.md §문서 구조).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/analyze-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
   부른다. 진행 시점은 사용자가 정한다.
@@ -93,7 +93,7 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 - `implement-init.md` — `analyze.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`).
   구현·판단 규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다.
-  verify가 낸 `수정 소유 단계`가 구현 수정이 아니면 문서를 고치지 않고 멈춰 사용자에게 올린다.
+  구현 수정만으로 통과시킬 수 없다고 판정되면 문서를 고치지 않고 멈춰 사용자에게 올린다.
 
 Meta command (Phased 흐름과 독립):
 
@@ -138,5 +138,6 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - 인코딩·줄바꿈은 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.
 - `settings.json`은 기계에 묶인 값 때문에 추적하지 않는다 —
   `statusLine`의 Windows exe 경로, `hooks`가 부르는 `conhost.exe`·`%USERPROFILE%` 절대경로, plugin marketplace 캐시 경로.
-- 응답 길이와 preamble 생략은 내장 output style `Concise`가 담당한다. `CLAUDE.md`는 언어·톤·설명 깊이만 소유한다.
+- 응답 길이와 preamble 생략은 내장 output style `Concise`가 담당한다.
+  `CLAUDE.md` §응답은 언어·톤·설명 깊이와, 근거/추정 구분·주장 범위·참조 표기·before/after 표기처럼 output style이 다루지 않는 보고 규칙을 소유한다.
   `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.

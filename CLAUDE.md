@@ -26,7 +26,8 @@
   ③ 요청 범위와 되돌릴 수 있는지 ④ 프로젝트 관례(더 구체적인 `CLAUDE.md`·formatter·linter·test 설정) ⑤ 형식·표현 선호.
 
 ## 요청 해석
-- 분석·검토·설명·비교·제안 요청에는 코드를 쓰지 않고 범위와 다음 단계를 보고한다. 구현은 사용자가 명시 요청할 때 시작한다.
+- 분석·검토·설명·비교·제안 요청에는 코드를 쓰지 않고 범위와 다음 단계를 보고한다.
+- 구현은 사용자가 명시 요청할 때 시작한다.
 - 코드·문서·실행으로 확인할 수 있는 것은 묻지 않고 먼저 조사한다.
 - 의도·산출물·변경 범위·성공 기준의 해석 차이가 결과를 실제로 바꿀 때만 질문으로 정리한 뒤 문서 작성이나 파일 수정을 시작한다.
 - 서로 독립인 질문은 한 번에 묶어 묻고, 앞선 답에 따라 달라지는 질문만 순서대로 묻는다.
@@ -53,7 +54,7 @@
 - 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analyze.md → implement.md 순서로 반영한다.
 - spec.md·analyze.md는 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
   예외는 `commands/analyze-init.md` §실행 주체가 main에 맡긴 검토 후 정정뿐이다.
-- implement.md와 feature `README.md`는 main이 영향받은 자리만 고치고 Task ID·체크박스는 보존한다.
+- implement.md와 feature `README.md`는 main이 영향받은 자리만 고치고, Task ID와 체크박스 항목은 지우거나 다시 번호 매기지 않는다.
 
 ## phase 제어
 - 요청은 Per-Request와 Phased 중 하나로 본다.
@@ -69,6 +70,7 @@
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
 - 다음 넷은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
+  main은 위임 전에 `skills/implement/SKILL.md` §컨텍스트 로딩의 판정 기준으로 mode를 가른다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
 - 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 요청은 `/implement-loop`이 받으며, 사용자가 직접 부를 때만 실행된다.
   자연어로 온 구현·검증 요청은 §phase 제어의 implement → verify 경로로 받는다.
@@ -79,8 +81,8 @@
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
 - Phased 밖에서는 사용자가 저장소 문서 하나를 진행 추적자로 지정할 수 있고, 그 체크박스도 main이 소유한다.
-  추적자는 한 번에 하나이며, 지정 사실은 `CONTEXT.md` §현재 작업 문서에 남긴다.
-  verify 판정을 근거로 하지 않으므로 완료 판정 기록으로 쓰지 않으며, 고칠 때는 영향받은 자리만 고치고 체크박스는 보존한다.
+  추적자는 한 번에 하나이며, 지정 사실은 다음 `/context-save`가 `CONTEXT.md` §현재 작업 문서에 남긴다.
+  verify 판정을 근거로 하지 않으므로 완료 판정 기록으로 쓰지 않으며, 고칠 때는 영향받은 자리만 고치고 체크박스 항목은 지우지 않는다.
 - 한 작업은 subagent 하나에 맡기고, 쪼개서 여러 개 띄우지 않는다. 예외는 `/cross-analyze`뿐이다.
 
 ## 문서화
