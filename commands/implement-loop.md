@@ -49,7 +49,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 아래 중 하나를 만나면 루프를 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
 
 1. **사용자가 문서를 고칠지 판단해야 하는 경우** — 형태를 가리지 않는다.
-   `수정 소유 단계`가 `implement`가 아닌 문제, `design/scope` 분류, 그리고 verify가 돌기 전에 드러난 아래 경우가 모두 여기로 온다.
+   §재시도가 넘긴 경우와, verify가 돌기 전에 드러난 아래 경우가 모두 여기로 온다.
    - implement가 접근 이탈을 "설계 변경이 필요함"으로 보고한 경우
    - 대상 Task가 analyze.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우

@@ -62,7 +62,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 각 agent는 main에서 phase 작업을 받아 처리하고 결과를 main에 돌려준다. 반환 계약은 각 agent 파일 또는 그 파일이 가리키는 skill이 소유한다.
 
 - `analyzer` — `/analyze-init`·`/implement-init` 실행. 계획 산출물(`analyze.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
-  승인 전 확인에 남은 질문, 미해결 Decision Point, 미매핑 SPEC §5처럼 사용자 결정이 필요한 지점을 찾으면 아예 기록하지 않고 목록만 돌려준다.
+  승인 전 확인에 남은 질문, 미해결 Decision Point, 미매핑 SPEC §5처럼 기록을 막는 지점을 찾으면 기록하지 않고 목록만 돌려준다.
   feature `README.md`와 코드는 고치지 않는다.
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
   판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
@@ -75,8 +75,9 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 라우팅과 위임하는 command 파일의 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
-실행된다. 문서 phase command 넷은 위 §핵심 설계 결정의 "Phased 흐름은 사용자가 통제한다"를, `implement-loop`은 CLAUDE.md §agent·skill 라우팅의
-"사용자가 직접 부를 때만 실행된다"를 설정으로 집행하고, `config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를 집행한다.
+실행된다. `/spec-init`·`/analyze-init`·`/implement-init`은 위 §핵심 설계 결정의 "Phased 흐름은 사용자가 통제한다"를, `/project-init`은 자기
+머리말이 정한 "최초 1회"를, `implement-loop`은 CLAUDE.md §agent·skill 라우팅의 "사용자가 직접 부를 때만 실행된다"를 설정으로 집행하고,
+`config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를 집행한다.
 나머지 meta command는 자연어 호출을 허용한다.
 
 읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다

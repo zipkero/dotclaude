@@ -16,7 +16,7 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
 상위 문서 재작성으로 초기화된 Task는 기존 구현 결과가 남아 있어도 현재 기준으로 다시 검증해야 한다.
 
 ## 근거 원칙
-판단은 **파일·변경 내용·테스트 결과**를 인용해야 하며 대화에서 짐작한 것에 기대지 않는다.
+판단은 **파일·변경 내용·테스트 결과**를 인용한다.
 
 - 최소 근거는 코드 변경 내용, 권장은 변경 내용 + 테스트 결과.
 - 내부 계산·조건·변환만 고쳤고 맞게 고쳤는지가 변경 내용에 그대로 보이면, 변경 내용에 기댄 판단도 유효한 근거다.
@@ -49,7 +49,7 @@ feature 단위 verify 단계를 따로 두지 않는다 — 여러 Task에 걸�
    - 설계 뜻과 맞는지가 쟁점일 때 analyze.md Decision Points를 읽는다.
 2. 그 외 → Per-Request mode. 요청 범위와 코드 변경 내용만으로 verify한다.
    - 검증할 변경 범위 규칙은 Phased mode와 같다.
-   - 어떤 문서도 읽거나 쓰지 않는다.
+   - Phased 산출물(spec.md·analyze.md·implement.md)을 읽거나 쓰지 않는다.
 
 Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우) 판단 전에 멈춘다. verifier는 후보와
 사유를 묶어 main에 돌려주고, main이 직접 판단하는 경우에는 사용자에게 확인한다.
@@ -78,7 +78,8 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 ## 출력 구조
 1. 판정: `approved` | `rejected`
 2. 대상 Task: implement.md Task 제목(Phased) 또는 사용자가 말한 변경(Per-Request)을 인용한다.
-3. 검증 — 이번 Task 판단에 실제로 영향을 준 항목만 적는다. 항목을 채우려고 상관없는 spec.md §5나 다른 모듈을 근거로 끌어오지 않는다.
+3. 검증 — 이번 Task 판단에 실제로 영향을 준 항목만 적는다. 항목을 채우려고 상관없는 spec.md §5나 다른 모듈을 근거로 끌어오지 않으며,
+   다른 Task나 앞으로의 작업에 대한 의견도 두지 않는다.
    - 기준 일치 — 관찰한 동작을 평문으로 적고, 필요하면 `SPEC §5.N` / Task 검증 조건 / `ANALYSIS §X.Y` 중 인용한 출처를 덧붙인다. Phased mode에서만
      spec·analysis 인용을 두며, Per-Request에서는 사용자 요청과 맞는지만 본다.
    - 범위·동작 정확성
@@ -133,6 +134,3 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 
 테스트 Task 포함 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이,
 테스트 코드 작성 범위는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
-
-## 지침
-- 현재 Task와 그 approve로 완료되는 요구사항만 판단하고, 다른 Task나 앞으로의 작업에 대한 의견은 두지 않는다.
