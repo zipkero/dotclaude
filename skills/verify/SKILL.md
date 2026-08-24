@@ -97,7 +97,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 
 ## reject 분류
 모든 reject 분류는 똑같이 Task 승인을 막는다.
-- `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement 지침을 어긴 문제로, 정확성은 깨지지 않는다.
+- `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement §주석·§지침을 어긴 문제로, 정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md 검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 낸다.
 - `design/scope`: 구현이 analyze.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을
   고치거나 analyze.md를 고쳐 쓴다.
