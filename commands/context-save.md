@@ -1,9 +1,9 @@
 ---
 description: >-
   Save the current architecture, design, or delivery context to a project-root CONTEXT.md with the goal, current state,
-  confirmed decisions, unresolved questions, one next action, completion criteria, and source-document links. Use when
-  preparing a session handoff, pausing exploratory design work, or recording an unexpected design change during Phased
-  spec, analysis, planning, or implementation work.
+  confirmed decisions, unresolved questions, one next action, completion criteria, and links to the files to read next.
+  Use when preparing a session handoff, pausing exploratory design work, or recording an unexpected design change in
+  either Phased or Per-Request work.
 ---
 
 ## 역할
@@ -18,17 +18,21 @@ description: >-
 ## 적용 경계
 
 - Phased 문서나 지정된 진행 추적자가 있으면 Task 상태, 요구사항과 구현 계획은 해당 문서를 기준으로 유지한다.
-- `CONTEXT.md`에는 Phased 작업을 중단시킨 설계 변경, 현재 논점, 이어서 볼 문서와 다음 작업만 기록한다.
+- `CONTEXT.md`에는 작업을 중단시킨 설계 변경, 현재 논점, 이어서 볼 파일과 다음 작업만 기록한다.
 - Phased 문서나 진행 추적자의 체크리스트, 전체 내용을 `CONTEXT.md`에 옮겨 적지 않는다.
+- Phased 문서도 진행 추적자도 없으면 사용자 요청 범위, 변경한 파일과 실행한 검증 결과를 기준으로 기록한다.
 - 대상 프로젝트 루트는 파일을 만들기 전에 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다.
-- `/context-save`는 기본적으로 `CONTEXT.md`만 변경한다.
-  확정된 결정을 원본 문서에도 반영해 달라는 요청이 없으면 다른 파일을 수정하지 않는다.
+- `/context-save`는 `CONTEXT.md`만 변경한다.
+  원본 문서에 반영되지 않은 확정 사항은 `문서 반영 필요`에 적고,
+  원본 갱신은 `CLAUDE.md` §문서 구조가 정한 소유 주체가 한다.
 
 ## 저장 절차
 
 1. 프로젝트 루트의 기존 `CONTEXT.md`가 있으면 전체를 읽는다.
 2. 현재 대화에서 사용자가 확정한 목표와 결정, 아직 정해지지 않은 판단, 다음 작업을 추린다.
 3. 관련 Phased 문서와 프로젝트 문서를 읽어 실제 반영 여부와 정확한 문서 경로를 확인한다.
+   기준 문서가 없으면 변경한 파일과 실행한 검증 결과를 확인하고,
+   대상이 Git 저장소면 현재 branch와 기준 HEAD도 확인한다.
 4. 확인된 사실과 아직 정하지 않은 내용을 나눈다.
 5. 활성 인수인계(현재 목표·미확정 판단·다음 작업)와 문서 미반영 사항이 모두 없으면, `CLAUDE.md` §사전 확인에
    따라 사용자 확인을 받은 뒤 기존 `CONTEXT.md`를 지우고 저장 절차를 마친다. 하나라도 남아 있으면 다음
@@ -43,7 +47,7 @@ description: >-
 ```markdown
 # Context
 
-저장: <yyyy-MM-dd HH:mm>
+저장: <yyyy-MM-dd HH:mm ±hh:mm>
 
 ## 현재 목표
 
@@ -60,19 +64,23 @@ description: >-
 - 작업:
 - 완료 기준:
 
-## 먼저 읽을 문서
+## 먼저 읽을 파일
 
 ## 문서 반영 필요
 ```
 
 다음 기준으로 내용을 채운다.
 
-- 맨 위 `저장:` 줄에 저장 시각을 적는다.
-- `현재 목표`는 이번 설계 작업이 도달하려는 결과를 1~2문장으로 적는다.
+- 맨 위 `저장:` 줄에 시간대를 포함한 저장 시각을 적는다(예: `저장: 2026-08-24 21:30 +09:00`).
+- `현재 목표`는 이번 작업이 도달하려는 결과와 사용자가 요청한 범위를 1~2문장으로 적는다.
 - `현재 상태`는 완료된 범위와 멈춘 지점을 적고 세부 작업 이력을 나열하지 않는다.
   마지막으로 실행한 검증과 그 결과를 한 줄 덧붙이고, 실행한 적이 없으면 그렇게 적는다.
+  멈춘 원인이 아직 해소되지 않은 문제면 그 문제와 해소 조건을 한 줄 덧붙인다.
+  대상이 Git 저장소면 현재 branch와 기준 HEAD를 한 줄 덧붙인다.
+  덧붙이는 내용은 각각 한 줄로 적고, 해당 없으면 그 줄을 생략한다.
 - `현재 작업 문서`에는 활성 feature와 Task 또는 지정된 진행 추적자가 있으면 그 문서와 현재 항목을 링크하고, 없으면 `없음`으로 적는다.
   추적자를 링크할 때는 그것이 Phased 산출물이 아니라 진행 추적자라는 것을 함께 적는다.
+  둘 다 없으면 `없음`으로 적고, 변경한 파일 경로는 `먼저 읽을 파일`에 적는다.
 - `확정된 결정`에는 사용자가 확정했고 다음 작업의 전제가 되는 결정만 적는다.
   항목마다 한 줄 요약과 그 근거가 확인되는 문서 위치를 링크한다.
   아직 어느 문서에도 반영되지 않아 링크할 자리가 없는 결정은 `문서 반영 필요`에도 함께 적는다.
@@ -80,13 +88,14 @@ description: >-
   항목마다 그 쟁점이 확인되는 문서 위치를 링크한다.
   문서 작성 과정에서 떠오른 미논의 후보는 적지 않는다.
 - `다음 작업`에는 새 세션이 바로 시작할 작업 하나와 검증 가능한 완료 기준을 적는다.
-- `먼저 읽을 문서`에는 다음 작업에 필요한 원본 문서만 상대 링크로 적는다.
+- `먼저 읽을 파일`에는 다음 작업에 필요한 원본 문서와 변경한 파일만 상대 링크로 적고, 변경한 파일은 그렇게 표시한다.
+  변경 파일 목록은 이 항목에만 두고 다른 항목에서 반복하지 않는다.
 - `문서 반영 필요`에는 확정됐지만 원본 또는 Phased 문서에 아직 반영되지 않은 내용만 적고, 없으면 `없음`으로 적는다.
 - `현재 상태`·`확정된 결정`·`미확정 판단`은 사용자가 확정했거나 문서에서 근거가 확인되는 내용만 적고, 없으면 `없음`으로 적는다.
 
 ## 제외할 내용
 
-- 대화 전문, 긴 요약, 전체 변경 내용, 로그와 명령 실행 이력
+- 대화 전문, 긴 요약, 전체 변경 내용, 로그와 명령 실행 이력 — 변경한 파일 경로 목록은 이 제외 대상이 아니다
 - 추정으로 채운 내용, 선택하지 않은 대안을 확정된 결정처럼 표현한 내용
 - 비밀값, 인증 정보, 개인정보
 

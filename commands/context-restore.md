@@ -1,9 +1,9 @@
 ---
 description: >-
   Restore architecture, design, or delivery context from a project-root CONTEXT.md and verify it against linked source
-  and Phased documents. Read-only: reports the restored context and stops. Use when resuming work in a new session,
-  picking up saved context, revisiting an unexpected design change, or asking what to do next during spec, analysis,
-  planning, or implementation work.
+  documents and the current workspace state. Read-only: reports the restored context and stops. Use when resuming
+  Phased or Per-Request work in a new session, picking up saved context, revisiting an unexpected design change, or
+  asking what to do next.
 disallowed-tools: Write, Edit, NotebookEdit
 ---
 
@@ -17,9 +17,12 @@ disallowed-tools: Write, Edit, NotebookEdit
 
 - 읽기 전용으로 동작하며 Bash로도 파일을 고치지 않는다.
 - Phased 문서나 지정된 진행 추적자가 있으면 Task 상태, 요구사항과 구현 계획은 해당 문서를 기준으로 복원한다.
+- Phased 문서도 진행 추적자도 없으면 저장된 요청 범위와 현재 작업 트리를 기준으로 복원한다.
 - `CONTEXT.md`는 작업을 중단시킨 설계 변경, 현재 논점과 다음 작업을 보완한다.
 - `문서 반영 필요`에 기록된 확정 사항은 원본 문서보다 나중에 결정됐을 수 있으므로 단순 충돌로 버리지 않는다.
 - `저장:` 시각을 충돌 판정 근거로 쓰지 않는다. 어느 쪽이 최신인지 판정하지 않고 양쪽을 보고한다.
+  `저장:` 줄이 없으면 이전 형식으로 보고 저장 시점을 `저장 안 됨`으로 보고한다.
+- `먼저 읽을 파일`이 없고 `먼저 읽을 문서`만 있으면 이전 형식으로 보고 같은 항목으로 읽는다.
 - 읽을 프로젝트 루트는 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다.
 
 ## 복원 절차
@@ -29,17 +32,22 @@ disallowed-tools: Write, Edit, NotebookEdit
    파일이 없으면 저장된 맥락이 없다고 알린 뒤, 프로젝트 루트의 문서와 `features/` 아래 feature README
    상태판에서 확인되는 현재 위치만 전하고 멈춘다. 이 경우 §복원 보고를 만들지 않는다.
    파일이 있고 항목이 비었거나 근거를 찾지 못하면 그 항목을 `저장 안 됨`으로 보고한다.
-3. `현재 작업 문서`, `먼저 읽을 문서`와 `확정된 결정`에서 참조한 프로젝트 문서를 읽는다.
-4. 참조 파일이 없거나 `CONTEXT.md`와 원본·Phased 문서가 충돌하면 그 차이를 §적용 경계대로 먼저 보고한다.
-5. `문서 반영 필요` 항목은 아직 원본에 반영되지 않은 확정 사항으로 복원한다.
-6. 현재 목표, 현재 상태, 현재 작업 문서, 확정된 결정, 미확정 판단, 다음 작업과 완료 기준을 짧게 복원한다.
-7. 복원 보고 후 멈춘다.
+3. `현재 작업 문서`, `먼저 읽을 파일`과 `확정된 결정`에서 참조한 파일을 읽는다.
+4. 기준 문서가 없으면 저장된 변경 파일의 존재와 현재 내용을 확인한다.
+   대상이 Git 저장소면 저장된 branch·기준 HEAD를 현재 `git status`와 대조한다.
+   저장된 상태와 어긋나거나 사라진 변경은 차이로 보고하고, HEAD가 달라진 것 자체는 충돌이 아니라 참고로 보고한다.
+5. 참조 파일이 없거나 `CONTEXT.md`와 원본·Phased 문서가 충돌하면 그 차이를 §적용 경계대로 먼저 보고한다.
+6. `문서 반영 필요` 항목은 아직 원본에 반영되지 않은 확정 사항으로 복원한다.
+7. 현재 목표, 현재 상태, 현재 작업 문서, 확정된 결정, 미확정 판단, 다음 작업과 완료 기준을 짧게 복원한다.
+8. 복원 보고 후 멈춘다.
 
 ## 복원 후 경계
 
 - 다음 작업의 실제 수행은 사용자의 별도 요청으로 시작하며,
   CLAUDE.md §phase 제어와 §agent·skill 라우팅을 그대로 따른다.
   복원이 문서 phase의 자동 진행이나 agent 위임 규칙을 건너뛰는 근거가 되지 않는다.
+- 사용자가 복원과 실행을 함께 요청했어도 이 command는 복원 보고로 끝내고,
+  실행은 이어지는 요청의 작업으로 위 라우팅을 따라 시작한다.
 - `CONTEXT.md`에 없는 새 설계 결정은 확정하지도, 추정·제안·판단으로 표시해 보고에 넣지도 않는다.
 - 복원 결과를 `CONTEXT.md`에 다시 쓰지 않는다.
   사용자가 `/context-save`를 부를 때만 이어받기 상태를 갱신한다.
@@ -54,4 +62,4 @@ disallowed-tools: Write, Edit, NotebookEdit
 4. 미확정 판단 — 저장된 쟁점만 그대로 보고하고, 어느 쪽이 맞는지 판단하거나 새 선택지를 덧붙이지 않는다
 5. 저장된 다음 작업과 완료 기준
 6. 원본에 아직 반영되지 않은 확정 사항 — 없으면 생략한다
-7. 누락되거나 원본 문서와 충돌한 맥락
+7. 누락되거나 원본 문서·작업 트리와 어긋난 맥락
