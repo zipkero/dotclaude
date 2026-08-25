@@ -29,7 +29,7 @@ Claude Code의 개인 설정 저장소.
   verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- **SPEC이 완료 조건의 소유자, ANALYSIS는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analyze.md`는 설계 판단을,
+- **SPEC이 완료 조건의 소유자, ANALYZE는 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `analyze.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
 - **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`analyze.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/analyze-init`으로
   전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다

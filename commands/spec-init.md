@@ -53,11 +53,11 @@ Feature name: $ARGUMENTS
 `/spec-init`으로 기존 spec.md를 다시 쓰거나 `/analyze-init`으로 기존 analyze.md를 다시 쓸 때, 하위 승인 상태를 다음
 규칙으로 초기화한다. 두 재작성에 공통 적용되며 규칙 본문은 이 자리 하나뿐이다.
 - 초기화 대상: feature README.md 상태판의 `IMPLEMENT`를 `[ ]`로, implement.md의 모든 Task 체크박스를 `[ ]`로
-  되돌린다. `/spec-init` 재작성이면 `ANALYSIS`도 `[ ]`로 되돌린다.
+  되돌린다. `/spec-init` 재작성이면 `ANALYZE`도 `[ ]`로 되돌린다.
 - 보존 대상: implement.md·analyze.md 파일 자체, 각 Task의 내용·ID·순서. README.md 상태판의 `SPEC`은 이 규칙이
   건드리지 않는다.
-- 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|ANALYSIS> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
-- 각 체크박스가 뜻하는 불변식은 `[x] ANALYSIS`는 `commands/analyze-init.md` §역할이,
+- 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|ANALYZE> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
+- 각 체크박스가 뜻하는 불변식은 `[x] ANALYZE`는 `commands/analyze-init.md` §역할이,
   Task 체크박스는 `skills/verify/SKILL.md` §역할이, `[x] IMPLEMENT`는 같은 파일 §verify 후처리가 정의한다.
 
 ## 요구사항 확정
@@ -143,12 +143,12 @@ Feature name: $ARGUMENTS
 
 ## 상태
 - [x] SPEC
-- [ ] ANALYSIS
+- [ ] ANALYZE
 - [ ] IMPLEMENT
 
 ## 문서
 - [spec.md](./spec.md)
-- [analyze.md](./analyze.md) (ANALYSIS 단계에서 생성)
+- [analyze.md](./analyze.md) (ANALYZE 단계에서 생성)
 - [implement.md](./implement.md) (IMPLEMENT 단계에서 생성)
 
 ## 작업 히스토리

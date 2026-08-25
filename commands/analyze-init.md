@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 > 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
 
-`features/<feature-dir>/analyze.md`를 작성한다. ANALYSIS는 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
+`features/<feature-dir>/analyze.md`를 작성한다. ANALYZE는 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
 
 Feature directory: $ARGUMENTS
 
@@ -28,7 +28,7 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 담는다. implement.md에는 결정을 남기지 않는다.
-- feature README 상태판의 `[x] ANALYSIS`는 analyze.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
+- feature README 상태판의 `[x] ANALYZE`는 analyze.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
 - 정적 문서이며 진행 상황을 추적하는 문서가 아니다.
 - 새 세션(`/clear` 이후)에서도 `spec.md + analyze.md`만으로 implement.md를 만들 수 있게 쓴다.
 - spec.md §5 완료 조건의 본문을 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는
@@ -46,13 +46,13 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 ## 덮어쓰기 규칙
 확인은 main이 analyzer에 위임하기 전에 받는다.
 - `analyze.md`가 이미 있으면 사용자 확인을 받는다.
-- `implement.md`가 존재하면, ANALYSIS 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
+- `implement.md`가 존재하면, ANALYZE 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
   implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 
 ## analyze.md 구조
 
 ### 승인 전 확인
-- 사용자가 ANALYSIS 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
+- 사용자가 ANALYZE 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
 - 사용자가 항목에 답하면 §실행 주체가 정한 경로로 그 결과를 §1–§5 중 맞는 섹션에 반영하고 해당 항목을 이 섹션에서 지운다.
   사용자가 명시적으로 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N` 형태로 남긴다.
   남아 있는 항목은 아직 답을 받지 않은 질문이라는 뜻이며, 이후 단계는 이 표기로 답을 받았는지 판정한다.
@@ -106,8 +106,8 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 
 ## README 갱신
 완료 시 (analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
-- README.md 상태 `[ ] ANALYSIS`를 `[x] ANALYSIS`로 전환한다.
-- 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: ANALYSIS 작성`.
+- README.md 상태 `[ ] ANALYZE`를 `[x] ANALYZE`로 전환한다.
+- 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: ANALYZE 작성`.
 - 기존 analyze.md를 재작성하는 경우의 하위 승인 상태 초기화는 `commands/spec-init.md`
   §재작성 시 하위 승인 상태 초기화를 따른다.
 
