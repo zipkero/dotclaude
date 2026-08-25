@@ -1,9 +1,9 @@
 ---
 description: >-
-  Launch N independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a
+  Launch N (3-5, default 3) independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a
   consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior
   question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
-argument-hint: "[N] <질문>"
+argument-hint: "[N(3~5)] <질문>"
 disallowed-tools: Write, Edit, NotebookEdit
 ---
 
@@ -18,8 +18,10 @@ Scope: $ARGUMENTS
 
 ## 인자 처리
 `$ARGUMENTS` 파싱:
-- 맨 앞 토큰이 정수면 그 값을 **agent 수 N**으로 쓰고, 나머지를 분석 대상으로 본다. (예: `/cross-analyze 5 <질문>`)
-- 정수가 없으면 **N=3**(기본), 전체를 분석 대상으로 본다.
+- **agent 수 N은 3 이상 5 이하**로 두고, 기본값은 **3**이다.
+- 맨 앞 토큰이 정수면 그 값을 N 후보로 쓰고, 나머지를 분석 대상으로 본다. (예: `/cross-analyze 5 <질문>`)
+- N 후보가 3~5 밖이면 가까운 한계값(3 미만은 3, 5 초과는 5)으로 맞추고, 착수 전에 요청값과 실제 N을 한 줄로 보고한다.
+- 정수가 없으면 N=3, 전체를 분석 대상으로 본다.
 - 대상이 비어 있으면 직전 대화 맥락에서 "가장 최근에 논의된 미해결 분석 질문"을 후보로 잡고, 본문 착수 전에 "이 질문을 N개로 교차분석하겠다"를 한 줄로
   먼저 보고한다. 후보가 분명하지 않으면 질문으로 정리한다.
 
@@ -81,6 +83,7 @@ Scope: $ARGUMENTS
 
 ## 금지
 - agent마다 다른 각도를 주는 것. 각도를 나누고 싶으면 이 command가 아니라 개별 지시로 처리한다.
+- N을 3~5 밖으로 두고 실행하는 것. 요청값이 범위를 벗어나면 한계값으로 맞춘 뒤 그 사실을 보고한다.
 - 근거 `file:line` 없이 단정하기. 확인 못 한 건 추정으로 분류한다.
 - 분석을 구현으로 확장하기.
 
