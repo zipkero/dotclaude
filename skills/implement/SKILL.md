@@ -95,7 +95,7 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
 `skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
 
 ## 주석
-언어별 doc comment(`///`, `// Name ...`, JSDoc/TSDoc)를 쓸지와 그 형식은 해당 `rules/` 파일이 소유하며,
+문서화 주석은 언어별 관례를 해당 `rules/` 파일이 소유하고, 분량은 `rules/code-common.md` §공통 기준을 따른다.
 아래 항목은 그 밖의 주석에 적용한다.
 
 - 코드만 봐서는 알 수 없고 어기면 동작이 깨지는 제약만 남긴다.
