@@ -115,7 +115,7 @@ Meta command (Phased 흐름과 독립):
   같은 턴 안에서 다른 작업에 이어 불릴 수 있어 `disallowed-tools`를 걸지 않고 본문 경계로만 막는다(`rules/claude-config-authoring.md`).
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
   범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 남기고 고치는지는 이 skill이 소유하고(§주석),
-  주석 언어는 CLAUDE.md §언어가 소유한다.
+  주석 언어는 CLAUDE.md §언어가, 언어별 doc comment 관례는 각 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md 검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
   `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
