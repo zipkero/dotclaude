@@ -15,8 +15,8 @@ description: >-
    예외: `/implement-loop`이 부른 경우는 판정 없이 Phased mode로 고정된다(`commands/implement-loop.md` §전제 조건).
 
    동작:
-   - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
-   - design.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
+   - implement.md·design.md(설계 기준)·spec.md(완료 조건 매핑)를 읽는다.
+     implement.md가 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건
      필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하거나 보존하지 못하고 코드 조각 수준에 그치면,
      구현하지 말고 Task 경계를 다시 잡아야 한다고 `blocked`로 보고한다 — 대개 뒤따르는 Task와 합쳐야 한다는 뜻이다.

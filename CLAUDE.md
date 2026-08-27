@@ -72,11 +72,12 @@
 
 ## agent·skill 라우팅
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
-- 다음은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`와 자연어 `analyze`는 main이 직접 한다.
+- 다음은 예외로 여기서 정한다 — `/project-init`·`/spec-init`·`/context-save`·`/context-restore`·`/config-review`와
+  자연어 `analyze`는 main이 직접 한다.
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
   main은 위임 전에 `skills/implement/SKILL.md` §컨텍스트 로딩의 판정 기준으로 mode를 가른다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
-- 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 요청은 `/implement-loop`이 받으며, 사용자가 직접 부를 때만 실행된다.
+- 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 일은 `/implement-loop`만 하며, 사용자가 직접 부를 때만 실행된다.
   자연어로 온 구현·검증 요청은 §phase 제어의 implement → verify 경로로 받는다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 - 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
@@ -85,7 +86,8 @@
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
 - Phased 밖에서는 사용자가 저장소 문서 하나를 진행 추적자로 지정할 수 있고, 그 체크박스도 main이 소유한다.
   추적자는 한 번에 하나이며, 새로 지정하면 앞의 것은 추적자가 아니다.
-- 추적자 체크박스는 verify 판정을 근거로 하지 않으므로 완료 판정 기록으로 쓰지 않는다. 고치는 방식은 §문서 구조를 따른다.
+- 추적자 체크박스는 verify 판정을 근거로 하지 않으므로 완료 판정 기록으로 쓰지 않으며,
+  고칠 때는 §문서 구조가 implement.md·feature README에 정한 대로 영향받은 자리만 고친다.
 - 한 작업을 여러 subagent로 나눠 띄우려면 결과를 합칠 주체가 하나로 정해져야 한다.
 
 ## 문서화

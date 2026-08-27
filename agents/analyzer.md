@@ -20,14 +20,13 @@ effort: high
 - spec.md 수정 금지 (`commands/spec-init.md` §역할).
 - `/implement-init` 모드에서 design.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
 - 코드 수정 금지. 지정 산출물을 만들고 기록하는 일만 한다.
-- README.md 상태·작업 히스토리는 직접 쓰지 않는다. 돌려주는 형식은 §main에 반환을 따른다.
+- README.md 상태·작업 히스토리는 직접 쓰지 않는다.
 
 ## 동작 모드
 
 ### `/design-init` 위임
 main이 `/design-init <feature-dir>` 작업을 맡길 때.
 - 절차는 `commands/design-init.md`가 소유하며 그 파일의 규칙을 그대로 따른다.
-- 코드베이스를 넓게 뒤져야 하면 `Explore` subagent에 맡긴다. 파일 하나 보는 정도는 직접 Read/Grep.
 
 ### `/implement-init` 위임
 main이 `/implement-init <feature-dir>` 작업을 맡길 때.
@@ -39,7 +38,7 @@ main이 `/implement-init <feature-dir>` 작업을 맡길 때.
 돌려보낼 항목은 흩어 보내지 않고 찾은 시점에 묶어 한 번에 보낸다.
 
 - `/design-init` 호출: `commands/design-init.md` §전제 조건이 기록을 막는 경우, 같은 파일 §실행 주체가 정의하는 미해결 결정 유형에 걸리는 경우,
-  또는 spec.md 안에 분석 결정에 영향을 주는 모순이 있는 경우.
+  또는 spec.md 안에 설계 결정에 영향을 주는 모순이 있는 경우.
 - `/implement-init` 호출: `commands/implement-init.md` §전제 조건이 기록을 막는 경우, 또는 같은 파일 §매핑의 미매핑 SPEC §5 기준을 찾은 경우.
 
 돌려주는 형식: 질문 항목 목록 + 각 항목을 푸는 조건. 모든 항목은 근거(읽은 파일·찾은 모순 등)에 기반한다.
