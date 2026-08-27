@@ -6,6 +6,7 @@ description: >-
 disallowedTools: Write, Edit, NotebookEdit
 skills:
   - verify
+model: opus
 ---
 
 ## 동작
