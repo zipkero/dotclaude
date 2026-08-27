@@ -5,6 +5,7 @@ description: >-
   main directly. Returns summary; main flips checkboxes only after verify approves.
 skills:
   - implement
+model: opus
 ---
 
 ## 동작

@@ -79,7 +79,7 @@
   자연어로 온 구현·검증 요청은 §phase 제어의 implement → verify 경로로 받는다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 - 자연어 `analyze`의 판단은 main이 직접 한다.
-- 여러 파일·디렉토리를 훑어야 하고 결론만 필요한 조사는 `Explore`에 맡긴다.
+- 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
 - subagent에 위임할 때는 지켜야 할 범위·제외 경로·출력 형식을 위임 프롬프트에 직접 적는다.
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
 - 진행 상태(implement.md 체크박스, feature README 상태판)는 main이 소유한다.
