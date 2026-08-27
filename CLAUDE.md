@@ -47,13 +47,14 @@
 - 로그·주석·테스트·설정값은 분명한 근거 없이 지우지 않는다.
 
 ## 문서 구조
+- `design.md`는 `features/<feature-dir>/design.md`를 가리킨다. 프로젝트 루트 문서는 `docs/design.md`로 적는다.
 - 문서 산출물 분량은 각 command가 정한 구조를 채우는 데 필요한 만큼으로 맞춘다.
   채움용 섹션, 앞 내용 재요약, 정형 문구로 늘리지 않는다.
 - feature 산출물 구조와 `<feature-dir>` 만들기·재사용 규칙은 `commands/spec-init.md`가 소유한다.
 - 프로젝트 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`의 최초 생성 기준은 `commands/project-init.md`가 소유한다.
-- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 analyze.md → implement.md 순서로 반영한다.
-- spec.md·analyze.md는 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
-  예외는 `commands/analyze-init.md` §실행 주체가 main에 맡긴 검토 후 정정뿐이다.
+- 요구사항이 바뀌면 spec.md를 먼저 고치고, 영향받는 design.md → implement.md 순서로 반영한다.
+- spec.md·design.md는 부분 수정하지 않고 그 문서를 쓰는 주체가 전문을 다시 쓴다.
+  예외는 `commands/design-init.md` §실행 주체가 main에 맡긴 검토 후 정정뿐이다.
 - implement.md와 feature `README.md`는 main이 영향받은 자리만 고치고, Task ID와 체크박스 항목은 지우거나 다시 번호 매기지 않는다.
 
 ## phase 제어
@@ -65,7 +66,7 @@
 - 완료·검증할 단위가 여럿인 것만으로는 Phased를 권하지 않고, 단위를 나눠 순서대로 진행한다.
 - 프로젝트 문서가 이미 있으면 `/spec-init`에서 시작한다.
 - 사용자가 구현과 검증 전체를 명시 요청한 경우에만 implement → verify를 이어서 한다.
-- 결과를 실제로 바꾸는 미확정 판단이나 analyze.md가 확정한 결정을 바꾸는 변경이 필요해지면 멈추고 확인받는다.
+- 결과를 실제로 바꾸는 미확정 판단이나 design.md가 확정한 결정을 바꾸는 변경이 필요해지면 멈추고 확인받는다.
 - 실행 시점의 Phased / Per-Request mode 판정과 활성 범위 정의는 `skills/implement/SKILL.md` §컨텍스트 로딩이 소유한다.
 - 병렬화 같은 실행 방식은 phase 목록에 단계를 더하지 않고 각 phase 안에서 쓴다.
 

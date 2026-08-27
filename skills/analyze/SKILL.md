@@ -8,12 +8,12 @@ description: >-
 ## 역할
 그때그때 하는 조사 도구이며 phase가 아니다. 파일을 쓰지 않고 출력은 대화로만 나간다.
 
-`/analyze-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해·설계 선택지 비교용이며, `/analyze-init`은 `analyze.md`를 쓰는 Phased 설계 phase다.
+`/design-init`과는 다르다. 이 skill은 독립 디버깅·코드 이해·설계 선택지 비교용이며, `/design-init`은 `design.md`를 쓰는 Phased 설계 phase다.
 Phased 흐름의 진행 순서는 CLAUDE.md §phase 제어가 소유한다.
 
 ## 컨텍스트 로딩
 1. `$ARGUMENTS`가 `features/<feature-dir>/` 또는 그 아래 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고,
-   spec.md·analyze.md·implement.md 중 질문에 필요한 부분만 읽는다.
+   spec.md·design.md·implement.md 중 질문에 필요한 부분만 읽는다.
 2. `$ARGUMENTS`가 특정 파일·심볼을 가리키면 → 그 대상을 분석하고 필요한 만큼 주변 맥락을 함께 읽는다.
 3. `$ARGUMENTS`가 비어 있으면 다음과 같이 한다.
    - 활성 `features/<feature-dir>/` 범위가 있으면 (1)처럼 읽는다. 활성 범위의 뜻은 `implement` skill §컨텍스트 로딩과 같되, "implement 뜻"을 "분석

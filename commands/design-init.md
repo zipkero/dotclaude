@@ -1,17 +1,17 @@
 ---
-description: Create analyze.md (analysis + design) under features/<feature-dir>/ from spec.md
+description: Create design.md (design decisions) under features/<feature-dir>/ from spec.md
 argument-hint: "<feature-dir>"
 disable-model-invocation: true
 ---
 
 > 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
 
-`features/<feature-dir>/analyze.md`를 작성한다. ANALYZE는 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
+`features/<feature-dir>/design.md`를 작성한다. DESIGN은 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
 
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/analyze.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
+analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/design.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
 의무).
 main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §README 갱신을 수행한다.
 검토에서 spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 걸려 있는지 확인한다. 표기가 없는 조건은 원인에 따라 다르게 처리한다 —
@@ -23,36 +23,36 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 - 외부 연동이 무엇을 뜻하는지
 - `SPEC §5.N`이 규정한 사용자 관찰 결과와 그 충족 여부
 
-받은 답은 analyzer에 다시 위임해 analyze.md 전문을 다시 쓰게 한다.
+받은 답은 analyzer에 다시 위임해 design.md 전문을 다시 쓰게 한다.
 답이 §5 Decision Points의 채택 옵션 표기만 바꾸고 §1–§4 본문이 그대로 성립할 때는 main이 그 자리를 직접 고친다.
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며, 모든 구조·설계 결정을 담는다. implement.md에는 결정을 남기지 않는다.
-- feature README 상태판의 `[x] ANALYZE`는 analyze.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
+- feature README 상태판의 `[x] DESIGN`은 design.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
 - 정적 문서이며 진행 상황을 추적하는 문서가 아니다.
-- 새 세션(`/clear` 이후)에서도 `spec.md + analyze.md`만으로 implement.md를 만들 수 있게 쓴다.
+- 새 세션(`/clear` 이후)에서도 `spec.md + design.md`만으로 implement.md를 만들 수 있게 쓴다.
 - spec.md §5 완료 조건의 본문을 그대로 옮겨오지 않는다. 출처 표기는 `SPEC §5.N`으로 두되, 해당 결정·구조가 어떤 동작에 어떻게 기여하는지는
   평문으로 풀어 적는다.
 
 ## 전제 조건
-- feature directory가 비어 있으면 중단한다. 안내: "feature directory를 인자로 전달하세요. 예: `/analyze-init 20260506-001-payment-integration`"
+- feature directory가 비어 있으면 중단한다. 안내: "feature directory를 인자로 전달하세요. 예: `/design-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
 - spec.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외). analyzer는 그런 항목을 찾으면
-  analyze.md를 기록하지 않고 목록을 main에 넘기고, main이 질문으로 정리한다.
-  그 답으로 요구사항이 바뀌면 `/spec-init`으로 spec.md를 다시 쓴 뒤 analyze.md를 작성한다(CLAUDE.md §문서 구조).
+  design.md를 기록하지 않고 목록을 main에 넘기고, main이 질문으로 정리한다.
+  그 답으로 요구사항이 바뀌면 `/spec-init`으로 spec.md를 다시 쓴 뒤 design.md를 작성한다(CLAUDE.md §문서 구조).
 - 작성 전에 spec.md 전체를 읽는다. 범위는 spec.md §1에 의해 제한되며, 요구사항을 새로 추가하거나 약하게 바꾸지 않는다.
 - spec.md §1에 입력 맥락이 있으면 코드베이스 조사의 출발점으로 삼는다.
 
 ## 덮어쓰기 규칙
 확인은 main이 analyzer에 위임하기 전에 받는다.
-- `analyze.md`가 이미 있으면 사용자 확인을 받는다.
-- `implement.md`가 존재하면, ANALYZE 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
+- `design.md`가 이미 있으면 사용자 확인을 받는다.
+- `implement.md`가 존재하면, DESIGN 덮어쓰기가 implement.md 내용을 무효화할 수 있음을 경고하고 명시적 확인을 받은 뒤에만 진행한다. 이후
   implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다.
 
-## analyze.md 구조
+## design.md 구조
 
 ### 승인 전 확인
-- 사용자가 ANALYZE 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
+- 사용자가 DESIGN 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 두고, 없으면 빈 섹션 없이 생략한다.
 - 사용자가 항목에 답하면 §실행 주체가 정한 경로로 그 결과를 §1–§5 중 맞는 섹션에 반영하고 해당 항목을 이 섹션에서 지운다.
   사용자가 명시적으로 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N` 형태로 남긴다.
   남아 있는 항목은 아직 답을 받지 않은 질문이라는 뜻이며, 이후 단계는 이 표기로 답을 받았는지 판정한다.
@@ -106,9 +106,9 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 
 ## README 갱신
 완료 시 (analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
-- README.md 상태 `[ ] ANALYZE`를 `[x] ANALYZE`로 전환한다.
-- 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: ANALYZE 작성`.
-- 기존 analyze.md를 재작성하는 경우의 하위 승인 상태 초기화는 `commands/spec-init.md`
+- README.md 상태 `[ ] DESIGN`을 `[x] DESIGN`으로 전환한다.
+- 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: DESIGN 작성`.
+- 기존 design.md를 재작성하는 경우의 하위 승인 상태 초기화는 `commands/spec-init.md`
   §재작성 시 하위 승인 상태 초기화를 따른다.
 
 ## 금지
@@ -123,7 +123,7 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
   둔다), 독립 '검증 관점' 섹션(Task별 검증은 implement.md 검증 조건이 소유한다), '열린 질문' 섹션.
 
 ## 후속 단계 계약
-- `/implement-init <feature-dir>`이 analyze.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.
+- `/implement-init <feature-dir>`이 design.md(구조 + 결정)와 spec.md §5(완료 조건 매핑)를 읽고 implement.md를 만든다.
 
 ## 핵심 질문
 > 이 feature를 어떻게 구조화하며, 데이터는 어디로 흐르고, 어떤 설계 선택을 확정했는가?

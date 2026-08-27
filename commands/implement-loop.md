@@ -38,7 +38,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - 한도는 재시도 2회다 (한 Task당 최대 3번 구현). 소진하면 정지한다.
 - `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`여도 분류가 `design/scope`이면 재시도하지 않고 §정지 조건 1로 간다.
-  설계에서 이탈했을 때 구현을 고칠지 analyze.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
+  설계에서 이탈했을 때 구현을 고칠지 design.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
 - 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다. 점검 결과 설계 변경이 필요하다고 보고되면 §정지 조건 1로 간다.
 
 ## 자동 진행 제외
@@ -51,16 +51,16 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 1. **사용자가 문서를 고칠지 판단해야 하는 경우** — 형태를 가리지 않는다.
    §재시도가 넘긴 경우와, verify가 돌기 전에 드러난 아래 경우가 모두 여기로 온다.
    - implement가 접근 이탈을 "설계 변경이 필요함"으로 보고한 경우
-   - 대상 Task가 analyze.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
+   - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
 2. 재시도 한도를 소진한 경우
 3. §자동 진행 제외에 걸린 Task를 만난 경우
 4. **implement가 `blocked`를 돌려준 경우** — 대상 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못해
-   Task 경계를 다시 잡아야 한다고 보고한 경우를 포함한다. 막힌 사유가 spec.md·analyze.md 수정을 요구하면 더 앞선 조건 1로 본다.
+   Task 경계를 다시 잡아야 한다고 보고한 경우를 포함한다. 막힌 사유가 spec.md·design.md 수정을 요구하면 더 앞선 조건 1로 본다.
 5. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
 ## 금지
-- **spec.md와 analyze.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
+- **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
   - 예외는 하나다 — `skills/implement/SKILL.md` §완료가 허용하는 접근 필드 정정(단순 구현 상세 차이). implement.md의 접근 필드만 바뀌고 판정 기준은
     그대로다.
 - spec.md §5 완료 조건이나 Task 검증 조건을 약하게·넓게 고쳐 통과시키지 않는다.
@@ -73,7 +73,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 3. 재시도 이력 — 재시도가 있었던 Task별 시도 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
-   그 밖에는 멈춘 사유가 가리키는 자리(analyze.md의 해당 Decision Point, 또는 spec.md 완료 조건)를 짚는다.
+   그 밖에는 멈춘 사유가 가리키는 자리(design.md의 해당 Decision Point, 또는 spec.md 완료 조건)를 짚는다.
    여러 문서를 고쳐야 하면 수정 순서는 CLAUDE.md §문서 구조를 따른다.
 
 ## 핵심 질문

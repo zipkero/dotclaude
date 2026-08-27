@@ -9,19 +9,19 @@ description: >-
 1. Phased mode — 다음 둘 중 하나일 때 들어간다.
    - `$ARGUMENTS`가 `features/<feature-dir>/` 또는 `features/<feature-dir>/implement.md`와 매치하거나,
    - 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리키는 경우. 이 범위의 뜻은 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` /
-     `/analyze-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이
+     `/design-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이
      feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
 
    예외: `/implement-loop`이 부른 경우는 판정 없이 Phased mode로 고정된다(`commands/implement-loop.md` §전제 조건).
 
    동작:
    - implement.md를 읽는다. 없으면 멈추고 사용자에게 `/implement-init`을 실행하도록 안내한다.
-   - analyze.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
+   - design.md(설계 기준)와 spec.md(완료 조건 매핑)도 함께 읽는다.
    - implement.md 위에서부터 첫 미완료 Task를 잡는다 — 자리가 곧 의존 순서다(`commands/implement-init.md` §순서). 그 Task의 목적 / 접근 / 검증 조건
      필드를 실행 기준으로 삼는다. 잡은 Task가 외부에서 관찰할 수 있는 동작 하나를 완성하지 못하고 코드 조각 수준에 그치면, 구현하지 말고 Task 경계를
      다시 잡아야 한다고 보고한다 — 대개 뒤따르는 Task와 합쳐야 한다는 뜻이다.
    - 코드를 쓰기 전에 그 Task의 목적·검증 조건이 이미 성립하는지 확인한다. 상위 문서 재작성으로 초기화된 Task는 구현 결과가 코드에 남아 있으므로,
-     처음부터 다시 만들지 않고 현재 spec.md·analyze.md 기준으로 어긋난 자리만 고친다. 어긋난 곳이 없으면 코드를 고치지 않고 그 사실을
+     처음부터 다시 만들지 않고 현재 spec.md·design.md 기준으로 어긋난 자리만 고친다. 어긋난 곳이 없으면 코드를 고치지 않고 그 사실을
      §출력 구조 변경 내용에 적는다.
 2. Per-Request mode — Phased mode의 어느 조건도 맞지 않을 때 들어간다.
    - `features/<feature-dir>/`를 만들지 않는다.
@@ -37,14 +37,14 @@ description: >-
 
 이 중 하나가 필요하면 코드를 쓰지 말고 먼저 묻는다.
 모듈 안에서 끝나는 helper·함수 경계와, 요청한 변경이 성립하는 데 반드시 필요한 설정 항목은 그대로 만들고 §출력 구조 변경 내용에 밝힌다.
-추상화·확장 포인트 도입은 `commands/analyze-init.md` §5가 소유한다.
+추상화·확장 포인트 도입은 `commands/design-init.md` §5가 소유한다.
 Phased 권장은 요청을 분류하는 시점에만 하며(CLAUDE.md §phase 제어), Per-Request mode로 들어온 뒤에는 `/spec-init`로 옮기라고 안내하지 않는다.
 
 또한 현재 Task(Per-Request에서는 사용자 요청) 범위 밖에서 찾은 문제(기존 버그, 잘못된 주석, dead code 등)는 같은 응답에서 고치지 않고 §출력 구조의
 비고·한계 항목에 보고만 한다.
 
 ## 미결정 분석 시 중단
-analyze.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면,
+design.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면,
 코드를 쓰지 말고 사용자에게 결정을 먼저 묻는다. 부분 산출물을 임시로 저장하지 않으며, 결정이 난 뒤 작업을 다시 시작한다.
 
 ## 재작업 시 파급 점검
@@ -63,7 +63,7 @@ verify가 reject한 Task를 다시 구현할 때는 지적받은 자리만 고�
 5. 비고·한계 — 범위 밖에서 찾은 것, 확인 못 한 부분, 미룬 작업이 있을 때만.
 6. 접근 이탈 — Phased mode에서 실제 구현이 Task 접근 필드와 달라졌을 때만. 다음을 나눠서 적는다.
    - 단순 구현 상세 차이인지, 설계 변경이 필요한지
-   - 관련 `SPEC §5.N` / `ANALYZE §X.Y`
+   - 관련 `SPEC §5.N` / `DESIGN §X.Y`
    - 목적·검증 조건·참조를 바꾸지 않고 접근만 고쳐도 되는 근거
 
 ## 완료
@@ -71,10 +71,10 @@ main 전용 절차다. implementer agent는 문서를 고치지 않으며, 아�
 
 - Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리).
   다음 단계로 `verify`를 권하되, 사용자가 구현과 검증 전체를 명시 요청한 경우에는 `verify`를 이어서 한다(CLAUDE.md §phase 제어).
-- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 analyze.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그
+- Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 design.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그
   Task의 접근 필드를 실제 구현 방식으로 고친다.
 - 설계 결정이나 목적·검증 조건·참조가 바뀌어야 하는 이탈이면 문서를 고치지 않고
-  analyze.md 또는 implement.md를 다시 써야 한다고 사용자에게 보고한다.
+  design.md 또는 implement.md를 다시 써야 한다고 사용자에게 보고한다.
 - Per-Request mode: 문서를 고치지 않는다.
 
 ## 테스트 코드 작성
@@ -102,7 +102,7 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
 - 제약을 만드는 주체와 깨질 때 나타나는 증상을 한 줄에 함께 적으며, 주체가 외부에 있으면 이름으로 지목한다.
 - 제약은 이 코드의 동작에서 나오는 것만 적고, 다른 코드가 해야 할 일은 그 코드 자리에 적는다.
 - 코드가 하는 일을 옮겨 적지 않으며, 이름·구조·타입으로 뜻이 드러나는 자리에는 쓰지 않는다.
-- 설명을 `SPEC §5.N`, `ANALYZE §X.Y`, `task-<nnn>` 같은 문서 위치로 미루지 않으며,
+- 설명을 `SPEC §5.N`, `DESIGN §X.Y`, `task-<nnn>` 같은 문서 위치로 미루지 않으며,
   코드가 그렇게 된 경위나 변경 이력은 적지 않는다.
 - 코드를 고치면 그 자리에 있던 주석이 아직 맞는지 확인한다.
   어긋나면 그 자리를 고쳐 쓰거나 지운다.
