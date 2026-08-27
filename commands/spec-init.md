@@ -62,11 +62,15 @@ Feature name: $ARGUMENTS
 ## 요구사항 확정
 `/spec-init` 작성 전에 무엇을 요구사항으로 받아들일지 다음 순서로 정한다.
 
-- 조사: 조사 대상 루트는 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다. 그 루트의
-  `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 중 있는 문서만 조사하고, 없는 문서는 조사와
-  기록을 모두 건너뛴다. README에서는 현재 확인된 동작만 가져온다. ROADMAP에서는 이 feature가 속한 마일스톤의 결과·의존 관계·전환 기준·범위 경계를 본다.
-  `docs/product.md`에서는 관련 사용자 흐름·외부 동작·설정·정책을 가져온다. `docs/design.md`에서는 프로젝트
-  수준 확정 제약·확정된 설계 결정만 가져온다. 제안·미확정 결정은 사용자가 확정한 뒤에 요구사항이 된다.
+- 조사:
+  - 조사 대상 루트는 `commands/project-init.md` §대상 프로젝트 루트를 따라 확인한다.
+  - 그 루트의 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 중 있는 문서만 조사하고,
+    없는 문서는 조사와 기록을 모두 건너뛴다.
+  - README에서는 현재 확인된 동작만 가져온다.
+  - ROADMAP에서는 이 feature가 속한 마일스톤의 결과·의존 관계·전환 기준·범위 경계를 본다.
+  - `docs/product.md`에서는 관련 사용자 흐름·외부 동작·설정·정책을 가져온다.
+  - `docs/design.md`에서는 프로젝트 수준 확정 제약·확정된 설계 결정만 가져온다.
+    제안·미확정 결정은 사용자가 확정한 뒤에 요구사항이 된다.
 - 지정 문서: 사용자가 저장소 안의 다른 문서를 이 feature의 입력으로 지정하면 그 문서도 같은 조사 대상으로 본다.
   위 네 문서를 대체하지 않고 더한다. 가져오는 기준은 문서가 담은 내용을 따른다 — 확정된 설계 결정과 제약은
   `docs/design.md`와 같게, 사용자에게 보이는 동작은 `docs/product.md`와 같게 다룬다.
