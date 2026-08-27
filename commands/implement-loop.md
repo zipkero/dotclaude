@@ -26,7 +26,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 루프
 1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. 없으면 완료로 끝낸다.
 2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 걸리면 멈춘다.
-3. **implement** — 대상 Task를 구현한다. 반환된 `상태`가 `blocked`이면 verify로 넘어가지 않고 §정지 조건 4로 간다.
+3. **implement** — 대상 Task를 구현한다. `상태`가 `blocked`이거나 접근 이탈을 "설계 변경이 필요함"으로
+   보고하면 verify로 넘어가지 않고 §정지 조건으로 간다.
 4. **verify** — 판단을 받는다.
 5. **판정 처리**
    - `approved` → §verify 후처리대로 체크박스를 `[x]`로 바꾸고, 필요하면 feature README를 갱신한다. 1로 돌아간다.
@@ -39,7 +40,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`여도 분류가 `design/scope`이면 재시도하지 않고 §정지 조건 1로 간다.
   설계에서 이탈했을 때 구현을 고칠지 design.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
-- 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다. 점검 결과 설계 변경이 필요하다고 보고되면 §정지 조건 1로 간다.
+- 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다.
 
 ## 자동 진행 제외
 대상 Task의 검증 조건 `확인` 필드에 수동 확인이 포함되면, 그 Task는 자동으로 진행하지 않고 멈춰 사용자에게 올린다.
@@ -48,21 +49,21 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 정지 조건
 아래 중 먼저 걸리는 조건에서 루프를 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
 
-1. **사용자가 문서를 고칠지 판단해야 하는 경우** — 형태를 가리지 않는다.
-   §재시도가 넘긴 경우와, verify가 돌기 전에 드러난 아래 경우가 모두 여기로 온다.
+1. **사용자가 문서를 고칠지 판단해야 하는 경우** — §재시도가 넘긴 경우와 verify 전에 드러난 아래 경우가 모두 여기로 온다.
    - implement가 접근 이탈을 "설계 변경이 필요함"으로 보고한 경우
-   - implement가 `blocked`로 낸 사유가 spec.md·design.md 수정을 요구하는 경우
+   - implement가 `blocked`로 낸 사유가 spec.md·design.md·implement.md 수정을 요구하는 경우.
+     Task 경계를 다시 잡아야 한다는 보고가 여기 해당한다.
    - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
 2. 재시도 한도를 소진한 경우
 3. §자동 진행 제외에 걸린 Task를 만난 경우
-4. implement가 `blocked`를 돌려준 경우
+4. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
 5. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
 ## 금지
 - **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
-  - 예외는 하나다 — `skills/implement/SKILL.md` §완료가 허용하는 접근 필드 정정(단순 구현 상세 차이). implement.md의 접근 필드만 바뀌고 판정 기준은
-    그대로다.
+- 루프는 implement.md의 체크박스와 feature README만 고친다.
+  접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만 고친다.
 - spec.md §5 완료 조건이나 Task 검증 조건을 약하게·넓게 고쳐 통과시키지 않는다.
 - 테스트 통과를 목적으로 assertion을 약하게 만들거나 케이스를 지우지 않는다 (`skills/verify/SKILL.md` §테스트 evidence 규칙).
 - Task 순서를 바꾸거나 건너뛰지 않는다. 막힌 Task를 남겨두고 다음 Task로 넘어가지 않는다.
@@ -70,10 +71,11 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 정지·완료 보고
 1. 진행 결과 — 이번 루프에서 `[x]`로 바뀐 Task 목록.
 2. 멈춘 자리 — 대상 Task와 정지 조건 번호, 그리고 그렇게 판단한 근거. 완료로 끝났으면 뺀다.
+   구현이 코드를 고친 뒤 멈췄으면 검증받지 않고 남은 파일 목록을 함께 적는다.
 3. 재시도 이력 — 재시도가 있었던 Task별 시도 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
-   그 밖에는 멈춘 사유가 가리키는 자리(design.md의 해당 Decision Point, 또는 spec.md 완료 조건)를 짚는다.
+   그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
    여러 문서를 고쳐야 하면 수정 순서는 CLAUDE.md §문서 구조를 따른다.
 
 ## 핵심 질문
