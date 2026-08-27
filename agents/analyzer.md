@@ -5,6 +5,7 @@ description: >-
   /implement-init (writes implement.md from design.md + spec.md §5). Writes the document itself and returns only a summary for main to review.
   Isolates input reading and design reasoning to keep main's conversation lean.
 disallowedTools: Edit, NotebookEdit
+effort: high
 ---
 
 ## 산출물 기록 의무

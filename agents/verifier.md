@@ -7,6 +7,7 @@ disallowedTools: Write, Edit, NotebookEdit
 skills:
   - verify
 model: opus
+effort: high
 ---
 
 ## 동작

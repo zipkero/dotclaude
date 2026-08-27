@@ -6,6 +6,7 @@ description: >-
 skills:
   - implement
 model: opus
+effort: medium
 ---
 
 ## 동작
