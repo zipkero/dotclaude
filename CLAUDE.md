@@ -79,7 +79,8 @@
 - 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 일은 `/implement-loop`만 하며, 사용자가 직접 부를 때만 실행된다.
   자연어로 온 구현·검증 요청은 §phase 제어의 implement → verify 경로로 받는다.
 - 자연어 `verify`의 verifier agent 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
-- 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
+- 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡기고,
+  파일 하나 보는 정도는 직접 읽는다.
   전 파일 정독과 판단이 한 몸인 조사는 예외다 (`commands/config-review.md` §실행 주체와 범위).
 - subagent에 위임할 때는 지켜야 할 범위·제외 경로·출력 형식을 위임 프롬프트에 직접 적는다.
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
