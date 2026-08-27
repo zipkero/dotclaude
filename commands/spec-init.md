@@ -123,6 +123,7 @@ Feature name: $ARGUMENTS
   - Backend API → HTTP response·status code
   - Data pipeline → DB row·event·후속 소비용 파일 산출물
   - Infra/ops → health endpoint·metric·log signal
+- 동작 보존이 조건이면 무엇과 비교하는지 함께 적는다.
 - 각 기준은 동작을 관찰함으로써 검증할 수 있어야 한다.
 - `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
 - 각 조건은 번호 목록(`1.`, `2.`, …)으로 쓴다.
