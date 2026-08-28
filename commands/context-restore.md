@@ -9,6 +9,7 @@ disallowed-tools: Write, Edit, NotebookEdit
 
 ## 역할
 
+- 실행 주체는 main이며 subagent에 맡기지 않는다.
 - 프로젝트 루트의 `CONTEXT.md`에서 설계 또는 전달 작업의 현재 위치를 복원한다.
 - 연결된 원본 문서를 확인해 오래되거나 어긋난 맥락을 그대로 이어가지 않는다.
 - 복원 보고까지가 이 command의 역할이다.

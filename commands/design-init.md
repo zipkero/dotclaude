@@ -15,7 +15,7 @@ analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/design.md`
 main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §README 갱신을 수행한다.
 검토에서 spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 걸려 있는지 확인한다. 표기가 없는 조건은 원인에 따라 다르게 처리한다 —
 설계에는 반영됐고 표기만 빠졌으면 main이 그 자리에 표기를 더한다. 설계가 그 조건을 아예 다루지 않으면 analyzer에 다시 위임한다
-(CLAUDE.md §문서 구조). 이번 feature 범위 밖으로 보이면 design.md에 적지 않고 질문으로 정리한다.
+(`rules/feature-docs.md`). 이번 feature 범위 밖으로 보이면 design.md에 적지 않고 질문으로 정리한다.
 답으로 요구사항이 바뀌면 `/spec-init`으로 spec.md를 다시 쓴다.
 검토에서 아래 유형에 걸리면서 선택이 실제로 갈리는 미해결 결정을 찾으면 질문으로 정리한다(방식은 CLAUDE.md §요청 해석).
 - 외부에 드러나는 계약의 형태
@@ -39,7 +39,7 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 - `features/<feature-dir>/spec.md`가 없으면 중단하고 `/spec-init`을 먼저 실행하도록 안내한다.
 - spec.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외). analyzer는 그런 항목을 찾으면
   design.md를 기록하지 않고 목록을 main에 넘기고, main이 질문으로 정리한다.
-  그 답으로 요구사항이 바뀌면 `/spec-init`으로 spec.md를 다시 쓴 뒤 design.md를 작성한다(CLAUDE.md §문서 구조).
+  그 답으로 요구사항이 바뀌면 `/spec-init`으로 spec.md를 다시 쓴 뒤 design.md를 작성한다(`rules/feature-docs.md`).
 - 작성 전에 spec.md 전체를 읽는다. 범위는 spec.md §1에 의해 제한되며, 요구사항을 새로 추가하거나 약하게 바꾸지 않는다.
 - spec.md §1에 입력 맥락이 있으면 코드베이스 조사의 출발점으로 삼는다.
 

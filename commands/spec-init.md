@@ -11,6 +11,7 @@ argument-hint: "<feature-name>"
 Feature name: $ARGUMENTS
 
 ## 역할
+- 실행 주체는 main이며 subagent에 맡기지 않는다.
 - design.md와 implement.md가 참조하는 기준 문서다.
 - 정적 문서이며 진행 상황을 추적하는 문서가 아니다. 이후 단계는 SPEC을 수정하지 않고, 고쳐야 하면 `/spec-init` 재실행으로 되돌아온다.
 - 요구사항 수준의 완료 조건만 다룬다 — "X·Y·Z가 관찰될 때 feature가 완성되었다고 본다."
@@ -43,7 +44,7 @@ Feature name: $ARGUMENTS
 ## 덮어쓰기 규칙
 - `spec.md`가 이미 있으면 덮어쓰기 전에 사용자 확인을 받는다.
 - `design.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다.
-  이후 design.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (CLAUDE.md §문서 구조 참고).
+  이후 design.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (`rules/feature-docs.md` 참고).
 - `README.md`가 이미 있으면 새로 만들지 않고 §README.md 구조 말미 규칙을 적용한다. 하위 승인 상태 초기화는
   §재작성 시 하위 승인 상태 초기화를 따른다.
 

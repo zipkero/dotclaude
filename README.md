@@ -19,8 +19,8 @@ Claude Code의 개인 설정 저장소.
 
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만
-  읽어 검토한다. `/design-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다. 위임 대상은
-  CLAUDE.md §agent·skill 라우팅과 위임하는 command 파일의 §실행 주체가 나눠 소유하며, 각 agent 정의는 아래 §agents/에 있다.
+  읽어 검토한다. `/design-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다.
+  실행 주체와 위임 대상은 각 command 파일의 §실행 주체가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop` 하나뿐이다.
@@ -33,7 +33,7 @@ Claude Code의 개인 설정 저장소.
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
 - **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/design-init`으로
   전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
-  (CLAUDE.md §문서 구조).
+  (`rules/feature-docs.md`).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/design-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
   부른다. 진행 시점은 사용자가 정한다.
 
@@ -43,7 +43,7 @@ Claude Code의 개인 설정 저장소.
 verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
 - **Phased**: `prompt → /spec-init → /design-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
-  구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(CLAUDE.md §phase 제어).
+  구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(`skills/implement/SKILL.md` §완료).
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
   프로젝트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 작업 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement`. slash command 없이 자연어 prompt만으로 시작한다.
@@ -71,13 +71,17 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 
 ### commands/ — slash command 정의
 
-Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 CLAUDE.md §agent·skill
-라우팅과 위임하는 command 파일의 §실행 주체 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
+Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일의
+§실행 주체와 `rules/feature-docs.md` 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
-문서 phase command 넷과 `implement-loop`, `config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만
-실행된다. `/spec-init`·`/design-init`·`/implement-init`은 위 §핵심 설계 결정의 "Phased 흐름은 사용자가 통제한다"를, `/project-init`은 자기
-머리말이 정한 "최초 1회"를, `implement-loop`은 CLAUDE.md §agent·skill 라우팅의 "사용자가 직접 부를 때만 실행된다"를 설정으로 집행하고,
-`config-review`는 자기 머리말이 정한 "의식적으로 호출한다"를 집행한다.
+`project-init`·`implement-loop`·`config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다.
+이 설정은 각 command의 호출 조건을 하네스 수준에서 강제한다.
+- `project-init`: 프로젝트 문서가 없는 최초 1회만 실행한다.
+- `implement-loop`: 사용자가 직접 부를 때만 실행한다 (CLAUDE.md §agent·skill 라우팅).
+- `config-review`: 사용자가 의식적으로 호출할 때만 실행한다.
+
+`/spec-init`·`/design-init`·`/implement-init`은 모델 호출을 열어 두고, 부르는 조건은 CLAUDE.md §phase 제어가 정한다
+(명시 요청 또는 "문제 없으면 다음 단계" 같은 조건부 승인이 있을 때만).
 나머지 meta command는 자연어 호출을 허용한다.
 
 읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다
@@ -133,6 +137,8 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
 - `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 frontmatter·본문 작성 기준.
+- `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 문서 정정 방식, spec → design → implement 반영 순서,
+  진행 상태(체크박스·상태판)의 main 소유를 둔다. Phased 밖의 대화에는 로드되지 않는다.
 
 ## 운영
 
@@ -141,6 +147,6 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - 인코딩·줄바꿈은 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.
 - `settings.json`은 기계에 묶인 값 때문에 추적하지 않는다 —
   `statusLine`의 Windows exe 경로, `hooks`가 부르는 `conhost.exe`·`%USERPROFILE%` 절대경로, plugin marketplace 캐시 경로.
-- 응답 길이와 preamble 생략은 내장 output style `Concise`가 담당한다.
-  `CLAUDE.md` §응답은 언어·톤·설명 깊이와, 근거/추정 구분·주장 범위·참조 표기·before/after 표기처럼 output style이 다루지 않는 보고 규칙을 소유한다.
+- 응답 길이·설명 깊이·preamble 생략은 내장 output style `Concise`가 담당하며, `CLAUDE.md`는 이를 다시 적지 않는다.
+  `CLAUDE.md` §응답은 근거/추정 구분·주장 범위·참조 표기·before/after 표기처럼 output style이 다루지 않는 보고 규칙을 소유한다.
   `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.

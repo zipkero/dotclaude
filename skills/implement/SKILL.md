@@ -70,7 +70,8 @@ verify가 reject한 Task를 다시 구현할 때는 지적받은 자리만 고�
 main 전용 절차다. implementer agent는 문서를 고치지 않으며, 아래 정정 대상을 §출력 구조 접근 이탈로 보고한 뒤 멈춘다.
 
 - Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리).
-  `상태`가 `completed`이면 다음 단계로 `verify`를 권한다. 이어서 실행할지는 CLAUDE.md §phase 제어를 따른다.
+  `상태`가 `completed`이면 다음 단계로 `verify`를 권한다.
+  사용자가 구현과 검증 전체를 명시 요청한 경우에만 `verify`를 같은 턴에 이어서 부른다.
   `상태`가 `blocked`이면 `verify`를 부르지 않고 막힌 사유를 사용자에게 올린다.
   접근 이탈을 "설계 변경이 필요함"으로 보고했으면 `completed`여도 `verify`를 부르지 않는다.
 - Phased mode에서 접근 이탈이 단순 구현 상세 차이로 보고되고 design.md·목적·검증 조건·참조를 바꿀 필요가 없는 경우에만, main이 같은 응답에서 그

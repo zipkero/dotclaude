@@ -15,7 +15,7 @@ Feature directory: $ARGUMENTS
 
 ## 실행 주체
 main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 맡기고, `verify` 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준을 따르며,
-체크박스와 feature README 갱신은 main이 한다 (CLAUDE.md §agent·skill 라우팅).
+체크박스와 feature README 갱신은 main이 한다 (`rules/feature-docs.md`).
 
 ## 전제 조건
 - feature directory가 비어 있으면 중단한다.
@@ -76,7 +76,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
    그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
-   여러 문서를 고쳐야 하면 수정 순서는 CLAUDE.md §문서 구조를 따른다.
+   여러 문서를 고쳐야 하면 수정 순서는 `rules/feature-docs.md`를 따른다.
 
 ## 핵심 질문
 > 지금 Task를 구현만으로 통과시킬 수 있는가, 아니면 사람이 판단할 자리인가?
