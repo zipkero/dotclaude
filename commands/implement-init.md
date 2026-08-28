@@ -1,7 +1,6 @@
 ---
 description: Create implement.md (execution checklist with per-Task verification criteria) under features/<feature-dir>/ from design.md
 argument-hint: "<feature-dir>"
-disable-model-invocation: true
 ---
 
 > 사용 시점: `/design-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.

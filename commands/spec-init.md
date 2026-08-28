@@ -1,7 +1,6 @@
 ---
 description: Create spec.md (requirements + completion criteria) under features/<feature-dir>/ and initialize the feature README
 argument-hint: "<feature-name>"
-disable-model-invocation: true
 ---
 
 > 사용 시점: Phased 흐름의 첫 단계로, `/design-init` / `/implement-init`이 참조하는 SPEC을 만든다.

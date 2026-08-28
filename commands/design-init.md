@@ -1,7 +1,6 @@
 ---
 description: Create design.md (design decisions) under features/<feature-dir>/ from spec.md
 argument-hint: "<feature-dir>"
-disable-model-invocation: true
 ---
 
 > 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
