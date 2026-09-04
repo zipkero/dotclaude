@@ -124,7 +124,6 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
     README의 `[x] IMPLEMENT`를 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
   - §출력 구조의 문제 항목을 사용자에게 전하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
   - 자연어 `implement` → `verify` 경로에서는 reject를 자동으로 다시 구현하지 않고 사용자 판단으로 올린다.
-    자동 재시도는 `/implement-loop`만 하며, 그 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이 소유한다.
 - Per-Request mode는 verify 결과를 대화 출력으로만 남기며, 체크박스·README를 고치지 않는다.
 
 ## 테스트 evidence 규칙

@@ -124,6 +124,14 @@ Meta command (Phased 흐름과 독립):
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
   `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
   테스트 근거 기준은 `skills/verify/SKILL.md` §테스트 evidence 규칙.
+- `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를
+  로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
+  frontmatter `description`이 발동을 사용자의 명시적인 Codex 워커·Orca dispatch 요청으로 좁힌다 —
+  손으로 친 자연어 지시에서도 로드되어야 하므로 `disable-model-invocation`을 걸지 않는다.
+  절차는 이 파일이 갖지 않는다 — Orca 명령과 코디네이터 절차는 `skills/orchestration/SKILL.md`가 가리키는 버전별 가이드,
+  워커 lifecycle(`worker_done`·heartbeat·`ask`)은 Orca가 워커에 주입하는 preamble,
+  구현·판단은 워커 쪽 전역 설정과 skill, 판단 이후 기록은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+  이 파일이 직접 드는 것은 워커 배치와, preamble이 싣지 않는 지시문 두 줄뿐이다.
 
 ### rules/ — 파일 경로로 걸리는 작업 기준
 

@@ -67,7 +67,8 @@
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
 - 남은 Task 전체를 사용자 개입 없이 이어서 돌리는 일은 `/implement-loop`만 하며, 사용자가 직접 부를 때만 실행된다.
   자연어로 온 구현·검증 요청은 `skills/implement/SKILL.md` §완료의 implement → verify 경로로 받는다.
-- implement → verify 한 바퀴를 외부 워커로 돌리는 일은 `/implement-orca`만 하며, 사용자가 직접 부를 때만 실행된다.
+- implement → verify를 Orca의 Codex 워커로 돌리는 일은 `/implement-orca`만 하며,
+  사용자가 Codex 워커나 Orca dispatch를 명시 요청할 때만 실행된다.
 - 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡기고,
   파일 하나 보는 정도는 직접 읽는다.
   전 파일 정독과 판단이 한 몸인 조사는 예외다 (`commands/config-review.md` §실행 주체와 범위).
