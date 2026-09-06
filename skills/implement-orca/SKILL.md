@@ -16,6 +16,9 @@ implement 완료 보고를 받은 뒤 verify를 새 Codex 워커에 맡기고, �
 Task가 여럿이면 한 Task씩 끝내고 다음으로 간다.
 Per-Request는 워커가 이 대화를 받지 않으므로 범위를 문장으로 풀어 적는다.
 
-TASK 본문은 feature 문서에서 쓴다. 아래 둘만 Orca preamble이 안 실어 주니 직접 넣는다.
+TASK 본문에는 워커가 읽을 문서와 대상 `task-<nnn>`을 지목한다.
+문서에 있는 내용은 프롬프트로 옮겨 적지 않는다.
+기준선·앞 라운드 reject 사유·직접 확인한 사실처럼 문서에 없는 것은 싣는다.
+Orca preamble에 없는 아래 둘은 지시문에 직접 넣는다.
 - commit하지 않고, `git checkout`·`restore`·`stash`·`reset`으로 파일을 되돌리지 않는다.
 - verify 워커의 `--outcome`은 판정이 아니다. `rejected`도 판정을 마쳤으면 `succeeded`다.
