@@ -13,6 +13,9 @@ argument-hint: "[구현·검증할 대상]"
 implementer·verifier agent를 쓰지 않는다 — 그 자리를 Codex 워커가 대신한다.
 `orchestration` skill의 가이드대로 감독 dispatch하며, full handoff가 아니다.
 implement 완료 보고를 받은 뒤 verify를 새 Codex 워커에 맡기고, 터미널을 재사용하지 않는다.
+워커는 `worker-start`에 `--agent codex --model gpt-5.6-sol --effort medium`을 붙여 만들고,
+receipt의 `launch.effective`가 그 값과 같은지 확인한 뒤 dispatch한다.
+다르거나 옵션이 거절되면 다른 모델·effort로 대체하지 않고 멈춰서 보고한다.
 Task가 여럿이면 한 Task씩 끝내고 다음으로 간다.
 Per-Request는 워커가 이 대화를 받지 않으므로 범위를 문장으로 풀어 적는다.
 
