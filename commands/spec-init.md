@@ -33,7 +33,7 @@ Feature name: $ARGUMENTS
   feature이면 `001`.
 
 같은 날 같은 `<feature-name>`으로 재실행하면(`features/<yyyyMMdd>-<nnn>-<feature-name>` 형태로 정확히 일치하는 폴더가 이미 있으면) 새 `<nnn>`을 매기지
-않고 그 기존 폴더를 재사용한다. 그 안의 spec.md / README.md / design.md / implement.md에는 아래 §덮어쓰기 규칙이 그대로 적용된다.
+않고 그 기존 폴더를 재사용한다.
 
 산출물 경로:
 - `features/<feature-dir>/`에 두는 문서는 `spec.md`, `design.md`, `implement.md`, `README.md` 넷뿐이다.
@@ -127,7 +127,6 @@ Feature name: $ARGUMENTS
   - Data pipeline → DB row·event·후속 소비용 파일 산출물
   - Infra/ops → health endpoint·metric·log signal
 - 동작 보존이 조건이면 무엇과 비교하는지 함께 적는다.
-- 각 기준은 동작을 관찰함으로써 검증할 수 있어야 한다.
 - `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
 - 각 조건은 번호 목록(`1.`, `2.`, …)으로 쓴다.
   N번 항목은 이후 단계(design.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — design.md 본문 인라인 인용과
@@ -166,7 +165,7 @@ README.md가 이미 있으면 기존 문서 섹션은 유지하고 작업 히스
 - 설계·아키텍처·데이터 흐름·인터페이스 내용은 다루지 않는다 (design.md 소관).
 - 파일·모듈·타입·함수 나열은 두지 않는다 (저수준 디테일은 범위 밖).
 - 구현 순서·체크리스트·TODO는 두지 않는다 (implement.md 소관).
-- spec.md 안에는 상태 마커(`- [ ]` / `- [x]`)를 두지 않는다. 이 단계의 유일한 체크리스트는 README.md 상태 섹션이다.
+- 상태 마커(`- [ ]` / `- [x]`)를 두지 않는다.
 - 승인 전 확인·§1–§5 외의 섹션은 두지 않는다. 보류로 확정한 항목은 별도 '열린 질문' 섹션이 아니라 §3 제약 또는 §4 제외 범위로 표현한다.
 
 ## 후속 단계 계약
