@@ -119,15 +119,9 @@ Feature name: $ARGUMENTS
 ### 5. 완료 조건
 - feature가 완성되었음을 신호하는 관찰 가능한 조건들.
 - 요구사항 수준은 밖에서 관찰 가능한 동작을 적고, Task 수준(implement.md)은 내부 실행을 적는다.
-- "관찰 가능"의 의미는 대상 유형에 따라 달라지며, 관찰자가 항상 사람인 것은 아니다.
-  - UI → 사용자에게 보이는 화면·인터랙션
-  - Library/SDK → 호출자에게 반환되는 값·예외
-  - CLI → stdout / stderr / exit code
-  - Backend API → HTTP response·status code
-  - Data pipeline → DB row·event·후속 소비용 파일 산출물
-  - Infra/ops → health endpoint·metric·log signal
+- "관찰 가능"의 관찰자는 대상에 따라 사용자, 호출자, 후속 소비자, 운영 신호 중 하나이며 사람에 한정하지 않는다.
 - 동작 보존이 조건이면 무엇과 비교하는지 함께 적는다.
-- `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다.
+- `verify`는 각 Task를 판단할 때 이 기준들을 직접 인용한다(`skills/verify/SKILL.md` §근거 원칙).
 - 각 조건은 번호 목록(`1.`, `2.`, …)으로 쓴다.
   N번 항목은 이후 단계(design.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — design.md 본문 인라인 인용과
   implement.md 참조 필드의 추적 단위다. 이 규칙은 `SPEC §5.N` 표기만 소유한다.
