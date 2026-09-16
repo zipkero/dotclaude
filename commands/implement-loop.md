@@ -55,10 +55,11 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
      Task 경계를 다시 잡아야 한다는 보고가 여기 해당한다.
    - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
-2. 재시도 한도를 소진한 경우
-3. §자동 진행 제외에 걸린 Task를 만난 경우
-4. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
-5. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
+2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 낸 경우.
+3. 재시도 한도를 소진한 경우
+4. §자동 진행 제외에 걸린 Task를 만난 경우
+5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
+6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
 ## 금지
 - **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
@@ -74,6 +75,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
    구현이 코드를 고친 뒤 멈췄으면 검증받지 않고 남은 파일 목록을 함께 적는다.
 3. 재시도 이력 — 재시도가 있었던 Task별 시도 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
+   정지 조건 2면 성립하지 않는 동작과 그것이 속한 Task, 확인한 근거를 짚고 어느 문서를 고칠지는 짚지 않는다.
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
    그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
    여러 문서를 고쳐야 하면 수정 순서는 `rules/feature-docs.md`를 따른다.
