@@ -49,7 +49,8 @@ verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/v
 - **Per-Request**: `prompt → implement`. slash command 없이 자연어 prompt만으로 시작한다.
   `verify`는 판정 보고가 따로 필요할 때 부르는 선택 단계이고, 결과는 대화에만 남는다(CLAUDE.md §phase 제어).
 
-`analyze` skill은 두 흐름 어느 쪽에서도 부를 수 있다 (정의는 `skills/analyze/SKILL.md`).
+`analyze`·`explain` skill은 두 흐름 어느 쪽에서도 부를 수 있다
+(정의는 `skills/analyze/SKILL.md`, `skills/explain/SKILL.md`).
 
 ## 구조
 
@@ -76,9 +77,7 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 
 `project-init`·`implement-loop`·`config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다.
 이 설정은 각 command의 호출 조건을 하네스 수준에서 강제한다.
-- `project-init`: 프로젝트 문서가 없는 최초 1회만 실행한다.
-- `implement-loop`: 사용자가 직접 부를 때만 실행한다 (CLAUDE.md §agent·skill 라우팅).
-- `config-review`: 사용자가 의식적으로 호출할 때만 실행한다.
+`project-init`은 그중에서도 프로젝트 문서가 없는 최초 1회만 실행한다.
 
 `/spec-init`·`/design-init`·`/implement-init`은 모델 호출을 열어 두고, 부르는 조건은 CLAUDE.md §phase 제어가 정한다
 (명시 요청 또는 "문제 없으면 다음 단계" 같은 조건부 승인이 있을 때만).
@@ -114,11 +113,14 @@ Meta command (Phased 흐름과 독립):
 
 ### skills/ — skill 정의
 
-- `analyze` — 독립 디버깅·코드 이해·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
+- `analyze` — 독립 디버깅·설계 선택지 비교 도구. 증상·질문에서 원인을 찾고, 설계 방향 요청에는 선택지를 비교해 추천안 하나로 수렴한다.
   파일을 쓰지 않고 대화로만 출력한다.
   같은 턴 안에서 다른 작업에 이어 불릴 수 있어 `disallowed-tools`를 걸지 않고 본문 경계로만 막는다(`rules/claude-config-authoring.md`).
+- `explain` — 기존 코드·변경·시스템이 무엇이고 어떻게 작동하는지 근거와 함께 설명한다. 목적, 흐름, 계약과 가정, 결정, 근거의 한계를 잇는다.
+  `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일이 서로 표시한다.
+  파일을 쓰지 않고 대화로만 출력하며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
-  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 남기고 고치는지는 이 skill이 소유하고(§주석),
+  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 남기고 고치는지는 `rules/code-common.md` §주석이,
   주석 언어는 CLAUDE.md §언어가, 언어별 doc comment 관례는 각 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
   전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은

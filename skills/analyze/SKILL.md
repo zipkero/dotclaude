@@ -1,13 +1,16 @@
 ---
 name: analyze
 description: >-
-  Standalone debugging, code-comprehension, and design-option utility. Explains causes and structures behind a symptom or question, and compares
-  structural or design options before any spec work, without writing files.
+  Standalone debugging and design-option utility. Finds the cause behind a symptom or question, and compares structural or design options
+  before any spec work, without writing files. For explaining how existing code, a change, or a system works, use `explain` instead.
 ---
 
 ## 역할
 그때그때 하는 조사 도구이며 phase가 아니다. 파일을 쓰지 않고 출력은 대화로만 나간다.
 실행 주체는 main이며 subagent에 맡기지 않는다.
+
+`explain`과의 경계 — 요청 산출물이 원인 규명이나 구조·대안 비교, 새 설계 제안이면 이 skill이다.
+기존 코드·변경·시스템이 무엇이고 어떻게 작동하는지 이해시키는 것이 산출물이면 `explain`이다.
 
 ## 컨텍스트 로딩
 1. `$ARGUMENTS`가 `features/<feature-dir>/` 또는 그 아래 파일과 매치하면 → feature mode. 분석 범위를 이 feature로 한정하고,

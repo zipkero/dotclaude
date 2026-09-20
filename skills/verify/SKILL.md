@@ -104,7 +104,8 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 
 ## reject 분류
 모든 reject 분류는 똑같이 Task 승인을 막는다.
-- `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 implement §주석·§지침을 어긴 문제로, 정확성은 깨지지 않는다.
+- `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 `rules/code-common.md` §주석·implement §지침을 어긴 문제로,
+  정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md의 `목적`·검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나,
   잘못된 출력을 내거나, 공개 식별자의 주석이 적은 동작·계약이 코드와 어긋난다.
 - `design/scope`: 구현이 design.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다. 결정이 필요하다 — 구현을
@@ -126,9 +127,8 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
     없는 문서와 해당하지 않는 후보는 보고에서 뺀다.
 - **Rejected**:
   - 대상 체크박스가 `[ ]`였다면(implement 직후의 보통 경우) 그대로 둔다.
-  - 완료되는 요구사항이 성립하지 않아 rejected된 경우도 같다 — 대상 Task 체크박스는 `[ ]`로 남고,
-    고치는 일이 앞선 `[x]` Task의 코드에 걸치더라도 같은 Task의 재작업 범위로 본다. 앞선 Task
-    체크박스는 되돌리지 않는다.
+  - 완료되는 요구사항 불성립으로 rejected된 경우, 고치는 일이 앞선 `[x]` Task의 코드에 걸치더라도
+    같은 Task의 재작업 범위로 보고 앞선 Task 체크박스는 되돌리지 않는다.
   - 이미 `[x]`였던 Task를 다시 검증하다가 rejected되면 main이 `[x]` → `[ ]`로 되돌린다. 그래서 implement.md가 더 이상 "모든 Task `[x]`" 상태가 아니면
     README의 `[x] IMPLEMENT`를 `[ ] IMPLEMENT`로 되돌리고 작업 히스토리에 그 사실을 한 줄 남긴다.
   - §출력 구조의 문제 항목을 사용자에게 전하며, 다음 `implement` 호출이 같은 Task를 다시 잡는다.
