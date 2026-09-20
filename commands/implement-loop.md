@@ -55,6 +55,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
      Task 경계를 다시 잡아야 한다는 보고가 여기 해당한다.
    - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
+   - verify가 approve했으나 매핑 누락의 소유 Task가 없어 `skills/verify/SKILL.md` §verify 후처리가 미매핑 결정으로 올린 경우
 2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 낸 경우.
 3. 재시도 한도를 소진한 경우
 4. §자동 진행 제외에 걸린 Task를 만난 경우
@@ -64,7 +65,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 금지
 - **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
 - 루프는 implement.md의 체크박스와 feature README만 고친다.
-  접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만 고친다.
+  접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만, 참조 필드는 `skills/verify/SKILL.md` §verify 후처리가 매핑 누락을 고칠 때만 고친다.
 - spec.md §5 완료 조건이나 Task 검증 조건을 약하게·넓게 고쳐 통과시키지 않는다.
 - 테스트 통과를 목적으로 assertion을 약하게 만들거나 케이스를 지우지 않는다 (`skills/verify/SKILL.md` §테스트 evidence 규칙).
 - Task 순서를 바꾸거나 건너뛰지 않는다. 막힌 Task를 남겨두고 다음 Task로 넘어가지 않는다.
