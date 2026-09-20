@@ -65,7 +65,6 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
 - 루프는 implement.md의 체크박스와 feature README만 고친다.
   접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만, 참조 필드는 `skills/verify/SKILL.md` §verify 후처리가 매핑 누락을 고칠 때만 고친다.
-- 테스트 통과를 목적으로 assertion을 약하게 만들거나 케이스를 지우지 않는다 (`skills/verify/SKILL.md` §테스트 evidence 규칙).
 
 ## 정지·완료 보고
 1. 진행 결과 — 이번 루프에서 `[x]`로 바뀐 Task 목록.

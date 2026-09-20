@@ -48,10 +48,11 @@ Feature name: $ARGUMENTS
   §재작성 시 하위 승인 상태 초기화를 따른다.
 
 ## 재작성 시 하위 승인 상태 초기화
-`/spec-init`으로 기존 spec.md를 다시 쓰거나 `/design-init`으로 기존 design.md를 다시 쓸 때, 하위 승인 상태를 다음
-규칙으로 초기화한다. 두 재작성에 공통 적용되며 규칙 본문은 이 자리 하나뿐이다.
+`/spec-init`·`/design-init`·`/implement-init`으로 기존 산출물을 다시 쓸 때, 하위 승인 상태를 다음 규칙으로
+초기화한다. 세 재작성에 공통 적용되며 규칙 본문은 이 자리 하나뿐이다.
 - 초기화 대상: feature README.md 상태판의 `IMPLEMENT`를 `[ ]`로, implement.md의 모든 Task 체크박스를 `[ ]`로
   되돌린다. `/spec-init` 재작성이면 `DESIGN`도 `[ ]`로 되돌린다.
+  `/implement-init` 재작성은 implement.md를 새로 쓰므로 `IMPLEMENT`만 되돌린다.
 - 보존 대상: implement.md·design.md 파일 자체, 각 Task의 내용·ID·순서. README.md 상태판의 `SPEC`은 이 규칙이
   건드리지 않는다.
 - 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
@@ -117,7 +118,8 @@ Feature name: $ARGUMENTS
 - 각 조건은 번호 목록(`1.`, `2.`, …)으로 쓴다.
   N번 항목은 이후 단계(design.md·implement.md)에서 `SPEC §5.N`으로 참조된다 — design.md 본문 인라인 인용과
   implement.md 참조 필드의 추적 단위다.
-- 번호는 영구 식별자다. 기존 번호는 재배열·삭제·재번호하지 않고 보존하며, 새 조건은 다음 번호로만 추가한다.
+- 번호는 영구 식별자다. 기존 번호는 재배열·재번호하지 않고, 새 조건은 다음 번호로만 추가한다.
+  조건을 뺄 때는 그 번호를 비우고 뒤 번호를 당기지 않으며, 그 번호를 참조하던 design.md·implement.md 자리를 함께 정정한다.
 
 ## README.md 구조 (여기서 초기화)
 ```markdown

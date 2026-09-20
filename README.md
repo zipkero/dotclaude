@@ -20,7 +20,7 @@ Claude Code의 개인 설정 저장소.
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만
   읽어 검토한다. `/design-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다.
-  실행 주체와 위임 대상은 각 command 파일의 §실행 주체가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
+  실행 주체와 위임 대상은 각 command 파일의 §실행 주체(그 섹션이 없으면 §역할)가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
 - **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
   `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop` 하나뿐이다.
@@ -47,7 +47,8 @@ verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/v
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
   프로젝트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 작업 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement`. slash command 없이 자연어 prompt만으로 시작한다.
-  `verify`는 판정 보고가 따로 필요할 때 부르는 선택 단계이고, 결과는 대화에만 남는다(CLAUDE.md §phase 제어).
+  `verify`는 판정 보고가 따로 필요할 때 부르는 선택 단계이고, 결과는 대화에만 남는다
+  (`skills/verify/SKILL.md` §역할·§verify 후처리).
 
 `analyze`·`explain` skill은 두 흐름 어느 쪽에서도 부를 수 있다
 (정의는 `skills/analyze/SKILL.md`, `skills/explain/SKILL.md`).
@@ -73,7 +74,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 ### commands/ — slash command 정의
 
 Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일의
-§실행 주체와 `rules/feature-docs.md` 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
+§실행 주체 또는 §역할과 `rules/feature-docs.md` 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 `project-init`·`implement-loop`·`config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다.
 이 설정은 각 command의 호출 조건을 하네스 수준에서 강제한다.

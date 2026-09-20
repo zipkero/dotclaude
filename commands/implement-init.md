@@ -121,6 +121,8 @@ e2e)일 때만 둔다.
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
 - README.md 상태 `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- 기존 implement.md를 재작성하는 경우의 하위 승인 상태 초기화는 `commands/spec-init.md`
+  §재작성 시 하위 승인 상태 초기화를 따른다.
 - 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 ## 금지
