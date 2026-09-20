@@ -64,7 +64,7 @@
 - 자연어 `implement`는 Phased mode에서만 implementer agent에 맡긴다.
   main은 위임 전에 `skills/implement/SKILL.md` §컨텍스트 로딩의 판정 기준으로 mode를 가른다.
 - Per-Request mode는 main이 `implement` skill을 직접 부른다.
-- 자연어로 온 구현·검증 요청은 `skills/implement/SKILL.md` §완료의 implement → verify 경로로 받는다.
+- 자연어로 온 구현·검증 요청은 implement → verify 경로로 받으며, 각 단계의 발동 조건은 그 skill이 소유한다.
 - 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡기고,
   파일 하나 보는 정도는 직접 읽는다.
   전 파일 정독과 판단이 한 몸인 조사는 예외다 (`commands/config-review.md` §실행 주체와 범위).
