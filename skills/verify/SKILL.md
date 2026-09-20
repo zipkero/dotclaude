@@ -85,8 +85,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 ## 출력 구조
 1. 판정: `approved` | `rejected`
 2. 대상 Task: implement.md Task 제목(Phased) 또는 사용자가 말한 변경(Per-Request)을 인용한다.
-3. 검증 — 이번 Task 판단에 실제로 영향을 준 항목만 적는다. 항목을 채우려고 상관없는 spec.md §5나 다른 모듈을 근거로 끌어오지 않으며,
-   다른 Task나 앞으로의 작업에 대한 의견도 두지 않는다.
+3. 검증 — 이번 Task 판단에 실제로 영향을 준 항목만 적는다.
    - 기준 일치 — 관찰한 동작을 평문으로 적고, 필요하면 `SPEC §5.N` / Task `목적`·검증 조건 / `DESIGN §X.Y` 중 인용한 출처를 덧붙인다.
      Phased mode에서만 SPEC·DESIGN 인용을 두며, Per-Request에서는 사용자 요청과 맞는지만 본다.
    - 범위·동작 정확성
@@ -104,6 +103,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 
 ## reject 분류
 모든 reject 분류는 똑같이 Task 승인을 막는다.
+분류에 따라 갈리는 것은 `/implement-loop`의 재시도 처리뿐이다(`commands/implement-loop.md` §재시도).
 - `style/minor`: 이름 짓기·주석·포맷처럼 적용되는 프로젝트·언어 관례와 `rules/code-common.md` §주석·implement §지침을 어긴 문제로,
   정확성은 깨지지 않는다.
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md의 `목적`·검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나,
@@ -118,13 +118,13 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
   - 매핑 누락이 적혀 있으면 main이 먼저 그 문장을 소유하는 Task의 참조 필드에 해당 `SPEC §5.N`을 더한다.
     소유하는 Task가 없으면 체크박스를 바꾸지 않고 `commands/implement-init.md` §매핑의 미매핑 결정으로 올린다.
   - main이 대상 implement.md Task 체크박스를 `[ ]` → `[x]`로 바꾸고 다른 파일은 건드리지 않는다.
+    직전 `implement`가 접근 이탈을 보고했으면 같은 자리에서 그 Task의 접근 필드도 고친다
+    (`skills/implement/SKILL.md` §완료).
   - 바꾼 뒤 implement.md의 모든 Task가 `[x]`가 되었으면, feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에
     `- <yyyy-MM-dd>: IMPLEMENT 완료` 한 줄을 더한다.
-  - IMPLEMENT 완료 시 프로젝트 루트에 있는 문서 중 이번 feature로 낡은 것을 보고한다. 파일은 고치지 않으며 갱신 여부와 내용은 사용자가 정한다.
-    후보 판정 — spec.md §5가 사용자에게 보이는 동작을 더했으면 `docs/product.md`,
-    design.md §5에 이 feature 밖에서도 성립하는 결정이 있으면 `docs/design.md`,
-    담당 마일스톤의 전환 기준을 채웠으면 `ROADMAP.md`, 설치·실행 방법이 바뀌었으면 루트 `README.md`.
-    없는 문서와 해당하지 않는 후보는 보고에서 뺀다.
+  - IMPLEMENT 완료 시 프로젝트 루트 문서 중 이번 feature로 낡은 것을 보고한다. 파일은 고치지 않으며 갱신 여부는 사용자가 정한다.
+    후보는 `docs/product.md`(사용자에게 보이는 동작 추가), `docs/design.md`(feature 밖에서도 성립하는 결정),
+    `ROADMAP.md`(마일스톤 전환 기준 충족), 루트 `README.md`(설치·실행 방법 변경)다.
 - **Rejected**:
   - 대상 체크박스가 `[ ]`였다면(implement 직후의 보통 경우) 그대로 둔다.
   - 완료되는 요구사항 불성립으로 rejected된 경우, 고치는 일이 앞선 `[x]` Task의 코드에 걸치더라도

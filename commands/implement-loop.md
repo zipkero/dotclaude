@@ -25,8 +25,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 루프
 1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. 없으면 완료로 끝낸다.
 2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 걸리면 멈춘다.
-3. **implement** — 대상 Task를 구현한다. `상태`가 `blocked`이거나 접근 이탈을 "설계 변경이 필요함"으로
-   보고하면 verify로 넘어가지 않고 §정지 조건으로 간다.
+3. **implement** — 대상 Task를 구현한다. `상태`가 `blocked`이면 verify로 넘어가지 않고 §정지 조건으로 간다.
 4. **verify** — 판단을 받는다.
 5. **판정 처리**
    - `approved` → `skills/verify/SKILL.md` §verify 후처리를 실행하고 1로 돌아간다.
@@ -36,6 +35,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - verify가 낸 `수정 소유 단계`가 `implement`이면 같은 Task로 3번으로 돌아간다. 체크박스는 `[ ]`로 둔다.
 - 재시도할 때 verify가 낸 reject 사유·근거를 다음 `implement` 입력에 그대로 넘긴다. 같은 지적을 다시 받지 않게 하는 것이 목적이다.
 - 한도는 재시도 2회다 (한 Task당 최대 3번 구현). 소진하면 정지한다.
+- 분류가 `style/minor`뿐인 reject는 이 한도에 산입하지 않는다.
+  같은 Task가 두 번 연속 `style/minor`만으로 rejected되면 재시도하지 않고 §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`여도 분류가 `design/scope`이면 재시도하지 않고 §정지 조건 1로 간다.
   설계에서 이탈했을 때 구현을 고칠지 design.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
@@ -49,7 +50,6 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 아래 중 먼저 걸리는 조건에서 루프를 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
 
 1. **사용자가 문서를 고칠지 판단해야 하는 경우** — §재시도가 넘긴 경우와 verify 전에 드러난 아래 경우가 모두 여기로 온다.
-   - implement가 접근 이탈을 "설계 변경이 필요함"으로 보고한 경우
    - implement가 `blocked`로 낸 사유가 spec.md·design.md·implement.md 수정을 요구하는 경우.
      Task 경계를 다시 잡아야 한다는 보고가 여기 해당한다.
    - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
@@ -66,7 +66,6 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - 루프는 implement.md의 체크박스와 feature README만 고친다.
   접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만, 참조 필드는 `skills/verify/SKILL.md` §verify 후처리가 매핑 누락을 고칠 때만 고친다.
 - 테스트 통과를 목적으로 assertion을 약하게 만들거나 케이스를 지우지 않는다 (`skills/verify/SKILL.md` §테스트 evidence 규칙).
-- Task 순서를 바꾸거나 건너뛰지 않는다. 막힌 Task를 남겨두고 다음 Task로 넘어가지 않는다.
 
 ## 정지·완료 보고
 1. 진행 결과 — 이번 루프에서 `[x]`로 바뀐 Task 목록.
