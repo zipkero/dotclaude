@@ -96,10 +96,6 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
 테스트 Task가 implement.md에 들어가는 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, verify 때의 테스트 근거 규칙은
 `skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
 
-## 주석
-주석 기준은 `rules/code-common.md` §주석·§공통 기준과 언어별 `rules/` 파일이 소유하며,
-`rules/code-common.md`의 `paths`에 걸리지 않는 파일에도 같은 기준을 적용한다.
-
 ## 지침
 - 기존 관례를 따른다 — 같은 디렉토리 기존 파일의 이름 짓기·구조·에러 처리 패턴에 맞춘다.
   lint·format 설정이 있으면 그 설정을 먼저 따른다.
