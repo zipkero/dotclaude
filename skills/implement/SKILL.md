@@ -9,8 +9,7 @@ description: >-
 1. Phased mode — 다음 둘 중 하나일 때 들어간다.
    - `$ARGUMENTS`가 `features/<feature-dir>/` 또는 `features/<feature-dir>/implement.md`와 매치하거나,
    - 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리키는 경우. 이 범위의 뜻은 다음과 같다 — 이 대화에서 해당 feature에 대해 `/spec-init` /
-     `/design-init` / `/implement-init`이 실행되었거나, 이번 응답에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우. 실행할 뜻 없이
-     feature 이름이 지나가듯 나온 것만으로는 Phased mode에 들어가지 않는다.
+     `/design-init` / `/implement-init`이 실행되었거나, 이번 요청에서 사용자가 implement 뜻으로 해당 feature를 콕 집어 가리킨 경우.
 
    예외: `/implement-loop`이 부른 경우는 판정 없이 Phased mode로 고정된다(`commands/implement-loop.md` §전제 조건).
 
@@ -25,7 +24,6 @@ description: >-
      §출력 구조 변경 내용에 적는다.
 2. Per-Request mode — Phased mode의 어느 조건도 맞지 않을 때 들어간다.
    - `features/<feature-dir>/`를 만들지 않는다.
-   - 파일을 고치기 전에 CLAUDE.md §요청 해석에 따라 결과를 실제로 바꾸는 모호함만 질문으로 정리한다.
    - 정리된 요청 범위에 변경을 적용한다. §비확장 기본 원칙을 따른다.
 
 ## 비확장 기본 원칙
@@ -41,7 +39,6 @@ description: >-
 증거이면 비고·한계에 두지 않는다. 상태를 `blocked`로 내고, 성립하지 않는 동작과 그것이 속한 Task, 그렇게 판단한 근거를
 §출력 구조 상태 항목에 함께 적는다.
 고칠지와 어느 Task의 범위로 볼지는 사용자가 정한다.
-이번 변경이 깨뜨린 동작은 여기가 아니라 §재작업 시 파급 점검이 소유한다.
 
 ## 미결정 분석 시 중단
 design.md §5에 미해결 Decision Point("미해결" 뜻은 `commands/implement-init.md` §전제 조건)가 있고 그것이 현재 Task에 영향을 주면,
@@ -92,9 +89,6 @@ Per-Request mode에서는 조용히 테스트를 더하지 않는다. 의미 있
 
 구현의 근거는 테스트가 아니라 `목적`·`참조(SPEC §5)`다. 테스트가 실패하면 `목적` 기준으로 구현과 테스트 중 무엇이 틀렸는지 가려내며,
 어느 쪽도 spec.md 완료 조건을 약하게 만드는 방향으로는 고치지 않는다.
-
-테스트 Task가 implement.md에 들어가는 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이, verify 때의 테스트 근거 규칙은
-`skills/verify/SKILL.md` §테스트 evidence 규칙이 소유한다.
 
 ## 지침
 - 기존 관례를 따른다 — 같은 디렉토리 기존 파일의 이름 짓기·구조·에러 처리 패턴에 맞춘다.

@@ -5,8 +5,8 @@ argument-hint: "<feature-name>"
 
 > 사용 시점: Phased 흐름의 첫 단계로, `/design-init` / `/implement-init`이 참조하는 SPEC을 만든다.
 
-`features/<feature-dir>/spec.md`를 작성하고 `features/<feature-dir>/README.md`를 초기화한다. `<feature-dir>` 전체 형식과 만드는 룰은 §산출 경로에
-둔다. SPEC은 요구사항 수준에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡는다.
+`features/<feature-dir>/spec.md`를 작성하고 `features/<feature-dir>/README.md`를 초기화한다.
+SPEC은 요구사항 수준에서 **무엇이 있어야 하는가**(범위·목표·제약·제외·완료 조건)를 잡는다.
 
 Feature name: $ARGUMENTS
 
@@ -19,8 +19,8 @@ Feature name: $ARGUMENTS
 ## 전제 조건
 - feature name이 비어 있으면 중단한다.
   - 안내: "feature name을 인자로 전달하세요. 예: `/spec-init payment-integration`"
-- 작성 전에 범위·목표·제약·제외 범위·완료 조건의 해석 차이가 결과를 실제로 바꾸면 질문으로 정리한다(방식은 CLAUDE.md §요청 해석).
-- 질문으로 정리한 판단은 대화에만 남기지 않고 §1–§5 중 맞는 섹션에 반영한다.
+- 작성 전에 범위·목표·제약·제외 범위·완료 조건의 해석 차이가 결과를 실제로 바꾸면 사용자에게 묻는다(방식은 CLAUDE.md §요청 해석).
+- 물어서 정한 판단은 대화에만 남기지 않고 §1–§5 중 맞는 섹션에 반영한다.
 
 ## 산출 경로
 `features/`의 위치는 `commands/project-init.md` §대상 프로젝트 루트로 확인한 루트 바로 아래다.
@@ -45,19 +45,7 @@ Feature name: $ARGUMENTS
 - `design.md`나 `implement.md`가 이미 있으면, SPEC을 덮어쓸 때 그 내용이 무효화될 수 있음을 사용자에게 경고하고 명시적 확인을 받은 뒤에만 진행한다.
   이후 design.md와 implement.md의 영향받은 섹션을 갱신해야 함을 사용자에게 상기시킨다 (`rules/feature-docs.md` 참고).
 - `README.md`가 이미 있으면 새로 만들지 않고 §README.md 구조 말미 규칙을 적용한다. 하위 승인 상태 초기화는
-  §재작성 시 하위 승인 상태 초기화를 따른다.
-
-## 재작성 시 하위 승인 상태 초기화
-`/spec-init`·`/design-init`·`/implement-init`으로 기존 산출물을 다시 쓸 때, 하위 승인 상태를 다음 규칙으로
-초기화한다. 세 재작성에 공통 적용되며 규칙 본문은 이 자리 하나뿐이다.
-- 초기화 대상: feature README.md 상태판의 `IMPLEMENT`를 `[ ]`로, implement.md의 모든 Task 체크박스를 `[ ]`로
-  되돌린다. `/spec-init` 재작성이면 `DESIGN`도 `[ ]`로 되돌린다.
-  `/implement-init` 재작성은 implement.md를 새로 쓰므로 `IMPLEMENT`만 되돌린다.
-- 보존 대상: implement.md·design.md 파일 자체, 각 Task의 내용·ID·순서. README.md 상태판의 `SPEC`은 이 규칙이
-  건드리지 않는다.
-- 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
-- 각 체크박스가 뜻하는 불변식은 `[x] DESIGN`은 `commands/design-init.md` §역할이,
-  Task 체크박스는 `skills/verify/SKILL.md` §역할이, `[x] IMPLEMENT`는 같은 파일 §verify 후처리가 정의한다.
+  `rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
 
 ## 요구사항 확정
 `/spec-init` 작성 전에 다음 순서로 입력을 모은다.
@@ -89,7 +77,7 @@ Feature name: $ARGUMENTS
 - 항목은 `- <판단 질문>. 관련 본문: §N` 형식으로 쓴다. 질문에는 그 feature에서 무엇이 걸려 있는지가 드러나야 하며,
   어느 feature에나 그대로 성립하는 질문("범위가 의도와 맞는지 확인" 류)은 두지 않는다.
 - 보류로 확정된 항목만 §3 제약 또는 §4 제외 범위에 두고, 여기에는 그에 대한 판단 질문만 둔다. 범위를 정하지 못한 모호함은 문서에 담지 않고 쓰기 전에
-  질문으로 정리한다(§전제 조건).
+  사용자에게 묻는다(§전제 조건).
 - §1–§5 앞에 두는 서문이며 번호를 매기지 않는다. `§N` 참조 대상이 아니다. 본문 섹션을 갱신할 때 질문과 위치 참조가 여전히 유효한지 함께
   확인한다.
 
@@ -142,8 +130,8 @@ Feature name: $ARGUMENTS
 - <yyyy-MM-dd>: SPEC 작성
 ```
 
-README.md가 이미 있으면 기존 문서 섹션은 유지하고 작업 히스토리를 한 줄 추가한다. 상태 섹션 처리는 §재작성 시 하위 승인
-상태 초기화를 따른다.
+README.md가 이미 있으면 기존 문서 섹션은 유지하고 작업 히스토리를 한 줄 추가한다. 상태 섹션 처리는
+`rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
 
 ## 금지
 - 설계·아키텍처·데이터 흐름·인터페이스 내용은 다루지 않는다 (design.md 소관).
@@ -155,7 +143,7 @@ README.md가 이미 있으면 기존 문서 섹션은 유지하고 작업 히스
 ## 후속 단계 계약
 - `/design-init <feature-dir>`이 이 spec.md를 읽고 같은 디렉토리에 design.md를 만든다.
 - `/implement-init <feature-dir>`이 design.md(완료 조건 매핑을 위해 spec.md도)를 읽고 implement.md를 만든다.
-- `<feature-dir>`은 `/spec-init`이 만든 폴더 전체 이름(`<yyyyMMdd>-<nnn>-<feature-name>`)이며, 이후 단계는 인자로 그 전체 이름을 받는다.
+- 이후 단계는 인자로 `<feature-dir>` 전체 이름을 받는다.
 
 ## 핵심 질문
 > 우리가 풀려는 문제는 무엇이며, 어떻게 만드는지와는 무관하게 어떤 관찰 가능한 조건에서 풀렸다고 보는가?

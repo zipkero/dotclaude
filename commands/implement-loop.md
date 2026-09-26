@@ -26,7 +26,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. 없으면 완료로 끝낸다.
 2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 걸리면 멈춘다.
 3. **implement** — 대상 Task를 구현한다. `상태`가 `blocked`이면 verify로 넘어가지 않고 §정지 조건으로 간다.
-4. **verify** — 판단을 받는다.
+4. **verify** — `verify` skill을 불러 판단을 받는다.
 5. **판정 처리**
    - `approved` → `skills/verify/SKILL.md` §verify 후처리를 실행하고 1로 돌아간다.
    - `rejected` → §재시도로 간다.
@@ -62,7 +62,6 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
 ## 금지
-- **spec.md와 design.md를 고치지 않는다.** 고쳐야 하는 상황은 정지 조건 1로 올린다.
 - 루프는 implement.md의 체크박스와 feature README만 고친다.
   접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만, 참조 필드는 `skills/verify/SKILL.md` §verify 후처리가 매핑 누락을 고칠 때만 고친다.
 

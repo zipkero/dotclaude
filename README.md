@@ -109,7 +109,7 @@ Meta command (Phased 흐름과 독립):
   (`/cross-analyze [N] <질문>`). 읽기 전용이다.
 - `context-save.md` — 지금 설계·전달 작업이 어디까지 왔는지를 프로젝트 루트 `CONTEXT.md`에 저장해 세션을 이어받을 시작점을 만든다 (`/context-save`).
   `CONTEXT.md`만 고치고, 기준 문서가 없으면 요청 범위·변경 파일·검증 결과를 기준으로 적는다.
-- `context-restore.md` — `CONTEXT.md`에서 작업 맥락을 되살리고 원본·Phased 문서와 작업 트리에 대조한다 (`/context-restore`). 읽기 전용이며 보고에서
+- `context-restore.md` — `CONTEXT.md`에서 작업 맥락을 되살리고 원본·feature 산출물과 작업 트리에 대조한다 (`/context-restore`). 읽기 전용이며 보고에서
   멈춘다. 다음 작업은 사용자의 별도 요청과 CLAUDE.md §phase 제어를 따른다.
 
 ### skills/ — skill 정의

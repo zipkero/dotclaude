@@ -25,15 +25,13 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/design.md`가 없으면 중단하고 `/design-init`을 먼저 실행하도록 안내한다.
 - design.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외). analyzer는 그런 항목을 찾으면
-  implement.md를 기록하지 않고 목록을 main에 넘기고, main이 질문으로 정리한다.
-  `(보류)` 표기 항목은 그 항목이 영향을 주지 않는 Task까지 작성한다.
+  implement.md를 기록하지 않고 목록을 main에 돌려주고, main이 사용자에게 묻는다.
 - 승인 전 확인 항목의 답으로 설계 결정이 바뀌면 `/design-init`으로 design.md를 다시 쓴 뒤 implement.md를 작성한다(`rules/feature-docs.md`).
-- design.md §5 Decision Points에 미해결 항목이 있으면 analyzer가 목록을 main에 넘기고 main이 사용자에게 경고하며, 사용자가 강제로 진행할 수 있다.
+- design.md §5 Decision Points에 미해결 항목이 있으면 analyzer가 목록을 main에 돌려주고 main이 사용자에게 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 design.md와 spec.md §5 전체를 읽는다.
-- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 결정을 위임하며, main은
-  질문으로 정리한 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
-- 정해지지 않은 판단을 마음대로 Task 범위나 검증 조건으로 바꾸지 않는다.
+- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 돌려주며, main은
+  사용자에게 물은 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
 
 ## 덮어쓰기 규칙
 - `implement.md`가 이미 있으면 main이 위임 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 버려짐을 함께 알린다.
@@ -92,7 +90,6 @@ Task ID 규칙:
 
 ## 테스트 Task 포함 기준
 design.md에 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 새 경계, 기존 동작을 유지한 구조 변경)이 드러날 때만 테스트를 더한다.
-테스트 코드 작성 범위·예외는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
 
 회귀 테스트는 구현 Task의 `확인` 필드 안에 둔다. 별도 테스트 Task는 테스트가 여러 구현에 걸치거나 그 자체로 독립된 검증 산출물(예: 여러 흐름을 묶는
 e2e)일 때만 둔다.
@@ -116,12 +113,12 @@ e2e)일 때만 둔다.
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
   - spec.md §4 제외 범위로 명시적 보류
-- 미매핑 목록이 비어 있지 않으면 analyzer가 기록하지 않고 목록을 main에 넘긴다. main은 사용자에게 드러내고 판단을 받은 뒤 진행한다.
+- 미매핑 목록이 비어 있지 않으면 analyzer가 기록하지 않고 목록을 main에 돌려준다. main은 사용자에게 드러내고 판단을 받은 뒤 진행한다.
 
 ## README 갱신
 `/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
 - README.md 상태 `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- 기존 implement.md를 재작성하는 경우의 하위 승인 상태 초기화는 `commands/spec-init.md`
+- 기존 implement.md를 재작성하는 경우의 하위 승인 상태 초기화는 `rules/feature-docs.md`
   §재작성 시 하위 승인 상태 초기화를 따른다.
 - 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 

@@ -2,8 +2,7 @@
 name: verify
 description: >-
   Judge whether the most recent implement Task satisfies its implement.md verification criteria, and whether any spec.md §5 criteria
-  completed by this Task actually hold. Delegation to the verifier agent follows §verifier 위임 기준;
-  post-processing is always main's. Returns approved/rejected with evidence.
+  completed by this Task actually hold. Returns approved/rejected with evidence.
 ---
 
 ## 역할
@@ -11,7 +10,6 @@ verify는 Phased mode에서 `implement` 다음에 도는 판단 도구이며, Pe
 1. **Task 판단** — 방금 만든 Task가 자기 검증 조건을 채웠는가?
 2. **완료되는 요구사항 판단** — 이 Task의 approve로 매핑 Task 묶음이 전부 완료되는 `SPEC §5.N`이 있다면, 그 완료 조건이 실제로 성립하는가?
 
-feature 단위 verify 단계는 위 2번이 대신하므로 따로 두지 않는다.
 체크박스 바꾸기는 §verify 후처리에 둔다. Task `[x]`는 현재 승인된 spec.md·design.md 기준으로 검증되었다는 뜻이며,
 상위 문서 재작성으로 초기화된 Task는 기존 구현 결과가 남아 있어도 현재 기준으로 다시 검증해야 한다.
 
@@ -53,7 +51,7 @@ feature 단위 verify 단계는 위 2번이 대신하므로 따로 두지 않는
    - 설계 뜻과 맞는지가 쟁점일 때 design.md Decision Points를 읽는다.
 2. 그 외 → Per-Request mode. 요청 범위와 코드 변경 내용만으로 verify한다.
    - 검증할 변경 범위 규칙은 Phased mode와 같다.
-   - Phased 산출물(spec.md·design.md·implement.md)을 읽거나 쓰지 않는다.
+   - feature 산출물(spec.md·design.md·implement.md)을 읽거나 쓰지 않는다.
 
 Phased mode에서 대상 Task를 가려내기 모호하면(여러 개가 기다리거나 직전 implement 대상이 하나로 잡히지 않는 경우) 판단 전에 멈춘다. verifier는 후보와
 사유를 묶어 main에 돌려주고, main이 직접 판단하는 경우에는 사용자에게 확인한다.
@@ -112,7 +110,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
   고치거나 design.md를 고쳐 쓴다.
 
 ## verify 후처리
-main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, 판단을 돌려준 뒤 멈춘다.
+main 전용 절차다.
 
 - **Approved**:
   - 매핑 누락이 적혀 있으면 main이 먼저 그 문장을 소유하는 Task의 참조 필드에 해당 `SPEC §5.N`을 더한다.
@@ -140,6 +138,3 @@ main 전용 절차다. verifier agent는 이 섹션을 실행하지 않으며, �
 - 변경 범위 테스트가 있는데 실행되지 않았다면 한계로 적는다.
 - 같은 변경 안에 더하거나 고친 테스트는 통과만으로 근거가 되지 않는다. 구현 변경 내용과 함께 회귀 경우를 실제로 다루는지 확인한다. 테스트
   꼼수(assertion 약하게 만들기, 근거 없이 경우 지우기)로 보이면 `correctness`로 reject한다.
-
-테스트 Task 포함 기준은 `commands/implement-init.md` §테스트 Task 포함 기준이,
-테스트 코드 작성 범위는 `skills/implement/SKILL.md` §테스트 코드 작성이 소유한다.
