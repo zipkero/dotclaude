@@ -31,8 +31,8 @@ Claude Code의 개인 설정 저장소.
   `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, DESIGN은 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `design.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
-- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 섹션끼리 전제를 공유하므로 부분 수정하지 않고 `/spec-init`·`/design-init`으로
-  전문을 다시 쓴다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
+- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 하위 문서가 기대는 내용이 바뀌면 `/spec-init`·`/design-init`으로
+  전문을 다시 쓰고, 그 밖의 정정은 main이 그 자리만 고친다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
   (`rules/feature-docs.md`).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/design-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
   부른다. 진행 시점은 사용자가 정한다.
@@ -43,7 +43,7 @@ Claude Code의 개인 설정 저장소.
 verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/verify/SKILL.md` §verify 후처리에 둔다.
 
 - **Phased**: `prompt → /spec-init → /design-init → /implement-init → implement → verify`. 문서 phase 시작 시점은 사용자가 직접 정하고,
-  구현과 검증 전체를 명시 요청한 경우에만 implement → verify가 이어서 진행된다(`skills/implement/SKILL.md` §완료).
+  implement가 `completed`이면 같은 턴에 verify가 이어지고, 사용자가 구현만 요청하면 verify를 권하고 멈춘다(`skills/implement/SKILL.md` §완료).
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
   프로젝트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 작업 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement`. slash command 없이 자연어 prompt만으로 시작한다.
@@ -119,7 +119,7 @@ Meta command (Phased 흐름과 독립):
   같은 턴 안에서 다른 작업에 이어 불릴 수 있어 `disallowed-tools`를 걸지 않고 본문 경계로만 막는다(`rules/claude-config-authoring.md`).
 - `explain` — 기존 코드·변경·시스템이 무엇이고 어떻게 작동하는지 근거와 함께 설명한다. 목적, 흐름, 계약과 가정, 결정, 근거의 한계를 잇는다.
   `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일이 서로 표시한다.
-  파일을 쓰지 않고 대화로만 출력하며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
+  대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
   범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 남기고 고치는지는 `rules/code-common.md` §주석이,
   주석 언어는 CLAUDE.md §언어가, 언어별 doc comment 관례는 각 `rules/` 파일이 소유한다.
@@ -149,7 +149,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
 - `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 frontmatter·본문 작성 기준.
 - `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 문서 정정 방식, spec → design → implement 반영 순서,
-  진행 상태(체크박스·상태판)의 main 소유를 둔다. Phased 밖의 대화에는 로드되지 않는다.
+  진행 상태(체크박스·상태판)의 main 소유, 재작성 시 하위 승인 상태 초기화를 둔다. Phased 밖의 대화에는 로드되지 않는다.
 
 ## 운영
 

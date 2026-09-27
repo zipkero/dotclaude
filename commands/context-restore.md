@@ -40,7 +40,6 @@ disallowed-tools: Write, Edit, NotebookEdit
 - 이 command는 복원 보고로 끝난다. 사용자가 복원과 실행을 함께 요청했어도 같다.
   다음 작업의 실제 수행은 이어지는 요청으로 시작하며 CLAUDE.md §phase 제어와 §agent·skill 라우팅을 그대로 따른다.
 - `CONTEXT.md`에 없는 새 설계 결정은 확정하지도, 추정·제안·판단으로 표시해 보고에 넣지도 않는다.
-- 이어받기 상태는 사용자가 `/context-save`를 부를 때만 갱신된다.
 
 ## 복원 보고
 

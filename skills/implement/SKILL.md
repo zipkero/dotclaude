@@ -27,7 +27,7 @@ description: >-
    - 정리된 요청 범위에 변경을 적용한다. §비확장 기본 원칙을 따른다.
 
 ## 비확장 기본 원칙
-범위 기준은 CLAUDE.md §범위를 따르며, 구현에서는 여기에 새 public API·외부 계약·모듈 밖으로 드러나는 경계를 더한다.
+범위 기준은 CLAUDE.md §범위를 따르며, 구현에서는 여기에 새 public API·외부 계약·모듈 밖 소비자(다른 패키지·프로세스·사용자)가 쓰는 경계를 더한다.
 이 중 하나가 필요하면 코드를 쓰지 말고 먼저 묻는다.
 모듈 안에서 끝나는 helper·함수 경계와, 요청한 변경이 성립하는 데 반드시 필요한 설정 항목은 그대로 만들고 §출력 구조 변경 내용에 밝힌다.
 추상화·확장 포인트 도입은 `commands/design-init.md` §5가 소유한다.
@@ -66,8 +66,8 @@ verify가 reject한 Task를 다시 구현할 때는 지적받은 자리만 고�
 main 전용 절차다. implementer agent는 문서를 고치지 않으며, 아래 정정 대상을 §출력 구조 접근 이탈로 보고한 뒤 멈춘다.
 
 - Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리).
-  `상태`가 `completed`이면 다음 단계로 `verify`를 권한다.
-  사용자가 구현과 검증 전체를 명시 요청한 경우에만 `verify`를 같은 턴에 이어서 부른다.
+  `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부른다.
+  사용자가 구현만 요청했으면 부르지 않고 `verify`를 권한다.
   `상태`가 `blocked`이면 `verify`를 부르지 않고 막힌 사유를 사용자에게 올린다.
 - Phased mode에서 접근 이탈이 보고되면 main은 verify가 `approved`를 돌려준 뒤 그 Task의 접근 필드를 실제 구현 방식으로 고친다.
   `rejected`이면 접근 필드를 고치지 않으며, 구현과 design.md 중 무엇을 고칠지는 `skills/verify/SKILL.md` §reject 분류가 낸

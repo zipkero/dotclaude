@@ -12,7 +12,6 @@ effort: high
 지정 산출물(`features/<feature-dir>/design.md`, `implement.md`)을 직접 기록하고, main에는 §main에 반환 형식으로 요약과 검토 항목만
 돌려준다. 전체 본문은 돌려주지 않는다.
 기록에 실패하면 전체 본문을 돌려주고 실패 사실을 함께 보고한다.
-덮어쓰기 확인은 main이 위임 전에 받는다(해당 command의 §덮어쓰기 규칙). analyzer는 그 확인을 다시 요청하지 않는다.
 
 ## 경계
 - spec.md 수정 금지 (`commands/spec-init.md` §역할).
@@ -24,10 +23,8 @@ main이 `/design-init <feature-dir>` 또는 `/implement-init <feature-dir>` 작�
 절차는 해당 command 파일(`commands/design-init.md`, `commands/implement-init.md`)이 소유하며 그 규칙을 그대로 따른다.
 
 ## 결정 위임
-작업 시작 전이나 도중에 애매한 부분이나 사용자 결정이 필요한 지점을 찾으면 코드·문서를 건드리지 않고 main에 돌려준다.
-돌려줄 항목은 흩어 돌려주지 않고 찾은 시점에 묶어 한 번에 돌려준다.
-
-- 돌려줄 조건은 `commands/design-init.md` §전제 조건과 §실행 주체의 미해결 결정 유형, `commands/implement-init.md` §전제 조건과 §매핑이 정한다.
+`commands/design-init.md` §전제 조건·§실행 주체의 미해결 결정 유형, `commands/implement-init.md` §전제 조건·§매핑이 정한 지점을 찾으면
+산출물을 기록하지 않고, 입력을 끝까지 읽어 찾은 항목을 한 번에 main에 돌려준다.
 
 돌려주는 형식: 질문 항목 목록 + 각 항목을 푸는 조건. 모든 항목은 근거(읽은 파일·찾은 모순 등)에 기반한다.
 

@@ -23,8 +23,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - 루프가 도는 동안은 Phased mode로 고정한다.
 
 ## 루프
-1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. 없으면 완료로 끝낸다.
-2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 걸리면 멈춘다.
+1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. §자동 진행 제외로 미룬 Task는 건너뛴다. 없으면 완료로 끝낸다.
+2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 따라 멈추거나 미룬다.
 3. **implement** — 대상 Task를 구현한다. `상태`가 `blocked`이면 verify로 넘어가지 않고 §정지 조건으로 간다.
 4. **verify** — `verify` skill을 불러 판단을 받는다.
 5. **판정 처리**
@@ -35,8 +35,6 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 - verify가 낸 `수정 소유 단계`가 `implement`이면 같은 Task로 3번으로 돌아간다. 체크박스는 `[ ]`로 둔다.
 - 재시도할 때 verify가 낸 reject 사유·근거를 다음 `implement` 입력에 그대로 넘긴다. 같은 지적을 다시 받지 않게 하는 것이 목적이다.
 - 한도는 재시도 2회다 (한 Task당 최대 3번 구현). 소진하면 정지한다.
-- 분류가 `style/minor`뿐인 reject는 이 한도에 산입하지 않는다.
-  같은 Task가 두 번 연속 `style/minor`만으로 rejected되면 재시도하지 않고 §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다.
 - `수정 소유 단계`가 `implement`여도 분류가 `design/scope`이면 재시도하지 않고 §정지 조건 1로 간다.
   설계에서 이탈했을 때 구현을 고칠지 design.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
@@ -45,6 +43,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 자동 진행 제외
 대상 Task의 검증 조건 `확인` 필드에 수동 확인이 포함되면, 그 Task는 자동으로 진행하지 않고 멈춰 사용자에게 올린다.
 실행 가능한 근거(테스트·빌드·lint·명령 출력)를 함께 가리켜도 같다 — 수동 확인 부분의 근거를 루프가 모을 수 없기 때문이다.
+수동 확인이 이미 확인한 동작을 다른 OS·실기기에서 다시 보는 것뿐이면 멈추지 않는다.
+그 Task는 `[ ]`로 두고 미룬 뒤 다음 Task로 넘어가며, 미룬 Task의 확인 항목은 §정지·완료 보고에 모아 올린다.
 
 ## 정지 조건
 아래 중 먼저 걸리는 조건에서 루프를 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
@@ -57,7 +57,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
    - verify가 approve했으나 매핑 누락의 소유 Task가 없어 `skills/verify/SKILL.md` §verify 후처리가 미매핑 결정으로 올린 경우
 2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 낸 경우.
 3. 재시도 한도를 소진한 경우
-4. §자동 진행 제외에 걸린 Task를 만난 경우
+4. §자동 진행 제외가 멈추라고 한 Task를 만난 경우
 5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
 6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 
@@ -75,6 +75,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
    그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
    여러 문서를 고쳐야 하면 수정 순서는 `rules/feature-docs.md`를 따른다.
+5. 미룬 확인 — §자동 진행 제외로 미룬 Task와 사용자가 다른 OS·실기기에서 볼 확인 항목. 없으면 뺀다.
 
 ## 핵심 질문
 > 지금 Task를 구현만으로 통과시킬 수 있는가, 아니면 사람이 판단할 자리인가?
