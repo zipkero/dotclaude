@@ -6,7 +6,7 @@ argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true
 ---
 
-> 사용 시점: 전역설정에 변경이 누적되었을 때, 또는 런타임 모델 세대가 바뀌었을 때 사용자가 의식적으로 호출한다.
+> 사용 시점: 전역설정에 변경이 누적되었을 때, 또는 Claude Code 업데이트로 설정 키·하네스 동작이 바뀌었을 때 사용자가 의식적으로 호출한다.
 
 전역설정을 다시 읽고 §점검 항목의 관점을 적용해 분석한다.
 
@@ -78,8 +78,7 @@ disable-model-invocation: true
 
 - `code.claude.com/docs` — Claude Code 문서.
 - `platform.claude.com/docs` — 모델 문서, 릴리스 노트, prompt engineering.
-  prompt engineering 기준 문서는 `/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`와
-  실행 모델의 `prompting-claude-<model>` 페이지다.
+  prompt engineering 기준 문서는 `/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`다.
 - `anthropic.com/engineering`, `claude.com/blog` — 엔지니어링 블로그.
 - `github.com/anthropics/claude-code` — CHANGELOG와 releases.
 
@@ -89,7 +88,7 @@ disable-model-invocation: true
 
 1. 가져온 권고의 최신 권장과 어긋나는 설정이 있는가.
    권고가 겨냥한 상황과 판정 대상이 같은 종류일 때만 근거로 쓰고, 발견에는 출처를 함께 적는다.
-2. 모델 세대 교체가 무효화한 지시가 남아 있는가 — 모델 지정, 도구·설정 키 이름, 하네스 기본값 전제.
+2. Claude Code 변경이 무효화한 지시가 남아 있는가 — 모델 지정 값, 도구·설정 키·frontmatter 필드 이름, 하네스 기본값 전제.
 
 이 환경에서 관찰한 동작과 공식 문서가 보장하는 범위는 구분해 적는다.
 
