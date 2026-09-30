@@ -5,14 +5,14 @@ argument-hint: "<feature-dir>"
 
 > 사용 시점: `/design-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
 
-`features/<feature-dir>/implement.md`를 작성한다. IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한
-Task다. 설계 근거는 design.md에 두고, 요구사항 수준 완료 조건은 spec.md §5에 둔다.
+`features/<feature-dir>/implement.md`를 작성한다.
+IMPLEMENT는 **순수 실행 체크리스트**이며, 각 항목은 자체 Task-level 검증 조건을 가진 검증 가능한 Task다.
+설계 근거는 design.md에 두고, 요구사항 수준 완료 조건은 spec.md §5에 둔다.
 
 Feature directory: $ARGUMENTS
 
 ## 실행 주체
-analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/implement.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록
-의무).
+analyzer agent가 아래 구조·규칙대로 `features/<feature-dir>/implement.md`를 작성하고 직접 기록한다(기록 계약은 `agents/analyzer.md` §산출물 기록 의무).
 main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §매핑의 미매핑 결정·§README 갱신을 수행한다.
 
 ## 역할
@@ -24,17 +24,16 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 - feature directory가 비어 있으면 중단한다.
   - 안내: "feature directory를 인자로 전달하세요. 예: `/implement-init 20260506-001-payment-integration`"
 - `features/<feature-dir>/design.md`가 없으면 중단하고 `/design-init`을 먼저 실행하도록 안내한다.
-- design.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외). analyzer는 그런 항목을 찾으면
-  implement.md를 기록하지 않고 목록을 main에 돌려주고, main이 사용자에게 묻는다.
+- design.md 승인 전 확인 섹션에 남아 있는 항목은 아직 사용자 답을 받지 못한 질문으로 본다(`(보류)` 표기 항목은 제외).
+  analyzer는 그런 항목을 찾으면 implement.md를 기록하지 않고 목록을 main에 돌려주고, main이 사용자에게 묻는다.
 - 승인 전 확인 항목의 답으로 설계 결정이 바뀌면 `rules/feature-docs.md`가 정한 방식으로 design.md를 고친 뒤 implement.md를 작성한다.
 - design.md §5 Decision Points에 미해결 항목이 있으면 analyzer가 목록을 main에 돌려주고 main이 사용자에게 경고하며, 사용자가 강제로 진행할 수 있다.
   - "미해결" = 채택 옵션이 없거나 채택 옵션이 TBD / 미정 / 보류로 표기된 Decision Point.
 - 작성 전에 design.md와 spec.md §5 전체를 읽는다.
-- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 돌려주며, main은
-  사용자에게 물은 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
+- 완료 기준·Task 경계·검증 조건의 해석 차이가 Task 범위나 검증 조건을 실제로 바꾸면 analyzer는 기록하지 않고 main에 돌려주며, main은 사용자에게 물은 뒤 진행한다(방식은 CLAUDE.md §요청 해석).
 
 ## 덮어쓰기 규칙
-- `implement.md`가 이미 있으면 main이 위임 전에 사용자 확인을 받는다. 진행 시 기존 Task 체크박스가 버려짐을 함께 알린다.
+- `implement.md`가 이미 있으면 사용자 확인을 받고, 기존 Task 체크박스가 버려짐을 함께 알린다.
 
 ## implement.md 구조
 
@@ -59,8 +58,8 @@ main은 위임 전에 아래 §덮어쓰기 규칙의 확인을 받고, 기록�
 ```
 
 Task ID 규칙:
-- 모든 Task에 전역 일련번호 prefix `task-<nnn>`을 붙인다 (`task-001`, `task-002`, ...). 그룹(`## Section:`)이 있어도 번호는 리셋하지 않고 문서
-  전체에서 연속한다.
+- 모든 Task에 전역 일련번호 prefix `task-<nnn>`을 붙인다 (`task-001`, `task-002`, ...).
+  그룹(`## Section:`)이 있어도 번호는 리셋하지 않고 문서 전체에서 연속한다.
 - ID는 그 implement.md가 `/implement-init`으로 다시 쓰이기 전까지 영구 식별자다.
   새 Task는 현재 가장 큰 ID의 다음 번호를 쓰고, 의존성 순서가 바뀌어도 재번호하지 않는다.
   재작성하면 `task-001`부터 다시 매긴다.
@@ -73,13 +72,12 @@ Task ID 규칙:
 
 참조 필드 작성 규칙:
 - 참조 필드는 SPEC §5 매핑 누락 점검과 추적용 표시이며 verify의 1차 근거가 아니다(`skills/verify/SKILL.md` §근거 원칙).
-- `SPEC §5.N`: 이 Task가 기여하는 spec.md §5 완료 조건. 최소 1개 이상 필수. 여러 개일 때는 쉼표로 나열한다.
+- `SPEC §5.N`: 이 Task가 기여하는 spec.md §5 완료 조건. 여러 개일 때는 쉼표로 나열한다.
 - `DESIGN §X.Y`: 이 Task가 따르는 design.md 구조·설계 (설계 결정이 적용될 때만, 그 외에는 생략).
 
 검증 조건 작성 규칙:
 - 결과가 목적과 같으면 `결과: 목적과 동일`로 약식 표기할 수 있다.
-- spec.md §3 제약에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)가 있으면
-  관련 Task의 `확인` 필드에 빠짐없이 반영한다.
+- spec.md §3 제약에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)가 있으면 관련 Task의 `확인` 필드에 빠짐없이 반영한다.
 - 수동 확인은 사람의 지각·판단이 필요하거나 모델이 닿을 수 없는 환경에서만 확인되는 것으로 한정한다.
   수동 확인이 남은 Task는 `/implement-loop`의 자동 진행 대상에서 빠진다(`commands/implement-loop.md` §자동 진행 제외).
 - 다른 OS·실기기에서 같은 동작을 다시 보는 수동 확인은 그 동작을 만든 Task에 섞지 않고 별도 Task로 둔다.
@@ -88,40 +86,37 @@ Task ID 규칙:
 - 평면 목록: `- [ ]` Task를 한 줄기로 늘어놓으며, 작은 feature에 쓴다.
 - 그룹: `## Section: <name>` 아래에 Task를 배치하며, feature가 별개의 하위 영역을 여러 개 가질 때 쓴다. 안쪽 Task 형식은 같다.
 
-둘 다 허용하며, design.md 구조 크기에 맞춰 선택한다.
-
 ## 테스트 Task 포함 기준
 design.md에 의미 있는 회귀 위험(상태 변화, 외부 I/O, 동시성, 새 경계, 기존 동작을 유지한 구조 변경)이 드러날 때만 테스트를 더한다.
 
-회귀 테스트는 구현 Task의 `확인` 필드 안에 둔다. 별도 테스트 Task는 테스트가 여러 구현에 걸치거나 그 자체로 독립된 검증 산출물(예: 여러 흐름을 묶는
-e2e)일 때만 둔다.
+회귀 테스트는 구현 Task의 `확인` 필드 안에 둔다.
+별도 테스트 Task는 테스트가 여러 구현에 걸치거나 그 자체로 독립된 검증 산출물(예: 여러 흐름을 묶는 e2e)일 때만 둔다.
 
 테스트 Task도 §Task 형식의 네 필드를 그대로 쓰며, 제목은 `<대상> 테스트 작성` 형태로 둔다.
 접근에는 테스트 계층(unit / integration / e2e)과 커버 범위를 적는다.
 
 ## 순서
-- 의존성 기준만 사용한다 — "다음이 가능하기 위해 무엇이 먼저 존재해야 하는가." Task ID 숫자 순이나 작성 순으로 정렬하지 않는다.
+- 의존성 기준만 사용한다 — "다음이 가능하기 위해 무엇이 먼저 존재해야 하는가."
 - 정렬은 implement.md 안의 위치(line order)로 표현하며 별도 의존성 필드를 두지 않는다 — 위치가 곧 순서다.
 - 가능한 순서가 여럿이고 그 선택이 정확성에 영향을 준다면, 그 결정은 여기가 아니라 design.md §5 Decision Points 소관이다.
 
 ## 매핑
-- 모든 Task는 참조 필드에서 최소 1개의 spec.md §5 완료 조건(`SPEC §5.N`)에 매핑되어야 한다.
 - 각 `SPEC §5.N`이 완성되는 자리를 확인한다 — 그 조건에 매핑된 Task가 전부 `[x]`가 되는 자리다.
   그 조건의 모든 문장이 매핑된 Task 중 하나의 `목적`·검증 조건에 들어 있는지도 함께 확인한다.
-  완성 자리가 마지막 Task 하나에 몰리면 매핑을 다시 잡는다. 그 형태에서는 `skills/verify/SKILL.md` §완료되는 요구사항 판정이
-  마지막 Task에서만 돌아 중간 Task에 요구사항 수준 판정이 걸리지 않는다.
+  완성 자리가 마지막 Task 하나에 몰리면 매핑을 다시 잡는다.
+  그 형태에서는 `skills/verify/SKILL.md` §완료되는 요구사항 판정이 마지막 Task에서만 돌아 중간 Task에 요구사항 수준 판정이 걸리지 않는다.
   다시 잡을 수 없으면 그 Task와 사유를 main에 넘겨 사용자 판단을 받는다.
-- implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준을 모두 나열한다. 각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
+- implement.md를 확정하기 전에 매핑되지 않은 spec.md §5 기준을 모두 나열한다.
+  각 미매핑 기준에 대해 사용자가 다음 중 하나를 선택한다.
   - 해당 기준을 다루는 새 Task 추가
   - spec.md §5에서 해당 기준 제거
   - spec.md §4 제외 범위로 명시적 보류
 - 미매핑 목록이 비어 있지 않으면 analyzer가 기록하지 않고 목록을 main에 돌려준다. main은 사용자에게 드러내고 판단을 받은 뒤 진행한다.
 
 ## README 갱신
-`/implement-init` 완료 시 (Task가 나열되었을 뿐 실행은 아직 시작하지 않은 상태. analyzer는 아래 갱신 내용을 반환만 하고, 기록은 main이 한다):
+`/implement-init` 완료 시:
 - README.md 상태 `[ ] IMPLEMENT`는 그대로 둔다. `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- 기존 implement.md를 재작성하는 경우의 하위 승인 상태 초기화는 `rules/feature-docs.md`
-  §재작성 시 하위 승인 상태 초기화를 따른다.
+- 기존 implement.md를 재작성하는 경우의 하위 승인 상태 초기화는 `rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
 - 작업 히스토리 줄을 추가한다 — `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`.
 
 ## 금지

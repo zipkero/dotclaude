@@ -19,7 +19,6 @@ paths:
   `/spec-init` 재작성이면 `DESIGN`도 `[ ]`로 되돌린다.
   `/implement-init` 재작성은 implement.md를 새로 쓰므로 `IMPLEMENT`만 되돌린다.
 - 보존 대상: implement.md·design.md 파일 자체와, `/spec-init`·`/design-init` 재작성일 때 각 Task의 내용·ID·순서.
-  README.md 상태판의 `SPEC`은 이 규칙이 건드리지 않는다.
 - 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN|IMPLEMENT> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
 - 각 체크박스가 뜻하는 불변식은 `[x] DESIGN`은 `commands/design-init.md` §역할이,
   Task 체크박스는 `skills/verify/SKILL.md` §역할이, `[x] IMPLEMENT`는 같은 파일 §verify 후처리가 정의한다.

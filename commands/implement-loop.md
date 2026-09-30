@@ -9,8 +9,8 @@ disable-model-invocation: true
 Feature directory: $ARGUMENTS
 
 ## 역할
-`implement` → `verify` → 체크박스 전환을 사용자 개입 없이 반복한다. 구현·판단·기록 규칙을 새로 만들지 않는다 —
-구현은 `skills/implement/SKILL.md`, 판단은 `skills/verify/SKILL.md`, 판단 이후 기록은 같은 파일 §verify 후처리를 그대로 따른다.
+`implement` → `verify` → 체크박스 전환을 사용자 개입 없이 반복한다.
+구현·판단·기록 규칙을 새로 만들지 않는다 — 구현은 `skills/implement/SKILL.md`, 판단은 `skills/verify/SKILL.md`, 판단 이후 기록은 같은 파일 §verify 후처리를 그대로 따른다.
 이 command가 소유하는 것은 **반복·재시도·정지 조건**뿐이다.
 
 ## 실행 주체
@@ -32,12 +32,10 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
    - `rejected` → §재시도로 간다.
 
 ## 재시도
-- verify가 낸 `수정 소유 단계`가 `implement`이면 같은 Task로 3번으로 돌아간다. 체크박스는 `[ ]`로 둔다.
+- `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면 같은 Task로 3번으로 돌아간다. 체크박스는 `[ ]`로 둔다.
+  그 밖의 reject는 재시도하지 않고 §정지 조건 1로 간다.
 - 재시도할 때 verify가 낸 reject 사유·근거를 다음 `implement` 입력에 그대로 넘긴다. 같은 지적을 다시 받지 않게 하는 것이 목적이다.
 - 한도는 재시도 2회다 (한 Task당 최대 3번 구현). 소진하면 정지한다.
-- `수정 소유 단계`가 `implement`가 아닌 문제는 재시도 대상이 아니다 — §정지 조건 1로 간다.
-- `수정 소유 단계`가 `implement`여도 분류가 `design/scope`이면 재시도하지 않고 §정지 조건 1로 간다.
-  설계에서 이탈했을 때 구현을 고칠지 design.md를 고칠지는 사용자가 정한다(`skills/verify/SKILL.md` §reject 분류).
 - 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다.
 
 ## 자동 진행 제외
@@ -72,8 +70,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 3. 재시도 이력 — 재시도가 있었던 Task별 시도 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
    정지 조건 2면 성립하지 않는 동작과 그것이 속한 Task, 확인한 근거를 짚고 어느 문서를 고칠지는 짚지 않는다.
-   `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고,
-   그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
+   `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고, 그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
    여러 문서를 고쳐야 하면 수정 순서는 `rules/feature-docs.md`를 따른다.
 5. 미룬 확인 — §자동 진행 제외로 미룬 Task와 사용자가 다른 OS·실기기에서 볼 확인 항목. 없으면 뺀다.
 

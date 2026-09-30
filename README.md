@@ -10,32 +10,29 @@ Claude Code의 개인 설정 저장소.
 ### 이 구조가 존재하는 이유
 - 이 설정은 작업을 **검증 경계**로 쪼개어, 각 단위의 완료를 근거로 판정하고 그 판정을 문서에 남긴다.
   목적은 모델이 한 번에 처리하는 능력을 보완하는 것이 아니라, 세션을 넘어 재개할 수 있고 제3자가 나중에 확인할 수 있는 기록을 만드는 것이다.
-- `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `design.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는
-  기준 문서** 역할을 한다. 다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다. (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로
-  참고)
+- `features/<feature-dir>/` 아래의 feature별 문서(`spec.md` → `design.md` → `implement.md` + `README.md`)는 구현 메모가 아니라 **phase 사이를 잇는 기준 문서** 역할을 한다.
+  다음 phase는 대화 맥락이 아니라 앞 phase가 남긴 문서를 읽는다.
+  (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로 참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다. 산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
   Phased 밖에서 쓰는 진행 추적자의 체크박스는 이 판정을 거치지 않으므로 완료 기록이 아니라 진행 표시다
   (구분은 CLAUDE.md §agent·skill 라우팅이 소유한다).
 
 ### 핵심 설계 결정
-- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만
-  읽어 검토한다. `/design-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다.
+- **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만 읽어 검토한다.
+  `/design-init`·`/implement-init`이 그 자리이고, `/project-init`·`/spec-init`은 main이 직접 쓴다.
   실행 주체와 위임 대상은 각 command 파일의 §실행 주체(그 섹션이 없으면 §역할)가 소유하며, 각 agent 정의는 아래 §agents/에 있다.
-- **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든
-  `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
+- **`analyze` skill은 독립 디버깅 도구이지 앞단 phase가 아니다**: 기존 프로젝트의 Phased 작업은 `/spec-init`로 바로 들어가며, 디버깅 조사는 어디서든 `analyze` skill로 부른다(정의는 `skills/analyze/SKILL.md`).
 - **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop` 하나뿐이다.
-  정책은 `skills/verify/SKILL.md` §verify 후처리가, 루프의 재시도 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이
-  소유한다.
+  정책은 `skills/verify/SKILL.md` §verify 후처리가, 루프의 재시도 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이 소유한다.
   verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
-- **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은
-  `skills/verify/SKILL.md` §verify 후처리가 소유한다.
+- **feature별 폴더 구조**: 산출물 구성은 `commands/spec-init.md` §산출 경로가 소유하고, verify 판단 이후의 체크박스·README 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 - **SPEC이 완료 조건의 소유자, DESIGN은 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `design.md`는 설계 판단을,
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다. 각 문서의 섹션 구성은 해당 command 파일이 소유한다.
-- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 하위 문서가 기대는 내용이 바뀌면 `/spec-init`·`/design-init`으로
-  전문을 다시 쓰고, 그 밖의 정정은 main이 그 자리만 고친다. `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
+- **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 하위 문서가 기대는 내용이 바뀌면 `/spec-init`·`/design-init`으로 전문을 다시 쓰고, 그 밖의 정정은 main이 그 자리만 고친다.
+  `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
   (`rules/feature-docs.md`).
-- **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/design-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로
-  부른다. 진행 시점은 사용자가 정한다.
+- **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/design-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로 부른다.
+  진행 시점은 사용자가 정한다.
 
 ## 흐름
 
@@ -47,8 +44,7 @@ verify 후처리(체크박스·README 상태 전환, reject 처리)는 `skills/v
   마지막 `implement → verify` 사이클을 한 Task씩 부르는 대신 `/implement-loop`로 남은 Task를 이어서 돌릴 수도 있다.
   프로젝트 문서가 아직 없는 새 프로젝트는 앞에 `/project-init`을 한 번 두고, 거기서 나온 마일스톤별 작업 후보를 `/spec-init`의 인자로 넘긴다.
 - **Per-Request**: `prompt → implement`. slash command 없이 자연어 prompt만으로 시작한다.
-  `verify`는 판정 보고가 따로 필요할 때 부르는 선택 단계이고, 결과는 대화에만 남는다
-  (`skills/verify/SKILL.md` §역할·§verify 후처리).
+  `verify`는 판정 보고가 따로 필요할 때 부르는 선택 단계이고, 결과는 대화에만 남는다(`skills/verify/SKILL.md` §역할·§컨텍스트 로딩).
 
 `analyze`·`explain` skill은 두 흐름 어느 쪽에서도 부를 수 있다
 (정의는 `skills/analyze/SKILL.md`, `skills/explain/SKILL.md`).
@@ -66,15 +62,16 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 - `analyzer` — `/design-init`·`/implement-init` 실행. 계획 산출물(`design.md`, `implement.md`)을 직접 기록하고 main에는 검토용 요약만 돌려준다.
   승인 전 확인에 남은 질문, 미해결 Decision Point, 미매핑 SPEC §5처럼 기록을 막는 지점을 찾으면 기록하지 않고 목록만 돌려준다.
   feature `README.md`와 코드는 고치지 않는다.
-- `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다. `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로
-  판단한 뒤에만 main이 바꾼다. (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
-- `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관). 위임 기준은
-  `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
+- `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다.
+  `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 바꾼다.
+  (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
+- `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관).
+  위임 기준은 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 
 ### commands/ — slash command 정의
 
-Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일의
-§실행 주체 또는 §역할과 `rules/feature-docs.md` 참고). 그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
+Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고 feature `README.md`의 상태를 갱신한다 (기록 주체는 각 command 파일의 §실행 주체 또는 §역할과 `rules/feature-docs.md` 참고).
+그 앞에 오는 `project-init`만 프로젝트 루트 문서와 `docs/` 문서를 쓴다.
 
 `project-init`·`implement-loop`·`config-review`는 frontmatter `disable-model-invocation: true`를 두어 사용자가 직접 부를 때만 실행된다.
 이 설정은 각 command의 호출 조건을 하네스 수준에서 강제한다.
@@ -85,15 +82,15 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 나머지 meta command는 자연어 호출을 허용한다.
 
 읽기 전용으로 선언한 `context-restore`·`cross-analyze`는 frontmatter `disallowed-tools`로 쓰기 도구를 뺀다
-(`rules/claude-config-authoring.md`). 제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의
-도구 풀은 이 설정으로 막히지 않으므로 본문 경계로 남는다.
+(`rules/claude-config-authoring.md`).
+제약은 다음 사용자 메시지에서 풀리며, Bash 경로와 `cross-analyze`가 띄우는 subagent의 도구 풀은 이 설정으로 막히지 않으므로 본문 경계로 남는다.
 
 - `project-init.md` — 프로젝트 루트에 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 넷을 만든다
   (`/project-init [프로젝트명 또는 한 줄 설명]`). 최종 결과물·서비스 완료 기준·마일스톤·작업 후보를 잡는다.
-  이 중 하나라도 이미 있으면 아무 파일도 쓰지 않는다. 이후 갱신은 사용자가 관리하며, feature 완료 시
-  `skills/verify/SKILL.md` §verify 후처리가 갱신 후보만 보고한다.
-- `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`). `<feature-dir>` 이름은 이 command가 자동으로
-  만든다.
+  이 중 하나라도 이미 있으면 아무 파일도 쓰지 않는다.
+  이후 갱신은 사용자가 관리하며, feature 완료 시 `skills/verify/SKILL.md` §verify 후처리가 갱신 후보만 보고한다.
+- `spec-init.md` — `spec.md`를 쓰고 feature `README.md`를 초기화한다 (`/spec-init <feature-name>`).
+  `<feature-dir>` 이름은 이 command가 자동으로 만든다.
 - `design-init.md` — `spec.md`로부터 `design.md`를 만든다 (`/design-init <feature-dir>`)
 - `implement-init.md` — `design.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`).
@@ -109,8 +106,9 @@ Meta command (Phased 흐름과 독립):
   (`/cross-analyze [N] <질문>`). 읽기 전용이다.
 - `context-save.md` — 지금 설계·전달 작업이 어디까지 왔는지를 프로젝트 루트 `CONTEXT.md`에 저장해 세션을 이어받을 시작점을 만든다 (`/context-save`).
   `CONTEXT.md`만 고치고, 기준 문서가 없으면 요청 범위·변경 파일·검증 결과를 기준으로 적는다.
-- `context-restore.md` — `CONTEXT.md`에서 작업 맥락을 되살리고 원본·feature 산출물과 작업 트리에 대조한다 (`/context-restore`). 읽기 전용이며 보고에서
-  멈춘다. 다음 작업은 사용자의 별도 요청과 CLAUDE.md §phase 제어를 따른다.
+- `context-restore.md` — `CONTEXT.md`에서 작업 맥락을 되살리고 원본·feature 산출물과 작업 트리에 대조한다 (`/context-restore`).
+  읽기 전용이며 보고에서 멈춘다.
+  다음 작업은 사용자의 별도 요청과 CLAUDE.md §phase 제어를 따른다.
 
 ### skills/ — skill 정의
 
@@ -120,15 +118,14 @@ Meta command (Phased 흐름과 독립):
 - `explain` — 기존 코드·변경·시스템이 무엇이고 어떻게 작동하는지 근거와 함께 설명한다. 목적, 흐름, 계약과 가정, 결정, 근거의 한계를 잇는다.
   `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일이 서로 표시한다.
   대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
-- `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다. 다음 `verify` 호출이 분명한 변경
-  범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다. 주석을 언제 남기고 고치는지는 `rules/code-common.md` §주석이,
+- `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다.
+  다음 `verify` 호출이 분명한 변경 범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
+  주석을 언제 남기고 고치는지는 `rules/code-common.md` §주석이,
   주석 언어는 CLAUDE.md §언어가, 언어별 doc comment 관례는 각 `rules/` 파일이 소유한다.
-- `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다. 판단만 대화로 돌려주며, implement.md 체크박스
-  전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다. 테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은
-  `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한
-  테스트 근거 기준은 `skills/verify/SKILL.md` §테스트 evidence 규칙.
-- `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를
-  로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
+- `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다.
+  판단만 대화로 돌려주며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다.
+  테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은 `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한 테스트 근거 기준은 `skills/verify/SKILL.md` §테스트 evidence 규칙.
+- `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를 로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
   frontmatter `description`이 발동을 사용자의 명시적인 Codex 워커·Orca dispatch 요청으로 좁힌다 —
   손으로 친 자연어 지시에서도 로드되어야 하므로 `disable-model-invocation`을 걸지 않는다.
   절차는 이 파일이 갖지 않는다 — Orca 명령과 코디네이터 절차는 `skills/orchestration/SKILL.md`가 가리키는 버전별 가이드,
@@ -140,8 +137,8 @@ Meta command (Phased 흐름과 독립):
 
 frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다. 항상 로드되는 CLAUDE.md와 달리 그 파일 종류를 만질 때만 비용을 낸다.
 
-매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다. 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야
-한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
+매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다.
+바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야 한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
 `paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
 - `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).
