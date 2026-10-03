@@ -64,7 +64,7 @@ Phased mode 반환의 첫 줄은 `<!-- prowl-workflow: v1 implement -->`다.
 main 전용 절차다. implementer agent는 문서를 고치지 않으며, 아래 정정 대상을 §출력 구조 접근 이탈로 보고한 뒤 멈춘다.
 
 - Phased mode: 체크박스 바꾸기는 verify가 `approved`를 돌려준 뒤 main이 한다 (`skills/verify/SKILL.md` §verify 후처리).
-  `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부른다.
+  `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부르고, 그 턴의 최종 응답은 verify §출력 구조로 낸다.
   사용자가 구현만 요청했으면 부르지 않고 `verify`를 권한다.
   `상태`가 `blocked`이면 `verify`를 부르지 않고 막힌 사유를 사용자에게 올린다.
 - Phased mode에서 접근 이탈이 보고되면 main은 verify가 `approved`를 돌려준 뒤 그 Task의 접근 필드를 실제 구현 방식으로 고친다.

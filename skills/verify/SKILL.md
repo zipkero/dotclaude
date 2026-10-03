@@ -80,7 +80,7 @@ Phased mode 출력의 첫 줄은 `<!-- prowl-workflow: v1 verify -->`다.
    - 기준 일치 — 관찰한 동작을 평문으로 적고, 필요하면 `SPEC §5.N` / Task `목적`·검증 조건 / `DESIGN §X.Y` 중 인용한 출처를 덧붙인다.
    - 범위·동작 정확성
    - 근거 (변경 내용, 테스트 결과, 또는 밝힌 한계)
-4. 완료되는 요구사항 — 완료되는 `SPEC §5.N`마다 `SPEC §5.N: 성립 — <근거>` 또는 `SPEC §5.N: 불성립 — <근거>` 한 줄로 적고, 없으면 `없음`만 적는다. Per-Request mode에서는 항목을 뺀다.
+4. 완료되는 요구사항 — 완료되는 `SPEC §5.N`마다 `SPEC §5.N: <성립|불성립> — <근거>` 한 줄로 적고, 없으면 `없음`만 적는다. Per-Request mode에서는 항목을 뺀다.
 5. rejected인 경우 — 문제
    - 분류: `style/minor` | `correctness` | `design/scope` | `evidence`
    - 수정 소유 단계: `implement` | `implement-init` | `design-init` | `spec-init` 중 하나. 분류가 `evidence`면 적지 않는다.

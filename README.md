@@ -149,24 +149,17 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 문서 정정 방식, spec → design → implement 반영 순서,
   진행 상태(체크박스·상태판)의 main 소유, 재작성 시 하위 승인 상태 초기화를 둔다. Phased 밖의 대화에는 로드되지 않는다.
 
-## Prowl 규약
+## 출력 형식 계약
 
-[Prowl](https://github.com/zipkero/prowl)은 이 설정이 만드는 작업 문서와 Phased 보고를 읽는다.
-읽는 형식은 Prowl이 소유하는 workflow 규약 v1이고, 명세는 Prowl 저장소의 [`docs/workflow-contract/v1.md`](https://github.com/zipkero/prowl/blob/main/docs/workflow-contract/v1.md)다.
-Prowl은 이 디렉토리를 읽기만 하고 고치지 않는다.
-
-아래 자리는 규약 v1이 정한 형식이다.
-문구는 다듬어도 되지만, 표지 단어·값·위치를 바꾸면 Prowl이 해석 실패로 보므로 동작 변경으로 다룬다.
-규약을 바꾸는 쪽은 Prowl이고(새 규약 버전), 이 설정은 그 뒤에 따라 고친다.
+이 설정이 만드는 작업 문서와 Phased 보고는 다른 도구가 읽는 형식이다.
+아래 자리의 문구는 다듬어도 되지만, 표지 단어·값·위치·이름을 바꾸면 동작 변경으로 다룬다.
 
 - 작업 문서 첫 줄 표시 `<!-- prowl-workflow: v1 -->` — `commands/spec-init.md`(spec.md 규칙, README 템플릿), `commands/design-init.md`, `commands/implement-init.md`, `commands/project-init.md`(ROADMAP 템플릿).
-- 작업 문서 형식 중 Prowl이 읽는 것 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
+- 작업 문서 형식 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
 - `skills/verify/SKILL.md` §출력 구조·§reject 분류 — 첫 줄 표시, 판정 값, 대상 Task의 `task-<nnn>`, 완료되는 요구사항 줄 형식, 분류 네 값, `해소 조건` 항목.
 - `skills/implement/SKILL.md` §출력 구조 — 첫 줄 표시, 상태 값, 핵심의 `task-<nnn>`.
 - `commands/implement-loop.md` — §재시도의 근거 부족 재검증 규칙, §정지 조건의 조건별 정지 사유 값, §정지·완료 보고의 첫 줄 표시와 멈춘 자리의 `task-<nnn>`·`정지 사유`·`해소 조건`.
-- Prowl이 요청 종류를 가리려고 알아보는 이름 — skill `implement`·`verify`, command `implement-loop`, agent `implementer`·`verifier`.
-
-표지 단어와 값 목록은 위 명세 §5가 소유하므로 여기에 다시 적지 않는다.
+- 요청 종류를 가리는 이름 — skill `implement`·`verify`, command `implement-loop`, agent `implementer`·`verifier`.
 
 ## 운영
 
