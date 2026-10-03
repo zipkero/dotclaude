@@ -65,6 +65,8 @@ Feature name: $ARGUMENTS
 
 ## spec.md 구조
 
+spec.md 첫 줄은 `<!-- prowl-workflow: v1 -->`다.
+
 ### 승인 전 확인
 - 사용자가 SPEC 승인 전에 답해야 할 feature 고유의 판단 질문을 만들 수 있을 때만 이 섹션을 둔다.
 - 사용자가 항목에 답하면 `rules/feature-docs.md`가 정한 수정 방식으로 그 결과를 §1–§5 중 맞는 섹션에 반영하고 해당 항목을 이 섹션에서 지운다.
@@ -106,6 +108,7 @@ Feature name: $ARGUMENTS
 
 ## README.md 구조 (여기서 초기화)
 ```markdown
+<!-- prowl-workflow: v1 -->
 # <feature-name>
 
 ## 요약

@@ -85,6 +85,7 @@ disable-model-invocation: true
 - 보류·제외 범위: 제외 이유, 관련 위험과 다시 검토할 조건
 
 ```markdown
+<!-- prowl-workflow: v1 -->
 # <프로젝트명> 로드맵
 
 ## 최종 결과물

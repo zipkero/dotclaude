@@ -19,7 +19,7 @@ Task `[x]`는 현재 승인된 spec.md·design.md 기준으로 검증되었다�
 - 최소 근거는 코드 변경 내용, 권장은 변경 내용 + 테스트 결과.
 - "전에 논의했음"은 근거가 아니며, 파일을 다시 읽거나 테스트를 다시 돌린다.
 - 참조 필드(`SPEC §5.N`, `DESIGN §X.Y`)는 어디에 매핑됐는지 표시일 뿐이며 근거는 본문·변경 내용·테스트 결과에서 가져온다.
-- 모은 근거로 맞는지 확인할 수 없으면 reject하고 한계를 밝힌다.
+- 모은 근거로 맞는지 확인할 수 없으면 `evidence`로 reject하고 한계를 밝힌다.
 
 ## 판단 순서
 구현과 테스트를 평가하기 전에 판정 기준 목록부터 다음 순서로 확정한다.
@@ -73,17 +73,19 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
   단, 성립하지 않는 문장을 `목적`·검증 조건에 담은 Task가 대상 Task도 앞선 `[x]` Task도 아니면 코드가 아니라 매핑의 흠이므로 reject 사유로 삼지 않고, §출력 구조 4번에 그 문장을 불성립으로 적으면서 사유를 매핑 누락으로, 담은 Task가 있으면 그 `task-<nnn>`을 밝힌다.
 
 ## 출력 구조
+Phased mode 출력의 첫 줄은 `<!-- prowl-workflow: v1 verify -->`다.
 1. 판정: `approved` | `rejected`
-2. 대상 Task: implement.md Task 제목(Phased) 또는 사용자가 말한 변경(Per-Request)을 인용한다.
+2. 대상 Task: implement.md의 `task-<nnn>: 제목`(Phased) 또는 사용자가 말한 변경(Per-Request)을 인용한다.
 3. 검증 — 이번 Task 판단에 실제로 영향을 준 항목만 적는다.
    - 기준 일치 — 관찰한 동작을 평문으로 적고, 필요하면 `SPEC §5.N` / Task `목적`·검증 조건 / `DESIGN §X.Y` 중 인용한 출처를 덧붙인다.
    - 범위·동작 정확성
    - 근거 (변경 내용, 테스트 결과, 또는 밝힌 한계)
-4. 완료되는 요구사항 — 완료되는 `SPEC §5.N`이 있으면 각각 성립/불성립을 근거와 함께 적고, 없으면 `없음`으로 적는다. Per-Request mode에서는 항목을 뺀다.
+4. 완료되는 요구사항 — 완료되는 `SPEC §5.N`마다 `SPEC §5.N: 성립 — <근거>` 또는 `SPEC §5.N: 불성립 — <근거>` 한 줄로 적고, 없으면 `없음`만 적는다. Per-Request mode에서는 항목을 뺀다.
 5. rejected인 경우 — 문제
-   - 분류: `style/minor` | `correctness` | `design/scope`
-   - 수정 소유 단계: `implement` | `implement-init` | `design-init` | `spec-init` 중 하나.
+   - 분류: `style/minor` | `correctness` | `design/scope` | `evidence`
+   - 수정 소유 단계: `implement` | `implement-init` | `design-init` | `spec-init` 중 하나. 분류가 `evidence`면 적지 않는다.
      여러 자리를 고쳐야 하면 파이프라인상 가장 앞선 단계를 적는다.
+   - 해소 조건: 분류가 `evidence`면 다시 검증하는 데 필요한 입력·환경·조건을 적는다.
    - 구체적인 문제를 근거와 함께 적는다.
 6. approved인 경우 — 설명
    - 무엇이 어떻게 바뀌었는지 (2-3 문장).
@@ -96,6 +98,7 @@ Phased mode에서 §컨텍스트 로딩이 계산한 완료되는 `SPEC §5.N` �
 - `correctness`: 동작이 spec.md 완료 조건이나 implement.md의 `목적`·검증 조건을 채우지 못하거나, 버그가 들어갔거나, 불변 조건을 깨거나, 잘못된 출력을 내거나, 공개 식별자의 주석이 적은 동작·계약이 코드와 어긋난다.
 - `design/scope`: 구현이 design.md Decision Points에서 이탈하거나, 요청 범위를 넘거나 못 미치거나, 합의한 경계를 어긴다.
   결정이 필요하다 — 구현을 고치거나 design.md를 고쳐 쓴다.
+- `evidence`: 근거를 모으지 못해 성립 여부를 확인하지 못했다. 확인된 불충족이 아니다.
 
 ## verify 후처리
 main 전용 절차다.

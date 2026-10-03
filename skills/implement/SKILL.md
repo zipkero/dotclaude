@@ -48,6 +48,7 @@ verify가 reject한 Task를 다시 구현할 때는 지적받은 자리만 고�
 확인하지 못한 항목은 §출력 구조 비고·한계에 밝힌다.
 
 ## 출력 구조
+Phased mode 반환의 첫 줄은 `<!-- prowl-workflow: v1 implement -->`다.
 아래 항목은 해당하지 않으면 뺀다.
 1. 상태 — Phased mode 반환에 빠짐없이 적고, Per-Request에는 두지 않는다. 값은 `completed` 또는 `blocked`.
    `blocked`이면 막힌 사유와 필요한 결정을 같은 항목 안에 함께 적는다.

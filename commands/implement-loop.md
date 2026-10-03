@@ -32,6 +32,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
    - `rejected` → §재시도로 간다.
 
 ## 재시도
+- 분류가 `evidence`면 구현하지 않는다. main이 해소 조건과 Task `확인`의 명령·테스트를 실행해 모은 근거와 직전 해소 조건을 넘겨 4번부터 다시 한다. 이 근거 재검증은 Task당 누적 2회까지이며 구현 재시도와 따로 센다. 2회 뒤에도 `evidence`면 §정지 조건 7로 간다.
 - `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면 같은 Task로 3번으로 돌아간다. 체크박스는 `[ ]`로 둔다.
   그 밖의 reject는 재시도하지 않고 §정지 조건 1로 간다.
 - 재시도할 때 verify가 낸 reject 사유·근거를 다음 `implement` 입력에 그대로 넘긴다. 같은 지적을 다시 받지 않게 하는 것이 목적이다.
@@ -47,27 +48,29 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 ## 정지 조건
 아래 중 먼저 걸리는 조건에서 루프를 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
 
-1. **사용자가 문서를 고칠지 판단해야 하는 경우** — §재시도가 넘긴 경우와 verify 전에 드러난 아래 경우가 모두 여기로 온다.
+1. **사용자가 문서를 고칠지 판단해야 하는 경우** (`decision_needed`) — §재시도가 넘긴 경우와 verify 전에 드러난 아래 경우가 모두 여기로 온다.
    - implement가 `blocked`로 낸 사유가 spec.md·design.md·implement.md 수정을 요구하는 경우.
      Task 경계를 다시 잡아야 한다는 보고가 여기 해당한다.
    - 대상 Task가 design.md §5의 미해결 Decision Point에 걸리는 경우 (`skills/implement/SKILL.md` §미결정 분석 시 중단)
    - 완료 조건끼리 부딪히거나 지금 설계로는 달성할 수 없다고 드러난 경우
    - verify가 approve했으나 매핑 누락의 소유 Task가 없어 `skills/verify/SKILL.md` §verify 후처리가 미매핑 결정으로 올린 경우
-2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 낸 경우.
-3. 재시도 한도를 소진한 경우
-4. §자동 진행 제외가 멈추라고 한 Task를 만난 경우
-5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
-6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
+2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** (`regression`) — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 낸 경우.
+3. 재시도 한도를 소진한 경우 (`retry_exhausted`)
+4. §자동 진행 제외가 멈추라고 한 Task를 만난 경우 (`manual_check`)
+5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우 (`blocked`)
+6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인) (`approval_needed`)
+7. 근거 재검증 2회를 소진한 경우 (`evidence_exhausted`)
 
 ## 금지
 - 루프는 implement.md의 체크박스와 feature README만 고친다.
   접근 필드는 `skills/implement/SKILL.md` §완료가 허용할 때만, 참조 필드는 `skills/verify/SKILL.md` §verify 후처리가 매핑 누락을 고칠 때만 고친다.
 
 ## 정지·완료 보고
+첫 줄은 `<!-- prowl-workflow: v1 implement-loop -->`다.
 1. 진행 결과 — 이번 루프에서 `[x]`로 바뀐 Task 목록.
-2. 멈춘 자리 — 대상 Task와 정지 조건 번호, 그리고 그렇게 판단한 근거. 완료로 끝났으면 뺀다.
+2. 멈춘 자리 — 대상 `task-<nnn>`과 정지 조건 번호, 그렇게 판단한 근거. 이어서 `정지 사유:` 줄에 그 조건의 값을 backtick으로 적고, 조건 7이면 `해소 조건:` 줄도 적는다. 완료로 끝났으면 뺀다.
    구현이 코드를 고친 뒤 멈췄으면 검증받지 않고 남은 파일 목록을 함께 적는다.
-3. 재시도 이력 — 재시도가 있었던 Task별 시도 횟수와 reject 사유 한 줄. 없으면 뺀다.
+3. 재시도 이력 — 재시도가 있었던 Task별 구현 재시도·근거 재검증 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 1이면 고쳐야 할 문서와 섹션을 짚는다.
    정지 조건 2면 성립하지 않는 동작과 그것이 속한 Task, 확인한 근거를 짚고 어느 문서를 고칠지는 짚지 않는다.
    `수정 소유 단계`가 나왔고 그것이 `implement`가 아니면 그 단계가 소유한 문서를 짚고, 그 밖에는 멈춘 사유가 가리키는 자리를 짚는다 — implement.md의 해당 Task, design.md의 해당 Decision Point, spec.md 완료 조건.
