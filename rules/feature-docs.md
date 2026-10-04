@@ -17,7 +17,6 @@ paths:
 `/spec-init`·`/design-init`·`/implement-init`으로 기존 산출물을 다시 쓸 때 하위 승인 상태를 다음 규칙으로 초기화한다.
 - 초기화 대상: feature README.md 상태판의 `IMPLEMENT`를 `[ ]`로, implement.md의 모든 Task 체크박스를 `[ ]`로 되돌린다.
   `/spec-init` 재작성이면 `DESIGN`도 `[ ]`로 되돌린다.
-  `/implement-init` 재작성은 implement.md를 새로 쓰므로 `IMPLEMENT`만 되돌린다.
 - 보존 대상: implement.md·design.md 파일 자체와, `/spec-init`·`/design-init` 재작성일 때 각 Task의 내용·ID·순서.
 - 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN|IMPLEMENT> 재작성으로 하위 승인 상태 초기화` 한 줄을 남기고 되돌린 항목을 함께 적는다.
 - 각 체크박스가 뜻하는 불변식은 `[x] DESIGN`은 `commands/design-init.md` §역할이,

@@ -10,7 +10,6 @@ effort: high
 
 ## 산출물 기록 의무
 지정 산출물(`features/<feature-dir>/design.md`, `implement.md`)을 직접 기록하고, main에는 §main에 반환 형식으로 요약과 검토 항목만 돌려준다.
-전체 본문은 돌려주지 않는다.
 기록에 실패하면 전체 본문을 돌려주고 실패 사실을 함께 보고한다.
 
 ## 경계
@@ -25,7 +24,7 @@ main이 `/design-init <feature-dir>` 또는 `/implement-init <feature-dir>` 작�
 ## 결정 위임
 `commands/design-init.md` §전제 조건·§실행 주체의 미해결 결정 유형, `commands/implement-init.md` §전제 조건·§매핑이 정한 지점을 찾으면 산출물을 기록하지 않고, 입력을 끝까지 읽어 찾은 항목을 한 번에 main에 돌려준다.
 
-돌려주는 형식: 질문 항목 목록 + 각 항목을 푸는 조건. 모든 항목은 근거(읽은 파일·찾은 모순 등)에 기반한다.
+돌려주는 형식: 질문 항목 목록 + 각 항목을 푸는 조건.
 
 ## main에 반환
 돌려줄 때는 main이 파일을 열어 검토할 수 있게 하는 항목만 넣는다.
