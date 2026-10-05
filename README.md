@@ -158,7 +158,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - 작업 문서 형식 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
 - `skills/verify/SKILL.md` §출력 구조·§reject 분류 — 첫 줄 표시, 판정 값, 대상 Task의 `task-<nnn>`, 완료되는 요구사항 줄 형식, 분류 네 값, `해소 조건` 항목.
 - `skills/implement/SKILL.md` §출력 구조 — 첫 줄 표시, 상태 값, 핵심의 `task-<nnn>`.
-- `commands/implement-loop.md` — §재시도의 근거 부족 재검증 규칙, §정지 조건의 조건별 정지 사유 값, §정지·완료 보고의 첫 줄 표시와 멈춘 자리의 `task-<nnn>`·`정지 사유`·`해소 조건`.
+- `commands/implement-loop.md` — §실행 주체의 verify 담당(verifier agent), §재시도의 근거 부족 재검증 규칙, §정지 조건의 조건별 정지 사유 값, §정지·완료 보고의 첫 줄 표시와 멈춘 자리의 `task-<nnn>`·`정지 사유`·`해소 조건`.
 - 요청 종류를 가리는 이름 — skill `implement`·`verify`, command `implement-loop`, agent `implementer`·`verifier`.
 
 ## 운영

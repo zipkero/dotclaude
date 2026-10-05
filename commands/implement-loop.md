@@ -13,7 +13,7 @@ Feature directory: $ARGUMENTS
 구현은 `skills/implement/SKILL.md`, 판단은 `skills/verify/SKILL.md`, 판단 이후 기록은 같은 파일 §verify 후처리를 따르며, 이 command는 반복·재시도·정지 조건만 소유한다.
 
 ## 실행 주체
-main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 맡기고, `verify` 위임 여부는 `skills/verify/SKILL.md` §verifier 위임 기준을 따른다.
+main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에, `verify`는 verifier agent에 맡긴다.
 
 ## 전제 조건
 - feature directory가 비어 있으면 중단하고 `/implement-loop 20260506-001-payment-integration`처럼 인자를 달라고 안내한다.
@@ -24,7 +24,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에 �
 1. **대상 Task 선택** — implement.md 위에서부터 첫 `[ ]` Task. §자동 진행 제외로 미룬 Task는 건너뛰고, 없으면 완료로 끝낸다.
 2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 따라 멈추거나 미룬다.
 3. **implement** — `상태`가 `blocked`이면 §정지 조건으로 간다.
-4. **verify** — `verify` skill로 판단을 받는다.
+4. **verify** — verifier agent에 판단을 받는다.
 5. **판정 처리** — `approved`면 §verify 후처리를 하고 1로, `rejected`면 §재시도로 간다.
 
 ## 재시도
