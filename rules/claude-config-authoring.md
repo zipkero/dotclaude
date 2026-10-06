@@ -1,5 +1,7 @@
 ---
 paths:
+  - "**/CLAUDE.md"
+  - "**/rules/*.md"
   - "**/agents/*.md"
   - "**/commands/*.md"
   - "**/skills/**/SKILL.md"

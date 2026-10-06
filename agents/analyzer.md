@@ -27,6 +27,6 @@ main이 `/design-init <feature-dir>` 또는 `/implement-init <feature-dir>` 작�
 
 ## main에 반환
 돌려줄 때는 main이 파일을 열어 검토할 수 있게 하는 항목만 넣는다.
-- `/design-init` 완료: ① 기록한 파일 경로 ② README.md 갱신 지시(바꿀 상태 줄 + 추가할 작업 히스토리 줄) ③ spec.md §5 조건별로 그 조건이 반영된 본문 위치 ④ 핵심 설계 결정 1-3줄 요약(main 검토용).
-- `/implement-init` 완료: ① 기록한 파일 경로 ② README.md 갱신 지시 ③ 등록된 Task 수와 SPEC §5 매핑 범위(연결된 기준 / 전체 기준).
+- `/design-init` 완료: ① 기록한 파일 경로 ② spec.md §5 조건별로 그 조건이 반영된 본문 위치 ③ 핵심 설계 결정 1-3줄 요약.
+- `/implement-init` 완료: ① 기록한 파일 경로 ② 등록된 Task 수와 SPEC §5 매핑 범위(연결된 기준 / 전체 기준).
 - 결정 위임: 위 결정 위임 형식 (이 경우 산출물을 기록하지 않는다).
