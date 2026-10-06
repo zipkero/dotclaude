@@ -21,6 +21,5 @@ paths:
 - `context.Context`가 이미 흐르는 경로에서는 cancellation과 timeout 전달을 끊지 않는다.
 
 ## 테스트
-- 기존 테스트 관례를 따른다.
 - 순수 로직은 table-driven test를 우선 고려한다.
 - 프로젝트 관례가 없고 Go 코드 동작을 바꿨다면 `go test ./...`를 우선 검증 명령으로 고려한다.

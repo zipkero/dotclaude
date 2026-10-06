@@ -18,5 +18,4 @@ paths:
 - `IDisposable` 또는 `IAsyncDisposable` 소유권이 생기면 해제 책임을 명확히 한다.
 
 ## 테스트
-- 기존 테스트 프레임워크와 assertion 스타일을 따른다.
 - 프로젝트 관례가 없고 C# 코드 동작을 바꿨다면 `dotnet test`를 우선 검증 명령으로 고려한다.

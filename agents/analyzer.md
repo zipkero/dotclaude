@@ -13,7 +13,7 @@ effort: high
 기록에 실패하면 전체 본문을 돌려주고 실패 사실을 함께 보고한다.
 
 ## 경계
-- spec.md 수정 금지 (`commands/spec-init.md` §역할).
+- spec.md 수정 금지.
 - `/implement-init` 모드에서 design.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
 
 ## 동작 모드
@@ -27,6 +27,6 @@ main이 `/design-init <feature-dir>` 또는 `/implement-init <feature-dir>` 작�
 
 ## main에 반환
 돌려줄 때는 main이 파일을 열어 검토할 수 있게 하는 항목만 넣는다.
-- `/design-init` 완료: ① 기록한 파일 경로 ② spec.md §5 조건별로 그 조건이 반영된 본문 위치 ③ 핵심 설계 결정 1-3줄 요약.
-- `/implement-init` 완료: ① 기록한 파일 경로 ② 등록된 Task 수와 SPEC §5 매핑 범위(연결된 기준 / 전체 기준).
-- 결정 위임: 위 결정 위임 형식 (이 경우 산출물을 기록하지 않는다).
+- `/design-init` 완료: ① 기록한 파일 경로 ② spec.md §5 조건별로 그 조건이 반영된 본문 위치 ③ 핵심 설계 결정 1-3줄 요약 ④ 재작성이면 뜻이 바뀐 `DESIGN §X.Y`.
+- `/implement-init` 완료: ① 기록한 파일 경로 ② 등록된 Task 수와 SPEC §5 매핑 범위(연결된 기준 / 전체 기준) ③ 재작성이면 바뀌거나 생기거나 빠진 `task-<nnn>`.
+- 결정 위임: 위 결정 위임 형식.

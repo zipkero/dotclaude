@@ -26,7 +26,7 @@ main이 루프를 돌린다.
 2. **자동 진행 가능 여부 확인** — §자동 진행 제외에 따라 멈추거나 미룬다.
 3. **implement** — `상태`가 `blocked`이면 §정지 조건으로 간다.
 4. **verify** — verifier agent에 판단을 받는다.
-5. **판정 처리** — `approved`면 §verify 후처리를 하고 1로, `rejected`면 §재시도로 간다.
+5. **판정 처리** — `approved`면 §verify 후처리를 하고 1로, `rejected`면 대상 Task의 `최근 reject`를 §verify 후처리대로 바꾸고 §재시도로 간다.
 
 ## 재시도
 - 분류가 `evidence`면 구현하지 않는다.
@@ -61,7 +61,7 @@ main이 루프를 돌린다.
 6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인) (`approval_needed`)
 7. 근거를 더 보완할 수 없는 경우 — 해소 조건의 입력·환경을 갖출 수 없거나 근거 재검증 2회를 소진함 (`evidence_exhausted`)
 
-루프가 고치는 문서는 implement.md와 feature README뿐이며, implement.md의 접근·참조 필드는 §verify 후처리가 고치라고 할 때만 고친다.
+루프가 고치는 문서는 implement.md와 feature README뿐이며, implement.md의 필드는 §verify 후처리가 고치라고 할 때만 고친다.
 
 ## 정지·완료 보고
 첫 줄은 `<!-- prowl-workflow: v1 implement-loop -->`다.

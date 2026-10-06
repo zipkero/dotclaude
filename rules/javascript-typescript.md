@@ -11,7 +11,6 @@ paths:
 - 기존 모듈 시스템, 프레임워크, 상태 관리, 스타일링 관례를 따른다.
 - TypeScript에서는 불필요한 `any`를 추가하지 않는다.
 - 타입 단언은 런타임 근거가 있거나 외부 경계에서 값을 좁히는 경우에만 제한적으로 사용한다.
-- JSDoc/TSDoc은 타입으로 드러나지 않는 내용에만 쓴다.
 
 ## 비동기와 런타임 경계
 - 누락된 `await`, 처리되지 않는 Promise, 중복 요청, 취소나 timeout 가능성을 확인한다.
@@ -20,5 +19,4 @@ paths:
 - React 코드에서는 렌더링 중 side effect를 피하고, 기존 상태/효과 API 사용 규칙과 컴포넌트 분리 관례를 따른다.
 
 ## 테스트
-- 기존 script와 test runner 관례를 우선한다.
 - 프로젝트 관례가 없고 JS/TS 코드 동작을 바꿨다면 `test`, `lint`, `typecheck` 계열 package script를 확인한다.

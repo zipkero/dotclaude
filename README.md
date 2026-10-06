@@ -16,7 +16,7 @@ Claude Code의 개인 설정 저장소.
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다.
   산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
   Phased 밖에서 쓰는 진행 추적자의 체크박스는 이 판정을 거치지 않으므로 완료 기록이 아니라 진행 표시다
-  (구분은 CLAUDE.md §agent·skill 라우팅이 소유한다).
+  (구분은 CLAUDE.md §phase 제어가 소유한다).
 
 ### 핵심 설계 결정
 - **phase 단위 작업은 agent에 맡긴다**: 산출물을 만들며 읽은 입력과 설계 추론이 main 컨텍스트에 쌓이지 않도록 떼어놓고, main은 기록된 결과 문서만 읽어 검토한다.
@@ -31,6 +31,7 @@ Claude Code의 개인 설정 저장소.
   `implement.md`는 Task-level 검증 조건과 `spec.md` §5 매핑을 가진다.
   각 문서의 섹션 구성은 해당 command 파일이 소유한다.
 - **문서 정정 방식은 문서 종류로 갈린다**: `spec.md`·`design.md`는 하위 문서가 기대는 내용이 바뀌면 `/spec-init`·`/design-init`으로 전문을 다시 쓰고, 그 밖의 정정은 main이 그 자리만 고친다.
+  재작성은 영향받는 Task의 승인만 취소한다(`rules/feature-docs.md` §재작성 시 승인 취소).
   `implement.md`와 feature `README.md`는 Task ID와 체크박스 항목을 지우면 안 되므로 main이 영향받은 자리만 고친다
   (`rules/feature-docs.md`).
 - **Phased 흐름은 사용자가 통제한다**: `/spec-init` → `/design-init` → `/implement-init`은 slash command이고, `implement`와 `verify`는 자연어로 부른다.
@@ -153,7 +154,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
 - `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 frontmatter·본문 작성 기준.
 - `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 문서 정정 방식, spec → design → implement 반영 순서,
-  진행 상태(체크박스·상태판)의 main 소유, 재작성 시 하위 승인 상태 초기화를 둔다.
+  진행 상태(체크박스·상태판)의 main 소유, 재작성 시 승인 취소를 둔다.
   Phased 밖의 대화에는 로드되지 않는다.
 
 ## 출력 형식 계약
@@ -162,7 +163,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 아래 자리의 문구는 다듬어도 되지만, 표지 단어·값·위치·이름을 바꾸면 동작 변경으로 다룬다.
 
 - 작업 문서 첫 줄 표시 `<!-- prowl-workflow: v1 -->` — `commands/spec-init.md`(spec.md 규칙, README 템플릿), `commands/design-init.md`, `commands/implement-init.md`, `commands/project-init.md`(ROADMAP 템플릿).
-- 작업 문서 형식 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
+- 작업 문서 형식 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름(`최근 reject`·`승인 근거` 포함)·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
 - `skills/verify/SKILL.md` §출력 구조·§reject 분류 — 첫 줄 표시, 판정 값, 대상 Task의 `task-<nnn>`, 완료되는 요구사항 줄 형식, 분류 네 값, `해소 조건` 항목.
 - `skills/implement/SKILL.md` §출력 구조 — 첫 줄 표시, 상태 값, 핵심의 `task-<nnn>`.
 - `commands/implement-loop.md` — §실행 주체의 verify 담당(verifier agent), §재시도의 근거 부족 재검증 규칙, §정지 조건의 조건별 정지 사유 값, §정지·완료 보고의 첫 줄 표시와 멈춘 자리의 `task-<nnn>`·`정지 사유`·`해소 조건`.

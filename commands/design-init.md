@@ -38,7 +38,7 @@ main 검토:
   - spec.md 안의 모순이 설계 결정에 영향을 준다.
 
 ## 덮어쓰기 규칙
-- design.md가 이미 있으면 확인받고, implement.md가 있으면 무효화될 수 있으며 이후 영향받은 섹션을 갱신해야 한다는 것을 함께 알린다.
+- design.md가 이미 있으면 확인받고, implement.md가 있으면 영향받는 Task의 승인이 취소된다는 것을 함께 알린다.
 
 ## design.md 구조
 `<…>`는 채울 자리이며, 아래 섹션 밖의 섹션과 체크박스는 두지 않는다.
@@ -83,4 +83,4 @@ main 검토:
 
 ## README 갱신
 - 상태 `[ ] DESIGN`을 `[x] DESIGN`으로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: DESIGN 작성`을 더한다.
-- 재작성이면 `rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
+- 재작성이면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.

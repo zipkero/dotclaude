@@ -29,11 +29,13 @@ main은 위임 전에 §덮어쓰기 규칙의 확인을 받고, 기록된 파�
     main이 사용자에게 물은 뒤 진행한다(CLAUDE.md §요청 해석).
 
 ## 덮어쓰기 규칙
-- implement.md가 이미 있으면 확인받고, 기존 Task 체크박스가 버려진다는 것을 함께 알린다.
+- implement.md가 이미 있으면 확인받고, 영향받는 Task의 승인이 취소된다는 것을 함께 알린다.
 
 ## implement.md 구조
 `<…>`는 채울 자리, `|`는 그중 하나다.
-Task는 아래 네 필드만 가진다.
+analyzer가 쓰는 Task 필드는 아래 넷이며, `최근 reject`·`승인 근거`는 `skills/verify/SKILL.md` §verify 후처리가 더한다.
+두 필드는 `참조` 아래에 `- <필드 이름>: <값>`으로 둔다.
+재작성이면 `목적`·검증 조건·참조가 바뀌지 않은 Task의 체크박스·`최근 reject`·`승인 근거`를 그대로 옮긴다.
 
 ```markdown
 <!-- prowl-workflow: v1 -->
@@ -60,7 +62,6 @@ Task는 아래 네 필드만 가진다.
 - 작은 feature는 평면 목록으로, 별개 하위 영역이 여럿이면 `## Section: <name>` 그룹으로 둔다.
 - spec.md §3에 사용자가 지정한 검증 근거(특정 테스트·명령·확인 방법)는 관련 Task `확인`에 빠짐없이 넣는다.
 - 수동 확인은 사람의 지각·판단이 필요하거나 모델이 닿을 수 없는 환경에서만 확인되는 것으로 한정한다.
-  수동 확인이 남은 Task를 `/implement-loop`가 멈출지 미룰지는 `commands/implement-loop.md` §자동 진행 제외가 정한다.
   다른 OS·실기기에서 같은 동작을 다시 보는 확인은 그 동작을 만든 Task와 나눠 별도 Task로 둔다.
 - implement.md에는 Decision Point, 개념 설명·구조 다이어그램, 접근 필드의 파일 배치·분리 지정(구현 시점 디렉토리 관례 소관)을 두지 않고, spec.md §5 완료 조건을 바꾸지 않는다.
 
@@ -76,16 +77,17 @@ Task는 아래 네 필드만 가진다.
 
 ## 매핑
 - 각 `SPEC §5.N`은 매핑된 Task가 전부 `[x]`가 되는 자리에서 완성되며, 그 조건의 모든 문장이 매핑 Task 중 하나의 `목적`·검증 조건에 들어 있어야 한다.
+  `[철회]` 조건은 매핑하지 않는다.
 - 완성 자리가 마지막 Task 하나에 몰리면 매핑을 다시 잡는다.
   `skills/verify/SKILL.md` §완료되는 요구사항 판정이 마지막 Task에서만 돌아 중간 Task에 요구사항 수준 판정이 걸리지 않기 때문이다.
   다시 잡을 수 없으면 그 Task와 사유를 main에 넘겨 사용자 판단을 받는다.
 - 매핑되지 않은 spec.md §5 기준이 있으면 analyzer는 기록하지 않고 목록을 돌려준다.
-  main은 기준마다 새 Task 추가 / spec.md §5에서 제거 / spec.md §4 제외 범위로 보류 중 하나를 사용자에게 받은 뒤 진행한다.
+  main은 기준마다 새 Task 추가 / spec.md §5에서 철회 / spec.md §4 제외 범위로 보류 중 하나를 사용자에게 받은 뒤 진행한다.
 
 ## README 갱신
 - `[ ] IMPLEMENT`는 그대로 둔다.
   `[x] IMPLEMENT` 전환은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-- 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더하고, 재작성이면 `rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
+- 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더하고, 재작성이면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 
 ## 후속 단계
 implement.md가 준비되면 사용자가 한 Task씩 자연어 `implement` → `verify`를 부르거나, `/implement-loop <feature-dir>`으로 남은 Task를 이어서 돌린다.

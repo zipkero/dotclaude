@@ -13,7 +13,7 @@ Feature name: $ARGUMENTS
 ## 역할
 - 실행 주체는 main이며 subagent에 맡기지 않는다.
 - design.md와 implement.md가 참조하는 정적 기준 문서다.
-  이후 단계의 analyzer는 SPEC을 수정하지 않으며, 고치는 방식은 `rules/feature-docs.md`를 따른다.
+  고치는 방식은 `rules/feature-docs.md`를 따른다.
 
 ## 전제 조건
 - feature name이 비어 있으면 중단하고 `/spec-init payment-integration`처럼 인자를 달라고 안내한다.
@@ -27,8 +27,8 @@ Feature name: $ARGUMENTS
 - `features/<feature-dir>/`에 두는 문서는 `spec.md`, `design.md`, `implement.md`, `README.md` 넷뿐이다.
 
 ## 덮어쓰기 규칙
-- `spec.md`가 이미 있으면 덮어쓰기 전에 확인받고, `design.md`·`implement.md`가 있으면 무효화될 수 있으며 이후 영향받은 섹션을 갱신해야 한다는 것을 함께 알린다.
-- `README.md`가 이미 있으면 새로 만들지 않고 문서 섹션을 유지한 채 작업 히스토리 한 줄을 더하며, 상태판은 `rules/feature-docs.md` §재작성 시 하위 승인 상태 초기화를 따른다.
+- `spec.md`가 이미 있으면 덮어쓰기 전에 확인받고, `design.md`·`implement.md`가 있으면 영향받는 섹션을 갱신해야 하며 영향받는 Task의 승인이 취소된다는 것을 함께 알린다.
+- `README.md`가 이미 있으면 새로 만들지 않고 문서 섹션을 유지한 채 작업 히스토리 한 줄을 더하며, 상태판은 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 
 ## 요구사항 확정
 - 루트의 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 중 있는 문서와 사용자가 입력으로 지정한 문서를 조사한다.
@@ -37,7 +37,7 @@ Feature name: $ARGUMENTS
 - 요구사항은 조사·지정 문서에 확정으로 적힌 것과 사용자가 확정한 것이다.
   사용자가 예시로 든 구현 방식·비교 대상과 문서의 제안·미확정 결정은 확정 전까지 요구사항이 아니다.
 - 사용자가 반복해 강조한 문제·위험·운영 조건은 §2·§3·§5 후보로 보고, 조사에서 새로 드러난 문제·위험은 본문 대신 승인 전 확인의 질문으로 올린다.
-- feature 범위는 담당 마일스톤 안에서 확인된 최종 사용 가능 상태로 잡고, 초기 구현 가능 범위로 줄이지 않는다.
+- feature 범위는 담당 마일스톤 안에서 확인된 최종 사용 가능 상태로 잡는다.
 
 ## spec.md 구조
 `<…>`는 채울 자리이며, 아래 섹션 밖의 섹션과 체크박스는 두지 않는다.
@@ -74,7 +74,8 @@ Feature name: $ARGUMENTS
 - 완료 조건의 관찰자는 사용자·호출자·후속 소비자·운영 신호 중 하나다.
   `verify`는 Task를 판단할 때 이 조건을 직접 인용한다.
 - N번 조건은 이후 `SPEC §5.N`으로 참조되며, design.md가 생긴 뒤부터 영구 식별자다.
-  새 조건은 다음 번호로만 더하고, 조건을 뺄 때는 번호를 비워 둔 채 당기지 않으며 그 번호를 참조하던 design.md·implement.md 자리를 함께 고친다.
+  새 조건은 다음 번호로만 더한다.
+  조건을 뺄 때는 번호를 당기지 않고 `[철회] <이유>`로 바꾸며, 그 번호를 참조하던 design.md·implement.md 자리를 함께 고친다.
 
 ## README.md 구조 (여기서 초기화)
 ```markdown
