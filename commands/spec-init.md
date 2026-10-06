@@ -22,6 +22,7 @@ Feature name: $ARGUMENTS
 - `features/`는 `commands/project-init.md` §대상 프로젝트 루트로 확인한 루트 바로 아래다.
 - `<feature-dir>`은 `<yyyyMMdd>-<nnn>-<feature-name>`이다.
   `<yyyyMMdd>`는 실행일, `<nnn>`은 그날 날짜로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값(첫 feature는 `001`)이다.
+- `<feature-name>`은 담당 마일스톤의 ROADMAP 작업 후보 중 이 feature와 같은 것이 있으면 그 이름을 쓴다.
 - 같은 날 같은 `<feature-name>` 폴더가 이미 있으면 새 번호를 매기지 않고 재사용한다.
 - `features/<feature-dir>/`에 두는 문서는 `spec.md`, `design.md`, `implement.md`, `README.md` 넷뿐이다.
 
@@ -48,7 +49,7 @@ Feature name: $ARGUMENTS
 - <판단 질문>. 관련 본문: §N
 
 ## 1. 범위
-<이 feature가 다루는 영역과 작업의 경계>
+<담당 마일스톤 `ROADMAP M<n>`과, 이 feature가 다루는 영역과 작업의 경계>
 
 - 입력 맥락: <조사 출발점이 되는 파일·기존 동작, 조사에 쓴 출처(경로 + 섹션 제목), 사전 논의에서 정한 방향과 접은 접근과 그 이유>
 
@@ -68,6 +69,7 @@ Feature name: $ARGUMENTS
 - 승인 전 확인은 그 feature에서 무엇이 걸려 있는지 드러나는 판단 질문이 있을 때만 둔다.
   답을 받으면 `rules/feature-docs.md`대로 §1–§5에 반영하고 항목을 지우며, 사용자가 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N`으로 남기고 그 결정은 §3이나 §4에 둔다.
   남아 있는 항목은 답을 받지 않은 질문이며 이후 단계가 이 표기로 판정한다.
+- §1 첫 문단에는 담당 마일스톤을 `ROADMAP M<n>`으로 적고 다른 마일스톤 번호는 쓰지 않으며, ROADMAP이 없거나 맡는 마일스톤이 없으면 마일스톤을 적지 않는다.
 - 입력 맥락은 design 단계가 대화 없이 재개할 수 있게 하는 출발점이며, 없으면 뺀다.
 - 완료 조건의 관찰자는 사용자·호출자·후속 소비자·운영 신호 중 하나다.
   `verify`는 Task를 판단할 때 이 조건을 직접 인용한다.

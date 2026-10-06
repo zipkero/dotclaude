@@ -50,7 +50,7 @@ Phased mode 반환의 첫 줄은 `<!-- prowl-workflow: v1 implement -->`다.
 ## 완료
 main 전용 절차다.
 
-- Phased mode에서 `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부르고, 그 턴의 최종 응답은 verify §출력 구조로 낸다.
+- Phased mode에서 `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부른다.
   사용자가 구현만 요청했으면 부르지 않고 `verify`를 권한다.
   `blocked`이면 부르지 않고 막힌 사유를 사용자에게 올린다.
 - verify 판정 뒤 implement.md·README 갱신과 reject 처리는 `skills/verify/SKILL.md` §verify 후처리를 따른다.
