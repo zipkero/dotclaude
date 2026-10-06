@@ -21,7 +21,7 @@ description: >-
 - 모듈 안에서 끝나는 helper·함수 경계와 요청한 변경에 반드시 필요한 설정 항목은 만들고 변경 내용에 밝힌다.
 - 추상화·확장 포인트는 design.md §5가 채택한 것만 둔다.
 - 현재 Task(Per-Request는 요청) 범위 밖에서 찾은 문제는 고치지 않고 비고·한계에 적는다.
-  다만 그것이 이미 `[x]`인 Task의 `목적`이 성립하지 않거나 현재 Task의 `목적`이 성립할 수 없다는 증거이면, `blocked`로 내고 성립하지 않는 동작·그 Task·근거를 상태 항목에 적는다. 고칠지와 어느 Task의 범위로 볼지는 사용자가 정한다.
+  다만 그 문제로 이미 `[x]`인 Task의 `목적`이 깨졌거나 현재 Task의 `목적`을 이룰 수 없으면 `blocked`로 내고 성립하지 않는 동작·그 Task·근거를 상태 항목에 적는다. 고칠지와 어느 Task의 범위로 볼지는 사용자가 정한다.
 
 ## 미결정 분석 시 중단
 design.md §5의 미해결 Decision Point(뜻은 `commands/implement-init.md` §전제 조건)가 현재 Task에 걸리면 코드를 쓰지 않고 필요한 결정을 `blocked`로 보고한다.
@@ -47,7 +47,7 @@ main 전용 절차다. implementer agent는 문서를 고치지 않으며, 정�
 - Phased mode에서 `상태`가 `completed`이면 `verify`를 같은 턴에 이어서 부르고, 그 턴의 최종 응답은 verify §출력 구조로 낸다.
   사용자가 구현만 요청했으면 부르지 않고 `verify`를 권한다. `blocked`이면 부르지 않고 막힌 사유를 사용자에게 올린다.
 - 체크박스와 접근 필드는 verify가 `approved`를 돌려준 뒤 main이 바꾼다(`skills/verify/SKILL.md` §verify 후처리).
-  `rejected`이면 접근 필드를 두고, 구현과 design.md 중 무엇을 고칠지는 verify가 낸 `수정 소유 단계`를 따른다.
+  `rejected`이면 접근 필드를 그대로 두고, 구현과 design.md 중 무엇을 고칠지는 verify가 낸 `수정 소유 단계`를 따른다.
 
 ## 테스트 코드 작성
 - 테스트 코드는 테스트 Task에서만 쓴다. 제목·접근 필드가 테스트를 가리키거나 검증 조건 `확인`이 테스트 실행을 밝히면 테스트 Task다.

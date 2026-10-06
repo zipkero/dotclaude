@@ -41,7 +41,12 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에, 
 ## 정지 조건
 아래 중 먼저 걸리는 조건에서 멈추고 §정지·완료 보고를 낸다. 남은 Task는 건드리지 않는다.
 
-1. **사용자가 문서를 고칠지 판단해야 하는 경우** (`decision_needed`) — §재시도가 넘긴 reject, spec.md·design.md·implement.md 수정을 요구하는 `blocked`(Task 경계를 다시 잡아야 한다는 보고 포함), 대상 Task에 걸린 design.md §5의 미해결 Decision Point(`skills/implement/SKILL.md` §미결정 분석 시 중단), 완료 조건끼리의 충돌이나 지금 설계로 달성할 수 없음, 매핑 누락의 소유 Task가 없어 §verify 후처리가 미매핑 결정으로 올린 approve.
+1. **사용자가 문서를 고칠지 판단해야 하는 경우** (`decision_needed`)
+   - §재시도가 넘긴 reject
+   - spec.md·design.md·implement.md 수정을 요구하는 `blocked`(Task 경계를 다시 잡아야 한다는 보고 포함)
+   - 대상 Task에 걸린 design.md §5의 미해결 Decision Point(`skills/implement/SKILL.md` §미결정 분석 시 중단)
+   - 완료 조건끼리의 충돌이나 지금 설계로 달성할 수 없음
+   - 매핑 누락의 소유 Task가 없어 §verify 후처리가 미매핑 결정으로 올린 approve
 2. **이미 성립한 동작이 성립하지 않는다고 드러난 경우** (`regression`) — implement가 `skills/implement/SKILL.md` §비확장 기본 원칙의 예외로 `blocked`를 냈다.
 3. 재시도 한도를 소진한 경우 (`retry_exhausted`)
 4. §자동 진행 제외가 멈추라고 한 Task를 만난 경우 (`manual_check`)
@@ -58,5 +63,5 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에, 
    구현이 코드를 고친 뒤 멈췄으면 검증받지 않고 남은 파일 목록을 함께 적는다.
 3. 재시도 이력 — 재시도가 있었던 Task별 구현 재시도·근거 재검증 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 2면 성립하지 않는 동작·그것이 속한 Task·확인한 근거만 짚고 고칠 문서는 짚지 않는다.
-   그 밖에는 `수정 소유 단계`가 `implement`가 아니면 그 단계가 소유한 문서를, 아니면 멈춘 사유가 가리키는 자리(implement.md의 Task, design.md의 Decision Point, spec.md 완료 조건)를 짚는다. 여러 문서면 순서는 `rules/feature-docs.md`를 따른다.
+   그 밖에는 `수정 소유 단계`가 `implement`가 아닐 때 그 단계가 소유한 문서를, `implement`일 때 멈춘 사유가 가리키는 자리(implement.md의 Task, design.md의 Decision Point, spec.md 완료 조건)를 짚는다. 여러 문서면 순서는 `rules/feature-docs.md`를 따른다.
 5. 미룬 확인 — §자동 진행 제외로 미룬 Task와 다른 OS·실기기에서 볼 확인 항목. 없으면 뺀다.
