@@ -28,7 +28,8 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에, 
 5. **판정 처리** — `approved`면 §verify 후처리를 하고 1로, `rejected`면 §재시도로 간다.
 
 ## 재시도
-- 분류가 `evidence`면 구현하지 않는다. main이 해소 조건과 Task `확인`의 명령·테스트를 실행해 모은 근거와 직전 해소 조건을 넘겨 4번부터 다시 한다. 이 근거 재검증은 Task당 누적 2회까지이며 구현 재시도와 따로 센다. 2회 뒤에도 `evidence`면 §정지 조건 7로 간다.
+- 분류가 `evidence`면 구현하지 않는다. main은 해소 조건이 요구하는 입력·환경을 갖춰 해소 조건과 Task `확인`의 명령·테스트를 실행하고, 모은 근거와 직전 해소 조건을 넘겨 4번부터 다시 한다.
+  이 근거 재검증은 Task당 누적 2회까지이며 구현 재시도와 따로 센다. 해소 조건의 입력·환경을 갖출 수 없거나 2회를 쓰면 §정지 조건 7로 간다.
 - `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면, verify의 reject 사유·근거를 그대로 다음 `implement` 입력에 넘겨 같은 Task로 3번부터 다시 한다. 체크박스는 `[ ]`로 둔다.
   구현 재시도는 Task당 2회(최대 3번 구현)이며, 소진하면 §정지 조건 3으로 간다. 파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다.
 - 그 밖의 reject는 재시도하지 않고 §정지 조건 1로 간다.
@@ -46,7 +47,7 @@ main이 루프를 돌린다. 각 반복의 `implement`는 implementer agent에, 
 4. §자동 진행 제외가 멈추라고 한 Task를 만난 경우 (`manual_check`)
 5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우 (`blocked`)
 6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인) (`approval_needed`)
-7. 근거 재검증 2회를 소진한 경우 (`evidence_exhausted`)
+7. 근거를 더 보완할 수 없는 경우 — 해소 조건의 입력·환경을 갖출 수 없거나 근거 재검증 2회를 소진함 (`evidence_exhausted`)
 
 루프가 고치는 문서는 implement.md와 feature README뿐이며, implement.md의 접근·참조 필드는 §verify 후처리가 고치라고 할 때만 고친다.
 
