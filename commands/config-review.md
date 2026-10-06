@@ -20,11 +20,11 @@ disable-model-invocation: true
 ## 관점
 1. 역할 프롬프트 — 각 agent·command·skill이 책임·필수 입력·출력을 정의하고, frontmatter `description`이 발동 조건과 역할 범위를 드러내며, 절차가 만들라는 산출물이 출력 형식에 자리를 갖는가.
    판단 기준·중단 조건은 모델 재량이며, 그 재량이 이 환경에서 실제로 잘못된 결과를 냈을 때만 부족이다.
-2. 책임 경계 — 결정·파일 수정·상태 전환·최종 판단 권한이 역할 사이에 섞이지 않고, 본문이 `description` 밖의 정책을 들거나 남이 소유한 기준을 소유자 표시 없이 대체하지 않는가.
+2. 책임 경계 — skill·agent·command가 `rules/claude-config-authoring.md`의 역할 분담을 지키고, 결정·파일 수정·상태 전환·최종 판단 권한이 역할 사이에 섞이지 않으며, 본문이 `description` 밖의 정책을 들거나 남이 소유한 기준을 소유자 표시 없이 대체하지 않는가.
 3. 플로우 — 각 phase 산출물만으로 다음 phase와 중단된 세션을 재개할 수 있고, 승인 전 확인·미해결 결정·접근 이탈·변경 범위·무효화된 승인이 대화 기억에 기대지 않는가.
-   `CLAUDE.md` §agent·skill 라우팅부터 실행 주체까지의 위임 체인, 소유권 참조가 실제로 그 기준을 든 자리에 닿는지, 문서를 쓰는 쪽과 읽는 쪽의 형식, `SPEC §5.N`·`task-<nnn>`의 수명 규칙, 재작성·철회·승인 되돌리기 경로, 어디서도 호출되지 않는 command·skill·agent를 본다.
+   위임 체인, 소유권 참조가 실제 기준에 닿는지, 문서를 쓰는 쪽과 읽는 쪽의 형식, 식별자 수명과 승인 되돌리기 경로, 어디서도 호출되지 않는 command·skill·agent를 본다.
 4. 룰 — 룰끼리의 충돌, 두 갈래로 읽혀 결과가 달라지는 표현, 함께 로드되는 자리의 중복, 적용 순간에 로드되지 않는 오배치(파일 종류 기준은 `rules/**`, 흐름 기준은 그 command·skill, 늘 필요한 기준은 `CLAUDE.md`), `CLAUDE.md`의 자기 룰 위반, 되돌릴 수 있는 국소 변경까지 막는 넓은 질문·중단 게이트를 본다.
-5. 방어 지침 — 룰이 오작동할까 봐 붙인 단서, 강도만 올린 경고, 앞줄의 재진술, 모델이 원래 하는 일의 절차 나열은 "이 줄을 지우면 어떤 실수가 생기는가"에 답하지 못하면 제거로 낸다.
+5. 방어 지침과 나열 — 룰이 오작동할까 봐 붙인 단서, 강도만 올린 경고, 앞줄의 재진술, 모델이 원래 하는 일의 절차 나열, 추상 기준으로 충분한데 늘어놓은 예시는 "이 줄을 지우면 어떤 실수가 생기는가"에 답하지 못하면 제거나 일반화로 낸다.
    기본값은 제거다.
 6. 공식 권고 — `code.claude.com/docs`, `platform.claude.com/docs`(prompt engineering 기준 문서는 `/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`), `anthropic.com/engineering`, `claude.com/blog`, `github.com/anthropics/claude-code`의 CHANGELOG·releases에서 가져온 문서만 근거로 쓴다.
    권고가 겨냥한 상황과 같은 종류의 설정이 최신 권장과 어긋나는지, Claude Code 변경으로 무효가 된 모델 값·도구·설정 키·frontmatter 필드·하네스 기본값 전제가 남았는지 보고, 관찰한 동작과 문서가 보장하는 범위를 나눠 적는다.
