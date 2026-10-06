@@ -73,7 +73,7 @@ Phased mode 출력은 아래 모양이다.
 4. 완료되는 요구사항
    - SPEC §5.<N>: `성립` | `불성립` — <근거>
 5. 문제
-   - 분류: `style/minor` | `correctness` | `design/scope`
+   - 분류: `style/minor` | `correctness` | `design/scope` | `evidence`
    - 수정 소유 단계: `implement` | `implement-init` | `design-init` | `spec-init`
    - <구체적인 문제와 근거>
 6. 설명

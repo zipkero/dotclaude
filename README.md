@@ -166,7 +166,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - 세션 데이터, 캐시, credential은 추적에서 뺀다.
 - 인코딩·줄바꿈은 `.editorconfig`, LF 정규화는 `.gitattributes`가 소유한다.
 - `settings.json`은 기계에 묶인 값 때문에 추적하지 않는다 —
-  `statusLine`의 Windows exe 경로, `hooks`가 부르는 `conhost.exe`·`%USERPROFILE%` 절대경로, plugin marketplace 캐시 경로.
+  `statusLine`·`hooks`가 부르는 스크립트의 절대경로, plugin marketplace 캐시 경로.
 - 응답 길이·설명 깊이·preamble 생략은 내장 output style `Concise`가 담당하며, `CLAUDE.md`는 이를 다시 적지 않는다.
   `CLAUDE.md` §응답은 근거/추정 구분·주장 범위·참조 표기·before/after 표기처럼 output style이 다루지 않는 보고 규칙을 소유한다.
   `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.

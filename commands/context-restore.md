@@ -11,7 +11,7 @@ disallowed-tools: Write, Edit, NotebookEdit
 - 실행 주체는 main이며 subagent에 맡기지 않는다.
 - 프로젝트 루트 `CONTEXT.md`에서 설계 또는 전달 작업의 현재 위치를 복원하고, 연결된 원본과 작업 트리에 대조해 오래되거나 어긋난 맥락을 그대로 잇지 않는다.
 - 읽기 전용이며 Bash로도 파일을 고치지 않는다.
-  복원 보고에서 턴을 끝내고, 다음 작업은 다음 요청에서 CLAUDE.md §phase 제어와 §agent·skill 라우팅대로 시작한다.
+  복원 보고에서 턴을 끝낸다.
 - 프로젝트 루트는 `commands/project-init.md` §대상 프로젝트 루트로 확인한다.
 
 ## 복원 절차
