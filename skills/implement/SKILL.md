@@ -32,7 +32,7 @@ verify가 reject한 Task를 다시 구현할 때는 앞선 시도에서 성립�
 ## 출력 구조
 Phased mode 반환의 첫 줄은 `<!-- prowl-workflow: v1 implement -->`다.
 해당하지 않는 항목은 뺀다.
-1. 상태 — Phased mode 반환에만 두며 값은 `completed` 또는 `blocked`. `blocked`이면 막힌 사유와 필요한 결정을 같은 항목에 적는다.
+1. 상태 — Phased mode 반환에만 두며, 구현을 마쳤으면 검증 조건을 확인하지 못했어도 `completed`, 이 문서가 정한 경우에 막혔으면 `blocked`다. `blocked`이면 막힌 사유와 필요한 결정을 같은 항목에 적는다.
 2. 변경 내용 — 무엇을 바꿨는지 글로 적고 코드 블록을 다시 붙이지 않는다.
 3. 핵심 — 실행한 Task 식별자(Phased: `task-<nnn>` 제목, Per-Request: 사용자 요청 인용)와 핵심 변경점.
 4. 고친 파일 — 고친 경로 목록. 다음 `verify`의 변경 범위로 쓰인다.
