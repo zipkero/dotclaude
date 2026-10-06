@@ -56,7 +56,8 @@
 
 ## agent·skill 라우팅
 - slash command와 skill의 절차·실행 주체·위임 대상은 각 파일이 소유한다.
-- 자연어 구현 요청은 Phased mode면 implementer agent에, Per-Request mode면 main이 직접 부르는 `implement` skill에 맡기고 `verify`로 잇는다. 각 단계의 발동 조건은 그 skill이 소유한다.
+- 자연어 구현 요청은 Phased mode면 implementer agent에, Per-Request mode면 main이 직접 부르는 `implement` skill에 맡기고 `verify`로 잇는다.
+  각 단계의 발동 조건은 그 skill이 소유한다.
 - 여러 파일·디렉토리를 훑어야 하고 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
 - subagent에 위임할 때는 지켜야 할 범위·제외 경로·출력 형식을 위임 프롬프트에 직접 적는다.
 - 산출물을 만드는 agent가 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.

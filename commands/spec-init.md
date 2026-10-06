@@ -12,7 +12,8 @@ Feature name: $ARGUMENTS
 
 ## 역할
 - 실행 주체는 main이며 subagent에 맡기지 않는다.
-- design.md와 implement.md가 참조하는 정적 기준 문서다. 이후 단계의 analyzer는 SPEC을 수정하지 않으며, 고치는 방식은 `rules/feature-docs.md`를 따른다.
+- design.md와 implement.md가 참조하는 정적 기준 문서다.
+  이후 단계의 analyzer는 SPEC을 수정하지 않으며, 고치는 방식은 `rules/feature-docs.md`를 따른다.
 
 ## 전제 조건
 - feature name이 비어 있으면 중단하고 `/spec-init payment-integration`처럼 인자를 달라고 안내한다.
@@ -20,7 +21,8 @@ Feature name: $ARGUMENTS
 
 ## 산출 경로
 - `features/`는 `commands/project-init.md` §대상 프로젝트 루트로 확인한 루트 바로 아래다.
-- `<feature-dir>`은 `<yyyyMMdd>-<nnn>-<feature-name>`이다. `<yyyyMMdd>`는 실행일, `<nnn>`은 그날 날짜로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값(첫 feature는 `001`)이다.
+- `<feature-dir>`은 `<yyyyMMdd>-<nnn>-<feature-name>`이다.
+  `<yyyyMMdd>`는 실행일, `<nnn>`은 그날 날짜로 시작하는 기존 폴더 중 가장 큰 번호의 다음 값(첫 feature는 `001`)이다.
 - 같은 날 같은 `<feature-name>` 폴더가 이미 있으면 새 번호를 매기지 않고 재사용한다.
 - `features/<feature-dir>/`에 두는 문서는 `spec.md`, `design.md`, `implement.md`, `README.md` 넷뿐이다.
 
@@ -32,7 +34,8 @@ Feature name: $ARGUMENTS
 - 루트의 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 중 있는 문서와 사용자가 입력으로 지정한 문서를 조사한다.
   현재 확인된 동작, 담당 마일스톤의 결과·전환 기준·범위 경계, 관련 사용자 흐름, 프로젝트 수준 확정 제약을 가져와 §2·§3·§5 본문에 자체 완결적으로 적는다.
   조사한 문서끼리 또는 현재 코드와 어긋나 범위·완료 조건이 갈리면 §전제 조건대로 묻는다.
-- 요구사항은 조사·지정 문서에 확정으로 적힌 것과 사용자가 확정한 것이다. 사용자가 예시로 든 구현 방식·비교 대상과 문서의 제안·미확정 결정은 확정 전까지 요구사항이 아니다.
+- 요구사항은 조사·지정 문서에 확정으로 적힌 것과 사용자가 확정한 것이다.
+  사용자가 예시로 든 구현 방식·비교 대상과 문서의 제안·미확정 결정은 확정 전까지 요구사항이 아니다.
 - 사용자가 반복해 강조한 문제·위험·운영 조건은 §2·§3·§5 후보로 보고, 조사에서 새로 드러난 문제·위험은 본문 대신 승인 전 확인의 질문으로 올린다.
 - feature 범위는 담당 마일스톤 안에서 확인된 최종 사용 가능 상태로 잡고, 초기 구현 가능 범위로 줄이지 않는다.
 
@@ -68,7 +71,8 @@ Feature name: $ARGUMENTS
   답을 받으면 `rules/feature-docs.md`대로 §1–§5에 반영하고 항목을 지우며, 사용자가 보류한 항목은 `- (보류) <판단 질문>. 관련 본문: §N`으로 남기고 그 결정은 §3이나 §4에 둔다.
   남아 있는 항목은 답을 받지 않은 질문이며 이후 단계가 이 표기로 판정한다.
 - 입력 맥락은 design 단계가 대화 없이 재개할 수 있게 하는 출발점이며, 없으면 뺀다.
-- 완료 조건의 관찰자는 사용자·호출자·후속 소비자·운영 신호 중 하나다. `verify`는 Task를 판단할 때 이 조건을 직접 인용한다.
+- 완료 조건의 관찰자는 사용자·호출자·후속 소비자·운영 신호 중 하나다.
+  `verify`는 Task를 판단할 때 이 조건을 직접 인용한다.
 - N번 조건은 이후 `SPEC §5.N`으로 참조되며, design.md가 생긴 뒤부터 영구 식별자다.
   새 조건은 다음 번호로만 더하고, 조건을 뺄 때는 번호를 비워 둔 채 당기지 않으며 그 번호를 참조하던 design.md·implement.md 자리를 함께 고친다.
 
@@ -95,4 +99,5 @@ Feature name: $ARGUMENTS
 ```
 
 ## 후속 단계
-`/design-init <feature-dir>`이 spec.md로 design.md를, `/implement-init <feature-dir>`이 design.md와 spec.md §5로 implement.md를 만든다. 이후 단계는 `<feature-dir>` 전체 이름을 인자로 받는다.
+`/design-init <feature-dir>`이 spec.md로 design.md를, `/implement-init <feature-dir>`이 design.md와 spec.md §5로 implement.md를 만든다.
+이후 단계는 `<feature-dir>` 전체 이름을 인자로 받는다.

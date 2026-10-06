@@ -6,7 +6,8 @@ description: >-
 ---
 
 ## 역할
-그때그때 하는 조사 도구이며 phase가 아니다. main이 직접 실행하고, 파일을 쓰지 않으며 출력은 대화로만 나간다.
+그때그때 하는 조사 도구이며 phase가 아니다.
+main이 직접 실행하고, 파일을 쓰지 않으며 출력은 대화로만 나간다.
 
 ## 컨텍스트 로딩
 - `$ARGUMENTS`가 `features/<feature-dir>/`나 그 아래 파일이면 분석 범위를 그 feature로 좁히고, spec.md·design.md·implement.md 중 질문에 필요한 부분만 읽는다.
