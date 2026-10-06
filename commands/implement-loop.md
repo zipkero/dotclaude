@@ -17,7 +17,6 @@ main이 루프를 돌린다.
 각 반복의 `implement`는 implementer agent에, `verify`는 verifier agent에 맡긴다.
 
 ## 전제 조건
-- feature directory가 비어 있으면 중단하고 `/implement-loop 20260506-001-payment-integration`처럼 인자를 달라고 안내한다.
 - `features/<feature-dir>/implement.md`가 없으면 중단하고 `/implement-init`을 먼저 실행하도록 안내한다.
 - 루프가 도는 동안은 Phased mode로 고정한다.
 
@@ -36,7 +35,6 @@ main이 루프를 돌린다.
 - `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면, verify의 reject 사유·근거를 그대로 다음 `implement` 입력에 넘겨 같은 Task로 3번부터 다시 한다.
   체크박스는 `[ ]`로 둔다.
   구현 재시도는 Task당 2회(최대 3번 구현)이며, 소진하면 §정지 조건 3으로 간다.
-  파급 점검은 `skills/implement/SKILL.md` §재작업 시 파급 점검이 소유한다.
 - 그 밖의 reject는 재시도하지 않고 §정지 조건 1로 간다.
 
 ## 자동 진행 제외

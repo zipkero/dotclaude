@@ -16,7 +16,6 @@ analyzer agent가 아래 구조대로 implement.md를 작성하고 직접 기록
 main은 위임 전에 §덮어쓰기 규칙의 확인을 받고, 기록된 파일을 읽어 검토한 뒤 §매핑의 미매핑 결정과 §README 갱신을 한다.
 
 ## 전제 조건
-- feature directory가 비어 있으면 중단하고 `/implement-init 20260506-001-payment-integration`처럼 인자를 달라고 안내한다.
 - design.md가 없으면 중단하고 `/design-init`을 먼저 실행하도록 안내한다.
 - design.md와 spec.md §5 전체를 읽는다.
 - analyzer는 다음이면 implement.md를 기록하지 않고 목록을 main에 돌려준다.
@@ -35,7 +34,7 @@ main은 위임 전에 §덮어쓰기 규칙의 확인을 받고, 기록된 파�
 `<…>`는 채울 자리, `|`는 그중 하나다.
 analyzer가 쓰는 Task 필드는 아래 넷이며, `최근 reject`·`승인 근거`는 `skills/verify/SKILL.md` §verify 후처리가 더한다.
 두 필드는 `참조` 아래에 `- <필드 이름>: <값>`으로 둔다.
-재작성이면 `목적`·검증 조건·참조가 바뀌지 않은 Task의 체크박스·`최근 reject`·`승인 근거`를 그대로 옮긴다.
+재작성이면 기존 Task의 체크박스·`최근 reject`·`승인 근거`를 그대로 옮기고, 되돌릴 Task는 main이 `rules/feature-docs.md` §재작성 시 승인 취소대로 정한다.
 
 ```markdown
 <!-- prowl-workflow: v1 -->

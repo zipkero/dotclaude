@@ -16,7 +16,6 @@ Feature name: $ARGUMENTS
   고치는 방식은 `rules/feature-docs.md`를 따른다.
 
 ## 전제 조건
-- feature name이 비어 있으면 중단하고 `/spec-init payment-integration`처럼 인자를 달라고 안내한다.
 - 범위·목표·제약·제외 범위·완료 조건의 해석 차이가 결과를 실제로 바꾸면 쓰기 전에 묻고(CLAUDE.md §요청 해석), 정한 답은 §1–§5에 반영한다.
 
 ## 산출 경로

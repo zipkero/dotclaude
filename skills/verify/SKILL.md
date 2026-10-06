@@ -116,7 +116,6 @@ main 전용 절차다.
   - 매핑 누락이 적혀 있으면 그 문장을 소유하는 Task의 참조 필드에 해당 `SPEC §5.N`을 먼저 더한다.
     소유하는 Task가 없으면 체크박스를 바꾸지 않고 `commands/implement-init.md` §매핑의 미매핑 결정으로 올린다.
   - 대상 Task 체크박스를 `[ ]` → `[x]`로 바꾸고, 직전 `implement`가 접근 이탈을 보고했으면 그 Task의 접근 필드도 실제 구현대로 고친다.
-    다른 파일은 건드리지 않는다.
   - 대상 Task의 `최근 reject` 필드를 지우고 `승인 근거` 필드를 `<yyyy-MM-dd> <짧은 HEAD SHA | working tree> — <판정에 쓴 근거 한 줄>`로 두거나 바꾼다.
   - 그래서 implement.md의 모든 Task가 `[x]`가 되면 feature README의 `[ ] IMPLEMENT`를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료`를 더한다.
     이때 이번 feature로 낡은 프로젝트 루트 문서를 고치지 않고 보고한다.
