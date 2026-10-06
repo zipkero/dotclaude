@@ -6,9 +6,6 @@ paths:
 
 # JavaScript / TypeScript 작업 기준
 
-## 적용 범위
-- 프로젝트에 `package.json`, lockfile, ESLint, Prettier, `tsconfig` 설정이 있으면 그 기준을 우선한다.
-
 ## 코드 작성
 - 패키지 매니저는 lockfile 기준으로 판단한다: `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`.
 - 기존 모듈 시스템, 프레임워크, 상태 관리, 스타일링 관례를 따른다.

@@ -5,9 +5,6 @@ paths:
 
 # C# 작업 기준
 
-## 적용 범위
-- 프로젝트에 `.editorconfig`, analyzer, formatter, test 설정이 있으면 그 기준을 우선한다.
-
 ## 코드 작성
 - nullable reference type 설정을 확인하고, null 가능성은 타입과 guard로 명확히 표현한다.
 - LINQ는 가독성이 유지되는 범위에서 사용하고, 중첩으로 의도가 흐려지면 명시적 흐름을 우선한다.

@@ -117,7 +117,7 @@ Meta command (Phased 흐름과 독립):
   파일을 쓰지 않고 대화로만 출력한다.
   같은 턴 안에서 다른 작업에 이어 불릴 수 있어 `disallowed-tools`를 걸지 않고 본문 경계로만 막는다(`rules/claude-config-authoring.md`).
 - `explain` — 기존 코드·변경·시스템이 무엇이고 어떻게 작동하는지 근거와 함께 설명한다. 목적, 흐름, 계약과 가정, 결정, 근거의 한계를 잇는다.
-  `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일이 서로 표시한다.
+  `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일의 `description`이 서로 표시한다.
   대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다.
   다음 `verify` 호출이 분명한 변경 범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
@@ -142,7 +142,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야 한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
 `paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
-- `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계).
+- `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계, 주석 기준).
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
 - `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 frontmatter·본문 작성 기준.

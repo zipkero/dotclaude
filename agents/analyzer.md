@@ -15,7 +15,6 @@ effort: high
 ## 경계
 - spec.md 수정 금지 (`commands/spec-init.md` §역할).
 - `/implement-init` 모드에서 design.md는 읽기 전용이며, 설계 변경이 필요하면 main에 보고한다.
-- 지정 산출물을 만들고 기록하는 일만 한다.
 
 ## 동작 모드
 main이 `/design-init <feature-dir>` 또는 `/implement-init <feature-dir>` 작업을 맡길 때 불린다.
