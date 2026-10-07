@@ -67,6 +67,6 @@ main이 루프를 돌린다.
    구현이 코드를 고친 뒤 멈췄으면 검증받지 않고 남은 파일 목록을 함께 적는다.
 3. 재시도 이력 — 재시도가 있었던 Task별 구현 재시도·근거 재검증 횟수와 reject 사유 한 줄. 없으면 뺀다.
 4. 다음 행동 — 정지 조건 2면 성립하지 않는 동작·그것이 속한 Task·확인한 근거만 짚고 고칠 문서는 짚지 않는다.
-   그 밖에는 `수정 소유 단계`가 `implement`가 아닐 때 그 단계가 소유한 문서를, `implement`일 때 멈춘 사유가 가리키는 자리(implement.md의 Task, design.md의 Decision Point, spec.md 완료 조건)를 짚는다.
+   그 밖에는 `수정 소유 단계`가 있고 `implement`가 아니면 그 단계가 소유한 문서를, 아니면 멈춘 사유가 가리키는 자리(implement.md의 Task, design.md의 Decision Point, spec.md 완료 조건)를 짚는다.
    여러 문서면 순서는 `rules/feature-docs.md`를 따른다.
 5. 미룬 확인 — §자동 진행 제외로 미룬 Task와 다른 OS·실기기에서 볼 확인 항목. 없으면 뺀다.
