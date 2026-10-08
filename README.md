@@ -135,7 +135,7 @@ Meta command (Phased 흐름과 독립):
 
 ### rules/ — 파일 경로로 걸리는 작업 기준
 
-frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들어온다.
+frontmatter `paths`에 매치되는 파일을 읽거나 쓸 때만 컨텍스트에 들어온다.
 항상 로드되는 CLAUDE.md와 달리 그 파일 종류를 만질 때만 비용을 낸다.
 
 매칭은 **작업 디렉토리 트리 안의 파일**에만 걸린다.
@@ -146,7 +146,7 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
 - `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 기준. skill·agent·command의 역할 분담(§핵심 설계 결정)과 쓰기 도구 제한, 본문 언어와 한 줄 한 문장 같은 frontmatter·본문 작성 기준을 둔다.
-- `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 산출물 언어와 한 줄 한 문장, 문서 정정 방식, spec → design → implement 반영 순서,
+- `feature-docs.md` — `features/<feature-dir>/` 문서를 읽거나 쓸 때 걸리는 작업 기준. 산출물 언어와 한 줄 한 문장, 문서 정정 방식, spec → design → implement 반영 순서,
   진행 상태(체크박스·상태판)의 main 소유, 재작성 시 승인 취소를 둔다.
   Phased 밖의 대화에는 로드되지 않는다.
 

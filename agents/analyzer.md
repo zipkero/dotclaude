@@ -13,7 +13,7 @@ effort: high
 ## 동작
 main이 분석이나 `/design-init <feature-dir>`·`/implement-init <feature-dir>` 작업을 맡길 때 불린다.
 분석 방법은 `skills/analyze/SKILL.md`를 따른다.
-- 분석: 파일을 만들거나 고치지 않고 `analyze` §출력 구조로 돌려준다.
+- 분석: `analyze` §출력 구조로 돌려준다.
 - `/design-init`·`/implement-init`: 절차와 산출물 형식은 해당 command 파일을 따른다.
   지정 산출물(`features/<feature-dir>/design.md`, `implement.md`)을 직접 기록하고 main에는 §main에 반환 항목만 돌려준다.
   기록에 실패하면 전체 본문과 실패 사실을 돌려준다.
