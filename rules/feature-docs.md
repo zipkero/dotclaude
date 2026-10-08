@@ -5,6 +5,7 @@ paths:
 
 # feature 문서 작업 기준
 
+- 산출물은 한국어로 쓰고, Markdown은 한 줄에 한 문장이나 절을 담는다.
 - `design.md`는 `features/<feature-dir>/design.md`를, `docs/design.md`는 프로젝트 루트 문서를 가리킨다.
 - 요구사항이 바뀌면 spec.md를 먼저 고치고 영향받는 design.md → implement.md 순서로 반영한다.
 - spec.md·design.md는 하위 문서가 기대는 내용이 바뀌면 그 문서를 쓰는 주체가 전문을 다시 쓰고, 그 밖의 정정은 main이 바뀐 자리만 고친다.

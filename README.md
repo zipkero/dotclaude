@@ -96,8 +96,8 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 
 Meta command (Phased 흐름과 독립):
 
-- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할 프롬프트가 충분한지, 책임 경계가 겹치지 않는지, phase·세션 흐름이 끊기지 않는지,
-  규칙끼리 어긋나지 않는지, 공식 권고와 어긋나지 않는지, README가 맞는지, 컨텍스트를 얼마나 쓰는지, 줄일 곳이 있는지를 사용자가 직접 부를 때 본다.
+- `config-review.md` — 전역설정을 점검한다 (`/config-review`). 역할을 지키고 침범하지 않는지, 중복·방어 지침·모호한 표현이 없는지,
+  phase·세션 흐름이 끊기지 않는지, Claude Code 변경으로 무효가 된 설정이 없는지, README가 맞는지를 사용자가 직접 부를 때 본다.
   요청 없이는 고치지 않는다 (부류별 적용 조건은 그 파일 §출력 형식).
 - `cross-analyze.md` — 같은 분석 질문을 N개 agent에 같은 프롬프트로 따로 분석시키고 main이 교차검증해 합의·불일치를 보고한다
   (`/cross-analyze [N] <질문>`). 읽기 전용이다.
@@ -118,13 +118,13 @@ Meta command (Phased 흐름과 독립):
   대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다.
   다음 `verify` 호출이 분명한 변경 범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
-  주석 기준은 `rules/code-common.md` §주석과 언어별 `rules/` 파일이, 주석 언어는 CLAUDE.md §언어가 소유한다.
+  주석 기준과 주석 언어는 `rules/code-common.md` §주석과 언어별 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다.
   판단만 대화로 돌려주며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다.
   테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은 `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한 테스트 근거 기준은 `skills/verify/SKILL.md` §근거 원칙.
 - `commit-push` — 이번 작업 파일만 스테이징하고 메시지 템플릿으로 커밋하며, 요청 시 푸시한다 (`/commit-push [제목만]`).
   커밋 요청은 다른 지시에 섞여 자연어로 오므로 `disable-model-invocation`을 걸지 않는다.
-  커밋 메시지 규칙은 이 skill이 소유하며 attribution 줄을 붙이지 않는다.
+  커밋 메시지 규칙은 이 skill이 소유한다.
 - `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를 로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
   frontmatter `description`이 발동을 사용자의 명시적인 Codex 워커·Orca dispatch 요청으로 좁힌다 —
   손으로 친 자연어 지시에서도 로드되어야 하므로 `disable-model-invocation`을 걸지 않는다.
@@ -142,11 +142,11 @@ frontmatter `paths`에 매치되는 파일을 읽을 때만 컨텍스트에 들�
 바깥 경로의 파일을 읽을 때는 로드되지 않으므로, 저장소 밖 코드를 다룰 때는 필요한 룰을 직접 읽어야 한다 (공식 문서가 보장하는 범위가 아니라 이 환경에서 확인한 동작).
 `paths` 대신 `globs`를 쓰면 범위 지정 필드로 인식되지 않아 세션 시작 시 무조건 로드된다 (v2.1.220 확인).
 
-- `code-common.md` — go·csharp·js·ts·python·kotlin 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계, 주석 기준).
+- `code-common.md` — go·csharp·js·ts·python·kotlin·sql·ps1·sh 공통 기준 (공개 API 변경 영향, 결함으로 이어지는 경계, 주석 기준과 주석 언어).
 - `go.md` / `csharp.md` / `javascript-typescript.md` — 언어별 기준. 각 파일이 자기 언어의 소유자이며 별도 라우팅 문서를 두지 않는다.
   python·kotlin은 언어별 파일이 아직 없어 `code-common.md`의 공통 기준만 적용된다.
-- `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 기준. skill·agent·command의 역할 분담(§핵심 설계 결정)과 쓰기 도구 제한 같은 frontmatter·본문 작성 기준을 둔다.
-- `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 문서 정정 방식, spec → design → implement 반영 순서,
+- `claude-config-authoring.md` — Claude Code 설정 파일(agent·command·skill)을 쓸 때의 기준. skill·agent·command의 역할 분담(§핵심 설계 결정)과 쓰기 도구 제한, 본문 언어와 한 줄 한 문장 같은 frontmatter·본문 작성 기준을 둔다.
+- `feature-docs.md` — `features/<feature-dir>/` 문서를 읽을 때 걸리는 작업 기준. 산출물 언어와 한 줄 한 문장, 문서 정정 방식, spec → design → implement 반영 순서,
   진행 상태(체크박스·상태판)의 main 소유, 재작성 시 승인 취소를 둔다.
   Phased 밖의 대화에는 로드되지 않는다.
 

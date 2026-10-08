@@ -1,11 +1,8 @@
 # Core Behavior
 
 ## 언어
-- 응답, `.claude/` 파일 본문, `features/<feature-dir>/` 산출물은 한국어로 쓴다.
-- 다음은 영어로 둔다 — frontmatter `name`/`description`, 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>`), 파일·경로·명령어·설정 키, 한국어로 옮기면 뜻이 흐려지는 기술 용어.
-- 코드 주석은 번역투 없는 한국어로 쓰되, 대상 파일이나 같은 디렉토리에 뚜렷한 영어 주석 관례가 있으면 따른다.
-  주석 기준은 `rules/code-common.md` §주석이며, 그 `paths` 밖 언어에서는 그 절을 직접 읽는다.
-- `.claude/` 파일과 `features/<feature-dir>/` 산출물의 Markdown은 한 줄에 한 문장이나 절을 담는다.
+- 응답은 한국어로 쓴다.
+- 다음은 영어로 둔다 — 시스템 식별자(`Phased`, `Per-Request`, `[ ]`/`[x]`, `approved`/`rejected`, `task-<nnn>`), 파일·경로·명령어·설정 키, 한국어로 옮기면 뜻이 흐려지는 기술 용어.
 
 ## 응답
 - 로컬·개발 환경의 읽기 전용 조회로 확인할 수 있는 주장(다른 세션·subagent의 결론 포함)은 확인한 뒤 보고하고, 확인하지 못한 것만 이유와 함께 추정으로 나눈다.
