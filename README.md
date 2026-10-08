@@ -122,6 +122,9 @@ Meta command (Phased 흐름과 독립):
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다.
   판단만 대화로 돌려주며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다.
   테스트 관련 룰은 영역별로 나눠서 소유한다 — 테스트 Task 포함 시점은 `commands/implement-init.md` §테스트 Task 포함 기준, implement가 테스트 코드를 쓰는 조건은 `skills/implement/SKILL.md` §테스트 코드 작성, 유효한 테스트 근거 기준은 `skills/verify/SKILL.md` §근거 원칙.
+- `commit-push` — 이번 작업 파일만 스테이징하고 메시지 템플릿으로 커밋하며, 요청 시 푸시한다 (`/commit-push [제목만]`).
+  커밋 요청은 다른 지시에 섞여 자연어로 오므로 `disable-model-invocation`을 걸지 않는다.
+  커밋 메시지 규칙은 이 skill이 소유하며 attribution 줄을 붙이지 않는다.
 - `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를 로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
   frontmatter `description`이 발동을 사용자의 명시적인 Codex 워커·Orca dispatch 요청으로 좁힌다 —
   손으로 친 자연어 지시에서도 로드되어야 하므로 `disable-model-invocation`을 걸지 않는다.

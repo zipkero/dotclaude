@@ -2,7 +2,7 @@
 name: explain
 description: >-
   Explain what code, changes, tasks, and systems are and how they work through evidence-backed walkthroughs and key source excerpts. Use when the
-  requested outcome is understanding existing behavior, assumptions, design choices, or verification limits; not when the primary outcome is
+  user asks for a walkthrough of how code, a change, or a system works end to end; not for a one-line term or follow-up clarification,
   unresolved cause investigation, a new design recommendation, implementation, or formal approval.
 ---
 
@@ -25,7 +25,7 @@ main이 직접 실행하고 필요한 조사도 이 안에서 하며, 출력은 
 
 ## 출력 구조
 1. 결론 — 1-2문장. 대상이 무엇을 하는지와 사용자에게 미치는 영향.
-2. 흐름 — 대표 입력이나 시나리오를 따라 무엇이 들어와 어떤 결정·변환을 거쳐 무엇이 나오는지. 파일별 diff 나열로 대신하지 않는다.
+2. 흐름 — 대표 입력이나 시나리오를 따라 무엇이 들어와 어떤 결정·변환을 거쳐 무엇이 나오는지. 파일별 diff 나열로 대신하지 않고, 변경 전후나 여러 대상을 비교할 때는 표로 쓴다.
 3. 근거 — 중요한 결정과 계약을 보여 주는 간결한 발췌와 `file:line`, 각 발췌가 증명하는 것.
 4. 한계 — 확신 수준, 현재 테스트가 보장하는 범위, 확인하지 못한 것과 더 읽을 위치.
 
