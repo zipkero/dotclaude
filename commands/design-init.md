@@ -43,7 +43,6 @@ main 검토:
 `<…>`는 채울 자리이며, 아래 섹션 밖의 섹션과 체크박스는 두지 않는다.
 
 ```markdown
-<!-- prowl-workflow: v1 -->
 # <feature-name> 설계
 
 ## 승인 전 확인

@@ -37,7 +37,6 @@ analyzer가 쓰는 Task 필드는 아래 넷이며, `최근 reject`·`승인 근
 재작성이면 기존 Task의 체크박스·`최근 reject`·`승인 근거`를 그대로 옮기고, 되돌릴 Task는 main이 `rules/feature-docs.md` §재작성 시 승인 취소대로 정한다.
 
 ```markdown
-<!-- prowl-workflow: v1 -->
 # <feature-name> 구현
 
 - [ ] task-<nnn>: <Task 제목>
@@ -46,11 +45,11 @@ analyzer가 쓰는 Task 필드는 아래 넷이며, `최근 reject`·`승인 근
   - 검증 조건:
     - 결과: <Task 완료 후 성립해야 하는 동작·출력·파일 내용·상태 | 목적과 동일>
     - 확인: <그 결과를 검증하는 방법: 테스트 | 빌드 | lint | diff | 수동 확인>
-  - 참조: SPEC §5.<N>, §5.<M> / DESIGN §<X.Y>
+  - 참조: SPEC §5.<N>, §5.<M> / DESIGN §<N>
 ```
 
 - 참조의 `SPEC §5.N`은 이 Task가 기여하는 완료 조건이며 하나 이상 둔다.
-  `DESIGN §X.Y`는 설계 결정이 적용될 때만 둔다.
+  `DESIGN §N`는 설계 결정이 적용될 때만 둔다.
 
 - 각 Task는 한 verify 사이클로 평가하는 단위이며, 외부 관찰 가능한 동작 하나와 그 회귀 보호가 기준이다.
   실패 의미나 검증 기준이 실제로 달라지는 지점에서만 나누고, 그 동작에 필수인 기반 변경·연결 작업은 같은 Task에 둔다.

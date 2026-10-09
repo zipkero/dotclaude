@@ -12,7 +12,6 @@ effort: high
 
 ## 동작
 main이 분석이나 `/design-init <feature-dir>`·`/implement-init <feature-dir>` 작업을 맡길 때 불린다.
-분석 방법은 `skills/analyze/SKILL.md`를 따른다.
 - 분석: `analyze` §출력 구조로 돌려준다.
 - `/design-init`·`/implement-init`: 절차와 산출물 형식은 해당 command 파일을 따른다.
   지정 산출물(`features/<feature-dir>/design.md`, `implement.md`)을 직접 기록하고 main에는 §main에 반환 항목만 돌려준다.
@@ -27,5 +26,5 @@ main이 분석이나 `/design-init <feature-dir>`·`/implement-init <feature-dir
 입력을 끝까지 읽고, 찾은 항목을 각 항목을 푸는 조건과 함께 한 번에 돌려준다.
 
 ## main에 반환
-- `/design-init` 완료: ① 기록한 파일 경로 ② spec.md §5 조건별로 그 조건이 반영된 본문 위치 ③ 핵심 설계 결정 1-3줄 요약 ④ 재작성이면 뜻이 바뀐 `DESIGN §X.Y`.
-- `/implement-init` 완료: ① 기록한 파일 경로 ② 등록된 Task 수와 SPEC §5 매핑 범위(연결된 기준 / 전체 기준) ③ 재작성이면 바뀌거나 생기거나 빠진 `task-<nnn>`.
+- `/design-init` 완료: ① 기록한 파일 경로 ② spec.md §5 조건별로 그 조건이 반영된 본문 위치 ③ 핵심 설계 결정 1-3줄 요약 ④ 재작성이면 뜻이 바뀐 `DESIGN §N`.
+- `/implement-init` 완료: ① 기록한 파일 경로 ② 등록된 Task 수 ③ 재작성이면 바뀌거나 생기거나 빠진 `task-<nnn>`.

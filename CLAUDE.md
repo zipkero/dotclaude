@@ -48,7 +48,7 @@
   새로 지정하면 앞의 것은 추적자가 아니다.
 
 ## agent·skill 라우팅
-- 자연어 구현 요청은 Phased mode면 implementer agent에 맡기고 `verify`로 잇고, Per-Request mode면 main이 `implement` skill을 직접 부른다.
+- 자연어 구현 요청은 Phased mode면 implementer agent에 맡기고 그 뒤는 `skills/implement/SKILL.md` §완료를 따르며, Per-Request mode면 main이 `implement` skill을 직접 부른다.
 - 여러 파일을 훑어 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
 - subagent 위임 프롬프트에는 지킬 범위·제외 경로·출력 형식을 직접 적는다.
 

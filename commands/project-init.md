@@ -63,7 +63,6 @@ disable-model-invocation: true
 
 ## ROADMAP.md 구조
 ```markdown
-<!-- prowl-workflow: v1 -->
 # <프로젝트명> 로드맵
 
 ## 최종 결과물

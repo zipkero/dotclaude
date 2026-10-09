@@ -117,7 +117,7 @@ Meta command (Phased 흐름과 독립):
   `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일의 `description`이 서로 표시한다.
   대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다.
-  다음 `verify` 호출이 분명한 변경 범위를 가질 수 있도록 고친 파일 목록을 함께 출력한다.
+  reject 뒤 재검증이 변경 범위를 정할 수 있도록 고친 파일 목록을 함께 출력한다.
   주석 기준과 주석 언어는 `rules/code-common.md` §주석과 언어별 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다.
   판단만 대화로 돌려주며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다.
@@ -149,18 +149,6 @@ frontmatter `paths`에 매치되는 파일을 읽거나 쓸 때만 컨텍스트�
 - `feature-docs.md` — `features/<feature-dir>/` 문서를 읽거나 쓸 때 걸리는 작업 기준. 산출물 언어와 한 줄 한 문장, 문서 정정 방식, spec → design → implement 반영 순서,
   진행 상태(체크박스·상태판)의 main 소유, 재작성 시 승인 취소를 둔다.
   Phased 밖의 대화에는 로드되지 않는다.
-
-## 출력 형식 계약
-
-이 설정이 만드는 작업 문서와 Phased 보고는 다른 도구가 읽는 형식이다.
-아래 자리의 문구는 다듬어도 되지만, 표지 단어·값·위치·이름을 바꾸면 동작 변경으로 다룬다.
-
-- 작업 문서 첫 줄 표시 `<!-- prowl-workflow: v1 -->` — `commands/spec-init.md`(spec.md 규칙, README 템플릿), `commands/design-init.md`, `commands/implement-init.md`, `commands/project-init.md`(ROADMAP 템플릿).
-- 작업 문서 형식 — feature 폴더 이름과 feature `README.md` `## 상태`의 SPEC·DESIGN·IMPLEMENT 체크박스, `spec.md` §5 번호 항목(`commands/spec-init.md`), `design.md` 절 번호(`commands/design-init.md`), `implement.md` Task 줄·필드 이름(`최근 reject`·`승인 근거` 포함)·참조 형식(`commands/implement-init.md`), `ROADMAP.md` 마일스톤과 작업 후보(`commands/project-init.md`).
-- `skills/verify/SKILL.md` §출력 구조·§reject 분류 — 첫 줄 표시, 판정 값, 대상 Task의 `task-<nnn>`, 완료되는 요구사항 줄 형식, 분류 네 값, `해소 조건` 항목.
-- `skills/implement/SKILL.md` §출력 구조 — 첫 줄 표시, 상태 값, 핵심의 `task-<nnn>`.
-- `commands/implement-loop.md` — §실행 주체의 verify 담당(verifier agent), §재시도의 근거 부족 재검증 규칙, §정지 조건의 조건별 정지 사유 값, §정지·완료 보고의 첫 줄 표시와 멈춘 자리의 `task-<nnn>`·`정지 사유`·`해소 조건`.
-- 요청 종류를 가리는 이름 — skill `implement`·`verify`, command `implement-loop`, agent `implementer`·`verifier`.
 
 ## 운영
 
