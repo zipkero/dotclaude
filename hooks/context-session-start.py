@@ -9,5 +9,5 @@ source = data.get("source")
 
 if source == "compact":
     print("autocompact가 일어났다. 진행 중인 단위만 마치고 /context-save로 CONTEXT.md를 저장한 뒤 사용자에게 /clear 후 /context-restore로 이어가라고 알린다.")
-elif source == "clear" and os.path.exists(os.path.join(data.get("cwd") or "", "CONTEXT.md")):
+elif source in ("startup", "clear") and os.path.exists(os.path.join(data.get("cwd") or "", "CONTEXT.md")):
     print("작업 디렉토리에 CONTEXT.md가 있다. 사용자의 첫 요청이 이전 작업을 이어가는 것이면 먼저 /context-restore로 맥락을 복원한다.")

@@ -152,8 +152,8 @@ autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
 
 - `context-save-guard.py` — `Stop` hook. 마지막 main 응답의 context가 450K 토큰 이상이면 세션당 한 번 `/context-save`와 `/clear` 후 `/context-restore` 안내를 지시한다.
   Stop은 턴이 끝날 때만 돌므로, 한 턴 안의 증가분이 autocompact window까지의 여유보다 크면 autocompact가 먼저 일어난다.
-- `context-session-start.py` — `SessionStart` hook (matcher `clear|compact`).
-  `compact`면 진행 중인 단위만 마치고 `/context-save`를 실행하라고 알리고(`/implement-loop`의 처리는 그 파일 §정지 조건), `clear`면 작업 디렉토리에 `CONTEXT.md`가 있을 때 `/context-restore`를 먼저 하라고 알린다.
+- `context-session-start.py` — `SessionStart` hook (matcher `startup|clear|compact`).
+  `compact`면 진행 중인 단위만 마치고 `/context-save`를 실행하라고 알리고(`/implement-loop`의 처리는 그 파일 §정지 조건), `startup`·`clear`면 작업 디렉토리에 `CONTEXT.md`가 있을 때 `/context-restore`를 먼저 하라고 알린다.
 
 ## 운영
 
@@ -176,7 +176,7 @@ autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "clear|compact",
+        "matcher": "startup|clear|compact",
         "hooks": [
           { "type": "command", "command": "python3 -I <절대경로>/.claude/hooks/context-session-start.py", "timeout": 10 }
         ]
