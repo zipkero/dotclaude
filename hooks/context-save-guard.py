@@ -1,6 +1,6 @@
 import json, os, sys, tempfile
 
-THRESHOLD = 450_000
+THRESHOLD = 550_000
 
 # Windows Python은 파이프 입출력을 locale 인코딩(cp949)으로 처리해, 그대로 두면 Claude Code가 받는 한국어가 깨진다.
 for stream in (sys.stdin, sys.stdout, sys.stderr):

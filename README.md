@@ -150,7 +150,7 @@ autocompact 요약 대신 `/context-save`·`/context-restore`로 세션을 잇�
 autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
 등록은 `settings.json` 소관이며 방법은 §운영에 둔다.
 
-- `context-save-guard.py` — `Stop`·`PostToolUse` hook. 마지막 main 응답의 context가 450K 토큰 이상이면 세션당 한 번 `/context-save`와 `/clear` 후 `/context-restore` 안내를 지시한다.
+- `context-save-guard.py` — `Stop`·`PostToolUse` hook. 마지막 main 응답의 context가 550K 토큰 이상이면 세션당 한 번 `/context-save`와 `/clear` 후 `/context-restore` 안내를 지시한다.
   `PostToolUse`는 `/implement-loop`처럼 한 턴 안에서 길게 도는 작업을 잡는다.
 - `context-session-start.py` — `SessionStart` hook (matcher `startup|clear|compact`).
   `compact`면 진행 중인 단위만 마치고 `/context-save`를 실행하라고 알리고(`/implement-loop`의 처리는 그 파일 §정지 조건), `startup`·`clear`면 작업 디렉토리에 `CONTEXT.md`가 있을 때 `/context-restore`를 먼저 하라고 알린다.
@@ -168,11 +168,11 @@ autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
   `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.
 - `hooks/` 스크립트도 기계마다 `~/.claude/settings.json`에 등록한다.
   경로는 그 기계의 절대경로로 쓴다 (hook 명령의 `~` 확장은 공식 문서에 없다).
-  `autoCompactWindow: 600000`은 `context-save-guard.py`의 450K 임계값과 autocompact 사이에 tool 호출 하나 사이 증가분 p99.9(약 48K, 이 환경 transcript 실측)보다 큰 여유를 둔다.
+  `autoCompactWindow: 700000`은 `context-save-guard.py`의 550K 임계값과 autocompact 사이에, 안내 뒤 마저 끝낼 `/implement-loop` Task 하나의 main 증가분 p90(약 88K, 이 환경 transcript 실측)보다 큰 여유를 둔다.
   기존 `SessionStart`·`Stop`·`PostToolUse` 배열이 있으면 항목을 더한다.
 
   ```json
-  "autoCompactWindow": 600000,
+  "autoCompactWindow": 700000,
   "hooks": {
     "SessionStart": [
       {
