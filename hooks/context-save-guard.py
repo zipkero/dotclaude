@@ -15,19 +15,29 @@ marker = os.path.join(marker_dir, data["session_id"])
 if os.path.exists(marker):
     sys.exit(0)
 
-usage = None
-with open(data["transcript_path"], encoding="utf-8", errors="ignore") as f:
-    for line in f:
-        try:
-            entry = json.loads(line)
-        except ValueError:
-            continue
-        message = entry.get("message")
-        if entry.get("isSidechain") or not isinstance(message, dict):
-            continue
-        if message.get("usage"):
-            usage = message["usage"]
+def last_usage(path):
+    with open(path, "rb") as f:
+        size = f.seek(0, os.SEEK_END)
+        chunk = 1 << 20
+        while True:
+            start = max(0, size - chunk)
+            f.seek(start)
+            lines = f.read(size - start).splitlines()
+            # 읽기 시작점에서 잘린 첫 줄은 json으로 읽히지 않아, 다음 확장에서 온전히 읽는다.
+            for line in reversed(lines if start == 0 else lines[1:]):
+                try:
+                    entry = json.loads(line)
+                except ValueError:
+                    continue
+                message = entry.get("message")
+                if not entry.get("isSidechain") and isinstance(message, dict) and message.get("usage"):
+                    return message["usage"]
+            if start == 0:
+                return None
+            chunk *= 4
 
+
+usage = last_usage(data["transcript_path"])
 if not usage:
     sys.exit(0)
 tokens = sum(usage.get(k) or 0 for k in ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"))
@@ -36,5 +46,5 @@ if tokens < THRESHOLD:
 
 os.makedirs(marker_dir, exist_ok=True)
 open(marker, "w").close()
-print(f"context가 {tokens // 1000}K 토큰에 이르렀다. /context-save를 실행해 CONTEXT.md를 저장하고, 사용자에게 /clear 후 /context-restore로 이어가라고 알린다.", file=sys.stderr)
+print(f"context가 {tokens // 1000}K 토큰에 이르렀다. 진행 중인 단위만 마치고 /context-save로 CONTEXT.md를 저장한 뒤 사용자에게 /clear 후 /context-restore로 이어가라고 알린다.", file=sys.stderr)
 sys.exit(2)
