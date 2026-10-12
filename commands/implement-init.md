@@ -3,11 +3,8 @@ description: Create implement.md (execution checklist with per-Task verification
 argument-hint: "<feature-dir>"
 ---
 
-> 사용 시점: `/design-init` 이후. `implement`가 실행하고 `verify`가 검증하는 체크리스트를 만든다.
-
 `features/<feature-dir>/implement.md`를 작성한다.
 IMPLEMENT는 Task-level 검증 조건을 가진 Task들의 실행 체크리스트이며, 구현 단계 진행을 추적하는 유일한 문서다.
-설계 근거는 design.md에, 요구사항 수준 완료 조건은 spec.md §5에 둔다.
 
 Feature directory: $ARGUMENTS
 
@@ -77,7 +74,6 @@ analyzer가 쓰는 Task 필드는 아래 넷이며, `최근 reject`·`승인 근
 - 각 `SPEC §5.N`은 매핑된 Task가 전부 `[x]`가 되는 자리에서 완성되며, 그 조건의 모든 문장이 매핑 Task 중 하나의 `목적`·검증 조건에 들어 있어야 한다.
   `[철회]` 조건은 매핑하지 않는다.
 - 완성 자리가 마지막 Task 하나에 몰리면 매핑을 다시 잡는다.
-  `skills/verify/SKILL.md` §완료되는 요구사항 판정이 마지막 Task에서만 돌아 중간 Task에 요구사항 수준 판정이 걸리지 않기 때문이다.
   다시 잡을 수 없으면 그 Task와 사유를 main에 넘겨 사용자 판단을 받는다.
 - 매핑되지 않은 spec.md §5 기준이 있으면 analyzer는 기록하지 않고 목록을 돌려준다.
   main은 기준마다 새 Task 추가 / spec.md §5에서 철회 / spec.md §4 제외 범위로 보류 중 하나를 사용자에게 받은 뒤 진행한다.

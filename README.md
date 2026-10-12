@@ -91,8 +91,6 @@ Phased 흐름 command는 `features/<feature-dir>/` 아래에 산출물을 쓰고
 - `implement-init.md` — `design.md`로부터 `implement.md`를 만든다 (`/implement-init <feature-dir>`)
 - `implement-loop.md` — `implement.md`의 남은 Task를 `implement` → `verify` → 체크박스로 연속 실행한다 (`/implement-loop <feature-dir>`).
   구현·판단 규칙은 각 skill 소관이고, 이 command는 반복·재시도·정지 조건만 소유한다.
-  근거 부족 reject는 다시 구현하지 않고 근거를 보완해 다시 판단받는다.
-  구현 수정만으로 통과시킬 수 없다고 판정되면 문서를 고치지 않고 멈춰 사용자에게 올린다.
 
 Meta command (Phased 흐름과 독립):
 
@@ -117,7 +115,6 @@ Meta command (Phased 흐름과 독립):
   `analyze`와는 산출물로 갈린다 — 원인 규명·대안 비교는 `analyze`, 기존 동작 이해는 `explain`이며 경계는 두 파일의 `description`이 서로 표시한다.
   대화로만 출력하고 파일은 사용자가 문서화를 따로 요청할 때만 쓰며, `disallowed-tools`를 걸지 않는 이유는 `analyze`와 같다.
 - `implement` — Phased에서는 `implement.md`의 다음 Task를 실행하고, Per-Request에서는 산출물 없이 변경을 한다.
-  reject 뒤 재검증이 변경 범위를 정할 수 있도록 고친 파일 목록을 함께 출력한다.
   주석 기준과 주석 언어는 `rules/code-common.md` §주석과 언어별 `rules/` 파일이 소유한다.
 - `verify` — 직전 implement Task가 spec.md 완료 조건과 implement.md의 `목적`·검증 조건을 채웠는지 판단한다.
   판단만 대화로 돌려주며, implement.md 체크박스 전환은 main이 `skills/verify/SKILL.md` §verify 후처리에 따라 한다.
@@ -126,12 +123,8 @@ Meta command (Phased 흐름과 독립):
   커밋 요청은 다른 지시에 섞여 자연어로 오므로 `disable-model-invocation`을 걸지 않는다.
   커밋 메시지 규칙은 이 skill이 소유한다.
 - `implement-orca` — 한 Task, 연속된 Task 묶음, 또는 Per-Request 변경의 `implement` → `verify`를 로컬 implementer·verifier agent 대신 서로 다른 Codex 워커로 순차 실행한다 (`/implement-orca <대상>`).
-  frontmatter `description`이 발동을 사용자의 명시적인 Codex 워커·Orca dispatch 요청으로 좁힌다 —
-  손으로 친 자연어 지시에서도 로드되어야 하므로 `disable-model-invocation`을 걸지 않는다.
-  절차는 이 파일이 갖지 않는다 — Orca 명령과 코디네이터 절차는 `skills/orchestration/SKILL.md`가 가리키는 버전별 가이드,
-  워커 lifecycle(`worker_done`·heartbeat·`ask`)은 Orca가 워커에 주입하는 preamble,
-  구현·판단은 워커 쪽 전역 설정과 skill, 판단 이후 기록은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
-  이 파일이 직접 드는 것은 워커 배치와, preamble이 싣지 않는 지시문 두 줄뿐이다.
+  자연어 요청에서도 로드되도록 `disable-model-invocation`을 걸지 않고, `description`으로 명시적인 Codex·Orca 요청에만 발동한다.
+  Orca 절차는 `orchestration` skill과 Orca preamble이, 판단 이후 기록은 `skills/verify/SKILL.md` §verify 후처리가 소유한다.
 
 ### rules/ — 파일 경로로 걸리는 작업 기준
 

@@ -11,5 +11,4 @@ effort: high
 ---
 
 ## 동작
-main이 verify 판단을 맡길 때 불린다.
 Bash로도 파일을 만들거나 고치지 않는다.

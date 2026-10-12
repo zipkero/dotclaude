@@ -6,8 +6,6 @@ argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true
 ---
 
-> 사용 시점: 전역설정에 변경이 누적되었을 때, 또는 Claude Code 업데이트로 설정 키·하네스 동작이 바뀌었을 때 사용자가 의식적으로 호출한다.
-
 전역설정(`~/.claude`)을 다시 읽고 §관점으로 감사한다.
 
 ## 범위

@@ -3,10 +3,7 @@ description: Create design.md (design decisions) under features/<feature-dir>/ f
 argument-hint: "<feature-dir>"
 ---
 
-> 사용 시점: `/spec-init` 이후, `/implement-init` 이전. `/implement-init`이 소비할 설계 기준을 만든다.
-
 `features/<feature-dir>/design.md`를 작성한다.
-DESIGN은 feature를 어떻게 구조화하고 어떤 설계 선택을 확정했는지를 잡는다.
 
 Feature directory: $ARGUMENTS
 
@@ -18,11 +15,9 @@ main 검토:
 - spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 걸려 있는지 본다.
   표기만 빠졌으면 main이 더하고, 설계가 그 조건을 다루지 않으면 analyzer에 다시 맡기며, feature 범위 밖으로 보이면 사용자에게 묻는다.
 - 선택에 따라 외부 계약, 저장 형식·데이터 모델, 외부 연동, 사용자가 관찰하는 결과가 달라지는 미해결 결정은 사용자에게 묻는다.
-- 받은 답은 `rules/feature-docs.md`대로 반영한다.
 
 ## 역할
 - spec.md에서 도출한 설계 기준이며 모든 구조·설계 결정을 담는다.
-  implement.md에는 결정을 남기지 않는다.
 - feature README 상태판의 `[x] DESIGN`은 design.md가 현재 승인된 spec.md 기준으로 작성되었다는 뜻이다.
 - 새 세션(`/clear` 이후)에서도 spec.md + design.md만으로 implement.md를 만들 수 있게 쓴다.
 - spec.md §5 본문은 옮기지 않고 `SPEC §5.N`으로 가리키며, 결정이 그 동작에 어떻게 기여하는지는 평문으로 적는다.

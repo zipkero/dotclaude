@@ -8,7 +8,7 @@ description: >-
 
 ## 역할
 원인을 찾고 설계 선택지를 비교해 하나로 수렴하는 분석 방법이며 phase가 아니다.
-실행 주체는 §analyzer 위임 기준을 따르며, 이 skill로 하는 분석은 Bash를 포함해 파일을 쓰지 않고 결과를 대화로만 낸다.
+이 skill로 하는 분석은 Bash를 포함해 파일을 쓰지 않고 결과를 대화로만 낸다.
 `/design-init`·`/implement-init`에서 analyzer가 쓰는 설계 판단도 이 방법을 따르며, 산출물 형식은 그 command가 정한다.
 
 ## 컨텍스트 로딩

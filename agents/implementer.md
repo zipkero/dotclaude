@@ -9,8 +9,5 @@ model: opus
 effort: medium
 ---
 
-## 동작
-main이 Phased mode의 Task 하나를 맡길 때 불린다.
-
 ## 결정 위임
 skill이 사용자에게 물으라고 한 자리에서는 코드를 쓰지 않고, §출력 구조 상태를 `blocked`로 내 선택지·근거와 함께 main에 돌려준다.

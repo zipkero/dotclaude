@@ -6,8 +6,6 @@ argument-hint: "[프로젝트명 또는 한 줄 설명]"
 disable-model-invocation: true
 ---
 
-> 사용 시점: 프로젝트 문서가 아직 없는 최초 1회. 이후 문서 갱신은 이 command 밖에서 처리한다.
-
 프로젝트 루트에 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md`를 만든다.
 
 프로젝트 이름 또는 한 줄 설명: $ARGUMENTS
@@ -23,12 +21,10 @@ disable-model-invocation: true
   전역 `~/.claude/CLAUDE.md`는 모든 대화에 로드되므로 신호에서 뺀다.
 - 후보가 하나면 근거와 함께 확정한다.
   모노레포 루트와 하위 프로젝트처럼 후보가 둘 이상이라 산출물이 달라지거나 신호가 없으면 파일을 만들기 전에 확인한다.
-- 확정한 루트는 이후 조사·산출 경로의 기준이며, 근거는 완료 보고에 남긴다.
 
 ## 전제 조건
 - §산출 경로의 네 파일 중 하나라도 있으면 최초 실행이 아니므로 아무 파일도 쓰지 않고 무엇이 있는지 보고한다.
 - 인자가 비어 있으면 저장소·manifest에서 확인한 프로젝트 이름을 쓰고, 확인되지 않으면 묻는다.
-- 작성 전에 주요 manifest, 빌드·테스트 설정, 코드 구조, 사용자 입력을 확인한다.
 
 ## 산출 경로
 확정한 루트 기준 `README.md`, `ROADMAP.md`, `docs/product.md`, `docs/design.md` 넷을 모두 만들고, 그 밖의 문서는 만들지 않는다.

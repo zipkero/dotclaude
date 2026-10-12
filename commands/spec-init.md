@@ -3,8 +3,6 @@ description: Create spec.md (requirements + completion criteria) under features/
 argument-hint: "<feature-name>"
 ---
 
-> 사용 시점: Phased 흐름의 첫 단계로, `/design-init` / `/implement-init`이 참조하는 SPEC을 만든다.
-
 `features/<feature-dir>/spec.md`를 작성하고 `features/<feature-dir>/README.md`를 초기화한다.
 SPEC은 요구사항 수준에서 무엇이 있어야 하는가(범위·목표·제약·제외·완료 조건)를 잡으며, 설계·인터페이스·파일 나열·구현 순서는 다루지 않는다.
 
@@ -13,7 +11,6 @@ Feature name: $ARGUMENTS
 ## 역할
 - 실행 주체는 main이며 subagent에 맡기지 않는다.
 - design.md와 implement.md가 참조하는 정적 기준 문서다.
-  고치는 방식은 `rules/feature-docs.md`를 따른다.
 
 ## 전제 조건
 - 해석 차이가 범위나 완료 조건을 실제로 바꾸면 쓰기 전에 묻고, 정한 답은 §1–§5에 반영한다.
@@ -32,7 +29,6 @@ Feature name: $ARGUMENTS
 
 ## 요구사항 확정
 - 프로젝트 루트 문서(`commands/project-init.md` §산출 경로) 중 있는 것과 사용자가 지정한 문서를 조사해, 이 feature에 걸리는 동작·마일스톤 기준·제약을 §2·§3·§5 본문에 자체 완결적으로 옮긴다.
-  문서끼리 또는 현재 코드와 어긋나 범위·완료 조건이 갈리면 §전제 조건대로 묻는다.
 - 요구사항은 조사·지정 문서에 확정으로 적힌 것과 사용자가 확정한 것이다.
   사용자가 예시로 든 구현 방식·비교 대상과 문서의 제안·미확정 결정은 확정 전까지 요구사항이 아니다.
 - 사용자가 반복해 강조한 문제·위험·운영 조건은 §2·§3·§5 후보로 보고, 조사에서 새로 드러난 문제·위험은 본문 대신 승인 전 확인의 질문으로 올린다.
@@ -70,7 +66,6 @@ Feature name: $ARGUMENTS
   남아 있는 항목은 답을 받지 않은 질문이며 이후 단계가 이 표기로 판정한다.
 - 입력 맥락은 design 단계가 대화 없이 재개할 수 있게 하는 출발점이며, 없으면 뺀다.
 - 완료 조건의 관찰자는 사용자·호출자·후속 소비자·운영 신호 중 하나다.
-  `verify`는 Task를 판단할 때 이 조건을 직접 인용한다.
 - N번 조건은 이후 `SPEC §5.N`으로 참조되며, design.md가 생긴 뒤부터 영구 식별자다.
   새 조건은 다음 번호로만 더한다.
   조건을 뺄 때는 번호를 당기지 않고 `[철회] <이유>`로 바꾸며, 그 번호를 참조하던 design.md·implement.md 자리를 함께 고친다.
