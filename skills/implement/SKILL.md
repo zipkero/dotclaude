@@ -8,7 +8,7 @@ description: >-
 ## 컨텍스트 로딩
 1. Phased mode — `$ARGUMENTS`가 `features/<feature-dir>/`나 그 implement.md를 가리키거나, 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리킬 때 들어간다.
    활성 범위는 이 대화에서 그 feature에 `/spec-init` / `/design-init` / `/implement-init`이 실행되었거나, `/context-restore`가 그 feature를 `현재 작업 문서`로 복원했거나, 이번 요청에서 사용자가 implement 뜻으로 그 feature를 콕 집어 가리킨 경우다.
-   `/implement-loop`이 부르면 판정 없이 Phased mode다.
+   위임 프롬프트가 Phased mode를 밝히면 판정 없이 Phased mode다.
    - implement.md·design.md(설계 기준)·spec.md(완료 조건 매핑)를 읽는다.
      implement.md가 없으면 멈추고 `/implement-init` 실행을 안내한다.
    - implement.md 위에서부터 첫 미완료 Task를 잡고(위치가 의존 순서다) 목적 / 접근 / 검증 조건 / 최근 reject를 실행 기준으로 삼는다.
@@ -31,6 +31,9 @@ design.md §5의 미해결 Decision Point(뜻은 `commands/implement-init.md` §
 ## 재작업 시 파급 점검
 verify가 reject한 Task를 다시 구현할 때는 앞선 시도에서 성립했던 동작, 이미 `[x]`인 Task가 만든 동작, 변경 범위에 걸리는 기존 테스트·빌드가 그대로인지 확인한다.
 영향이 있으면 같은 재작업에서 고치고, 설계 변경이 필요하면 고치지 않고 `blocked`로 보고하며, 확인하지 못한 항목은 비고·한계에 밝힌다.
+
+## implementer 위임 기준
+위임 프롬프트에는 `<feature-dir>`와 Phased mode임을, 재작업이면 직전 verify 출력의 4번 문제 항목을 적는다.
 
 ## 출력 구조
 해당하지 않는 항목은 뺀다.

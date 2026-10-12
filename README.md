@@ -63,6 +63,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다.
   `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 바꾼다.
   (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
+  위임 기준은 `skills/implement/SKILL.md` §implementer 위임 기준이 소유한다.
 - `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관).
   위임 기준은 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 

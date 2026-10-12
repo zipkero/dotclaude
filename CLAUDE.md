@@ -48,7 +48,7 @@
 ## agent·skill 라우팅
 - 자연어 구현 요청은 Phased mode면 implementer agent에 맡기고 그 뒤는 `skills/implement/SKILL.md` §완료를 따르며, Per-Request mode면 main이 `implement` skill을 직접 부른다.
 - 여러 파일을 훑어 위치·존재·관례 같은 결론만 필요한 조사는 `Explore`에 `model: sonnet`으로 맡긴다.
-- subagent 위임 프롬프트에는 지킬 범위·제외 경로·출력 형식을 직접 적는다.
+- subagent·워커 위임 프롬프트에는 지킬 범위·제외 경로·출력 형식을 직접 적고, 문서에 있는 기준은 경로로 지목하며 본문을 옮기거나 요약하지 않는다.
 
 ## 문서화
 - 사용자가 따로 요청한 문서 산출물(노트·정리 문서, vault 반영)은 `~/obsidian`에 쓰며, 쓰기 전에 `~/obsidian/CLAUDE.md`를 읽고 따른다.
