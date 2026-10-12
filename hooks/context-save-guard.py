@@ -2,6 +2,10 @@ import json, os, sys, tempfile
 
 THRESHOLD = 450_000
 
+# Windows Python은 파이프 입출력을 locale 인코딩(cp949)으로 처리해, 그대로 두면 Claude Code가 받는 한국어가 깨진다.
+for stream in (sys.stdin, sys.stdout, sys.stderr):
+    stream.reconfigure(encoding="utf-8")
+
 data = json.load(sys.stdin)
 if data.get("stop_hook_active"):
     sys.exit(0)
@@ -12,7 +16,7 @@ if os.path.exists(marker):
     sys.exit(0)
 
 usage = None
-with open(data["transcript_path"], errors="ignore") as f:
+with open(data["transcript_path"], encoding="utf-8", errors="ignore") as f:
     for line in f:
         try:
             entry = json.loads(line)

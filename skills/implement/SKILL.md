@@ -7,7 +7,7 @@ description: >-
 
 ## 컨텍스트 로딩
 1. Phased mode — `$ARGUMENTS`가 `features/<feature-dir>/`나 그 implement.md를 가리키거나, 현재 대화가 활성 `features/<feature-dir>/` 범위를 가리킬 때 들어간다.
-   활성 범위는 이 대화에서 그 feature에 `/spec-init` / `/design-init` / `/implement-init`이 실행되었거나, 이번 요청에서 사용자가 implement 뜻으로 그 feature를 콕 집어 가리킨 경우다.
+   활성 범위는 이 대화에서 그 feature에 `/spec-init` / `/design-init` / `/implement-init`이 실행되었거나, `/context-restore`가 그 feature를 `현재 작업 문서`로 복원했거나, 이번 요청에서 사용자가 implement 뜻으로 그 feature를 콕 집어 가리킨 경우다.
    `/implement-loop`이 부르면 판정 없이 Phased mode다.
    - implement.md·design.md(설계 기준)·spec.md(완료 조건 매핑)를 읽는다.
      implement.md가 없으면 멈추고 `/implement-init` 실행을 안내한다.

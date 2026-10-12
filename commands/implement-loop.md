@@ -55,6 +55,7 @@ main이 루프를 돌린다.
 5. 그 밖의 사유로 implement가 `blocked`를 돌려준 경우
 6. 되돌리기 어렵거나 외부에 영향을 주는 일이 필요한 경우 (CLAUDE.md §사전 확인)
 7. 근거를 더 보완할 수 없는 경우 — 해소 조건의 입력·환경을 갖출 수 없거나 근거 재검증 2회를 소진함
+8. autocompact 뒤 저장 안내를 받은 경우 — 진행 중인 Task의 §verify 후처리까지 마치고 멈춘다. §정지·완료 보고 뒤 `/context-save`를 실행해 그 보고의 재시도 이력과 미룬 확인을 `현재 상태`에 담는다
 
 루프가 고치는 문서는 implement.md와 feature README뿐이며, implement.md의 필드는 §verify 후처리가 고치라고 할 때만 고친다.
 
