@@ -42,8 +42,6 @@
   - 완료 조건이나 영향 범위를 나중에 문서로 확인해야 한다.
 - Phased는 `/spec-init`에서 시작하고, 프로젝트 루트 문서(`commands/project-init.md` §산출 경로)가 하나도 없으면 `/project-init`을 먼저 권한다.
 - `/spec-init`·`/design-init`·`/implement-init`은 사용자가 명시하거나 조건부로 승인("문제 없으면 다음 단계")했을 때만 main이 부르고, 앞 단계 검토에서 물은 항목의 답부터 받는다.
-- Phased 밖에서는 사용자가 저장소 문서 하나를 진행 추적자로 지정할 수 있고, 그 체크박스는 main이 소유한다.
-  지정은 `/context-restore`가 복원한 세션에도 이어진다.
 
 ## agent·skill 라우팅
 - 자연어 구현 요청은 Phased mode면 implementer agent에 맡기고 그 뒤는 `skills/implement/SKILL.md` §완료를 따르며, Per-Request mode면 main이 `implement` skill을 직접 부른다.

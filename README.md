@@ -15,8 +15,6 @@ Claude Code의 개인 설정 저장소.
   (`<feature-dir>` 형식은 `commands/spec-init.md` §산출 경로 참고)
 - `implement` → `verify` → 체크박스 전환은 명시적인 판단 단계다.
   산출물을 근거로 한 판단을 거친 Task만 완료로 기록된다.
-  Phased 밖에서 쓰는 진행 추적자의 체크박스는 이 판정을 거치지 않으므로 완료 기록이 아니라 진행 표시다
-  (구분은 CLAUDE.md §phase 제어가 소유한다).
 
 ### 핵심 설계 결정
 - **skill은 방법, agent는 맥락을 떼어 놓은 실행자, command는 과제별 산출물 형식이다**: `analyze`↔`analyzer`, `implement`↔`implementer`, `verify`↔`verifier`처럼 agent는 `skills:`로 짝 skill을 불러오고, main도 같은 skill을 직접 쓸 수 있다(작성 기준은 `rules/claude-config-authoring.md`).
