@@ -15,7 +15,8 @@ implement 완료 보고를 받은 뒤 verify를 새 Codex 워커에 맡기고, �
 워커는 `worker-start`에 `--agent codex --model gpt-6.1-sol --effort medium`을 붙여 만들고,
 receipt의 `launch.effective`가 그 값과 같은지 확인한 뒤 dispatch한다.
 다르거나 옵션이 거절되면 다른 모델·effort로 대체하지 않고 멈춰서 보고한다.
-Task가 여럿이면 한 Task씩 끝내고 다음으로 가며, reject 뒤 재시도와 정지는 `commands/implement-loop.md` §재시도·§정지 조건을 따른다.
+Task가 여럿이면 한 Task씩 끝내고 다음으로 간다.
+reject 뒤 재시도와 정지는 대상 Task 수와 mode에 관계없이 `commands/implement-loop.md` §재시도·§정지 조건을 따른다.
 verify 판정 뒤 기록은 main이 `skills/verify/SKILL.md` §verify 후처리대로 한다.
 Per-Request는 워커가 이 대화를 받지 않으므로 범위를 문장으로 풀어 적는다.
 

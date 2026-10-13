@@ -23,7 +23,7 @@ Claude Code의 개인 설정 저장소.
   agent에 맡기는 이유는 읽은 입력과 추론이 main 컨텍스트에 쌓이지 않게 하는 것이며, main은 돌려받은 결과만 검토한다.
   skill 실행의 위임 기준은 각 skill이, command의 실행 주체는 각 command 파일의 §실행 주체(그 섹션이 없으면 §역할)가 소유한다.
   `/design-init`·`/implement-init`은 analyzer에 맡기고, `/project-init`·`/spec-init`은 main이 직접 쓴다.
-- **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop` 하나뿐이다.
+- **verify reject는 기본적으로 사용자 판단에 맡긴다**: 재시도를 자동으로 돌리는 자리는 사용자가 직접 부르는 `/implement-loop`와, 명시 요청으로만 발동해 그 §재시도를 따르는 `implement-orca`뿐이다.
   정책은 `skills/verify/SKILL.md` §verify 후처리가, 루프의 재시도 한도는 `commands/implement-loop.md` §재시도가, 정지 조건은 같은 파일 §정지 조건이 소유한다.
   verify skill은 reject를 분류해 다음 단계 결정을 돕는다(분류 정의는 `skills/verify/SKILL.md` §reject 분류).
 - **SPEC이 완료 조건의 소유자, DESIGN은 설계 전용**: `spec.md` §5는 요구사항 수준의 완료 조건을, `design.md`는 설계 판단을,
@@ -63,7 +63,7 @@ CLAUDE.md          # 전역 행동 룰 + 소유권 지정 (응답·언어·작�
 - `implementer` — Phased mode에서 `implement` skill 호출. 코드 변경을 맡는다.
   `implement.md` 체크박스는 직접 건드리지 않으며, verify가 `approved`로 판단한 뒤에만 main이 바꾼다.
   (Per-Request mode는 main이 `implement` skill을 직접 부르므로 이 agent를 거치지 않는다.)
-  위임 기준은 `skills/implement/SKILL.md` §implementer 위임 기준이 소유한다.
+  위임 조건은 CLAUDE.md §agent·skill 라우팅이, 위임 프롬프트 항목은 `skills/implement/SKILL.md` §implementer 위임 기준이 소유한다.
 - `verifier` — 위임된 `verify` 판단만 돌려주며, 어떤 문서·체크박스·코드도 고치지 않는다 (뒤이은 전환은 §verify 후처리 소관).
   위임 기준은 `skills/verify/SKILL.md` §verifier 위임 기준이 소유한다.
 
@@ -144,17 +144,6 @@ frontmatter `paths`에 매치되는 파일을 읽거나 쓸 때만 컨텍스트�
   진행 상태(체크박스·상태판)의 main 소유, 재작성 시 승인 취소를 둔다.
   Phased 밖의 대화에는 로드되지 않는다.
 
-### hooks/ — context 저장·복원 연결
-
-autocompact 요약 대신 `/context-save`·`/context-restore`로 세션을 잇기 위한 hook 스크립트다.
-autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
-등록은 `settings.json` 소관이며 방법은 §운영에 둔다.
-
-- `context-save-guard.py` — `Stop`·`PostToolUse` hook. 마지막 main 응답의 context가 550K 토큰 이상이면 세션당 한 번 `/context-save`와 `/clear` 후 `/context-restore` 안내를 지시한다.
-  `PostToolUse`는 `/implement-loop`처럼 한 턴 안에서 길게 도는 작업을 잡는다.
-- `context-session-start.py` — `SessionStart` hook (matcher `startup|clear|compact`).
-  `compact`면 진행 중인 단위만 마치고 `/context-save`를 실행하라고 알리고(`/implement-loop`의 처리는 그 파일 §정지 조건), `startup`·`clear`면 작업 디렉토리에 `CONTEXT.md`가 있을 때 `/context-restore`를 먼저 하라고 알린다.
-
 ## 운영
 
 - `.gitignore`는 추적 파일에 대해 허용 목록 방식을 쓴다.
@@ -166,35 +155,3 @@ autocompact는 끄지 않고 저장이 늦었을 때의 안전망으로 둔다.
 - 응답 길이·설명 깊이·preamble 생략은 내장 output style `Concise`가 담당하며, `CLAUDE.md`는 이를 다시 적지 않는다.
   `CLAUDE.md` §응답은 근거/추정 구분·주장 범위·참조 표기·before/after 표기처럼 output style이 다루지 않는 보고 규칙을 소유한다.
   `outputStyle`은 설정 파일에 있어 추적되지 않으므로 기계마다 한 번 지정한다.
-- `hooks/` 스크립트도 기계마다 `~/.claude/settings.json`에 등록한다.
-  경로는 그 기계의 절대경로로 쓴다 (hook 명령의 `~` 확장은 공식 문서에 없다).
-  `autoCompactWindow: 700000`은 `context-save-guard.py`의 550K 임계값과 autocompact 사이에, 안내 뒤 마저 끝낼 `/implement-loop` Task 하나의 main 증가분 p90(약 88K, 이 환경 transcript 실측)보다 큰 여유를 둔다.
-  기존 `SessionStart`·`Stop`·`PostToolUse` 배열이 있으면 항목을 더한다.
-
-  ```json
-  "autoCompactWindow": 700000,
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup|clear|compact",
-        "hooks": [
-          { "type": "command", "command": "python3 -I <절대경로>/.claude/hooks/context-session-start.py", "timeout": 10 }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          { "type": "command", "command": "python3 -I <절대경로>/.claude/hooks/context-save-guard.py", "timeout": 10 }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "hooks": [
-          { "type": "command", "command": "python3 -I <절대경로>/.claude/hooks/context-save-guard.py", "timeout": 10 }
-        ]
-      }
-    ]
-  }
-  ```
