@@ -1,6 +1,6 @@
 ---
 description: >-
-  Audit the global configuration — role boundaries, duplication, defensive rules, ambiguity, flow integrity, conformance to current official
+  Audit the global configuration — role boundaries, duplication, unnecessary rules, ambiguity, flow integrity, conformance to current official
   Claude Code documentation, and README accuracy
 argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true

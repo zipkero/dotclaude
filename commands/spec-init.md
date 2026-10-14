@@ -11,14 +11,13 @@ Feature name: $ARGUMENTS
 ## 쓰는 방법
 - main이 직접 쓴다.
 - `features/`는 프로젝트 루트(`commands/project-init.md` §대상 프로젝트 루트) 바로 아래이고, 폴더 이름은 `<yyyyMMdd>-<nnn>-<feature-name>`이다(`<nnn>`은 같은 날짜의 다음 번호, 첫 번째는 `001`).
-- ROADMAP 작업 후보에 같은 것이 있으면 그 이름을 쓰고, 오늘 같은 이름 폴더가 있으면 그 폴더를 쓴다.
+- ROADMAP 작업 후보에 같은 것이 있으면 그 이름을 쓰고, 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
 - spec.md가 이미 있으면 덮어쓰기 전에 묻고, design.md·implement.md가 있으면 영향받는 Task의 승인이 취소된다는 것도 알린다(`rules/feature-docs.md` §재작성 시 승인 취소).
 
 ## 요구사항 정리
 - 프로젝트 루트 문서와 사용자가 알려 준 문서에서 이 feature에 걸리는 동작·제약을 spec.md만 읽어도 알 수 있게 옮겨 적는다.
 - 요구사항은 문서에 확정으로 적혔거나 사용자가 확정한 것뿐이며, 예로 든 구현 방식이나 제안은 확정 전까지 넣지 않는다.
 - 조사하다 새로 발견한 문제·위험은 본문 대신 승인 전 확인에 질문으로 올린다.
-- 해석에 따라 범위나 완료 조건이 달라지면 쓰기 전에 묻는다.
 
 ## spec.md 구조
 ```markdown

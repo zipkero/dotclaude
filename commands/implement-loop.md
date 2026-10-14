@@ -14,7 +14,7 @@ Feature directory: $ARGUMENTS
 
 ## 루프
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
-   수동 확인이 이미 확인한 동작을 다른 OS·실기기에서 다시 보는 것뿐인 Task는 미뤄 두고 보고에 모으며, 그 밖의 수동 확인 Task에서는 멈춘다.
+   수동 확인이 이미 확인한 동작을 다른 OS·실기기에서 다시 보는 것뿐인 Task는 미뤄 두고 보고에 모은다.
 2. `implement`를 돌리고, `blocked`면 멈춘다.
 3. `verify`를 돌린다.
 4. `approved`면 후처리를 하고 1로, `rejected`면 후처리를 하고 §재시도로 간다.
@@ -22,11 +22,10 @@ Feature directory: $ARGUMENTS
 ## 재시도
 - `evidence`면 다시 구현하지 않고, main이 해소 조건의 입력·환경을 갖춰 3번부터 다시 한다(Task당 2번).
 - `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면 2번부터 다시 맡긴다(Task당 2번).
-- 그 밖의 reject, 횟수 소진, 해소 조건을 갖출 수 없으면 멈춘다.
 
 ## 정지
 아래에서 멈추고 §보고를 낸다.
-- `blocked`, `판정 불가`, 재시도하지 않는 reject, 재시도 횟수 소진
+- `blocked`, `판정 불가`, 재시도하지 않는 reject, 재시도 횟수 소진, 해소 조건을 갖출 수 없는 `evidence`
 - `매핑 누락`을 맡을 Task가 없는 approve
 - 미루지 않는 수동 확인 Task
 - 되돌리기 어렵거나 외부에 영향을 주는 일이 필요할 때(CLAUDE.md §사전 확인)

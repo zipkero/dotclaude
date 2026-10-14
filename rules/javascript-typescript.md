@@ -8,5 +8,4 @@ paths:
 
 - 패키지 매니저는 lockfile로 판단한다: `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`.
 - 빠진 `await`와 처리되지 않는 Promise를 확인한다.
-- browser, Node.js, bundler, server/client 경계의 차이를 구분한다.
 - 외부 입력은 타입만 믿지 말고 런타임 검증이 필요한지 확인한다.
