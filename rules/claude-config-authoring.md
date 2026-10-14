@@ -9,9 +9,11 @@ paths:
 
 # Claude Code 설정 파일 작성 기준
 
-- 본문은 한국어로, frontmatter `name`/`description`은 영어로 쓰고, Markdown은 한 줄에 한 문장이나 절을 담는다.
-- 일하는 방법은 skill, 맥락을 떼어 놓은 실행자는 agent, 과제별 산출물 형식은 command가 갖고, agent는 `skills:`로 짝 skill을 불러오며 본문에 절차를 다시 적지 않는다.
-- 산출물을 만드는 agent는 그 산출물을 직접 쓰고, 판단만 하는 agent는 어떤 파일도 쓰지 않는다.
-- 파일을 쓰지 않는 agent는 `disallowedTools`로, 그 역할로 턴이 끝나는 command·skill은 `disallowed-tools`로 쓰기 도구를 뺀다.
-- 쓰기 도구를 뺀 역할에도 Bash로 파일을 고치지 않는다는 경계는 본문에 적는다.
-- 룰이 오작동하면 단서·경고·재진술을 덧붙이지 않고, 그 룰의 발동 조건·표현·형식을 고쳐 쓴다.
+- 본문은 한국어, frontmatter `name`·`description`은 영어로 쓴다.
+- Markdown은 한 줄에 한 문장을 쓴다.
+- 일하는 방법은 skill, 따로 떼어 맡기는 실행자는 agent, 산출물 형식은 command에 둔다.
+- agent는 `skills:`로 짝 skill을 불러오고, 그 절차를 본문에 다시 적지 않는다.
+- 산출물을 만드는 agent는 직접 파일을 쓰고, 판단만 하는 agent는 파일을 쓰지 않는다.
+- 파일을 쓰지 않는 agent는 `disallowedTools`로, 그 일로 턴이 끝나는 command·skill은 `disallowed-tools`로 쓰기 도구를 막는다.
+- 쓰기 도구를 막아도 Bash로는 고칠 수 있으므로, Bash로 파일을 고치지 않는다는 문장을 본문에 둔다.
+- 규칙이 잘못 작동하면 경고나 단서를 덧붙이지 말고 그 규칙 자체를 고친다.

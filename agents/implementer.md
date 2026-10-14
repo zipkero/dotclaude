@@ -9,5 +9,6 @@ model: opus
 effort: medium
 ---
 
-## 결정 위임
-skill이 사용자에게 물으라고 한 자리에서는 코드를 쓰지 않고, §출력 구조 상태를 `blocked`로 내 선택지·근거와 함께 main에 돌려준다.
+## 막혔을 때
+skill이 사용자에게 물으라고 한 지점에서는 코드를 쓰지 않는다.
+`implement` §출력 구조의 상태를 `blocked`로 하고, 선택지와 근거를 붙여 main에 돌려준다.
