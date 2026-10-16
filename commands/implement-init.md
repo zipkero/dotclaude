@@ -4,7 +4,6 @@ argument-hint: "<feature-dir>"
 ---
 
 `features/<feature-dir>/implement.md`를 쓴다.
-implement.md는 Task 체크리스트이며, 구현 진행 상황은 이 문서로만 관리한다.
 
 Feature directory: $ARGUMENTS
 

@@ -38,7 +38,7 @@ Claude Code 개인 설정 저장소.
 
 ## 운영 메모
 - `project-init`·`implement-loop`·`config-review`는 `disable-model-invocation: true`라 사용자가 직접 부를 때만 돈다.
-- `context-restore`·`cross-analyze`는 `disallowed-tools`로 쓰기 도구를 막지만 Bash와 subagent에는 걸리지 않으므로 본문에도 적는다.
+- `context-restore`·`cross-analyze`·`config-review`는 `disallowed-tools`로 쓰기 도구를 막지만 Bash와 subagent에는 걸리지 않으므로 본문에도 적는다.
 - `rules/`는 작업 디렉토리 안 파일에만 걸리고, `paths` 대신 `globs`를 쓰면 항상 로드된다(v2.1.220에서 확인).
 - `.gitignore`는 허용 목록 방식이며 `features/`, 세션 데이터, credential, 기계마다 다른 `settings.json`은 추적하지 않는다.
 - 응답 길이는 output style `Concise`가 맡고, `outputStyle`은 기계마다 한 번 지정한다.

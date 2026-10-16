@@ -4,9 +4,10 @@ description: >-
   Claude Code documentation, and README accuracy
 argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true
+disallowed-tools: Write, Edit, NotebookEdit
 ---
 
-전역 설정(`~/.claude`)의 `git ls-files` 추적 파일(사용자가 대상을 지정하면 그 대상과 관련 파일)을 main이 직접 읽고 아래 관점으로 점검한다.
+전역 설정(`~/.claude`)의 `git ls-files` 추적 파일(사용자가 대상을 지정하면 그 대상과 관련 파일)을 main이 직접 읽고(Bash로도 고치지 않는다) 아래 관점으로 점검한다.
 기준은 그 파일을 읽는 모델(agent `model`, 없으면 main)이 안정적으로 따를 수 있는가다.
 기존 규칙도 점검 대상이며, 남길 이유가 보이지 않으면 지우는 쪽으로 제안한다.
 

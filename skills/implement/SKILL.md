@@ -12,13 +12,13 @@ description: >-
 
 Phased mode에서는:
 1. implement.md, design.md, spec.md를 읽고, implement.md가 없으면 멈추고 `/implement-init`을 안내한다.
-2. 위에서부터 첫 `[ ]` Task를 잡아 목적·접근·검증 조건·최근 reject를 기준으로 삼는다.
+2. 위임 프롬프트나 사용자가 짚은 Task, 없으면 위에서부터 첫 `[ ]` Task를 잡아 목적·접근·검증 조건·최근 reject를 기준으로 삼는다.
 3. Task가 밖에서 볼 수 있는 동작 하나를 완성하지 못하는 조각이면 구현하지 않고 Task를 다시 나눠야 한다고 `blocked`로 알린다.
-4. 이미 목적과 검증 조건이 만족되면 코드를 고치지 않고 그렇다고 적는다(재작성으로 승인이 취소된 Task가 흔히 그렇다).
+4. 이미 목적과 검증 조건이 만족되면 코드를 고치지 않고 그렇다고 적는다.
 
 ## 범위 원칙
 - 새 public API나 다른 패키지·프로세스·사용자가 쓰는 경계가 필요하면 코드를 쓰기 전에 묻는다.
-- 추상화와 확장 포인트는 design.md §5(Per-Request는 요청이나 `docs/design.md`)가 정한 것만 만든다.
+- 추상화와 확장 포인트는 design.md(Per-Request는 요청이나 `docs/design.md`)가 정한 것만 만든다.
 - 범위 밖에서 발견한 문제는 고치지 않고 비고에 적되, 그 때문에 이미 `[x]`인 Task가 깨졌거나 지금 Task를 끝낼 수 없으면 `blocked`로 알린다.
 - design.md §5의 정해지지 않은 Decision Point가 지금 Task에 걸려도 `blocked`로 알린다.
 
@@ -26,7 +26,7 @@ Phased mode에서는:
 verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]` Task의 동작, 기존 테스트·빌드가 깨지지 않았는지 확인하고, 설계를 바꿔야 고칠 수 있으면 `blocked`로 알린다.
 
 ## implementer 위임 기준
-위임 프롬프트에는 `<feature-dir>`와 Phased mode라는 것을, 재작업이면 직전 verify의 문제 항목을 적는다.
+위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, Phased mode라는 것을, 재작업이면 직전 verify의 문제 항목을 적는다.
 
 ## 코드와 테스트
 - 같은 디렉토리의 이름·구조·에러 처리 방식과, 이미 있는 함수·라이브러리·의존성을 쓴다.

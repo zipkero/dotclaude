@@ -20,8 +20,8 @@ Feature directory: $ARGUMENTS
 4. `approved`면 후처리를 하고 1로, `rejected`면 후처리를 하고 §재시도로 간다.
 
 ## 재시도
-- `evidence`면 다시 구현하지 않고, main이 해소 조건의 입력·환경을 갖춰 3번부터 다시 한다(Task당 2번).
-- `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면 2번부터 다시 맡긴다(Task당 2번).
+- `evidence`면 다시 구현하지 않고, main이 해소 조건의 입력·환경을 갖춰 §루프 3단계부터 다시 한다(Task당 최대 2회).
+- `수정 소유 단계`가 `implement`이고 분류가 `design/scope`가 아니면 §루프 2단계부터 다시 맡긴다(Task당 최대 2회, 위 횟수와 따로 센다).
 
 ## 정지
 아래에서 멈추고 §보고를 낸다.

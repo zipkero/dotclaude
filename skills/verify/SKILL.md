@@ -1,8 +1,8 @@
 ---
 name: verify
 description: >-
-  Judge whether the most recent implement Task satisfies its implement.md verification criteria, and whether any spec.md §5 criteria
-  completed by this Task actually hold. Returns approved/rejected with evidence.
+  Judge whether the most recent implement Task (or a Per-Request change) satisfies its verification criteria, and whether any spec.md §5
+  criteria completed by this Task actually hold. Returns approved/rejected with evidence.
 ---
 
 ## 역할
@@ -13,7 +13,7 @@ description: >-
 ## 대상과 범위
 - Phased mode 판정은 `implement` skill §컨텍스트 로딩과 같고, 대상은 직전 `implement`가 작업한 `[ ]` Task다(사용자가 `[x]` Task를 짚으면 재검증).
 - Per-Request는 요청 범위와 코드 변경만 보고, feature 문서는 읽지 않는다.
-- 검증할 변경은 commit하지 않은 working tree이며, 이미 commit됐거나 reject 뒤 재검증이면 main이 비교 범위나 고친 파일 목록을 넘긴다.
+- 검증할 변경은 main이 넘긴 비교 범위나 고친 파일 목록이고, 넘긴 게 없으면 commit하지 않은 working tree다.
 - 대상이나 범위가 하나로 정해지지 않으면 판정하지 않고 `판정 불가`를 낸다.
 
 ## 근거
