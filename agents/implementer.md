@@ -5,8 +5,8 @@ description: >-
   main directly. Returns summary; main flips checkboxes only after verify approves.
 skills:
   - implement
-model: opus
-effort: medium
+model: sonnet
+effort: high
 ---
 
 ## 막혔을 때
