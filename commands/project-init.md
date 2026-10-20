@@ -11,8 +11,7 @@ disable-model-invocation: true
 프로젝트 이름 또는 한 줄 설명: $ARGUMENTS
 
 ## 대상 프로젝트 루트
-- 사용자가 알려 준 경로, 아니면 작업 디렉토리에서 프로젝트 `CLAUDE.md`·VCS 루트·manifest로 찾는다(전역 `~/.claude/CLAUDE.md`는 단서가 아니다).
-- 후보가 여럿이라 결과가 달라지거나 단서가 없으면 묻는다.
+- 사용자가 알려 준 경로, 아니면 작업 디렉토리에서 프로젝트 `CLAUDE.md`·VCS 루트·manifest로 찾고, 셋 다 없으면 어느 디렉토리를 프로젝트 루트로 쓸지 사용자에게 묻는다(전역 `~/.claude/CLAUDE.md`는 단서가 아니다).
 
 ## 산출 경로
 - 루트의 `README.md`, `ROADMAP.md`, `docs/product.md`, `docs/design.md` 넷만 만들고, 하나라도 이미 있으면 아무것도 쓰지 않고 알린다.
