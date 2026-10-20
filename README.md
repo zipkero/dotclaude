@@ -37,6 +37,8 @@ Claude Code 개인 설정 저장소.
 | `rules/` | `paths`에 맞는 파일을 만질 때만 로드되는 언어별·문서별 기준 |
 
 ## 운영 메모
+- `claude-p` 브랜치는 bot이 `claude -p`로 role 세션을 띄울 때 쓰는 설정이며, 대화형 command·skill과 Per-Request 분기를 뺀 것이다.
+  main에서 두 브랜치에 모두 있는 파일을 고치면 `claude-p`에도 반영할지 함께 본다.
 - `project-init`·`implement-loop`·`config-review`는 `disable-model-invocation: true`라 사용자가 직접 부를 때만 돈다.
 - `context-restore`·`cross-analyze`·`config-review`는 `disallowed-tools`로 쓰기 도구를 막지만 Bash와 subagent에는 걸리지 않으므로 본문에도 적는다.
 - `rules/`는 작업 디렉토리 안 파일에만 걸리고, `paths` 대신 `globs`를 쓰면 항상 로드된다(v2.1.220에서 확인).
