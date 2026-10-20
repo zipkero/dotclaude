@@ -11,7 +11,7 @@ Feature name: $ARGUMENTS
 ## 쓰는 방법
 - main이 직접 쓴다.
 - `features/`는 프로젝트 루트(`commands/project-init.md` §대상 프로젝트 루트) 바로 아래이고, 폴더 이름은 `<yyyyMMdd>-<nnn>-<feature-name>`이다(`<nnn>`은 같은 날짜의 다음 번호, 첫 번째는 `001`).
-- ROADMAP 작업 후보에 같은 것이 있으면 그 이름을 쓰고, 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
+- ROADMAP 마일스톤 작업은 마일스톤 하나를 feature 하나로 하고, 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
 - spec.md가 이미 있으면 덮어쓰기 전에 묻고, design.md·implement.md가 있으면 영향받는 Task의 승인이 취소된다는 것도 알린다(`rules/feature-docs.md` §재작성 시 승인 취소).
 
 ## 요구사항 정리
@@ -28,7 +28,7 @@ Feature name: $ARGUMENTS
 - <사용자 판단이 필요한 질문>. 관련 본문: §N
 
 ## 1. 범위
-<담당 마일스톤(`ROADMAP M<n>`), 다루는 영역과 경계>
+<담당 마일스톤(`ROADMAP M<n>`, 있으면), 다루는 영역과 경계>
 
 - 입력 맥락: <조사를 시작할 파일·기존 동작, 참고한 문서, 미리 정한 방향과 버린 접근>
 
