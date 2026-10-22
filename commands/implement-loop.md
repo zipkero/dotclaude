@@ -8,7 +8,6 @@ Feature directory: $ARGUMENTS
 
 ## 역할
 - main이 `implement`(implementer agent) → `verify` → `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복한다.
-- 구현·판정·기록 규칙은 `skills/implement/SKILL.md`와 `skills/verify/SKILL.md`를 따르고, 이 command는 반복·재시도·정지만 정한다.
 - 루프가 고치는 문서는 implement.md와 feature README뿐이다.
 
 ## 루프

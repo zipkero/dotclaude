@@ -19,7 +19,7 @@ spec.md·design.md의 `## 승인 전 확인`은 사용자 판단이 필요한 �
 - `(보류)`가 아닌 항목이 남아 있으면 다음 단계로 넘어가지 않는다.
 
 ## 재작성 시 승인 취소
-`/spec-init`·`/design-init`·`/implement-init`으로 기존 문서를 다시 쓰기 전에 사용자에게 묻고, design.md·implement.md가 있으면 되돌릴 수 있는 Task도 알린다.
+`/spec-init`·`/design-init`·`/implement-init`으로 기존 문서를 다시 쓸 때, 뒤 단계인 design.md·implement.md가 있으면 되돌릴 수 있는 Task를 알리고 먼저 묻는다.
 다시 쓰면 main이 아래를 한다.
 - 뜻이 바뀐 `SPEC §5.N`·`DESIGN §N`을 참조하거나 목적·검증 조건이 바뀐 Task와, 그 Task에 기대는 뒤쪽 Task를 `[ ]`로 되돌리고 `승인 근거`를 지운다.
 - 영향 범위를 알 수 없으면 모두 되돌린다.
