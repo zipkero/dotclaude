@@ -9,11 +9,11 @@ Feature directory: $ARGUMENTS
 
 ## 쓰는 방법
 - main은 analyzer agent에 맡기고, implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
-- analyzer는 design.md와 spec.md §5를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려준다.
+- analyzer는 design.md와 spec.md를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려주며, main이 사용자에게 묻는다.
   - design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있다.
-  - design.md §5에 채택이 없거나 TBD·미정·보류인 Decision Point가 있다(사용자가 원하면 그대로 진행한다).
+  - design.md §5에 채택이 없거나 TBD인 Decision Point가 있다.
   - 해석에 따라 Task 범위나 검증 조건이 달라진다.
-  - §5 조건 중 매핑되지 않은 것이 있다.
+  - `SPEC §5.N` 중 매핑되지 않은 것이 있다.
 - 재작성이면 기존 Task의 체크박스와 `최근 reject`·`승인 근거`를 옮기고, 되돌릴 Task는 main이 `rules/feature-docs.md` §재작성 시 승인 취소대로 정한다.
 
 ## implement.md 구조
@@ -25,7 +25,7 @@ Feature directory: $ARGUMENTS
   - 접근: <구현 방식 1-2줄>
   - 검증 조건:
     - 결과: <마친 뒤 성립해야 하는 동작·출력·상태 | 목적과 동일>
-    - 확인: <테스트 | 빌드 | lint | diff | 수동 확인>
+    - 확인: <테스트 | 실행 | 빌드 | lint | diff | 수동 확인>
   - 참조: SPEC §5.<N> / DESIGN §<N>
 ```
 - `최근 reject`·`승인 근거`는 verify 후처리가 참조 아래에 더한다.

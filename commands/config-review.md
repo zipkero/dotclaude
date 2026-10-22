@@ -19,6 +19,7 @@ disallowed-tools: Write, Edit, NotebookEdit
 5. 흐름 — 각 단계 산출물만으로 다음 단계를 이어갈 수 있고, `§` 참조가 실제 섹션을 가리키며, 쓰는 쪽과 읽는 쪽의 항목·값이 맞는가.
 6. 공식 문서 — `code.claude.com/docs`와 `github.com/anthropics/claude-code` CHANGELOG를 WebFetch로 가져와, 낡은 모델 값·도구·설정 키·frontmatter 필드가 있는지 본다(못 가져왔으면 그렇다고 적는다).
 7. `README.md` — 실제 동작·파일 구성과 맞는가.
+8. 성능 — 위임한 일을 다시 하게 하거나, 정한 결정을 다시 묻게 하거나, 작은 일에 subagent를 띄우게 하거나, 원칙 대신 닫힌 나열로 판단 범위를 좁히는 등 모델을 불필요하게 멈추거나 일을 늘리는 규칙이 있는가.
 
 제안은 기존 규칙을 고치거나 지우는 쪽으로 내고, 새 규칙은 이 환경에서 실제로 문제가 생겼을 때만 더한다.
 

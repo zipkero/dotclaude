@@ -1,17 +1,18 @@
 ---
 description: Create spec.md (requirements + completion criteria) under features/<feature-dir>/ and initialize the feature README
-argument-hint: "<feature-name>"
+argument-hint: "<feature-name | feature-dir>"
 ---
 
 `features/<feature-dir>/spec.md`를 쓰고 `README.md`를 만든다.
-spec.md는 범위·목표·제약·제외·완료 조건만 다루고, 설계·인터페이스·파일 목록·구현 순서는 넣지 않는다.
+spec.md는 범위·목표·제약·제외·완료 조건만 다루고, 어떻게 만들지(설계·인터페이스·파일·구현 순서 등)는 넣지 않는다.
 
 Feature name: $ARGUMENTS
 
 ## 쓰는 방법
 - main이 직접 쓴다.
 - `features/`는 프로젝트 루트(`commands/project-init.md` §대상 프로젝트 루트) 바로 아래이고, 폴더 이름은 `<yyyyMMdd>-<nnn>-<feature-name>`이다(`<nnn>`은 같은 날짜의 다음 번호, 첫 번째는 `001`).
-- ROADMAP 마일스톤 작업은 마일스톤 하나를 feature 하나로 하고, 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
+- ROADMAP 마일스톤 작업은 마일스톤 하나를 feature 하나로 한다.
+- 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
 - spec.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 
 ## 요구사항 정리

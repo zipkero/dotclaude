@@ -8,12 +8,12 @@ Claude Code 개인 설정 저장소.
   세션이 바뀌어도 이어서 할 수 있고, 나중에 다른 사람이 확인할 수 있게 하려는 것이다.
 - `features/<feature-dir>/`의 `spec.md`(완료 조건) → `design.md`(설계) → `implement.md`(Task와 검증 조건)가 단계 사이를 잇고, 다음 단계는 대화가 아니라 이 문서들을 읽는다.
 - verify가 승인한 Task만 `[x]`가 되고, reject는 `/implement-loop`·`implement-orca`가 아니면 사용자가 판단한다.
-- skill은 방법, agent는 컨텍스트를 아끼려고 따로 떼어 맡기는 실행자, command는 산출물 형식이다(`rules/claude-config-authoring.md`).
+- skill은 방법, agent는 컨텍스트를 아끼려고 따로 떼어 맡기는 실행자, command는 산출물 형식과 사용자가 직접 부르는 절차다(`rules/claude-config-authoring.md`).
 
 ## 흐름
 - **Phased**: `/spec-init → /design-init → /implement-init → implement → verify`
   문서 단계는 slash command, `implement`·`verify`는 자연어로 부르고, 남은 Task는 `/implement-loop`로 이어서 돌릴 수 있다.
-  새 프로젝트는 먼저 `/project-init`으로 루트 문서와 작업 후보를 만든다.
+  새 프로젝트는 먼저 `/project-init`으로 루트 문서와 마일스톤을 만든다.
 - **Per-Request**: `prompt → implement`, `verify`는 필요할 때만 부르고 결과는 대화에만 남는다.
 - 어느 쪽을 쓸지는 `CLAUDE.md` §phase 제어가 정하고, `analyze`·`explain`은 어디서든 부른다.
 

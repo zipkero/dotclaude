@@ -17,7 +17,7 @@ Phased mode에서는:
 4. 이미 목적과 검증 조건이 만족되면 코드를 고치지 않고 그렇다고 적는다.
 
 ## 범위 원칙
-- 새 public API나 다른 패키지·프로세스·사용자가 쓰는 경계가 필요하면 코드를 쓰기 전에 묻는다.
+- API·저장 형식·설정 키처럼 바꾸면 기존 사용처가 깨지는 외부 계약을 요청이나 design.md(Per-Request는 `docs/design.md`)가 정하지 않았는데 새로 만들거나 바꿔야 하면 코드를 쓰기 전에 묻는다.
 - 추상화와 확장 포인트는 design.md(Per-Request는 요청이나 `docs/design.md`)가 정한 것만 만든다.
 - 범위 밖에서 발견한 문제는 고치지 않고 비고에 적되, 그 때문에 이미 `[x]`인 Task가 깨졌거나 지금 Task를 끝낼 수 없으면 `blocked`로 알린다.
 - design.md §5의 정해지지 않은 Decision Point가 지금 Task에 걸려도 `blocked`로 알린다.
