@@ -1,8 +1,7 @@
 ---
 description: >-
-  Launch N (3-5, default 3) independent agents that each analyze the SAME question with an identical prompt, then main cross-verifies their reports and returns a
-  consensus/disagreement summary. Read-only — no files are written. Use when the user wants a rigorous, high-confidence analysis of a code/behavior
-  question and explicitly wants multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
+  Run N (3-5, default 3) independent agents on the same question and cross-verify their reports into a read-only consensus summary.
+  Use only when the user explicitly asks for multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
 argument-hint: "[N(3~5)] <질문>"
 disallowed-tools: Write, Edit, NotebookEdit
 ---
@@ -11,7 +10,7 @@ Scope: $ARGUMENTS
 
 ## 역할
 - 한 질문을 N개 agent가 같은 프롬프트로 따로 분석하고, main이 교차검증해 하나의 결론으로 합친다.
-- agent도 main도 파일을 고치지 않고(Bash 포함), 결과는 대화로만 낸다.
+- agent도 main도 파일을 고치지 않는다(Bash 포함).
 
 ## 절차
 1. 맨 앞이 정수면 N(3~5, 범위 밖이면 가까운 값으로 맞추고 알린다), 없으면 N=3이고, 대상이 비어 있으면 대화의 최근 미해결 질문을 잡아 알린다.

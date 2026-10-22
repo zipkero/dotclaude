@@ -11,7 +11,7 @@ description: >-
 그 밖에는 Per-Request mode이며, `features/`를 만들지 않고 요청한 변경을 한다.
 
 Phased mode에서는:
-1. implement.md, design.md, spec.md를 읽고, implement.md가 없으면 멈추고 `/implement-init`을 안내한다.
+1. implement.md, design.md, spec.md를 읽는다.
 2. 위임 프롬프트나 사용자가 짚은 Task, 없으면 위에서부터 첫 `[ ]` Task를 잡아 목적·접근·검증 조건·최근 reject를 기준으로 삼는다.
 3. Task가 밖에서 볼 수 있는 동작 하나를 완성하지 못하는 조각이면 구현하지 않고 Task를 다시 나눠야 한다고 `blocked`로 알린다.
 4. 이미 목적과 검증 조건이 만족되면 코드를 고치지 않고 그렇다고 적는다.
@@ -36,7 +36,7 @@ verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]`
 - 테스트가 실패하면 목적 기준으로 틀린 쪽을 고치고, 실패 입력만 피하는 분기나 완료 조건을 약하게 만드는 수정은 하지 않는다.
 
 ## 출력 구조
-해당 없는 항목은 뺀다.
+없는 항목은 뺀다.
 1. 상태(Phased만) — `completed` 또는 `blocked`. `blocked`면 막힌 이유와 필요한 결정을 적는다.
 2. 대상 — `task-<nnn>` 제목이나 사용자 요청 인용.
 3. 변경 내용 — 무엇을 바꿨는지 글로, 고친 파일 경로와 새로 만든 이름.

@@ -1,14 +1,13 @@
 ---
 name: explain
 description: >-
-  Explain what code, changes, tasks, and systems are and how they work through evidence-backed walkthroughs, diagrams, and key source excerpts. Use
-  when the user asks for a walkthrough of how code, a change, or a system works end to end; not for a one-line term or follow-up clarification,
-  unresolved cause investigation, a new design recommendation, implementation, or formal approval.
+  Walk through how code, a change, a Task, or a system works end to end with diagrams and source excerpts.
+  Not for one-line term questions, cause investigation, or design recommendations.
 ---
 
 ## 역할
 - 코드, 변경, Task, 시스템이 무엇이고 어떻게 동작하는지, 처음 보는 사람도 코드를 다 읽지 않고 알 수 있게 설명한다.
-- main이 직접 하고 결과는 대화로만 내며, 사용자가 문서로 남겨 달라고 할 때만 CLAUDE.md §문서화대로 쓴다.
+- main이 직접 하고, 사용자가 문서로 남겨 달라고 할 때만 CLAUDE.md §문서화대로 쓴다.
 
 ## 읽을 것
 - 대상과 함께, 대상을 부르는 쪽과 결과를 받는 쪽, 관련 테스트까지 읽는다.

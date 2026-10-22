@@ -8,8 +8,7 @@ argument-hint: "<feature-dir>"
 Feature directory: $ARGUMENTS
 
 ## 쓰는 방법
-- main은 implement.md가 이미 있으면 덮어쓰기 전에 승인 취소와 함께 묻고, analyzer agent에 맡긴다.
-- design.md가 없으면 멈추고 `/design-init`을 안내한다.
+- main은 analyzer agent에 맡기고, implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 - analyzer는 design.md와 spec.md §5를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려준다.
   - design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있다.
   - design.md §5에 채택이 없거나 TBD·미정·보류인 Decision Point가 있다(사용자가 원하면 그대로 진행한다).
@@ -39,7 +38,8 @@ Feature directory: $ARGUMENTS
 - `확인`은 목적의 동작을 직접 돌려 보는 방법으로 고르고, 빌드·lint·diff만으로 끝내는 건 동작이 바뀌지 않는 Task뿐이다.
 - spec.md §3에 사용자가 지정한 검증 방법은 관련 Task의 `확인`에 넣는다.
 - 수동 확인은 사람이 봐야 하거나 모델이 닿을 수 없는 환경에만 쓰고, 다른 OS·실기기 재확인은 별도 Task로 둔다.
-- 회귀 테스트는 기존 동작을 바꾸거나 기존 동작이 기대는 코드를 고치는 Task의 `확인`에만 넣고, 여러 구현에 걸치는 e2e 같은 테스트만 따로 Task로 만든다.
+- 회귀 테스트는 기존 동작을 바꾸거나 기존 동작이 기대는 코드를 고치는 Task의 `확인`에만 넣는다.
+- 여러 구현에 걸치는 e2e 같은 테스트만 따로 Task로 만든다.
 - 문서 안의 순서가 의존 순서이며, "이걸 하려면 무엇이 먼저 있어야 하나"로 정렬한다.
 - ID는 `task-001`부터 문서 전체에서 이어지고, 재작성 때도 뜻이 같은 Task는 ID를 유지하며 빠진 번호를 다시 쓰거나 번호를 다시 매기지 않는다.
 - 하위 영역이 여럿이면 `## Section: <name>`으로 묶는다.

@@ -9,6 +9,3 @@ skills:
 model: opus
 effort: high
 ---
-
-## 하는 일
-Bash로도 git 추적 파일을 고치거나 소스·테스트·문서를 새로 만들지 않는다.

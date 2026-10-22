@@ -1,9 +1,7 @@
 ---
 description: >-
-  Save the current architecture, design, or delivery context to a project-root CONTEXT.md with the goal, current state,
-  confirmed decisions, unresolved questions, one next action, completion criteria, and links to the files to read next.
-  Use when preparing a session handoff, pausing exploratory design work, or recording an unexpected design change in
-  either Phased or Per-Request work.
+  Save the current work context (goal, state, decisions, open questions, next action) to a project-root CONTEXT.md.
+  Use for a session handoff, pausing design exploration, or recording an unexpected design change.
 ---
 
 ## 역할

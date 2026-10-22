@@ -1,9 +1,8 @@
 ---
 name: analyzer
 description: >-
-  Owns delegated analysis and design work — independent analysis per the analyze skill when the user asks for it, and planning documents
-  for /design-init (design.md from spec.md) and /implement-init (implement.md from design.md + spec.md §5). Isolates input reading and design
-  reasoning to keep main's conversation lean, and returns only a summary for main to review.
+  Runs an independent analysis (analyze skill) when the user asks for one, and writes design.md for /design-init and implement.md
+  for /implement-init. Returns a summary for main to review.
 disallowedTools: Edit, NotebookEdit
 skills:
   - analyze

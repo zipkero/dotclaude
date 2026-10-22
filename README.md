@@ -6,7 +6,7 @@ Claude Code 개인 설정 저장소.
 ## 의도
 - 작업을 검증할 수 있는 단위로 쪼개고, 단위마다 근거를 보고 완료를 판정해 문서에 남긴다.
   세션이 바뀌어도 이어서 할 수 있고, 나중에 다른 사람이 확인할 수 있게 하려는 것이다.
-- `features/<feature-dir>/`의 `spec.md`(완료 조건) → `design.md`(설계) → `implement.md`(Task와 검증 조건)는 단계 사이를 잇는 기준 문서이며, 다음 단계는 대화가 아니라 이 문서를 읽는다.
+- `features/<feature-dir>/`의 `spec.md`(완료 조건) → `design.md`(설계) → `implement.md`(Task와 검증 조건)가 단계 사이를 잇고, 다음 단계는 대화가 아니라 이 문서들을 읽는다.
 - verify가 승인한 Task만 `[x]`가 되고, reject는 `/implement-loop`·`implement-orca`가 아니면 사용자가 판단한다.
 - skill은 방법, agent는 컨텍스트를 아끼려고 따로 떼어 맡기는 실행자, command는 산출물 형식이다(`rules/claude-config-authoring.md`).
 

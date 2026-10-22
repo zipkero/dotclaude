@@ -8,7 +8,7 @@ description: >-
 ## 역할
 - 방금 구현한 Task가 목적과 검증 조건을 채웠는지, 이 Task로 끝나는 `SPEC §5.N`이 실제로 성립하는지 판단한다.
 - Phased에서는 `implement` 다음에, Per-Request에서는 사용자가 부를 때만 돈다.
-- 판단하는 동안 코드·테스트·문서를 고치지 않는다.
+- 판단하는 동안 git 추적 파일을 고치거나 소스·테스트·문서를 새로 만들지 않는다(Bash 포함).
 
 ## 대상과 범위
 - Phased mode 판정은 `implement` skill §컨텍스트 로딩과 같고, 대상은 직전 `implement`가 작업한 `[ ]` Task다(사용자가 `[x]` Task를 짚으면 재검증).
@@ -60,7 +60,8 @@ description: >-
 ## verify 후처리
 main이 하는 일이다.
 - approved
-  - `매핑 누락`이 있으면 그 문장을 맡는 Task의 참조에 `SPEC §5.N`을 더하고, 맡을 Task가 없으면 체크박스를 바꾸지 않고 사용자에게 `commands/implement-init.md` §매핑의 세 선택지를 묻는다.
+  - `매핑 누락`이 있으면 그 문장을 맡는 Task의 참조에 `SPEC §5.N`을 더한다.
+  - 맡을 Task가 없으면 체크박스를 바꾸지 않고 사용자에게 `commands/implement-init.md` §매핑의 세 선택지를 묻는다.
   - 체크박스를 `[x]`로 바꾸고, 접근 이탈이 있었으면 접근 필드를 실제 구현대로 고친다.
   - `최근 reject`를 지우고 `- 승인 근거: <yyyy-MM-dd> <짧은 HEAD SHA | working tree> — <근거 한 줄>`을 참조 아래에 쓴다.
   - 모든 Task가 `[x]`면 README를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료`를 더하며, 낡은 프로젝트 루트 문서는 갱신 후보로만 알린다.
