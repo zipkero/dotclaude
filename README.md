@@ -15,7 +15,7 @@ Claude Code 개인 설정 저장소.
   문서 단계는 slash command, `implement`·`verify`는 자연어로 부르고, 남은 Task는 `/implement-loop`로 이어서 돌릴 수 있다.
   새 프로젝트는 먼저 `/project-init`으로 루트 문서와 마일스톤을 만든다.
 - **Per-Request**: `prompt → implement`, `verify`는 필요할 때만 부르고 결과는 대화에만 남는다.
-- 어느 쪽을 쓸지는 `CLAUDE.md` §phase 제어가 정하고, `analyze`·`explain`은 어디서든 부른다.
+- Phased를 권하는 기준은 `CLAUDE.md` §phase 제어, 지금 어느 쪽인지는 `implement` skill §컨텍스트 로딩이 정하고, `analyze`·`explain`은 어디서든 부른다.
 
 ## 구조
 | 경로 | 내용 |

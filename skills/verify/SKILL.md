@@ -31,7 +31,7 @@ description: >-
 5. 변경이 기존 모듈 경계와 의존 방향을 지키고, 막을 수 있는 잘못된 상태나 쓰이지 않는 추상화·중복을 만들지 않는가.
 
 ## verifier 위임 기준
-- Phased는 verifier agent에 맡기고, Per-Request는 사용자가 독립 검증을 원할 때만 맡긴다.
+- main은 Phased를 verifier agent에 맡기고, Per-Request는 사용자가 독립 검증을 원할 때만 맡긴다.
 - 위임 프롬프트에는 `<feature-dir>`, 대상 Task나 요청, 재검증인지, 변경 범위, 직전 `implement`의 비고와 접근 이탈을 적는다.
 
 ## 출력 구조
