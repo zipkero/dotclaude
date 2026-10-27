@@ -11,6 +11,7 @@ paths:
 - spec.md·design.md에서 다음 문서가 기대는 내용이 바뀌면 바뀐 문서를 자기 command(`/spec-init`·`/design-init`)로 전체를 다시 쓴다.
 - 그 밖의 수정과 implement.md·feature `README.md`·체크박스는 main이 필요한 부분만 고친다.
 - Task ID와 체크박스 항목은 지우거나 번호를 다시 매기지 않는다.
+- Task의 목적·검증 조건은 참조한 `SPEC §5.N` 문장의 뜻을 바꾸지 않는 범위에서 main이 고치고 `- 검증 조건 변경: <yyyy-MM-dd> <바꾼 점> — <이유>`를 남기며, 뜻을 바꿔야 하면 사용자에게 묻는다.
 
 ## 승인 전 확인
 spec.md·design.md의 `## 승인 전 확인`은 사용자 판단이 필요한 질문이 있을 때만 둔다.

@@ -8,7 +8,7 @@ Feature directory: $ARGUMENTS
 
 ## 역할
 - main이 `implement`(implementer agent) → `verify` → `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복한다.
-- 루프가 고치는 문서는 implement.md와 feature README뿐이다.
+- 루프가 고치는 문서는 `skills/verify/SKILL.md` §verify 후처리와 `skills/implement/SKILL.md` §완료가 고치는 것뿐이다.
 
 ## 루프
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
@@ -33,6 +33,6 @@ Feature directory: $ARGUMENTS
 2. 멈춘 Task, 멈춘 이유와 근거, 검증받지 않은 채 남은 변경 파일
 3. Task별 재시도 횟수와 verify가 낸 문제 한 줄
 4. 다음 할 일 — 고쳐야 할 문서(`수정 소유 단계`가 있으면 그 단계)나 사용자가 정할 것
-5. 미룬 수동 확인과 승인된 Task들이 남긴 범위 밖 발견·남은 위험·문서 갱신 후보
+5. 미룬 수동 확인과 승인된 Task들이 남긴 범위 밖 발견·남은 위험·남은 지적·문서 갱신 후보
 
 없는 항목은 뺀다.

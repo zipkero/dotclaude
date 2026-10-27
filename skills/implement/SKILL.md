@@ -18,7 +18,7 @@ Phased mode에서는:
 
 ## 범위 원칙
 - API·저장 형식·설정 키처럼 바꾸면 기존 사용처가 깨지는 외부 계약을 요청이나 design.md(Per-Request는 `docs/design.md`)가 정하지 않았는데 새로 만들거나 바꿔야 하면 코드를 쓰기 전에 묻는다.
-- 추상화와 확장 포인트는 design.md(Per-Request는 요청이나 `docs/design.md`)가 정한 것만 만든다.
+- 추상화와 확장 포인트는 design.md(Per-Request는 요청이나 `docs/design.md`)가 정했거나, 이번 변경 안에 실제 사용처가 둘 이상일 때만 만든다.
 - 범위 밖에서 발견한 문제는 고치지 않고 비고에 적되, 그 때문에 이미 `[x]`인 Task가 깨졌거나 지금 Task를 끝낼 수 없으면 `blocked`로 알린다.
 - design.md §5의 정해지지 않은 Decision Point가 지금 Task에 걸려도 `blocked`로 알린다.
 
@@ -41,11 +41,12 @@ verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]`
 2. 대상 — `task-<nnn>` 제목이나 사용자 요청 인용.
 3. 변경 내용 — 무엇을 바꿨는지 글로, 고친 파일 경로와 새로 만든 이름.
 4. 비고 — 범위 밖 발견, 확인 못 한 것, 미룬 것.
-5. 접근 이탈 — Task 접근이나 요청과 다르게 정했거나 둘 다 정하지 않아 직접 정한 것, 이유와 버린 대안, `file:line`. 문서는 고치지 않고 여기에만 적는다.
+5. 접근 이탈 — Task 접근이나 요청과 다르게 정했거나 둘 다 정하지 않아 직접 정한 것(범위 안 리팩터링 포함), 이유와 버린 대안, `file:line`. 문서는 고치지 않고 여기에만 적는다.
 6. 실행한 검증 — 돌린 명령과 결과.
 
 ## 완료
 main이 하는 일이다.
+- Phased에서는 결과를 받으면 대상 Task 참조 아래의 `- 진행: <yyyy-MM-dd> <completed|blocked> — <이 Task에서 바꾼 파일 전체>; <접근 이탈이나 막힌 이유 한 줄>`을 쓰거나 고친다.
 - Phased에서 `completed`면 같은 턴에 `verify`를 부르고, 사용자가 구현만 요청했으면 verify를 권한다.
 - `blocked`면 사용자에게 막힌 이유를 알린다.
 - verify 뒤 기록은 `skills/verify/SKILL.md` §verify 후처리를 따른다.
