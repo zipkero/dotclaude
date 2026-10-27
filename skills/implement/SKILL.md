@@ -21,10 +21,10 @@ Phased mode에서는:
 - 리팩터링은 이번 변경이 닿는 코드를 더 단순하거나 안전하게 만들 때만 하고(중복 합치기, 타입·생성자로 잘못된 값 막기 등), 외부 계약과 다른 모듈의 동작은 바꾸지 않는다.
 - 추상화와 확장 포인트는 design.md(Per-Request는 요청이나 `docs/design.md`)가 정했거나, 이번 변경 안에 실제 사용처가 둘 이상일 때만 만든다.
 - 범위 밖에서 발견한 문제는 고치지 않고 비고에 적되, 그 때문에 이미 `[x]`인 Task가 깨졌거나 지금 Task를 끝낼 수 없으면 `blocked`로 알린다.
-- design.md §5의 정해지지 않은 Decision Point가 지금 Task에 걸려도 `blocked`로 알린다.
+- design.md의 지켜야 할 결정을 바꾸거나 §5의 정해지지 않은 Decision Point를 정해야 하면 `blocked`로 알린다.
 
 ## 재작업
-verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]` Task의 동작, 기존 테스트·빌드가 깨지지 않았는지 확인하고, design.md의 지켜야 할 결정을 바꿔야 고칠 수 있으면 `blocked`로 알린다.
+verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]` Task의 동작, 기존 테스트·빌드가 깨지지 않았는지 확인한다.
 
 ## implementer 위임 기준
 위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, Phased mode라는 것을, 재작업이면 직전 verify의 문제 항목을 적는다.
