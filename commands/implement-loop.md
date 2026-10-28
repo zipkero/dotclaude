@@ -26,7 +26,6 @@ Feature directory: $ARGUMENTS
 - `blocked`, `판정 불가`, 재시도하지 않는 reject, 재시도 횟수 소진, 해소 조건을 갖출 수 없는 `evidence`
 - `매핑 누락`을 맡을 Task가 없는 approve
 - 미루지 않는 수동 확인 Task의 implement가 끝난 뒤(verify 전)
-- 되돌리기 어렵거나 외부에 영향을 주는 일이 필요할 때(CLAUDE.md §사전 확인)
 
 ## 보고
 1. 이번 루프에서 `[x]`가 된 Task
