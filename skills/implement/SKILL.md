@@ -49,6 +49,6 @@ verify가 reject한 Task를 다시 할 때는 전에 되던 동작, 앞선 `[x]`
 ## 완료
 main이 하는 일이다.
 - Phased에서는 결과를 받으면 대상 Task 참조 아래의 `- 진행: <yyyy-MM-dd> <completed|blocked> — <이 Task에서 바꾼 파일 전체>; <접근 이탈이나 막힌 이유 한 줄>`을 쓰거나 고친다.
-- Phased에서 `completed`면 같은 턴에 `verify`를 부르고, 사용자가 구현만 요청했으면 verify를 권한다.
+- Phased에서 `completed`면 같은 턴에 `verify`를 부르고, 사용자가 verify를 빼 달라고 했으면 부르지 않고 권한다.
 - `blocked`면 사용자에게 막힌 이유를 알린다.
 - verify 뒤 기록은 `skills/verify/SKILL.md` §verify 후처리를 따른다.
