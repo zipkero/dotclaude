@@ -34,6 +34,9 @@ disable-model-invocation: true
 
 ## 사용 방법
 
+## 검증 명령
+- `<명령>` — <확인하는 것(build·typecheck·lint·test 중 해당하는 것)>
+
 ## 문서
 - [ROADMAP.md](./ROADMAP.md)
 - [docs/product.md](./docs/product.md)
