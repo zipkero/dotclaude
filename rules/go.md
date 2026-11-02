@@ -7,7 +7,7 @@ paths:
 
 ## 주석
 - doc comment는 `// Name ...` 형태로 쓴다.
-- struct 필드·상수·지역 선언에 붙는 주석은 godoc에 보이더라도 doc comment로 치지 않는다.
+- struct 필드, `const`·`var` 블록 안 개별 항목, 지역 선언의 주석은 `// Name ...` 형태가 아니어도 된다.
 - 한국어로 쓸 때도 식별자 이름을 맨 앞에 두고 조사를 붙인다.
   예: `// Role은 …`, `// Package llm은 …`.
 - 프로젝트가 `Name ` 접두어를 검사하는 lint를 쓰면 프로젝트 설정을 따른다.

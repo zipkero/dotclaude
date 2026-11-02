@@ -17,7 +17,7 @@ disallowed-tools: Write, Edit, NotebookEdit
 3. 필요성 — 지워도 행동이 달라지지 않는 문장(세기만 올린 경고, 늘여 쓴 문장, 모델이 원래 하는 일의 나열)과 원 규칙을 고치면 필요 없어지는 방어 단서, 매번 읽히지만 드문 경우에만 쓰이는 규칙, 산출물(Task·검증 조건·테스트)을 요청 범위와 완료 조건을 확인하는 데 필요한 것보다 늘리는 규칙이 있는가.
 4. 명확성 — 두 가지로 읽히는 표현, 규칙끼리의 충돌, 우선순위나 경계로 엮이지 않았는데 쉼표로 이어 붙인 서로 다른 규칙, 같은 개념을 파일마다 다른 이름으로 부르는 곳이 있는가.
 5. 흐름 — 각 단계 산출물만으로 다음 단계를 이어갈 수 있고, `§` 참조가 실제 섹션을 가리키며, 쓰는 쪽과 읽는 쪽의 항목·값이 맞는가.
-6. 공식 문서 — `code.claude.com/docs`와 `github.com/anthropics/claude-code` CHANGELOG를 WebFetch로 가져와, 낡은 모델 값·도구·설정 키·frontmatter 필드가 있는지 본다.
+6. 공식 문서 — `code.claude.com/docs`와 `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`를 WebFetch로 가져와, 낡은 모델 값·도구·설정 키·frontmatter 필드가 있는지 본다.
 7. `README.md` — 실제 동작·파일 구성과 맞는가.
 8. 성능 — 위임한 일을 다시 하게 하거나, 정한 결정을 다시 묻게 하거나, 작은 일에 subagent를 띄우게 하거나, 원칙 대신 닫힌 나열로 판단 범위를 좁히는 등 결과(요청 범위·완료 조건·검증·테스트 실행)는 그대로 두고 덜어낼 수 있는 멈춤이나 일을 만드는 규칙이 있는가.
 

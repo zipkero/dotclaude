@@ -23,7 +23,7 @@ Phased mode에서는:
 - design.md의 지켜야 할 결정을 바꾸거나 §5의 정해지지 않은 Decision Point를 정해야 하면 `blocked`로 알린다.
 
 ## implementer 위임 기준
-위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, Phased mode라는 것을, 재작업이면 직전 verify의 문제 항목을 적는다.
+위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, 재작업이면 직전 verify의 문제 항목을 적는다.
 
 ## 코드와 테스트
 - 같은 디렉토리의 이름·구조·에러 처리 방식과, 이미 있는 함수·라이브러리·의존성을 쓴다.
