@@ -24,7 +24,7 @@ Feature directory: $ARGUMENTS
 ## 정지
 아래에서 멈추고 §보고를 낸다.
 - `blocked`, `판정 불가`, 재시도하지 않는 reject, 재시도 횟수 소진, 해소 조건을 갖출 수 없는 `evidence`
-- `매핑 누락`을 맡을 Task가 없는 approve
+- `매핑 누락`을 맡을 Task가 없는 `approved`
 - 미루지 않는 수동 확인 Task의 implement가 끝난 뒤(verify 전)
 
 ## 보고
@@ -32,7 +32,7 @@ Feature directory: $ARGUMENTS
 2. 멈춘 Task, 멈춘 이유와 근거, 검증받지 않은 채 남은 변경 파일
 3. Task별 재시도 횟수와 verify가 낸 문제 한 줄
 4. 다음 할 일 — 고쳐야 할 문서(`수정 소유 단계`가 있으면 그 단계)나 사용자가 정할 것
-5. 미룬 수동 확인과 승인된 Task들이 남긴 범위 밖 발견·남은 위험·남은 지적·문서 갱신 후보
+5. 미룬 수동 확인과 승인된 Task·멈춘 Task의 verify가 남긴 범위 밖 발견·남은 위험·남은 지적·문서 갱신 후보
 6. 규칙 후보 — 이번 루프에서 같은 원인의 문제가 재시도나 다른 Task에서 다시 나왔으면, 그 원인을 막는 한 줄 규칙과 넣을 곳(`~/.claude/rules/<파일>` 또는 프로젝트 `CLAUDE.md`)
    사용자가 승인해야 넣는다.
 

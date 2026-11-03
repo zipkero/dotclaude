@@ -8,13 +8,13 @@ argument-hint: "<feature-dir>"
 Feature directory: $ARGUMENTS
 
 ## 쓰는 방법
-- main은 analyzer agent에 맡기고, implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
+- main은 design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있으면 사용자에게 묻고, 없으면 analyzer agent에 맡긴다.
+- implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 - analyzer는 design.md와 spec.md를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려주며, main이 사용자에게 묻는다.
-  - design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있다.
   - design.md §5에 `채택:` 줄이 없거나 비어 있는 Decision Point가 있다.
   - 해석에 따라 Task 범위나 검증 조건이 달라진다.
   - `SPEC §5.N` 중 매핑되지 않은 것이 있다.
-- 재작성이면 기존 Task의 체크박스와 기록 필드를 옮기고, 되돌릴 Task는 main이 `rules/feature-docs.md` §재작성 시 승인 취소대로 정한다.
+- 재작성이면 analyzer는 기존 Task의 체크박스와 기록 필드를 옮긴다.
 
 ## implement.md 구조
 ```markdown
@@ -44,12 +44,12 @@ Feature directory: $ARGUMENTS
 - design.md §1의 의존 방향과 불변 조건은 이미 있는 테스트·lint로 잡히면 그것으로 `확인`한다.
 - design.md §4의 갱신할 프로젝트 루트 문서는 그 내용이 확정되는 Task의 `결과`에 넣는다.
 - 확인만 하는 Task는 여러 구현에 걸치는 e2e 같은 테스트와 다른 OS·실기기 재확인만 따로 만든다.
-- 문서 안의 순서가 의존 순서이며, "이걸 하려면 무엇이 먼저 있어야 하나"로 정렬한다.
+- Task는 그 Task가 기대는 Task보다 뒤에 놓는다.
 - ID는 `task-001`부터 문서 전체에서 이어지고, 재작성 때도 뜻이 같은 Task는 ID를 유지하며 빠진 번호를 다시 쓰거나 번호를 다시 매기지 않는다.
 - 하위 영역이 여럿이면 `## Section: <name>`으로 묶는다.
 
 ## 매핑
-- 각 `SPEC §5.N`(`[철회]` 제외)의 모든 문장이 매핑된 Task 중 하나의 목적이나 검증 조건에 들어 있어야 한다.
+- 각 `SPEC §5.N`의 모든 문장이 매핑된 Task 중 하나의 목적이나 검증 조건에 들어 있어야 한다.
 - 매핑되지 않은 조건은 main이 사용자에게 새 Task 추가 / §5에서 철회 / §4 제외 범위로 보류 중 하나를 받는다.
 
 ## main 마무리
