@@ -11,7 +11,7 @@ Feature directory: $ARGUMENTS
 - main은 analyzer agent에 맡기고, implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 - analyzer는 design.md와 spec.md를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려주며, main이 사용자에게 묻는다.
   - design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있다.
-  - design.md §5에 `채택: 미정`이 아닌데 채택이 정해지지 않은 Decision Point가 있다.
+  - design.md §5에 `채택:` 줄이 없거나 비어 있는 Decision Point가 있다.
   - 해석에 따라 Task 범위나 검증 조건이 달라진다.
   - `SPEC §5.N` 중 매핑되지 않은 것이 있다.
 - 재작성이면 기존 Task의 체크박스와 기록 필드를 옮기고, 되돌릴 Task는 main이 `rules/feature-docs.md` §재작성 시 승인 취소대로 정한다.
@@ -33,7 +33,7 @@ Feature directory: $ARGUMENTS
 
 ## Task 나누기
 - Task 하나는 verify 한 번으로 판단하는 단위이며, 같은 확인으로 함께 판정할 수 있는 동작은 한 Task로 묶고 실패 원인을 따로 봐야 할 때만 나눈다.
-- 동작에 필요한 기반·연결 작업은 같은 Task에 넣고, 빌드·정적 검사만 확인하는 작업은 따로 Task로 만들지 않는다.
+- 동작에 필요한 기반·연결 작업은 빌드·정적 검사로만 확인되더라도 따로 Task로 떼지 않고 그 동작의 Task에 넣는다.
 - 목적은 다른 문서 없이 읽어도 누가 무엇을 보게 되는지 알 수 있게 쓴다.
 - `확인`은 목적의 동작을 직접 돌려 보는 방법으로 고르고, 빌드·lint·diff만으로 끝내는 건 동작이 바뀌지 않는 Task뿐이다.
 - 각 `SPEC §5.N`은 매핑 Task 중 하나의 `확인`을 저장소에 남는 테스트로 하되, 수동 확인 대상이면 수동 확인으로 둔다.
@@ -53,5 +53,5 @@ Feature directory: $ARGUMENTS
 - 매핑되지 않은 조건은 main이 사용자에게 새 Task 추가 / §5에서 철회 / §4 제외 범위로 보류 중 하나를 받는다.
 
 ## main 마무리
-- README의 `[ ] IMPLEMENT`는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다.
+- README의 `IMPLEMENT` 체크박스는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다(재작성이면 `rules/feature-docs.md` §재작성 시 승인 취소).
 - 다음은 한 Task씩 `implement` → `verify`를 부르거나 `/implement-loop <feature-dir>`로 이어서 돌린다.

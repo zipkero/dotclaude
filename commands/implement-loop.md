@@ -13,7 +13,7 @@ Feature directory: $ARGUMENTS
 ## 루프
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
    `확인`이 다른 Task에서 확인한 동작을 다른 OS·실기기에서 수동으로 다시 보는 것뿐인 Task는 미뤄 두고 보고에 모은다.
-2. `implement`를 돌리고, `blocked`면 멈춘다.
+2. `implement`를 돌린다.
 3. `verify`를 돌린다.
 4. `approved`면 후처리를 하고 1로, `rejected`면 후처리를 하고 §재시도로 간다.
 

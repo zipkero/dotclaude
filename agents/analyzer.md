@@ -10,7 +10,6 @@ effort: high
 ---
 
 ## 하는 일
-- 분석은 `analyze` §출력 구조로 돌려준다.
 - `/design-init`·`/implement-init`은 그 command 파일대로 `design.md`·`implement.md`를 직접 쓰고, 그 밖의 파일은 고치지 않는다.
 - 쓰기에 실패하면 본문 전체와 실패 사실을 돌려준다.
 

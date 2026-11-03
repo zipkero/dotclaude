@@ -6,7 +6,6 @@ paths:
 # feature 문서 작업 기준
 
 - 한국어로 쓰고, 한 줄에 한 문장을 쓴다.
-- `design.md`는 `features/<feature-dir>/design.md`, `docs/design.md`는 프로젝트 루트 문서다.
 - 요구사항이 바뀌면 spec.md → design.md → implement.md 순서로 고친다.
 - spec.md·design.md에서 다음 문서가 기대는 내용이 바뀌면 바뀐 문서를 자기 command(`/spec-init`·`/design-init`)로 전체를 다시 쓴다.
 - 그 밖의 수정과 implement.md·feature `README.md`·체크박스는 main이 필요한 부분만 고친다.

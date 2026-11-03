@@ -50,7 +50,7 @@ Feature name: $ARGUMENTS
 - `SPEC §5.N` 번호는 design.md가 생긴 뒤 바꾸지 않으며, 새 조건은 다음 번호로 더하고 뺄 조건은 `[철회] <이유>`로 바꾼 뒤 참조하던 문서도 고친다.
 
 ## README.md 구조
-이미 있으면 새로 만들지 않고 작업 히스토리에 한 줄을 더한다.
+이미 있으면 새로 만들지 않는다(히스토리는 `rules/feature-docs.md` §재작성 시 승인 취소).
 ```markdown
 # <feature-name>
 
