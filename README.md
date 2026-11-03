@@ -7,7 +7,7 @@ Claude Code 개인 설정 저장소.
 - 작업을 검증할 수 있는 단위로 쪼개고, 단위마다 근거를 보고 완료를 판정해 문서에 남긴다.
   세션이 바뀌어도 이어서 할 수 있고, 나중에 다른 사람이 확인할 수 있게 하려는 것이다.
 - `features/<feature-dir>/`의 `spec.md`(완료 조건) → `design.md`(설계) → `implement.md`(Task와 검증 조건)가 단계 사이를 잇고, 다음 단계는 대화가 아니라 이 문서들을 읽는다.
-- verify가 승인한 Task만 `[x]`가 되고, reject는 `/implement-loop`·`implement-orca`가 아니면 사용자가 판단한다.
+- verify가 승인한 Task만 `[x]`가 되고, reject는 `/implement-loop`가 아니면 사용자가 판단한다.
 - skill은 방법, agent는 컨텍스트를 아끼려고 따로 떼어 맡기는 실행자, command는 산출물 형식과 사용자가 직접 부르는 절차다(`rules/claude-config-authoring.md`).
 
 ## 흐름
@@ -33,7 +33,6 @@ Claude Code 개인 설정 저장소.
 | `skills/analyze` · `explain` | 원인 분석·선택지 비교 / 동작 설명 |
 | `skills/implement` · `verify` | 구현 / 판정과 판정 뒤 기록 |
 | `skills/commit-push` | 스테이징·커밋·푸시 |
-| `skills/implement-orca` | implement·verify를 Codex 워커로 실행 |
 | `rules/` | `paths`에 맞는 파일을 만질 때만 로드되는 언어별·문서별 기준 |
 
 ## 운영 메모

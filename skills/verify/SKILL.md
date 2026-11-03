@@ -21,7 +21,7 @@ description: >-
 - 읽어서 판단할 수 없는 문장만 그 문장을 어기는 변형 하나로 테스트가 실패하는지 돌려 보고, 변형은 작업 트리 대신 사본이나 도구의 overlay에서 한다.
 - 남아 있는 동작의 assertion을 약하게 하거나 경우를 지운 테스트는 `correctness`, 근거로 확인할 수 없으면 `evidence`로 reject한다.
 - Task 확인과 별개로 프로젝트 검증 명령(프로젝트 `CLAUDE.md`, 루트 `README.md` §검증 명령, CI 설정에 있는 것)의 build·typecheck·lint는 매번 돌린다.
-- 테스트는 바뀐 범위만 돌리고, 좁힐 수 없거나 이 Task로 모든 Task가 `[x]`가 되는 Phased Task·Per-Request면 전체를 돌려 승인 근거에 남긴다.
+- 테스트는 바뀐 범위만 돌리고, 좁힐 수 없거나 Per-Request이거나 이 Task로 모든 Task가 `[x]`가 되는 Phased Task면 전체를 돌린다.
 - 이번 변경과 무관한 실패는 reject 사유가 아니라 근거와 함께 남길 항목이다.
 
 ## 판단 기준
@@ -75,4 +75,4 @@ main이 하는 일이며, Per-Request는 rejected의 마지막 항목만 따른�
 - rejected
   - 참조 아래에 `- 최근 reject: <분류> — <문제 한 줄 또는 증거 파일 경로>`를 쓰고 체크박스는 `[ ]`로 둔다.
   - 이미 `[x]`였던 Task면 `[ ]`로 되돌리고 `승인 근거`를 지우며, README가 `[x] IMPLEMENT`였으면 되돌리고 히스토리에 적는다.
-  - 문제를 사용자에게 전하고, `/implement-loop`·`implement-orca`가 아니면 다시 구현하지 않고 사용자 판단을 기다린다.
+  - 문제를 사용자에게 전하고, `/implement-loop`가 아니면 다시 구현하지 않고 사용자 판단을 기다린다.
