@@ -1,7 +1,7 @@
 ---
 name: implement
 description: >-
-  Execute the next Task from features/<feature-dir>/implement.md. For Per-Request prompts without a feature directory, execute the requested change
+  Execute the next Task from features/[feature-dir]/implement.md. For Per-Request prompts without a feature directory, execute the requested change
   directly.
 ---
 
@@ -27,22 +27,25 @@ Phased mode에서는:
 
 ## 코드와 테스트
 - 같은 디렉토리의 이름·구조·에러 처리 방식과, 이미 있는 함수·라이브러리·의존성을 쓴다.
-- 이번 변경으로 안 쓰이게 된 코드는 지운다.
-- 테스트는 Phased에서는 Task가 요구한 것만, Per-Request에서는 요청한 것과 이번 변경의 핵심 동작을 확인하는 최소한만 쓴다.
+- 이번 변경으로 안 쓰이게 된 코드와, 지운 동작만 확인하던 테스트는 지운다.
+- 테스트는 Phased에서는 `확인`이 테스트인 Task에서만, Per-Request에서는 요청한 것과 이번 변경의 핵심 동작을 확인하는 최소한만 쓴다.
+- Phased 테스트는 검증 조건 `결과`(목적과 동일이면 목적) 문장마다 그 문장을 어기면 실패하게 쓰고, 위반이 최종 출력에 드러나지 않으면 그 문장을 지키는 단계를 직접 assert한다.
 - 고친 버그의 회귀 테스트 하나는 어느 쪽이든 쓸 수 있고, 테스트가 부족해 보이면 비고에 적는다.
 - 결과를 내기 전에 `skills/verify/SKILL.md` §근거의 프로젝트 검증 명령 중 build·typecheck·lint와 바뀐 범위의 테스트를 돌린다.
 - 구조를 바꿔 깨지는 기존 테스트는 다루던 경우를 유지한 채 같이 고친다.
 - 테스트가 실패하면 목적 기준으로 틀린 쪽을 고치고, 실패 입력만 피하는 분기나 완료 조건을 약하게 만드는 수정은 하지 않는다.
-- 재작업에서는 verify가 짚은 위치만이 아니라 같은 원인이 있는 곳을 모두 고친다.
+- 재작업에서는 verify가 짚은 위치만이 아니라 범위 안에서 같은 원인이 있는 곳을 모두 고친다.
 
 ## 출력 구조
 없는 항목은 뺀다.
-1. 상태(Phased만) — `completed` 또는 `blocked`. `blocked`면 막힌 이유와 필요한 결정을 선택지·근거와 함께 적는다.
+1. 상태(Phased만) — `completed` 또는 `blocked`
+   `blocked`면 막힌 이유와 필요한 결정을 선택지·근거와 함께 적는다.
 2. 대상 — `task-<nnn>` 제목이나 사용자 요청 인용.
 3. 변경 내용 — 무엇을 바꿨는지 글로, 고친 파일 경로와 새로 만든 이름.
 4. 비고 — 범위 밖 발견, 확인 못 한 것, 미룬 것.
-5. 접근 이탈 — Task 접근·design.md 기본안이나 요청과 다르게 정했거나 둘 다 정하지 않아 직접 정한 것(범위 안 리팩터링 포함), 이유와 버린 대안, `file:line`. 문서는 고치지 않고 여기에만 적는다.
-6. 실행한 검증 — 돌린 명령과 결과.
+5. 접근 이탈 — Task 접근·design.md 기본안이나 요청과 다르게 정했거나 둘 다 정하지 않아 직접 정한 것(범위 안 리팩터링 포함), 이유와 버린 대안, `file:line`
+   문서는 고치지 않고 여기에만 적는다.
+6. 실행한 검증 — 돌린 명령과 결과, Phased에서 `확인`이 테스트면 `결과` 문장마다 그 위반을 잡는 테스트(`파일:이름`).
 
 ## 완료
 main이 하는 일이다.

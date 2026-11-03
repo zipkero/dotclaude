@@ -1,5 +1,5 @@
 ---
-description: Create design.md (design decisions) under features/<feature-dir>/ from spec.md
+description: Create design.md (design decisions) under features/[feature-dir]/ from spec.md
 argument-hint: "<feature-dir>"
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: Create implement.md (execution checklist with per-Task verification criteria) under features/<feature-dir>/ from design.md
+description: Create implement.md (execution checklist with per-Task verification criteria) under features/[feature-dir]/ from design.md
 argument-hint: "<feature-dir>"
 ---
 

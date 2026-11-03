@@ -17,9 +17,9 @@ description: >-
 
 ## 근거
 - 이번에 직접 읽은 코드와 직접 돌린 테스트만 근거로 쓰고, 이전 대화나 참조 필드는 근거가 아니다.
-- 이번 변경에서 쓰거나 고친 테스트는 통과만으로 인정하지 않고, 검증 조건 문장마다 그 문장을 어기는 변경을 테스트가 잡는지 assertion과 대상 코드를 읽어 판단한다.
+- 이번 변경에서 쓰거나 고친 테스트는 통과만으로 인정하지 않고, 검증 조건 `결과`(목적과 동일이면 목적, Per-Request는 요청한 동작) 문장마다 그 문장을 어기는 변경을 테스트가 잡는지 assertion과 대상 코드를 읽어 판단한다.
 - 읽어서 판단할 수 없는 문장만 그 문장을 어기는 변형 하나로 테스트가 실패하는지 돌려 보고, 변형은 작업 트리 대신 사본이나 도구의 overlay에서 한다.
-- assertion을 약하게 하거나 경우를 지운 테스트는 `correctness`, 근거로 확인할 수 없으면 `evidence`로 reject한다.
+- 남아 있는 동작의 assertion을 약하게 하거나 경우를 지운 테스트는 `correctness`, 근거로 확인할 수 없으면 `evidence`로 reject한다.
 - Task 확인과 별개로 프로젝트 검증 명령(프로젝트 `CLAUDE.md`, 루트 `README.md` §검증 명령, CI 설정에 있는 것)의 build·typecheck·lint는 매번 돌린다.
 - 테스트는 바뀐 범위만 돌리고, 좁힐 수 없거나 이 Task로 모든 Task가 `[x]`가 되는 Phased Task·Per-Request면 전체를 돌려 승인 근거에 남긴다.
 - 이번 변경과 무관한 실패는 reject 사유가 아니라 근거와 함께 남길 항목이다.
@@ -36,7 +36,7 @@ description: >-
 
 ## verifier 위임 기준
 - main은 Phased를 verifier agent에 맡기고, Per-Request는 사용자가 독립 검증을 원할 때만 맡긴다.
-- 위임 프롬프트에는 `<feature-dir>`, 대상 Task나 요청, 재검증인지, 변경 범위, 직전 `implement`의 비고와 접근 이탈을 적는다.
+- 위임 프롬프트에는 `<feature-dir>`, 대상 Task나 요청, 재검증인지, 변경 범위, 직전 `implement`의 비고·접근 이탈·실행한 검증을 적는다.
 
 ## 출력 구조
 ```markdown
@@ -64,7 +64,7 @@ description: >-
 - 그 밖의 관례나 `rules/code-common.md` 위반, 쓰이지 않는 추상화·중복, 타입으로 막을 수 있었지만 실제로 생기지 않는 잘못된 상태처럼 동작은 맞는 문제는 reject 사유가 아니라 `남은 지적`이다.
 
 ## verify 후처리
-main이 하는 일이다.
+main이 하는 일이며, Per-Request는 rejected의 마지막 항목만 따른다.
 - approved
   - `매핑 누락`이 있으면 그 문장을 맡는 Task의 참조에 `SPEC §5.N`을 더한다.
   - 맡을 Task가 없으면 아래 단계는 하지 않고 사용자에게 `commands/implement-init.md` §매핑의 세 선택지를 묻는다.

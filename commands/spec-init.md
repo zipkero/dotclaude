@@ -1,5 +1,5 @@
 ---
-description: Create spec.md (requirements + completion criteria) under features/<feature-dir>/ and initialize the feature README
+description: Create spec.md (requirements + completion criteria) under features/[feature-dir]/ and initialize the feature README
 argument-hint: "<feature-name | feature-dir>"
 ---
 
