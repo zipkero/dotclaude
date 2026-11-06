@@ -1,7 +1,7 @@
 ---
 description: >-
-  Audit the global configuration — role boundaries, duplication, unnecessary rules, ambiguity, flow integrity, conformance to current official
-  Claude Code documentation, README accuracy, and rules that add avoidable work
+  Read-only audit of the global configuration — role boundaries, duplication, unnecessary rules, ambiguity, flow integrity, conformance to current official
+  Claude Code documentation, README accuracy, and rules that add avoidable work — returning edit proposals for approval
 argument-hint: "[대상 파일 또는 skill]"
 disable-model-invocation: true
 disallowed-tools: Write, Edit, NotebookEdit
