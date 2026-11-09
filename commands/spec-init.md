@@ -4,7 +4,7 @@ argument-hint: "<feature-name | feature-dir>"
 ---
 
 `features/<feature-dir>/spec.md`를 쓰고 `README.md`를 만든다.
-spec.md는 범위·목표·제약·제외·완료 조건만 다루고, 설계·인터페이스·파일·구현 순서는 넣지 않는다.
+spec.md는 범위·목표·제약·제외·완료 조건만 다룬다.
 
 Feature name: $ARGUMENTS
 

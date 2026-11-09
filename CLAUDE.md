@@ -34,4 +34,4 @@
 - `Explore`는 `model: sonnet`으로 띄운다.
 
 ## 문서화
-- 사용자가 노트·정리 문서를 따로 요청하면 `~/obsidian/CLAUDE.md`를 따라 `~/obsidian`에 쓰며, `features/<feature-dir>/` 문서와 저장소 안 문서는 여기에 해당하지 않는다.
+- 사용자가 feature 문서·저장소 문서가 아닌 노트·정리 문서를 따로 요청하면 `~/obsidian/CLAUDE.md`를 따라 `~/obsidian`에 쓴다.
