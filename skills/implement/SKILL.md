@@ -24,6 +24,7 @@ Per-Request에서 design.md는 요청이나 `docs/design.md`로 읽고, 아래�
 - design.md의 지켜야 할 결정을 바꾸거나 §5의 정해지지 않은 Decision Point를 정해야 하면 `blocked`로 알린다.
 
 ## implementer 위임 기준
+위임 전에 `features/<feature-dir>/` 밖에 이 Task가 만들지 않은 커밋 안 된 변경이 있으면 어떻게 할지 사용자에게 묻는다.
 위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, 재작업이면 직전 verify의 문제 항목을 적는다.
 
 ## 코드와 테스트
@@ -54,7 +55,7 @@ Per-Request에서 design.md는 요청이나 `docs/design.md`로 읽고, 아래�
 
 ## 완료
 main이 하는 일이다.
-- Phased에서는 결과를 받으면 대상 Task 참조 아래의 `- 진행: <yyyy-MM-dd> <completed|blocked> — <이 Task에서 바꾼 파일 전체>; <접근 이탈이나 막힌 이유 한 줄>`을 쓰거나 고친다.
+- Phased에서는 결과를 받으면 대상 Task 참조 아래의 `- 진행: <yyyy-MM-dd> <completed|blocked> — <`git status`로 본 `features/<feature-dir>/` 밖 변경 파일 전체>; <접근 이탈이나 막힌 이유 한 줄>`을 쓰거나 고친다.
 - Phased에서 `completed`면 같은 턴에 `verify`를 부르고, 사용자가 verify를 빼 달라고 했으면 부르지 않고 권한다.
 - `blocked`면 막힌 이유와 선택지를 사용자에게 묻는다.
 - verify 뒤 기록은 `skills/verify/SKILL.md` §verify 후처리를 따른다.

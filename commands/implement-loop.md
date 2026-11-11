@@ -24,8 +24,6 @@ Feature directory: $ARGUMENTS
 ## 정지
 아래에서 멈추고 §보고를 낸다.
 - `blocked`, `판정 불가`, 재시도하지 않는 reject, 재시도 횟수 소진, 해소 조건을 갖출 수 없는 `evidence`
-- `매핑 누락`을 맡을 Task가 없는 `approved`
-- 검증 조건의 뜻이 바뀌는 `대체`가 있는 `approved`
 
 ## 보고
 1. 이번 루프에서 `[x]`가 된 Task
