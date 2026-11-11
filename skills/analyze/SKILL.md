@@ -11,7 +11,7 @@ description: >-
 - 분석 요청에서는 파일을 고치지 않는다(Bash 포함).
 
 ## 분석 방법
-- 대상은 `$ARGUMENTS`가 가리키는 feature·파일·심볼이고, 비어 있으면 활성 feature(`implement` skill §컨텍스트 로딩)나 대화에서 잡은 대상을 밝히고 쓴다.
+- 대상은 `$ARGUMENTS`가 가리키는 feature·파일·심볼이고, 비어 있으면 활성 feature(`~/.claude/skills/implement/SKILL.md` §컨텍스트 로딩)나 대화에서 잡은 대상을 밝히고 쓴다.
 - 원인은 실행·데이터 흐름을 따라 실패 지점까지 근거로 잇는다.
 - 선택지가 여럿이면 이 질문에서 실제로 갈리는 기준으로 비교해 하나를 추천하고, 뺀 대안과 이유도 적는다.
 
