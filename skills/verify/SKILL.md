@@ -54,7 +54,7 @@ description: >-
    - 분류: `correctness` | `design/scope` | `evidence`
    - 수정 소유 단계: `implement` | `implement-init` | `design-init` | `spec-init`
    - <문제와 근거>
-5. 근거 — <확인한 기준마다 관찰한 동작, 기준 실행·변이 실행의 결과와 결과 파일 경로, `미확인` 항목과 사람만 볼 수 있는 이유, 대체, 판정 방법 변경>
+5. 근거 — <확인한 기준마다 관찰한 동작, 기준 실행·변이 실행의 결과와 결과 파일 경로, 저장소 밖 하네스를 썼으면 그 경로, `미확인` 항목과 사람만 볼 수 있는 이유, 대체, 판정 방법 변경>
 6. 설명 — <무엇이 어떻게 바뀌었는지, 남은 지적>
 ```
 - 3번은 Phased에서만, 4번은 `rejected`일 때만 쓰고, 6번은 `rejected`면 남은 지적만 쓴다.
@@ -78,7 +78,7 @@ main이 하는 일이며, Per-Request는 rejected의 마지막 항목만 따른�
   - 맡을 Task가 없으면 아래 단계는 하지 않고 사용자에게 `commands/implement-init.md` §매핑의 세 선택지를 묻는다.
   - 근거에 `대체`가 있으면 그 Task의 `결과`·`확인`을 쓴 수단대로 고치는 검증 조건 수정으로 보아 `rules/feature-docs.md` 기준대로 처리하고, 사용자에게 물어야 하면 아래 단계는 하지 않는다.
   - 체크박스를 `[x]`로 바꾸고, 접근 이탈이 있었으면 접근 필드와 달라진 design.md 기본안 서술을 실제 구현대로 고친다.
-  - verifier 근거의 결과 파일을 `features/<feature-dir>/evidence/task-<nnn>/<yyyyMMdd-HHmm>/`로 복사하고, git에서 무시되지 않는 경로면 `.git/info/exclude`에 `features/*/evidence/`를 더한다.
+  - verifier 근거의 결과 파일과 저장소 밖 하네스를 `features/<feature-dir>/evidence/task-<nnn>/<yyyyMMdd-HHmm>/`로 복사하고, git에서 무시되지 않는 경로면 `.git/info/exclude`에 `features/*/evidence/`를 더한다.
   - `진행`·`최근 reject` 줄을 지우고, 복사한 결과 파일에 있는 수치로만 `- 승인 근거: <yyyy-MM-dd> — 실행: <명령> → <결과> (<결과 파일 경로>); 변이: <변형> → <결과> (<결과 파일 경로>); 미확인: <사람만 볼 수 있어 못 본 항목>; 판정 방법 변경: <사용자 지시 인용>`을 참조 아래에 쓰거나 고친다(`변이`·`미확인`·`판정 방법 변경`은 있을 때만).
   - 모든 Task가 `[x]`이고 `미확인`이 남은 Task가 없으면 README를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료`를 더하고, 낡은 프로젝트 루트 문서는 갱신 후보로만 알린다.
   - 지운 `진행` 줄에 있던 파일과 feature 문서를 `commit-push` skill §절차 3·4대로 현재 브랜치의 한 커밋에 싣고(push하지 않는다), 접근 이탈의 이유와 버린 대안은 커밋 본문에 쓴다.
