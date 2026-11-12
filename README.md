@@ -40,4 +40,5 @@ Claude Code 개인 설정 저장소.
 - `context-restore`·`cross-analyze`·`config-review`는 `disallowed-tools`로 쓰기 도구를 막지만 Bash와 subagent에는 걸리지 않으므로 본문에도 적는다.
 - `rules/`는 작업 디렉토리 안 파일에만 걸리고, `paths` 외 필드는 무시되어 `paths` 대신 `globs`를 쓰면 항상 로드된다(공식 문서 memory §Rule frontmatter reference).
 - `.gitignore`는 허용 목록 방식이며 `features/`, 세션 데이터, credential, 기계마다 다른 `settings.json`은 추적하지 않는다.
+- 외부 시스템 응답 원본은 각 프로젝트 main checkout 루트의 `.evidence/`에 남기고 `.git/info/exclude`로 커밋에서 빼며, 자동으로 지워지지 않는다.
 - 응답 길이는 output style `Concise`가 맡고, `outputStyle`은 기계마다 한 번 지정한다.
