@@ -8,8 +8,7 @@ paths:
 - 한국어로 쓰고, 한 줄에 한 문장을 쓴다.
 - 요구사항이 바뀌면 spec.md → design.md → implement.md 순서로 고친다.
 - spec.md·design.md에서 다음 문서가 기대는 내용이 바뀌면 바뀐 문서를 자기 command(`/spec-init`·`/design-init`)로 전체를 다시 쓴다.
-- 그 밖의 수정과 implement.md·feature `README.md`·체크박스는 main이 필요한 부분만 고친다.
-- main이 고칠 때는 Task ID와 체크박스 항목을 지우지 않는다.
+- 그 밖의 수정과 implement.md·feature `README.md`·체크박스는 main이 필요한 부분만 고치고, Task ID와 체크박스 항목은 지우지 않는다.
 - Task의 목적·검증 조건은 참조한 `SPEC §5.N` 문장의 뜻을 바꾸지 않는 범위에서 main이 고치고 `- 검증 조건 변경: <yyyy-MM-dd> <바꾼 점> — <이유>`를 남기며, 뜻을 바꿔야 하면 사용자에게 묻는다.
 - spec.md §5의 `[철회]` 조건은 design.md 연결, Task 매핑, verify 판정 대상에서 뺀다.
 - design.md의 §1 모듈 경계·의존 방향·불변 조건, §3 인터페이스, §5 채택은 구현이 지켜야 할 결정이고, 그 밖의 서술은 구현이 더 나은 방식을 찾으면 접근 이탈로 바꿀 수 있는 기본안이다.
@@ -24,7 +23,6 @@ spec.md·design.md의 `## 승인 전 확인`은 사용자 판단이 필요한 �
 다시 쓰면 main이 아래를 한다.
 - 뜻이 바뀐 `SPEC §5.N`·`DESIGN §N`을 참조하거나 목적·검증 조건이 바뀐 Task와, 그 Task에 기대는 뒤쪽 Task를 `[ ]`로 되돌리고 `승인 근거`를 지운다.
 - 영향 범위를 알 수 없으면 모두 되돌린다.
-- 하나라도 되돌리면 README의 `IMPLEMENT`를 `[ ]`로 되돌린다.
-- `/spec-init` 재작성이면 README의 `DESIGN`을 `[ ]`로 되돌린다.
+- README의 `IMPLEMENT`는 Task를 하나라도 되돌리면, `DESIGN`은 `/spec-init` 재작성이면 `[ ]`로 되돌린다.
 - 다시 쓰는 문서보다 뒤 단계인 design.md·implement.md는 지우지 않고, Task의 내용·ID·순서는 `/implement-init` 재작성이 아니면 그대로 둔다.
 - 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN|IMPLEMENT> 재작성`과 되돌린 Task를 적는다.

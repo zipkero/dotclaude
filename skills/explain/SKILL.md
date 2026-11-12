@@ -11,7 +11,7 @@ description: >-
 
 ## 읽을 것
 - 대상과 함께, 대상을 부르는 쪽과 결과를 받는 쪽, 관련 테스트까지 읽는다.
-- `$ARGUMENTS`가 비어 있으면 활성 feature(`implement` skill §컨텍스트 로딩)나 대화에서 잡은 대상을 밝히고 쓴다.
+- `$ARGUMENTS`가 비어 있으면 활성 feature(`~/.claude/skills/implement/SKILL.md` §컨텍스트 로딩)나 대화에서 잡은 대상을 밝히고 쓴다.
 - feature 문서 내용은 지금 코드와 맞는지 확인하고 쓰며, 확인한 사실·문서에 적힌 이유·추측을 구분한다.
 
 ## 표현

@@ -7,8 +7,7 @@ disable-model-invocation: true
 Feature directory: $ARGUMENTS
 
 ## 역할
-- main이 `implement`(implementer agent) → `verify` → `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복한다.
-- 루프가 고치는 문서는 `skills/verify/SKILL.md` §verify 후처리와 `skills/implement/SKILL.md` §완료가 고치는 것뿐이다.
+- main이 `implement`(implementer agent) → `verify` → `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 `skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
 
 ## 루프
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
@@ -31,8 +30,7 @@ Feature directory: $ARGUMENTS
 3. Task별 재시도 횟수와 verify가 낸 문제 한 줄
 4. 다음 할 일 — 고쳐야 할 문서(`수정 소유 단계`가 있으면 그 단계)나 사용자가 정할 것
 5. 미룬 수동 확인, 승인된 Task의 `미확인`·`판정 방법 변경`, 이번 루프에서 남긴 `검증 조건 변경`, 승인된 Task·멈춘 Task의 verify가 남긴 범위 밖 발견·남은 지적·문서 갱신 후보
-6. 규칙 후보 — 이번 루프에서 같은 원인의 문제가 재시도나 다른 Task에서 다시 나왔으면 그 원인을 막을 방법을, 결함이 아닌데 난 reject면 그 verify 기준에서 고칠 문장을
-   그 원인을 이미 다루는 규칙이 있으면 그 규칙에서 고칠 문장을, 없으면 한 줄 규칙과 넣을 곳(`~/.claude/rules/<파일>` 또는 프로젝트 `CLAUDE.md`)을 적고, 설정·도구로 막을 수 있으면 그 방법도 적는다.
+6. 규칙 후보 — 같은 원인의 문제가 재시도나 다른 Task에서 다시 나왔거나 결함이 아닌데 reject가 났으면, 그 원인을 다루는 기존 규칙에서 고칠 문장(없으면 한 줄 규칙과 넣을 곳 `~/.claude/rules/<파일>` 또는 프로젝트 `CLAUDE.md`, 설정·도구로 막을 수 있으면 그 방법)
    사용자가 승인해야 넣는다.
 
 없는 항목은 뺀다.
