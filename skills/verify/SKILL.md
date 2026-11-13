@@ -20,7 +20,8 @@ description: >-
 - 이번에 직접 읽은 코드, 직접 돌린 명령, `사용자 확인`으로 출처를 밝힌 사용자의 확인 결과만 근거로 쓴다.
 - 실행 결과의 수치와 판정 문구는 출력 줄을 그대로 인용한다.
 - 외부 시스템 호출 범위는 `~/.claude/skills/implement/SKILL.md` §외부 시스템을 따른다.
-- 판정에 쓰는 외부 호출은 응답을 자르지 않고 main checkout 루트(`git rev-parse --path-format=absolute --git-common-dir`의 상위 디렉토리, git이 아니면 `~/.claude/commands/project-init.md` §대상 프로젝트 루트) `.evidence/<feature-dir>/task-<nnn>/<yyyyMMdd-HHmmss>/`(Per-Request는 `.evidence/<yyyyMMdd-HHmmss>-<요청 요약>/`)에 판정 한 번당 한 폴더로 저장하고, 같은 폴더 `manifest.md`에 요청마다 요청·대상 환경·시각·HEAD와 커밋 안 된 변경 유무, 쓰기를 했으면 바꾸기 전후 상태를 적은 뒤, 근거에 그 경로를 붙인다.
+- 판정에 쓰는 외부 호출은 응답을 자르지 않고 main checkout 루트(`git rev-parse --path-format=absolute --git-common-dir`의 상위 디렉토리, git이 아니면 `~/.claude/commands/project-init.md` §대상 프로젝트 루트) `.evidence/<feature-dir>/task-<nnn>/<yyyyMMdd-HHmmss>/`(Per-Request는 `.evidence/<yyyyMMdd-HHmmss>-<요청 요약>/`)에 판정 한 번당 한 폴더로 저장한다.
+- 같은 폴더 `manifest.md`에 요청마다 요청·대상 환경·시각·HEAD와 커밋 안 된 변경 유무, 쓰기를 했으면 바꾸기 전후 상태를 적고, 근거에 그 폴더 경로를 붙인다.
 - `.evidence/`가 `git check-ignore`로 무시되지 않으면 처음 저장하기 전에 `.git/info/exclude`에 더한다.
 - 프로젝트 검증 명령(출처는 `~/.claude/skills/implement/SKILL.md` §코드와 테스트)의 build·typecheck·lint를 직접 돌린다.
 - 테스트는 바뀐 코드와 테스트가 닿는 범위만 돌리고, 좁힐 수 없거나 이 Task로 모든 Task가 `[x]`가 되면 전체를 돌린다.
