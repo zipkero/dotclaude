@@ -15,4 +15,4 @@ effort: high
 
 ## main에 반환
 - `/design-init`: 쓴 파일 경로, spec.md §5 조건마다 반영된 위치, 핵심 설계 결정 1-3줄, 재작성이면 뜻이 바뀐 `DESIGN §N`
-- `/implement-init`: 쓴 파일 경로, Task 수, 재작성이면 바뀌거나 생기거나 빠진 `task-<nnn>`
+- `/implement-init`: 쓴 파일 경로, Task 수, `결과`에 넣지 않고 돌려주는 입력·상태와 선택지, 재작성이면 바뀌거나 생기거나 빠진 `task-<nnn>`
