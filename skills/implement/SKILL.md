@@ -16,7 +16,8 @@ Phased mode에서는:
 3. 이미 목적과 검증 조건이 만족되면 코드를 고치지 않고 그렇다고 적는다.
 
 ## 범위 원칙
-Per-Request에서 design.md는 요청이나 `docs/design.md`로 읽고, 아래에서 멈출 때 Phased는 `blocked`로 알린다.
+Per-Request에서는 아래의 design.md를 요청이나 `docs/design.md`로 읽는다.
+아래에서 멈출 때 Phased는 `blocked`로 알린다.
 - design.md가 정하지 않은 외부 계약을 만들거나 바꿔야 하거나, design.md의 지켜야 할 결정을 바꾸거나 §5의 정해지지 않은 Decision Point를 정해야 하면 코드를 쓰기 전에 멈추고 묻는다.
 - 리팩터링은 이번 변경이 닿는 코드를 더 단순하거나 안전하게 만들 때만 하고(중복 합치기, 타입·생성자로 잘못된 값 막기 등), 외부 계약과 다른 모듈의 동작은 바꾸지 않는다.
 - 추상화와 확장 포인트는 design.md가 정했거나, 이번 변경 안에 실제 사용처가 둘 이상일 때만 만든다.
@@ -24,7 +25,7 @@ Per-Request에서 design.md는 요청이나 `docs/design.md`로 읽고, 아래�
 
 ## implementer 위임 기준
 main은 Phased를 implementer agent에 맡기고, Per-Request는 직접 구현한다.
-위임 전에 `features/<feature-dir>/` 밖에 커밋 안 된 변경이 있으면 커밋·stash·그대로 두기 중 무엇을 할지 사용자에게 묻는다.
+Task를 처음 위임하기 전에 `features/<feature-dir>/` 밖에 커밋 안 된 변경이 있으면 커밋·stash·그대로 두기 중 무엇을 할지 사용자에게 묻는다.
 위임 프롬프트에는 `<feature-dir>`, 대상 `task-<nnn>`, 재작업이면 직전 verify의 문제 항목, 사용자가 이번 대화에서 프로젝트 `CLAUDE.md` §검증 환경과 다르게 정한 외부 호출 범위를 적는다.
 
 ## 코드와 테스트
