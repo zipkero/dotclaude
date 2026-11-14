@@ -9,7 +9,7 @@ Feature directory: $ARGUMENTS
 
 ## 쓰는 방법
 - main은 spec.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있으면 사용자에게 묻고, 없으면 analyzer agent에 맡긴다.
-- design.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
+- design.md가 이미 있으면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 - analyzer는 spec.md를 전부 읽고, §1 입력 맥락에서부터 코드를 조사하며, 요구사항을 더하거나 약하게 바꾸지 않는다.
 - spec.md §5는 옮기지 않고 `SPEC §5.N`으로 가리키며, `/clear` 뒤에도 spec.md와 design.md만으로 implement.md를 만들 수 있게 쓴다.
 - analyzer는 아래 경우 쓰지 않고 main에 돌려주며, main이 사용자에게 묻는다.
@@ -18,7 +18,7 @@ Feature directory: $ARGUMENTS
 
 ## main 검토
 - spec.md §5의 모든 조건이 본문에 `SPEC §5.N`으로 연결됐는지 보고, 설계가 다루지 않는 조건이 있으면 analyzer에 다시 맡긴다.
-- README를 `[x] DESIGN`으로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: DESIGN 작성`을 더한다(재작성이면 `rules/feature-docs.md` §재작성 시 승인 취소).
+- README를 `[x] DESIGN`으로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: DESIGN 작성`을 더한다(재작성이면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소).
 
 ## design.md 구조
 ```markdown

@@ -10,10 +10,10 @@ Feature name: $ARGUMENTS
 
 ## 쓰는 방법
 - main이 직접 쓴다.
-- `features/`는 프로젝트 루트(`commands/project-init.md` §대상 프로젝트 루트) 바로 아래이고, 폴더 이름은 `<yyyyMMdd>-<nnn>-<feature-name>`이다(`<nnn>`은 같은 날짜의 다음 번호, 첫 번째는 `001`).
+- `features/`는 프로젝트 루트(`~/.claude/commands/project-init.md` §대상 프로젝트 루트) 바로 아래이고, 폴더 이름은 `<yyyyMMdd>-<nnn>-<feature-name>`이다(`<nnn>`은 같은 날짜의 다음 번호, 첫 번째는 `001`).
 - ROADMAP 마일스톤 작업은 마일스톤 하나를 feature 하나로 한다.
 - 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
-- spec.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
+- spec.md가 이미 있으면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 
 ## 요구사항 정리
 - 프로젝트 루트 문서와 사용자가 알려 준 문서에서 이 feature에 걸리는 동작·제약을 spec.md만 읽어도 알 수 있게 옮겨 적는다.
@@ -45,12 +45,12 @@ Feature name: $ARGUMENTS
 ## 5. 완료 조건
 1. <사용자·호출자·운영 지표가 확인할 수 있는 동작>
 ```
-- 승인 전 확인 처리는 `rules/feature-docs.md` §승인 전 확인을 따르고, 보류한 결정은 §3이나 §4에 적는다.
+- 승인 전 확인 처리는 `~/.claude/rules/feature-docs.md` §승인 전 확인을 따른다.
 - 입력 맥락은 없으면 뺀다.
 - `SPEC §5.N` 번호는 design.md가 생긴 뒤 바꾸지 않으며, 새 조건은 다음 번호로 더하고 뺄 조건은 `[철회] <이유>`로 바꾼다.
 
 ## README.md 구조
-이미 있으면 새로 만들지 않는다(히스토리는 `rules/feature-docs.md` §재작성 시 승인 취소).
+이미 있으면 새로 만들지 않는다(히스토리는 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소).
 ```markdown
 # <feature-name>
 

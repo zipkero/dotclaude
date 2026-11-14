@@ -9,9 +9,9 @@ Feature directory: $ARGUMENTS
 
 ## 쓰는 방법
 - main은 design.md 승인 전 확인에 `(보류)`가 아닌 항목이 남아 있으면 사용자에게 묻고, 없으면 analyzer agent에 맡긴다.
-- implement.md가 이미 있으면 `rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
+- implement.md가 이미 있으면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
 - analyzer는 design.md와 spec.md를 전부 읽고, 아래 경우 쓰지 않고 main에 돌려주며, main이 사용자에게 묻는다.
-  - design.md §5에 `채택:` 줄이 없거나 비어 있는 Decision Point가 있다.
+  - design.md §5에 `채택:` 줄이 없거나 `미정`인 Decision Point가 이 feature의 Task 범위를 가른다.
   - 해석에 따라 Task 범위가 달라진다.
   - `SPEC §5.N` 중 매핑되지 않은 것이 있다.
 - 재작성이면 analyzer는 기존 Task의 체크박스와 기록 필드를 옮긴다.
@@ -28,7 +28,7 @@ Feature directory: $ARGUMENTS
     - 확인: <테스트 | 실행 | 빌드 | lint | diff | 수동 확인>
   - 참조: SPEC §5.<N> / DESIGN §<N>
 ```
-- 기록 필드(`진행`·`최근 reject`·`승인 근거`·`검증 조건 변경`)는 main이 구현·검증 중에 참조 아래에 더한다.
+- 기록 필드(`진행`·`최근 reject`·`승인 근거`·`사용자 확인`·`검증 조건 변경`)는 main이 구현·검증 중에 참조 아래에 더한다.
 - 참조에는 이 Task가 기여하는 `SPEC §5.N`을 하나 이상, 적용되는 설계가 있으면 `DESIGN §N`을 쓴다.
 
 ## Task 나누기
@@ -40,7 +40,7 @@ Feature directory: $ARGUMENTS
 - `결과`는 참조한 `SPEC §5.N`마다 기대 결과가 갈리는 입력·상태 중 이 Task의 구현이 틀리면 깨지는 것을, spec.md·design.md에 적혔거나 그 문장에서 한 가지로만 따라 나오는 기대 결과와 함께 담는다.
 - 기대 결과가 그렇게 정해지지 않은 것 중 `SPEC §5.N`이 성립하는지를 가르는 것은 `결과`에 넣지 않고 선택지와 함께 main에 돌려주어 main이 사용자의 답을 `결과`에 더하고, 나머지는 `(구현에서 정한다)`로 남긴다.
 - spec.md §3에 사용자가 지정한 검증 방법은 관련 Task의 `확인`에 넣는다.
-- 수동 확인은 이 머신에서 돌릴 수 있는 대안 환경(Docker, 사본 실행, `~/.claude/skills/implement/SKILL.md` §외부 시스템이 허용한 호출 등)으로도 볼 수 없어 사람이 봐야 하는 것에만 쓴다.
+- 수동 확인은 이 머신에서 돌릴 수 있는 대안 환경(Docker, 사본 실행, `~/.claude/CLAUDE.md` §범위가 묻지 않고 허용하는 호출 등)으로도 볼 수 없어 사람이 봐야 하는 것에만 쓴다.
 - 회귀 테스트는 기존 동작을 바꾸거나 기존 동작이 기대는 코드를 고치는 Task의 `확인`에만 넣는다.
 - design.md §1의 의존 방향과 불변 조건은 이미 있는 테스트·lint로 잡히면 그것으로 `확인`한다.
 - design.md §4의 갱신할 프로젝트 루트 문서는 그 내용이 확정되는 Task의 `결과`에 넣는다.
@@ -54,5 +54,5 @@ Feature directory: $ARGUMENTS
 - 매핑되지 않은 조건은 main이 사용자에게 새 Task 추가 / §5에서 철회 / §4 제외 범위로 보류 중 하나를 받는다.
 
 ## main 마무리
-- README의 `IMPLEMENT` 체크박스는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다(재작성이면 `rules/feature-docs.md` §재작성 시 승인 취소).
+- README의 `IMPLEMENT` 체크박스는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다(재작성이면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소).
 - 다음은 한 Task씩 `implement` → `verify`를 부르거나 `/implement-loop <feature-dir>`로 이어서 돌린다.

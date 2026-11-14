@@ -1,8 +1,8 @@
 ---
 description: >-
   Run N (3-5, default 3) independent agents on the same question and cross-verify their reports into a read-only consensus summary.
-  Use only when the user explicitly asks for multiple agents cross-checked (e.g. "3개 에이전트로 각각 분석해서 교차검증해줘").
 argument-hint: "[N(3~5)] <질문>"
+disable-model-invocation: true
 disallowed-tools: Write, Edit, NotebookEdit
 ---
 

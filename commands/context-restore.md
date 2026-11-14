@@ -6,7 +6,7 @@ disallowed-tools: Write, Edit, NotebookEdit
 ---
 
 ## 역할
-- main이 프로젝트 루트(`commands/project-init.md` §대상 프로젝트 루트) `CONTEXT.md`로 작업 위치를 되살리되, 원본 문서·작업 트리와 어긋난 내용은 그대로 이어받지 않는다.
+- main이 프로젝트 루트(`~/.claude/commands/project-init.md` §대상 프로젝트 루트) `CONTEXT.md`로 작업 위치를 되살리되, 원본 문서·작업 트리와 어긋난 내용은 그대로 이어받지 않는다.
 - 어떤 도구로도 파일을 고치지 않고, 복원 보고를 내고 턴을 끝낸다.
 
 ## 복원 절차

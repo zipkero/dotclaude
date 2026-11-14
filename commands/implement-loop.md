@@ -7,9 +7,10 @@ disable-model-invocation: true
 Feature directory: $ARGUMENTS
 
 ## 역할
-- main이 `implement`(implementer agent) → `verify` → `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 `skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
+- main이 `implement`(implementer agent) → `verify` → `~/.claude/skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 `~/.claude/skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
 
 ## 루프
+0. 시작 전에 `~/.claude/skills/implement/SKILL.md` §implementer 위임 기준의 커밋 안 된 변경 질문을 한 번 받고, 루프 중에는 다시 묻지 않는다.
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
    `확인`이 다른 Task에서 확인한 동작을 다른 OS·실기기에서 수동으로 다시 보는 것뿐인 Task는 미뤄 두고 보고에 모은다.
 2. `implement`를 돌린다.
