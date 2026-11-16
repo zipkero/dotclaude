@@ -14,7 +14,7 @@ Claude Code 개인 설정 저장소.
 - **Phased**: `/spec-init → /design-init → /implement-init → implement → verify`
   문서 단계는 slash command, `implement`·`verify`는 자연어로 부르고, 남은 Task는 `/implement-loop`로 이어서 돌릴 수 있다.
   새 프로젝트는 먼저 `/project-init`으로 루트 문서와 마일스톤을 만든다.
-- **Per-Request**: `prompt → implement`, `verify`는 사용자가 요청할 때 부르고 feature 문서는 만들지 않는다(외부 호출 근거는 `.evidence/`에 남는다).
+- **Per-Request**: `prompt → implement`, `verify`는 사용자가 요청할 때 부르고 feature 문서는 만들지 않는다.
 - Phased를 권하는 기준은 `CLAUDE.md` §phase 제어, 지금 어느 쪽인지는 `implement` skill §컨텍스트 로딩이 정하고, `analyze`·`explain`은 어디서든 부른다.
 
 ## 구조
