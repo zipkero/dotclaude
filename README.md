@@ -42,7 +42,8 @@ Claude Code 개인 설정 저장소.
 - `context-restore`·`cross-analyze`·`config-review`는 `disallowed-tools`로 쓰기 도구를 막지만 Bash와 subagent에는 걸리지 않으므로 본문에도 적는다.
 - `rules/`는 작업 디렉토리 안 파일에만 걸리고, `paths` 외 필드는 무시되어 `paths` 대신 `globs`를 쓰면 항상 로드된다(공식 문서 memory §Rule frontmatter reference).
 - `.gitignore`는 허용 목록 방식이며 `features/`, 세션 데이터, credential, 기계마다 다른 `settings.json`은 추적하지 않는다.
-- 외부 시스템 호출 범위는 각 프로젝트 `CLAUDE.md`의 `## 검증 환경`에 허용 대상과 읽기·쓰기 범위로 적고(그 밖의 운영 데이터 조회·쓰기·비용이 생기는 호출은 먼저 묻는다, `CLAUDE.md` §범위), verify가 판정에 쓴 응답 원본은 main checkout 루트의 `.evidence/`에 남기고 `.git/info/exclude`로 커밋에서 빼며, 자동으로 지워지지 않는다.
+- 외부 시스템 호출 범위는 각 프로젝트 `CLAUDE.md`의 `## 검증 환경`에 허용 대상과 읽기·쓰기 범위로 적고, 그 밖의 운영 데이터 조회·쓰기·비용이 생기는 호출은 먼저 묻는다(`CLAUDE.md` §범위).
+- verify가 판정에 쓴 응답 원본은 main checkout 루트의 `.evidence/`에 남기고 `.git/info/exclude`로 커밋에서 빼며, 자동으로 지워지지 않는다.
 - 응답 길이는 output style `Concise`가 맡고, `outputStyle`은 기계마다 한 번 지정한다.
 - compaction 맥락 보존은 기계마다 한 번 설정한다: `hooks/settings-hooks.json`의 항목을 `settings.json`의 `hooks`에 합치고, `claude plugin marketplace add ~/.claude/mods`와 `claude plugin install context-autosave@local-mods`를 실행한다.
 - mod 등록에 `CLAUDE_CODE_PLUGIN_DIRS`를 쓰지 않는다: `settings.json` `env`의 값이 프로세스 환경값을 덮어써 Orca가 넣는 `orca-agent-view` 플러그인이 빠진다.

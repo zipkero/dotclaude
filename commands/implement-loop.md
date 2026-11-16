@@ -10,12 +10,13 @@ Feature directory: $ARGUMENTS
 - main이 `implement`(implementer agent) → `verify` → `~/.claude/skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 `~/.claude/skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
 
 ## 루프
-0. 시작 전에 `~/.claude/skills/implement/SKILL.md` §implementer 위임 기준의 커밋 안 된 변경 질문을 한 번 받고, 루프 중에는 다시 묻지 않는다.
+0. `~/.claude/skills/implement/SKILL.md` §implementer 위임 기준의 '커밋 안 된 변경' 질문은 시작 전에 한 번만 묻고, 루프 중에는 다시 묻지 않는다.
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
-   `확인`이 다른 Task에서 확인한 동작을 다른 OS·실기기에서 수동으로 다시 보는 것뿐인 Task는 미뤄 두고 보고에 모은다.
+   `확인`이 다른 Task에서 이미 확인한 동작을 다른 OS·실기기에서 수동으로 다시 보는 것뿐인 Task는 미뤄 두고 §보고에 모은다.
 2. `implement`를 돌린다.
 3. `verify`를 돌린다.
-4. `approved`면 후처리를 하되 사용자 확인은 §보고로 미루고 1로, `rejected`면 후처리를 하고 §재시도로 간다.
+4. `approved`면 후처리를 하고 1로 돌아가며, 후처리의 사용자 확인은 묻지 않고 §보고로 미룬다.
+   `rejected`면 후처리를 하고 §재시도로 간다.
 
 ## 재시도
 - `evidence`면 다시 구현하지 않고, main이 해소 조건의 입력·환경을 갖춰 §루프 3단계부터 다시 한다(Task당 최대 2회).
