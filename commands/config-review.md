@@ -1,7 +1,7 @@
 ---
 description: >-
   Read-only audit of the global configuration — role boundaries, duplication, unnecessary rules, ambiguity, flow integrity, conformance to current official
-  Claude Code documentation, README accuracy, rules that add avoidable work, and verdict rules that reject non-defects — returning edit proposals for approval
+  Claude Code documentation, README accuracy, rules that add avoidable work, verdict rules that reject non-defects, and violated rules that a deterministic mechanism could enforce — returning edit proposals for approval
 argument-hint: "[대상 파일·skill 또는 중점 관점]"
 disable-model-invocation: true
 disallowed-tools: Write, Edit, NotebookEdit
@@ -21,13 +21,14 @@ main이 전역 설정(`~/.claude`)의 `git ls-files` 추적 파일(인자가 대
    - 완료 조건을 어기는 변경을 못 잡게 하는 규칙
 4. 명확성 — 두 가지로 읽히는 표현, 규칙끼리의 충돌, 우선순위나 경계로 엮이지 않았는데 쉼표로 이어 붙인 서로 다른 규칙, 같은 개념을 파일마다 다른 이름으로 부르는 곳이 있는가.
 5. 흐름 — 각 단계 산출물만으로 다음 단계를 이어갈 수 있고, `§` 참조가 실제 섹션을 가리키며, 쓰는 쪽과 읽는 쪽의 항목·값이 맞는가.
-6. 공식 문서 — 저장소가 쓰는 모델 값·도구·설정 키·frontmatter 필드를 `code.claude.com/docs/en/`의 `skills`·`sub-agents`·`memory` 페이지와 대조하고, `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`를 `curl`로 받아 그 이름들이 removed·deprecated·renamed로 나오는지 Grep한다.
+6. 공식 문서 — 저장소가 쓰는 모델 값·도구·설정 키·frontmatter 필드·hook 입력과 종료 코드·CLI 플래그·환경 변수를 `code.claude.com/docs/en/`의 `skills`·`sub-agents`·`memory`·`hooks`·`cli-reference`·`env-vars` 페이지와 대조하고, `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`를 `curl`로 받아 그 이름들이 removed·deprecated·renamed로 나오는지 Grep한다.
 7. `README.md` — 실제 동작·파일 구성과 맞는가.
 8. 성능 — 결과(요청 범위·완료 조건·검증·테스트 실행)는 그대로 두고 덜어낼 수 있는 멈춤이나 일을 만드는 아래 규칙이 있는가.
    - 위임한 일을 다시 하게 하거나, 정한 결정을 다시 묻게 하거나, 작은 일에 subagent를 띄우게 하는 규칙
    - 산출물(Task·검증 조건·테스트)을 필요한 것보다 늘리거나 필요 없어진 산출물을 남기게 하는 규칙
    - 원칙 대신 닫힌 나열이나 예외 없는 강제(항상·반드시·`~만`)로 판단 범위를 좁히는 규칙
 9. 판정 비례성 — 판정 기준이 실제로 생기는 결함이 아닌 표현·형식이나 생길 근거가 없는 입력으로 reject를 만드는가.
+10. 결정적 승격 — 어긴 문장 규칙 중 frontmatter(`disallowedTools`·`hooks` 등), `hooks/` 스크립트, `verify` skill §reject 분류로 막을 수 있는 것이 있는가. 있으면 after는 그 장치로 내고, 막는 조건과 놓치는 경우를 적으며, 원래 문장은 놓치는 경우가 없을 때만 지운다.
 
 제안은 기존 규칙을 고치거나 지우는 쪽으로 낸다.
 새 규칙이나 기존 문장에 덧붙이는 조건·예외·괄호는 그것이 없어 생긴 결함에 §출력 형식의 근거가 있을 때만 더한다.
@@ -50,8 +51,9 @@ main이 전역 설정(`~/.claude`)의 `git ls-files` 추적 파일(인자가 대
 - 근거가 없는 발견은 내지 않으며, 근거는 발견 종류마다 아래와 같다.
   - 글만으로 드러나는 결함(1·2·7번, 규칙끼리의 충돌, 없는 `§`, 쓰는 쪽과 읽는 쪽의 값 불일치, 3번 `문구`): 그 `file:line`
   - 6번: 공식 문서 위치
-  - 모델이 다르게 읽거나 실행한다는 결함(두 가지로 읽히는 표현, 경로 해석 등)과 3·8·9번 `동작`: 그 문장이 들어간 커밋 이후 세션 기록(`~/.claude/projects/*/*.jsonl`을 Grep)에서 실제로 그렇게 된 사례의 경로와 줄
-- 3·8번 `동작`에는 그 규칙이 걸리는 과제를 붙이고, 승인되면 대상 프로젝트의 `git worktree` 사본에서 `claude -p`로 적용 전후 판을 과제마다 2회 이상 돌려 결과가 같은지와 비용(턴·토큰·도구 호출·subagent 수) 측정값을 보고한다.
+  - 모델이 다르게 읽거나 실행한다는 결함(두 가지로 읽히는 표현, 경로 해석 등)과 3·8·9·10번 `동작`: 그 문장이 들어간 커밋 이후 세션 기록(`~/.claude/projects/*/*.jsonl`을 Grep)에서 실제로 그렇게 된 사례의 경로와 줄
+- 3·8번과 hook이 아닌 10번 `동작`에는 그 규칙이 걸리는 과제를 붙이고, 승인되면 대상 프로젝트의 `git worktree` 사본에서 `claude -p`로 적용 전후 판을 과제마다 2회 이상 돌려 결과가 같은지와 비용(턴·토큰·도구 호출·subagent 수) 측정값을 보고한다.
   `CLAUDE.md`는 `CLAUDE_CODE_DISABLE_CLAUDE_MDS=1`과 `--append-system-prompt-file`로 두 판을 넣고, 따로 넣을 수 없는 변경은 돌리지 않는다.
+- 10번 hook은 세션 기록의 어긴 호출과 같은 도구의 정상 호출을 hook 입력 JSON으로 stdin에 넣어 종료 코드(어긴 호출 2, 정상 0)를 보고한다.
 - 발견이 없으면 확인한 범위를 적는다.
 - 사용자가 제안을 기각하거나 이유를 들어 고르거나 승인하지 않은 `동작`이 남으면, §정한 결정에 해당하는지 보고 넣을지 묻는다.
