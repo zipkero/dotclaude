@@ -1,1 +1,0 @@
-{ "name": "context-autosave", "version": "0.1.0", "description": "Asks the model to run context-save once the context nears the auto-compaction threshold." }

@@ -1,7 +1,0 @@
-{
-  "name": "local-mods",
-  "owner": { "name": "local" },
-  "plugins": [
-    { "name": "context-autosave", "source": "./context-autosave", "description": "Asks the model to run context-save once the context nears the auto-compaction threshold." }
-  ]
-}
