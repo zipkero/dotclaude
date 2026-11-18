@@ -22,9 +22,9 @@ spec.md·design.md의 `## 승인 전 확인`은 사용자 판단이 필요한 �
 `/spec-init`·`/design-init`·`/implement-init`이 문서를 쓰거나 다시 쓰면, main은 README·작업 히스토리를 고치기 전에 아래를 한다.
 1. doc-reviewer agent에 `<feature-dir>`, 대상 문서, 그 문서를 쓴 command 경로를 넘기고, 대화 내용은 넘기지 않는다.
 2. main은 문서가 이번 대화에서 사용자가 확정한 내용·요청 의도와 어긋나는지 직접 본다.
-3. doc-reviewer나 main이 낸 지적의 `수정 소유 단계`가 대상 문서의 command이면 작성자가 고친다.
+3. doc-reviewer나 main이 낸 지적의 `수정 소유 단계`가 대상 문서의 command이면 작성자가 고치고, doc-reviewer의 남은 지적은 넘기지 않는다.
    - spec.md는 main이 고치고, design.md·implement.md는 같은 analyzer에 지적을 넘겨 이어서 맡기며, 이어 갈 수 없으면 새 analyzer에 문서 경로와 지적을 넘긴다.
-   - 고친 뒤 직전 지적을 함께 넘겨 1·2를 다시 하며, 고치기는 문서마다 최대 2회다.
+   - 고친 뒤 새 doc-reviewer에 직전 지적을 함께 넘겨 1·2를 다시 하며, 고치기는 문서마다 최대 2회다.
 4. 아래면 멈추고 지적, 근거, 선택지를 사용자에게 알린다.
    - `수정 소유 단계`가 앞 단계 command이거나 `사용자 판단`이다.
    - 2회 고친 뒤에도 지적이 남는다.
