@@ -13,6 +13,7 @@ Claude Code 개인 설정 저장소.
 ## 흐름
 - **Phased**: `/spec-init → /design-init → /implement-init → implement → verify`
   문서 단계는 slash command, `implement`·`verify`는 자연어로 부르고, 남은 Task는 `/implement-loop`로 이어서 돌릴 수 있다.
+  각 문서 단계는 끝나기 전에 doc-reviewer와 main이 검토하고, 작성 단계 결함이면 작성자가 최대 2회 고친다(`rules/feature-docs.md` §작성 후 검토).
   새 프로젝트는 먼저 `/project-init`으로 루트 문서와 마일스톤을 만든다.
 - **Per-Request**: `prompt → implement`, `verify`는 사용자가 요청할 때 부르고 feature 문서는 만들지 않는다.
 - Phased를 권하는 기준은 `CLAUDE.md` §phase 제어, 지금 어느 쪽인지는 `implement` skill §컨텍스트 로딩이 정하고, `analyze`·`explain`은 어디서든 부른다.
@@ -24,6 +25,7 @@ Claude Code 개인 설정 저장소.
 | `agents/analyzer.md` | 독립 분석, `design.md`·`implement.md` 작성 |
 | `agents/implementer.md` | Phased 구현(체크박스는 main이 바꾼다) |
 | `agents/verifier.md` | verify 판정만 |
+| `agents/doc-reviewer.md` | feature 문서 작성 직후 대화 맥락 없이 검토 |
 | `commands/project-init.md` | 루트 `README.md`·`ROADMAP.md`·`docs/product.md`·`docs/design.md` 생성 |
 | `commands/spec-init.md` · `design-init.md` · `implement-init.md` | feature 문서 생성 |
 | `commands/implement-loop.md` | 남은 Task 반복 실행 |

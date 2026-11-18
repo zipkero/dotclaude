@@ -56,5 +56,5 @@ Feature directory: $ARGUMENTS
 - 매핑되지 않은 조건은 main이 새 Task 추가 / §5에서 철회 / §4 제외 범위로 보류 중 무엇으로 할지 사용자에게 묻는다.
 
 ## main 마무리
-- README의 `IMPLEMENT` 체크박스는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다(재작성이면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소).
+- `~/.claude/rules/feature-docs.md` §작성 후 검토를 통과하면 README의 `IMPLEMENT` 체크박스는 그대로 두고, 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 체크리스트 작성`을 더한다(재작성이면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소).
 - 다음은 한 Task씩 `implement` → `verify`를 부르거나 `/implement-loop <feature-dir>`로 이어서 돌린다.

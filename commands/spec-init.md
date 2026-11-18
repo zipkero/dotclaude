@@ -14,6 +14,7 @@ Feature name: $ARGUMENTS
 - ROADMAP 마일스톤 작업은 마일스톤 하나를 feature 하나로 한다.
 - 인자가 기존 `features/<feature-dir>`이거나 같은 `<feature-name>` 폴더가 있으면 그 폴더를 쓴다.
 - spec.md가 이미 있으면 `~/.claude/rules/feature-docs.md` §재작성 시 승인 취소를 따른다.
+- spec.md를 쓰면 `~/.claude/rules/feature-docs.md` §작성 후 검토를 마친 뒤 README.md를 만들거나 고친다.
 
 ## 요구사항 정리
 - 프로젝트 루트 문서와 사용자가 알려 준 문서에서 이 feature에 걸리는 동작·제약을 spec.md만 읽어도 알 수 있게 옮겨 적는다.
