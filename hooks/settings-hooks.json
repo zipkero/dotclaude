@@ -1,8 +1,0 @@
-{
-  "SessionStart": [
-    { "matcher": "compact", "hooks": [ { "type": "command", "command": "sh \"$HOME/.claude/hooks/restore-context.sh\"", "timeout": 10 } ] }
-  ],
-  "PreCompact": [
-    { "hooks": [ { "type": "command", "command": "sh \"$HOME/.claude/hooks/compact-instructions.sh\"", "timeout": 10 } ] }
-  ]
-}

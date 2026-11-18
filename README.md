@@ -30,7 +30,6 @@ Claude Code 개인 설정 저장소.
 | `commands/config-review.md` | 전역 설정 점검 |
 | `commands/cross-analyze.md` | N개 agent 교차검증 분석 |
 | `commands/context-save.md` · `context-restore.md` | `CONTEXT.md` 저장·복원 |
-| `hooks/` | compaction 요약 지시·`CONTEXT.md` 복원 hook 스크립트와 `settings.json`에 합칠 `settings-hooks.json` |
 | `skills/analyze` · `explain` | 원인 분석·선택지 비교 / 동작 설명 |
 | `skills/implement` · `verify` | 구현 / 판정과 판정 뒤 기록 |
 | `skills/commit-push` | 스테이징·커밋·푸시 |
@@ -44,4 +43,3 @@ Claude Code 개인 설정 저장소.
 - 외부 시스템 호출 범위는 각 프로젝트 `CLAUDE.md`의 `## 검증 환경`에 허용 대상과 읽기·쓰기 범위로 적고, 그 밖의 운영 데이터 조회·쓰기·비용이 생기는 호출은 먼저 묻는다(`CLAUDE.md` §범위).
 - verify가 판정에 쓴 응답 원본은 main checkout 루트의 `.evidence/`에 남기고 `.git/info/exclude`로 커밋에서 빼며, 자동으로 지워지지 않는다.
 - 응답 길이는 output style `Concise`가 맡고, `outputStyle`은 기계마다 한 번 지정한다.
-- compaction 맥락 보존은 기계마다 한 번 설정한다: `hooks/settings-hooks.json`의 항목을 `settings.json`의 `hooks`에 합친다.
