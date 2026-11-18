@@ -19,10 +19,10 @@ spec.md·design.md의 `## 승인 전 확인`은 사용자 판단이 필요한 �
 - 사용자가 보류하면 `- (보류) <질문>. 관련 본문: §N`으로 남긴다.
 
 ## 재작성 시 승인 취소
-`/spec-init`·`/design-init`·`/implement-init`으로 기존 문서를 다시 쓸 때, implement.md에 `[x]` Task가 있으면 다시 쓸 때 `[ ]`로 되돌아갈 수 있는 Task를 알리고 먼저 묻는다.
+`/spec-init`·`/design-init`·`/implement-init`으로 기존 문서를 다시 쓸 때, implement.md에 `[x]` Task가 있으면 `[ ]`로 되돌아갈 수 있는 Task를 알리고 먼저 묻는다.
 다시 쓰면 main이 아래를 한다.
 - 뜻이 바뀐 `SPEC §5.N`·`DESIGN §N`을 참조하거나 목적·검증 조건이 바뀐 Task와, 그 Task에 의존하는 뒤쪽 Task를 `[ ]`로 되돌리고 `승인 근거`를 지운다.
 - 영향 범위를 알 수 없으면 모두 되돌린다.
-- README의 `IMPLEMENT`는 Task를 하나라도 되돌리면, `DESIGN`은 `/spec-init` 재작성이면 `[ ]`로 되돌린다.
+- Task를 하나라도 되돌리면 README의 `IMPLEMENT`를 `[ ]`로 되돌리고, `/spec-init` 재작성이면 `DESIGN`을 `[ ]`로 되돌린다.
 - 다시 쓰는 문서보다 뒤 단계인 design.md·implement.md는 지우지 않고, Task의 내용·ID·순서는 `/implement-init` 재작성이 아니면 그대로 둔다.
 - 작업 히스토리에 `- <yyyy-MM-dd>: <SPEC|DESIGN|IMPLEMENT> 재작성`과 되돌린 Task를 적는다.
