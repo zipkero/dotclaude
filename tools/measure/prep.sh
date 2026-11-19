@@ -1,5 +1,5 @@
 #!/bin/sh
-# usage: prep.sh <git-ref|WORKTREE> <out-dir>
+# usage: sh prep.sh <git-ref|WORKTREE> <out-dir>
 # ~/.claude 추적 파일을 <git-ref> 시점(WORKTREE면 작업 트리)으로 <out-dir>에 복사하고,
 # hook·플러그인 항목을 뺀 settings.json을 더한다.
 set -eu

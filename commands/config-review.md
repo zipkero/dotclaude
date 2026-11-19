@@ -69,10 +69,11 @@ main이 전역 설정(`~/.claude`)의 `git ls-files` 추적 파일(인자가 대
 
 ## 측정 방법
 판은 이 세션의 `~/.claude`가 섞이지 않도록 `~/.claude/tools/measure/`로 Docker 컨테이너에서 돌린다.
+0. 기계마다 한 번 `claude setup-token`으로 받은 토큰을 `~/.config/claude/review-token`에 저장한다.
 1. 이미지 `cr-measure`가 없거나 이 세션의 `claude --version`과 다르면 `docker build --build-arg CLAUDE_VERSION=<버전> -t cr-measure ~/.claude/tools/measure`로 만든다.
-2. `prep.sh <git-ref|WORKTREE> <폴더>`로 적용 전·후 설정 사본을 만든다.
-3. 과제와 판마다 `MODEL=<이 세션의 main 모델> run.sh <설정 사본> <대상 프로젝트 저장소> <판 폴더> "<과제>"`를 돌리고, 사용자 답이 필요한 과제는 같은 판 폴더로 다시 불러 이어 돌린다.
-4. `python summarize.py <판 폴더>...`로 측정값을 내고, `CLAUDE.md loaded: False`인 판은 버리고 원인을 고친 뒤 다시 돌린다.
+2. `sh prep.sh <git-ref|WORKTREE> <폴더>`로 적용 전·후 설정 사본을 만든다.
+3. 과제와 판마다 `MODEL=<이 세션의 main 모델> sh run.sh <설정 사본> <대상 프로젝트 저장소> <판 폴더> "<과제>"`를 돌리고, 사용자 답이 필요한 과제는 같은 판 폴더로 다시 불러 이어 돌린다.
+4. `python3 summarize.py <판 폴더>...`(Windows는 `python`)로 측정값을 내고, `CLAUDE.md loaded: False`인 판은 버리고 원인을 고친 뒤 다시 돌린다.
 
 컨테이너에는 hook·플러그인이 없고 Windows에서만 생기는 동작(PowerShell 도구, Git Bash hook, Windows 경로)도 생기지 않으므로, 그 동작에 걸리는 발견은 측정하지 않았다고 적는다.
 판 폴더는 보고한 뒤 지운다.
