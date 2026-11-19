@@ -21,13 +21,13 @@
 - 이번 변경으로 생긴 빌드·테스트 실패와 지적받은 결함은 증상이 보인 곳을 막는 대신 원인을 고치며, 범위 안에서 같은 원인이 있는 곳도 모두 고친다.
 - 원인이 풀리지 않거나, 요청 밖 변경이 필요하거나, 판단이 목적·설계와 어긋나면 멈추고 선택지를 알린다.
 - 외부 시스템(DB·API 등)은 프로젝트 `CLAUDE.md` §검증 환경이 허용한 대상·읽기·쓰기 범위에서는 묻지 않고 호출하고, 그 밖에서 운영 데이터를 읽거나 쓰기·비용이 생기는 호출은 먼저 묻는다.
-- 새 파일이나 작업 디렉토리 밖 파일을 쓰기 전에, `paths`가 그 파일과 맞는 `~/.claude/rules/`·프로젝트 `.claude/rules/` 규칙이 지금 컨텍스트에 없으면 먼저 Read한다.
+- 새 파일이나 작업 디렉토리 밖 파일을 쓰기 전에, `paths`가 그 파일과 맞는 Claude 전역 설정 폴더의 `rules/`·프로젝트 `.claude/rules/` 규칙이 지금 컨텍스트에 없으면 먼저 Read한다.
 - 이번 변경으로 안 쓰이거나 틀리게 된 코드·로그·주석·테스트·설정값은 지우거나 고치고, 그 밖의 것은 지우지 않는다.
 
 ## phase 제어
-- 작업 방식(Per-Request·Phased)은 `~/.claude/skills/implement/SKILL.md` §컨텍스트 로딩이 정한다.
+- 작업 방식(Per-Request·Phased)은 Claude 전역 설정 폴더의 `skills/implement/SKILL.md` §컨텍스트 로딩이 정한다.
 - 외부 계약(API·저장 형식·설정 키처럼 바꾸면 기존 사용처가 깨지는 것)이나 모듈 경계를 정해야 하거나, Task 여러 개로 나눠 차례로 구현해야 할 만큼 크면 코드를 쓰기 전에 Phased를 권하고 사용자가 고르게 한다.
-- Phased는 `/spec-init`으로 시작하고, 프로젝트 루트 문서(`~/.claude/commands/project-init.md` §산출 경로)가 하나도 없으면 `/project-init`을 먼저 권한다.
+- Phased는 `/spec-init`으로 시작하고, 프로젝트 루트 문서(Claude 전역 설정 폴더의 `commands/project-init.md` §산출 경로)가 하나도 없으면 `/project-init`을 먼저 권한다.
 - `/spec-init`·`/design-init`·`/implement-init`은 사용자가 요청하거나 "문제 없으면 다음 단계"처럼 허락했을 때만 부른다.
 - `Explore`는 `model: sonnet`으로 띄운다.
 

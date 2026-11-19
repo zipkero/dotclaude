@@ -58,4 +58,4 @@ Task를 처음 위임하기 전에 `features/<feature-dir>/` 밖에 커밋 안 �
 main이 하는 일이다.
 - Phased에서는 결과를 받으면 대상 Task 참조 아래에 `- 진행: <yyyy-MM-dd> <completed|blocked> — <`git status`로 본 `features/<feature-dir>/` 밖 변경 파일 중 위임 전에 그대로 두기로 한 것을 뺀 전체>; <접근 이탈이나 막힌 이유 한 줄>`을 쓰거나 고친다.
 - `completed`면 같은 턴에 `verify`를 부르고(사용자가 빼 달라고 했으면 권하기만 한다), `blocked`면 막힌 이유와 선택지를 사용자에게 묻는다.
-- verify 뒤 기록은 `~/.claude/skills/verify/SKILL.md` §verify 후처리를 따른다.
+- verify 뒤 기록은 Claude 전역 설정 폴더의 `skills/verify/SKILL.md` §verify 후처리를 따른다.
