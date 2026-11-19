@@ -7,7 +7,7 @@ disable-model-invocation: true
 Feature directory: $ARGUMENTS
 
 ## 역할
-- main이 `implement`(implementer agent) → `verify` → Claude 전역 설정 폴더의 `skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 Claude 전역 설정 폴더의 `skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
+- main이 `implement`(implementer agent) → `verify` → `~/.claude/skills/verify/SKILL.md` §verify 후처리를 사용자 개입 없이 반복하고, 문서는 그 후처리와 `~/.claude/skills/implement/SKILL.md` §완료가 고치는 것만 고친다.
 
 ## 루프
 1. 위에서부터 이번 루프에서 미루지 않은 첫 `[ ]` Task를 잡고, 없으면 끝낸다.
@@ -31,7 +31,7 @@ Feature directory: $ARGUMENTS
 - 동작 — `SPEC §5.N`마다 성립 여부와 확인한 방법(`승인 근거` 인용)
 - 구조 — 구현된 design.md §1·§2의 요지와 링크, 접근 이탈로 고친 기본안
 - AI가 정한 결정 — 접근 이탈마다 결정, 이유, 버린 대안, `file:line`
-- 검증 — 마지막 Task verify의 전체 테스트와 통합 판정(Claude 전역 설정 폴더의 `skills/verify/SKILL.md` §판단 기준 5) 결과
+- 검증 — 마지막 Task verify의 전체 테스트와 통합 판정(`~/.claude/skills/verify/SKILL.md` §판단 기준 5) 결과
 - 잔여 위험 — implement.md의 `미확인`·`남은 지적`, 미룬 수동 확인, 테스트를 둘 수 없었던 대상
 
 그 뒤에 아래 항목을 쓴다.
@@ -40,7 +40,7 @@ Feature directory: $ARGUMENTS
 3. Task별 재시도 횟수와 verify가 낸 문제 한 줄
 4. 다음 할 일 — 고쳐야 할 문서(`수정 소유 단계`가 있으면 그 단계)나 사용자가 정할 것
 5. 종료 요약에 쓰지 않은 것 중 미룬 수동 확인, 승인된 Task의 `미확인`·`남은 지적`·`판정 방법 변경`, 이번 루프에서 남긴 `검증 조건 변경`, 멈춘 Task의 implement 비고에 적힌 범위 밖 발견과 verify의 남은 지적, 문서 갱신 후보
-6. 규칙 후보 — 같은 원인의 문제가 재시도나 다른 Task에서 다시 나왔거나 결함이 아닌데 reject가 났으면, 그 원인을 다루는 기존 규칙에서 고칠 문장(없으면 한 줄 규칙과 넣을 곳 Claude 전역 설정 폴더의 `rules/<파일>` 또는 프로젝트 `CLAUDE.md`, 설정·도구로 막을 수 있으면 그 방법)
+6. 규칙 후보 — 같은 원인의 문제가 재시도나 다른 Task에서 다시 나왔거나 결함이 아닌데 reject가 났으면, 그 원인을 다루는 기존 규칙에서 고칠 문장(없으면 한 줄 규칙과 넣을 곳 `~/.claude/rules/<파일>` 또는 프로젝트 `CLAUDE.md`, 설정·도구로 막을 수 있으면 그 방법)
    사용자가 승인해야 넣는다.
 
 없는 항목은 뺀다.

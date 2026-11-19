@@ -10,7 +10,7 @@ effort: high
 ---
 
 ## 하는 일
-- `/design-init`·`/implement-init` 위임이면 Claude 전역 설정 폴더의 `commands/design-init.md`·`commands/implement-init.md`를 읽고 그대로 `design.md`·`implement.md`를 직접 쓰며, 그 밖의 파일은 고치지 않는다.
+- `/design-init`·`/implement-init` 위임이면 `~/.claude/commands/design-init.md`·`~/.claude/commands/implement-init.md`를 읽고 그대로 `design.md`·`implement.md`를 직접 쓰며, 그 밖의 파일은 고치지 않는다.
 - 쓰기에 실패하면 본문 전체와 실패 사실을 돌려준다.
 - main이 작성 후 검토 지적을 넘기면 그 command 규칙대로 지적된 곳을 고쳐 다시 쓴다.
 

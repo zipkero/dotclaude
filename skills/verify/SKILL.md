@@ -11,7 +11,7 @@ description: >-
 - 변형·실험은 작업 트리 밖 사본이나 도구의 overlay에서 한다.
 
 ## 대상과 범위
-- Phased mode인지는 Claude 전역 설정 폴더의 `skills/implement/SKILL.md` §컨텍스트 로딩 기준으로 정한다.
+- Phased mode인지는 `~/.claude/skills/implement/SKILL.md` §컨텍스트 로딩 기준으로 정한다.
 - 판정 대상은 직전 `implement`가 작업한 `[ ]` Task이고, 사용자가 `[x]` Task를 짚으면 그 Task다.
 - 재검증(reject 뒤 재작업이나 `[x]` Task를 다시 보는 판정)은 직전 문제가 증상만이 아니라 원인까지 고쳐졌는지와 재작업이 바꾼 부분을 보고, 넘겨받은 `미확인`·남은 지적 중 아직 남는 것은 이번 출력의 `미확인`·남은 지적에 다시 적는다.
 - Per-Request는 feature 문서를 읽지 않고, 아래에 나오는 Task 목적·검증 조건·완료 조건을 모두 사용자가 요청한 동작으로 바꿔 읽는다.
@@ -23,17 +23,17 @@ description: >-
 - 실행 결과의 수치와 판정 문구는 출력 줄을 그대로 인용한다.
 - 판정에 쓰는 외부 호출의 응답은 자르지 않고, 판정 한 번마다 폴더 하나에 저장한다.
   - 폴더: main checkout 루트의 `.evidence/<feature-dir>/task-<nnn>/<yyyyMMdd-HHmmss>/`, Per-Request는 `.evidence/<yyyyMMdd-HHmmss>-<요청 요약>/`
-  - main checkout 루트: `git rev-parse --path-format=absolute --git-common-dir`의 상위 디렉토리, git이 아니면 Claude 전역 설정 폴더의 `commands/project-init.md` §대상 프로젝트 루트
+  - main checkout 루트: `git rev-parse --path-format=absolute --git-common-dir`의 상위 디렉토리, git이 아니면 `~/.claude/commands/project-init.md` §대상 프로젝트 루트
 - 같은 폴더 `manifest.md`에 요청마다 요청·대상 환경·시각·HEAD와 커밋 안 된 변경 유무, 쓰기를 했으면 바꾸기 전후 상태를 적고, 근거에 그 폴더 경로를 붙인다.
 - `.evidence/`가 `git check-ignore`로 무시되지 않으면 처음 저장하기 전에 `.git/info/exclude`에 더한다.
-- 프로젝트 검증 명령(출처는 Claude 전역 설정 폴더의 `skills/implement/SKILL.md` §코드와 테스트)의 build·typecheck·lint를 직접 돌린다.
+- 프로젝트 검증 명령(출처는 `~/.claude/skills/implement/SKILL.md` §코드와 테스트)의 build·typecheck·lint를 직접 돌린다.
 - 테스트는 바뀐 코드와 테스트가 닿는 범위만 돌리고, 좁힐 수 없거나 이 Task가 마지막 Task이면 전체를 돌린다.
 - 마지막 Task는 이 Task를 `[x]`로 바꾸면 남는 `[ ]` Task가 없거나, 남는 Task가 모두 다른 Task에서 확인한 동작을 다른 OS·실기기에서 수동으로 다시 보는 것뿐인 Task다.
 - 이번 변경에서 쓰거나 고친 테스트는 `결과`가 말하는 대상마다, 그 대상만 깨뜨리는 변경이 들어오면 실패하는지 assertion과 대상 코드를 읽어 판단한다.
 - 읽어서 판단할 수 없을 때만 그 대상을 깨뜨리도록 코드를 바꾼 변형을 실제로 돌려 본다.
-- 직접 확인할 수 없는 것은 이 머신에서 돌릴 수 있는 대안 환경(Docker, 사본 실행, Claude 전역 설정 폴더의 `CLAUDE.md` §범위가 묻지 않고 허용하는 호출 등)으로 확인한다.
+- 직접 확인할 수 없는 것은 이 머신에서 돌릴 수 있는 대안 환경(Docker, 사본 실행, `~/.claude/CLAUDE.md` §범위가 묻지 않고 허용하는 호출 등)으로 확인한다.
 - 검증 조건의 확인 수단을 바꿨으면 `대체: <조건의 수단> → <쓴 수단> — <뜻이 유지되는 근거>`를 적는다.
-- 대안 환경으로도 볼 수 없는 것(화면 모양, 실기기, Claude 전역 설정 폴더의 `CLAUDE.md` §범위가 허용하지 않는 대상 등)은 `미확인`으로 적고, 그것만으로 reject하지 않는다.
+- 대안 환경으로도 볼 수 없는 것(화면 모양, 실기기, `~/.claude/CLAUDE.md` §범위가 허용하지 않는 대상 등)은 `미확인`으로 적고, 그것만으로 reject하지 않는다.
 - 마지막 Task의 전체 테스트에서 바꾸기 전 코드는 이 feature의 첫 Task를 구현하기 전 커밋이고, 그 커밋을 정할 수 없으면 실패를 무관하다고 보지 않는다.
 
 ## 판단 기준
@@ -90,13 +90,13 @@ description: >-
 main이 하는 일이며, Per-Request는 rejected의 마지막 항목만 따른다.
 - approved
   - `매핑 누락`이 있으면 그 문장을 맡는 Task의 참조에 `SPEC §5.N`을 더하고, 맡을 Task가 없으면 `미확인`으로 남긴다.
-  - 근거에 `대체`가 있으면, Claude 전역 설정 폴더의 `rules/feature-docs.md` 기준상 사용자에게 물어야 하는 변경일 때는 고치지 않고 `미확인`으로 남기고, 아니면 그 Task의 `결과`·`확인`을 실제로 쓴 수단에 맞게 고치고 `- 검증 조건 변경:` 줄을 남긴다.
+  - 근거에 `대체`가 있으면, `~/.claude/rules/feature-docs.md` 기준상 사용자에게 물어야 하는 변경일 때는 고치지 않고 `미확인`으로 남기고, 아니면 그 Task의 `결과`·`확인`을 실제로 쓴 수단에 맞게 고치고 `- 검증 조건 변경:` 줄을 남긴다.
   - 체크박스를 `[x]`로 바꾸고, 접근 이탈이 있었으면 접근 필드와 달라진 design.md 기본안 서술을 실제 구현대로 고친다.
   - `진행`·`최근 reject` 줄을 지우고 참조 아래에 `- 승인 근거: <yyyy-MM-dd> — 실행: <명령> → <결과>; 외부: <.evidence 경로> → <인용>; 변형: <변형> → <결과>; 미확인: <사용자가 확인하거나 정해야 하는 항목>; 남은 지적: <verify의 남은 지적과 implement 비고의 범위 밖 발견·테스트를 둘 수 없는 대상>; 통합: <마지막 Task면 §판단 기준 5 결과>; 판정 방법 변경: <사용자 지시 인용>`을 쓰거나 고친다(`실행` 외에는 있을 때만).
   - 모든 Task가 `[x]`이고 implement.md에서 `미확인:`이 검색되지 않으면 README를 `[x] IMPLEMENT`로 바꾸고 작업 히스토리에 `- <yyyy-MM-dd>: IMPLEMENT 완료`를 더하고, 낡은 프로젝트 루트 문서는 갱신 후보로만 알린다.
   - 지운 `진행` 줄에 적혀 있던 파일과 feature 문서를 `commit-push` skill §절차 3·4대로 현재 브랜치의 한 커밋에 싣고(push하지 않는다), 접근 이탈의 이유와 버린 대안은 커밋 본문에 쓴다.
 - 사용자 확인
-  - `미확인` 항목을 사용자에게 묻되, 매핑 누락은 Claude 전역 설정 폴더의 `commands/implement-init.md` §매핑의 세 선택지로, `대체`는 바꾼 수단을 받아들일지로 묻는다.
+  - `미확인` 항목을 사용자에게 묻되, 매핑 누락은 `~/.claude/commands/implement-init.md` §매핑의 세 선택지로, `대체`는 바꾼 수단을 받아들일지로 묻는다.
   - 답을 받으면 그 항목을 `승인 근거`에서 지우고 답대로 반영한 뒤(확인 결과는 `사용자 확인: <결과>`, 받아들인 `대체`는 `검증 조건 변경`) 위 README 단계를 다시 보고, 고친 feature 문서를 한 커밋에 싣는다.
   - 확인 결과가 기대와 다르거나 `대체`를 받아들이지 않으면 반영하지 않고 그 Task를 대상으로 `verify`를 다시 부른다(재검증).
 - rejected

@@ -10,6 +10,7 @@
 !commands/
 !rules/
 !hooks/
+!tools/
 !README.md
 
 # 하네스·외부가 관리하는 skill은 추적하지 않는다

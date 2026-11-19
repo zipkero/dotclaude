@@ -35,7 +35,8 @@ Claude Code 개인 설정 저장소.
 | `skills/analyze` · `explain` | 원인 분석·선택지 비교 / 동작 설명 |
 | `skills/implement` · `verify` | 구현 / 판정과 판정 뒤 기록 |
 | `skills/commit-push` | 스테이징·커밋·푸시 |
-| `rules/` | `paths`에 맞는 파일을 만질 때만 로드되는 언어별·문서별 기준 |
+| `rules/` | `paths`에 맞는 파일을 Read하면 로드되고, 쓰기 전에는 `CLAUDE.md` §범위에 따라 직접 읽는 언어별·문서별 기준 |
+| `tools/measure/` | `config-review` 적용 전후 판을 Docker 컨테이너에서 돌리는 측정 도구 |
 
 ## 운영 메모
 - `project-init`·`implement-loop`·`config-review`·`cross-analyze`는 `disable-model-invocation: true`라 사용자가 직접 부를 때만 돈다.

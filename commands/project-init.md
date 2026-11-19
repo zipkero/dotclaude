@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 ## 대상 프로젝트 루트
 - 사용자가 알려 준 경로를 쓴다.
-- 없으면 작업 디렉토리에서 `CLAUDE.md`(Claude 전역 설정 폴더의 `CLAUDE.md` 제외)·VCS 루트·manifest를 기준으로 찾고, 셋 다 없으면 사용자에게 묻는다.
+- 없으면 작업 디렉토리에서 `CLAUDE.md`(`~/.claude/CLAUDE.md` 제외)·VCS 루트·manifest를 기준으로 찾고, 셋 다 없으면 사용자에게 묻는다.
 
 ## 산출 경로
 - 루트의 `README.md`, `ROADMAP.md`, `docs/product.md`, `docs/design.md` 넷만 만들고, 하나라도 이미 있으면 아무것도 쓰지 않고 알린다.
