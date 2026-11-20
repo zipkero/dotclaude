@@ -7,8 +7,8 @@ ref=$1; out=$2
 repo=$(cd "$(dirname "$0")/../.." && pwd)
 rm -rf "$out"; mkdir -p "$out"
 if [ "$ref" = WORKTREE ]; then
-  git -C "$repo" ls-files | while IFS= read -r f; do
-    mkdir -p "$out/$(dirname "$f")"; cp "$repo/$f" "$out/$f"
+  git -C "$repo" ls-files --cached --others --exclude-standard | while IFS= read -r f; do
+    [ -f "$repo/$f" ] || continue; mkdir -p "$out/$(dirname "$f")"; cp "$repo/$f" "$out/$f"
   done
 else
   git -C "$repo" archive "$ref" | tar -x -C "$out"
